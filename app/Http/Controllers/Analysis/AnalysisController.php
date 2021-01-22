@@ -31,13 +31,17 @@ class AnalysisController extends Controller
             'timeName' => 'custom'
         ];
 
-        $incomingService = new EmployeeAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
-        $incomingService->incoming();
+        try {
+            $incomingService = new EmployeeAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
+            $incomingService->incoming();
 
-        $outgoingService = new EmployeeAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
-        $outgoingService->outgoing();
+            $outgoingService = new EmployeeAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
+            $outgoingService->outgoing();
 
-        return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+            return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu! Sistem Yöneticisi İle İletişime Geçin.']);
+        }
     }
 
     public function employeeJobAnalysisCreate()
