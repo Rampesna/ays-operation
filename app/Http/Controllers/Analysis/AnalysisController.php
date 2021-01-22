@@ -50,12 +50,7 @@ class AnalysisController extends Controller
         return view('pages.analysis.queue-call-analysis-create');
     }
 
-    public function jobAnalysisCreate()
-    {
-        return view('pages.analysis.job-analysis-create');
-    }
-
-    public function jobAnalysisStore(Request $request)
+    public function queueCallAnalysisStore(Request $request)
     {
         $queuesFromDatabase = Company::find($request->company_id)->queues()->get();
         $queues = [];
@@ -70,12 +65,26 @@ class AnalysisController extends Controller
             'timeName' => 'custom'
         ];
 
-        $incomingService = new QueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazli/adet', $params), $request);
-        $incomingService->incoming();
+        try {
+            $incomingService = new QueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazli/adet', $params), $request);
+            $incomingService->incoming();
 
-        $outgoingService = new QueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazligiden/adet', $params), $request);
-        $outgoingService->outgoing();
+            $outgoingService = new QueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazligiden/adet', $params), $request);
+            $outgoingService->outgoing();
 
-        return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+            return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu! Sistem Yöneticisi İle İletişime Geçin.']);
+        }
+    }
+
+    public function jobAnalysisCreate()
+    {
+        return view('pages.analysis.job-analysis-create');
+    }
+
+    public function jobAnalysisStore(Request $request)
+    {
+
     }
 }

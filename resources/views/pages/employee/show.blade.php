@@ -411,7 +411,7 @@
                         type: 'datetime',
                         categories: [
                             @foreach($callAnalyses->where('employee_id', $employee->id) as $callAnalysis)
-                            '{{ $callAnalysis->date }}'{{ !$loop->last ? ',' : null }}
+                                '{{ $callAnalysis->date }}'{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ]
                     },
@@ -443,19 +443,19 @@
                         type: 'column',
                         data: [
                             @foreach($callAnalyses->groupBy('date')->all() as $date)
-                                {{ number_format($date->sum('total_success_call') / $employeesCount, 2, '.', '') }}{{ !$loop->last ? ',' : null }}
+                            {{ number_format($date->sum('total_success_call') / $employeesCount, 2, '.', '') }}{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ]
                     },
-                    {
-                        name: 'Verimlilik Yüzdesi',
-                        type: 'line',
-                        data: [
-                            @foreach($callAnalyses->groupBy('date')->all() as $date)
-                            {{ number_format((!is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->total_success_call : 0) * 100 / ($date->sum('total_success_call') / $employeesCount), 2, '.', ',') }}{{ !$loop->last ? ',' : null }}
-                            @endforeach
-                        ]
-                    }
+                        {
+                            name: 'Verimlilik Yüzdesi',
+                            type: 'line',
+                            data: [
+                                @foreach($callAnalyses->groupBy('date')->all() as $date)
+                                {{ number_format((!is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->total_success_call : 0) * 100 / ($date->sum('total_success_call') / $employeesCount), 2, '.', ',') }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        }
                     ],
                     chart: {
                         height: 350,
@@ -476,7 +476,7 @@
                     xaxis: {
                         categories: [
                             @foreach($callAnalyses->groupBy('date')->all() as $date => $data)
-                            '{{ $date }}'{{ !$loop->last ? ',' : null }}
+                                '{{ $date }}'{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ],
                     },

@@ -3269,63 +3269,63 @@ var KTWidgets = function() {
         chart.render();
     }
 
-    var _initMixedWidget18 = function() {
-        var element = document.getElementById("kt_mixed_widget_18_chart");
-        var height = parseInt(KTUtil.css(element, 'height'));
-
-        if (!element) {
-            return;
-        }
-
-        var options = {
-            series: [74],
-            chart: {
-                height: height,
-                type: 'radialBar',
-                offsetY: 0
-            },
-            plotOptions: {
-                radialBar: {
-                    startAngle: -90,
-                    endAngle: 90,
-
-                    hollow: {
-                        margin: 0,
-                        size: "70%"
-                    },
-                    dataLabels: {
-                        showOn: "always",
-                        name: {
-                            show: true,
-                            fontSize: "13px",
-                            fontWeight: "700",
-                            offsetY: -5,
-                            color: KTApp.getSettings()['colors']['gray']['gray-500']
-                        },
-                        value: {
-                            color: KTApp.getSettings()['colors']['gray']['gray-700'],
-                            fontSize: "30px",
-                            fontWeight: "700",
-                            offsetY: -40,
-                            show: true
-                        }
-                    },
-                    track: {
-                        background: KTApp.getSettings()['colors']['theme']['light']['primary'],
-                        strokeWidth: '100%'
-                    }
-                }
-            },
-            colors: [KTApp.getSettings()['colors']['theme']['base']['primary']],
-            stroke: {
-                lineCap: "round",
-            },
-            labels: ["Progress"]
-        };
-
-        var chart = new ApexCharts(element, options);
-        chart.render();
-    }
+    // var _initMixedWidget18 = function() {
+    //     var element = document.getElementById("kt_mixed_widget_18_chart");
+    //     var height = parseInt(KTUtil.css(element, 'height'));
+    //
+    //     if (!element) {
+    //         return;
+    //     }
+    //
+    //     var options = {
+    //         series: [74],
+    //         chart: {
+    //             height: height,
+    //             type: 'radialBar',
+    //             offsetY: 0
+    //         },
+    //         plotOptions: {
+    //             radialBar: {
+    //                 startAngle: -90,
+    //                 endAngle: 90,
+    //
+    //                 hollow: {
+    //                     margin: 0,
+    //                     size: "70%"
+    //                 },
+    //                 dataLabels: {
+    //                     showOn: "always",
+    //                     name: {
+    //                         show: true,
+    //                         fontSize: "13px",
+    //                         fontWeight: "700",
+    //                         offsetY: -5,
+    //                         color: KTApp.getSettings()['colors']['gray']['gray-500']
+    //                     },
+    //                     value: {
+    //                         color: KTApp.getSettings()['colors']['gray']['gray-700'],
+    //                         fontSize: "30px",
+    //                         fontWeight: "700",
+    //                         offsetY: -40,
+    //                         show: true
+    //                     }
+    //                 },
+    //                 track: {
+    //                     background: KTApp.getSettings()['colors']['theme']['light']['primary'],
+    //                     strokeWidth: '100%'
+    //                 }
+    //             }
+    //         },
+    //         colors: [KTApp.getSettings()['colors']['theme']['base']['primary']],
+    //         stroke: {
+    //             lineCap: "round",
+    //         },
+    //         labels: ["Progress"]
+    //     };
+    //
+    //     var chart = new ApexCharts(element, options);
+    //     chart.render();
+    // }
 
     // Tiles
     var _initTilesWidget1 = function() {
@@ -4352,7 +4352,7 @@ var KTWidgets = function() {
             _initMixedWidget15();
             _initMixedWidget16();
             _initMixedWidget17();
-            _initMixedWidget18();
+            // _initMixedWidget18();
 
             // Tiles Widgets
             _initTilesWidget1();
@@ -4379,5 +4379,5 @@ if (typeof module !== 'undefined') {
 }
 
 jQuery(document).ready(function() {
-    KTWidgets.init();
+    // KTWidgets.init();
 });

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Ajax\Santral;
 
+use App\Http\Api\AyssoftTakipApi;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Queue;
@@ -12,6 +13,30 @@ class MainController extends Controller
 {
     public function index()
     {
-        return Queue::find(1)->employees;
+        return $this->get_server_load();
+//        $api = new AyssoftTakipApi();
+//        $response = $api->GetJobList('2021-01-15', '2021-01-15');
+//        return $response['response'];
+    }
+
+    function get_server_load() {
+        $load = '';
+        if (stristr(PHP_OS, 'win')) {
+            $cmd = 'wmic cpu get loadpercentage /all';
+            @exec($cmd, $output);
+            if ($output) {
+                foreach($output as $line) {
+                    if ($line && preg_match('/^[0-9]+$/', $line)) {
+                        $load = $line;
+                        break;
+                    }
+                }
+            }
+
+        } else {
+            $sys_load = sys_getloadavg();
+            $load = $sys_load[0];
+        }
+        return $load;
     }
 }

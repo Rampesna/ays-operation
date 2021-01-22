@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/example', [\App\Http\Controllers\Ajax\Santral\MainController::class, 'index']);
+Route::get('/example', [\App\Http\Controllers\Ajax\Santral\MainController::class, 'index'])->name('example');
 
 Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function () {
     Route::get('/', function () {

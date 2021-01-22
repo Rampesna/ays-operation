@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <form action="{{ route('analysis.job-analysis-store') }}" method="post">
+    <form action="{{ route('analysis.queue-call-analysis-store') }}" method="post">
         @csrf
         <div class="row">
             <div class="col-xl-6">
@@ -58,5 +58,9 @@
 @stop
 
 @section('page-script')
-
+    <script>
+        $("#analysis").click(function () {
+            $("#loader").fadeIn(250);
+        });
+    </script>
 @stop
