@@ -55,4 +55,19 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::get('/queue-call-report/{queue_id?}', 'Queue\\ReportController@queueCallReport')->name('report.queue-call-report');
     });
 
+    Route::prefix('setting')->namespace('Setting')->group(function () {
+
+        Route::prefix('queues')->namespace('Queue')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.queues.index');
+            });
+            Route::get('/index', 'QueueController@index')->name('setting.queues.index');
+            Route::post('/store', 'QueueController@store')->name('setting.queues.store');
+            Route::get('/edit', 'QueueController@edit')->name('setting.queues.edit');
+            Route::post('/update', 'QueueController@update')->name('setting.queues.update');
+            Route::post('/delete', 'QueueController@delete')->name('setting.queues.delete');
+        });
+
+    });
+
 });
