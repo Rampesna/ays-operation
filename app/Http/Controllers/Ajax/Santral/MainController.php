@@ -13,10 +13,10 @@ class MainController extends Controller
 {
     public function index()
     {
-        return $this->get_server_load();
-//        $api = new AyssoftTakipApi();
-//        $response = $api->GetJobList('2021-01-15', '2021-01-15');
-//        return $response['response'];
+//        return $this->get_server_load();
+        $api = new AyssoftTakipApi();
+        $response = $api->GetPersonBreakList('2021-01-01', '2021-01-22')['response'];
+        return $response;
     }
 
     function get_server_load() {

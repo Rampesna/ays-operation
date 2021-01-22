@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers\Employee;
 
-use App\Http\Controllers\Controller;
 use App\Models\CallAnalysis;
 use App\Models\Company;
 use App\Models\Employee;
-use Illuminate\Http\Request;
+use App\Models\JobAnalysis;
 
 class EmployeeService
 {
@@ -31,6 +30,12 @@ class EmployeeService
             'employee' => $employee,
             'employeesCount' => Company::find($employee->company_id)->employees()->where('extension_number', '<>', '')->count(),
             'callAnalyses' => CallAnalysis::whereBetween('date', [
+                $startDate,
+                $endDate
+            ])->
+            orderBy('date', 'asc')->
+            get(),
+            'jobAnalyses' => JobAnalysis::whereBetween('date', [
                 $startDate,
                 $endDate
             ])->

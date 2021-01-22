@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\Analysis;
 
-use App\Http\Controllers\Analysis\Employee\Queue\EmployeeAnalysisService;
+use App\Http\Api\AyssoftTakipApi;
+use App\Http\Controllers\Analysis\Employee\Job\EmployeeJobAnalysisService;
+use App\Http\Controllers\Analysis\Employee\Queue\EmployeeQueueAnalysisService;
 use App\Http\Controllers\Analysis\Queue\QueueAnalysisService;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Employee;
+use App\Models\JobAnalysis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -32,10 +36,10 @@ class AnalysisController extends Controller
         ];
 
         try {
-            $incomingService = new EmployeeAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
+            $incomingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
             $incomingService->incoming();
 
-            $outgoingService = new EmployeeAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
+            $outgoingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
             $outgoingService->outgoing();
 
             return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
@@ -47,6 +51,19 @@ class AnalysisController extends Controller
     public function employeeJobAnalysisCreate()
     {
         return view('pages.analysis.employee-job-analysis-create');
+    }
+
+    public function employeeJobAnalysisStore(Request $request)
+    {
+        try {
+            $jobAnalysisService = new EmployeeJobAnalysisService;
+            $jobAnalysisService->jobsAndActivities($request);
+            $jobAnalysisService->breaks($request);
+
+            return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu! Sistem Yöneticisi İle İletişime Geçin.']);
+        }
     }
 
     public function queueCallAnalysisCreate()

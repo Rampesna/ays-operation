@@ -7,7 +7,7 @@ use App\Models\CallAnalysis;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 
-class EmployeeAnalysisService
+class EmployeeQueueAnalysisService
 {
     private $html;
     public $table;
