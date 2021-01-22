@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('title', 'Personel Çağrı Analizi')
+@section('title', 'Personel İş Analizi')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
 @section('content')
 
-    <form action="{{ route('analysis.employee-call-analysis-store') }}" method="post">
+    <form action="{{ route('analysis.employee-job-analysis-store') }}" method="post">
         @csrf
         <div class="row">
             <div class="col-xl-6">
