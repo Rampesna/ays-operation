@@ -26,7 +26,7 @@
                                 </thead>
                                 <tbody>
                                 @foreach($queues as $queue)
-                                    <tr>
+                                    <tr id="row-{{ $queue->id }}">
                                         <td>{{ $queue->name }}</td>
                                         <td>{{ $queue->short }}</td>
                                         <td class="text-right">

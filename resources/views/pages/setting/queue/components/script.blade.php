@@ -117,7 +117,44 @@
 <script>
     $("#queue_update").click(function () {
         var id = $("#updated_queue_id").val();
-        console.log(id);
+        var company_id = $("#company_id_create").val();
+        var short = $("#short_create").val();
+        var name = $("#name_create").val();
+
+        if (id == null || id === '') {
+            toastr.warning('Bir Hata Oluştu. Lütfen Sayfayı Yenileyip Tekrar Deneyin.');
+        } else if (company_id == null || company_id === '') {
+            toastr.warning('Firma Seçilmesi Zorunludur');
+        } else if (short == null || short === '') {
+            toastr.warning('Kuyruk Kısa Adı Girilmesi Zorunludur');
+        } else if (name == null || name === '') {
+            toastr.warning('Kuyruk Adı Girilmesi Zorunludur');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('setting.queues.update') }}',
+                dataType: 'json',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: id,
+                    company_id: company_id,
+                    short: short,
+                    name: name
+                },
+                success: function (queue) {
+                    table.row.add([
+                        queue.name,
+                        queue.short,
+                        'Düzenle'
+                    ]).draw(false);
+                    toastr.success('Yeni Kuyruk Başarıyla Güncellendi');
+                    $("#EditModal").modal('hide');
+                },
+                error: function () {
+
+                }
+            });
+        }
     });
 </script>
 
@@ -131,6 +168,22 @@
 <script>
     $("#delete_queue").click(function () {
         var id = $("#deleted_queue_id").val();
-        console.log(id);
+        $.ajax({
+            type: 'post',
+            url: '{{ route('setting.queues.delete') }}',
+            dataType: 'json',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id
+            },
+            success: function () {
+                table.row($("#row-" + id).closest('tr')).remove().draw();
+                toastr.success('Kuyruk Başarıyla Silindi');
+                $("#DeleteModal").modal('hide');
+            },
+            error: function () {
+
+            }
+        });
     });
 </script>
