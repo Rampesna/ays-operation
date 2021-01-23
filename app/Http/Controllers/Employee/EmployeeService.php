@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employee;
 
+use App\Http\Api\AyssoftTakipApi;
 use App\Models\CallAnalysis;
 use App\Models\Company;
 use App\Models\Employee;
@@ -43,5 +44,28 @@ class EmployeeService
             get(),
             'request' => $request
         ];
+    }
+
+    public function sync($request)
+    {
+        $api = new AyssoftTakipApi();
+        $response = $api->TvScreenGetStaffStatusList();
+        $employeesFromApi = $response['response'];
+        foreach ($employeesFromApi as $employeeFromApi) {
+            $employee = Employee::where('extension_number', $employeeFromApi['dahili'])->first();
+            if (is_null($employee)) {
+                $employee = new Employee;
+                $employee->company_id = $request->company_id;
+                $employee->name = $employeeFromApi['kullaniciAdSoyad'];
+                $employee->email = $employeeFromApi['kullaniciMail'];
+                $employee->extension_number = $employeeFromApi['dahili'];
+                $employee->save();
+            } else if ($request->force == 1) {
+                $employee->name = $employeeFromApi['kullaniciAdSoyad'];
+                $employee->email = $employeeFromApi['kullaniciMail'];
+                $employee->save();
+            }
+        }
+        return response()->json('success', 200);
     }
 }

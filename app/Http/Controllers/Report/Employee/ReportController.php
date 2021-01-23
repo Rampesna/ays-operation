@@ -73,12 +73,12 @@ class ReportController extends Controller
         foreach ($request->employees as $employee) {
             $comparisons[] = [
                 'employee' => Employee::find($employee),
-                'total_rate' => ($calls->where('employee_id', $employee)->first()['total_success_call_rate'] + $jobs->where('employee_id', $employee)->first()['job_activity_rate']) / 2,
-                "job_activity_count" => $jobs->where('employee_id', $employee)->first()['job_activity_count'],
-                "job_complete_count" => $jobs->where('employee_id', $employee)->first()['job_complete_count'],
-                "total_success_call" => $calls->where('employee_id', $employee)->first()['total_success_call'],
-                "incoming_success_call" => $calls->where('employee_id', $employee)->first()['incoming_success_call'],
-                "outgoing_success_call" => $calls->where('employee_id', $employee)->first()['outgoing_success_call']
+                'total_rate' => @($calls->where('employee_id', $employee)->first()['total_success_call_rate'] + $jobs->where('employee_id', $employee)->first()['job_activity_rate']) / 2,
+                "job_activity_count" => @$jobs->where('employee_id', $employee)->first()['job_activity_count'],
+                "job_complete_count" => @$jobs->where('employee_id', $employee)->first()['job_complete_count'],
+                "total_success_call" => @$calls->where('employee_id', $employee)->first()['total_success_call'],
+                "incoming_success_call" => @$calls->where('employee_id', $employee)->first()['incoming_success_call'],
+                "outgoing_success_call" => @$calls->where('employee_id', $employee)->first()['outgoing_success_call']
             ];
         }
 

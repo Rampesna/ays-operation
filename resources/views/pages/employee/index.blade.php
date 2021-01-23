@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <div class="row mt-n10">
+    <div class="row mt-n5">
         <div class="col-xl-4">
             <div class="form-group">
                 <label for="name-searching"></label>
@@ -46,8 +46,8 @@
                                 <!--begin::Title-->
                                 <div class="d-flex justify-content-between flex-wrap mt-1">
                                     <div class="d-flex mr-3">
-                                        <a href="{{ route('employee.show', $employee) }}" class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
-                                        <a href="#">
+                                        <a @if(!is_null($employee->extension_number) && $employee->extension_number != '') href="{{ route('employee.show', $employee) }}" @endif class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
+                                        <a>
                                             <i class="flaticon2-correct text-success font-size-h5"></i>
                                         </a>
                                     </div>
@@ -81,11 +81,11 @@
                                             </a>
                                             <br>
                                             <a href="#" class="text-dark-50 text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-5">
-                                                <i class="flaticon2-new-email mr-2 font-size-lg"></i> eposta@adresi.com
+                                                <i class="flaticon2-new-email mr-2 font-size-lg"></i> {{ $employee->email ?? 'E-posta Adresi Yok' }}
                                             </a>
                                             <br>
                                             <a href="#" class="text-dark-50 text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-5">
-                                                <i class="flaticon2-calendar-3 mr-2 font-size-lg"></i> Ünvan
+                                                <i class="flaticon2-calendar-3 mr-2 font-size-lg"></i> {{ $employee->identification_number ?? '--' }}
                                             </a>
                                             <br>
                                         </div>
@@ -167,6 +167,9 @@
             </div>
         @endforeach
     </div>
+
+    @include('pages.employee.modals.create')
+    @include('pages.employee.modals.sync')
 
 @endsection
 

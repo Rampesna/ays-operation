@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 class General
 {
-    public static function displayDates($date1, $date2, $format = 'd-m-Y')
+    public static function displayDates($date1, $date2, $format = 'Y-m-d')
     {
         $dates = array();
         $current = strtotime($date1);

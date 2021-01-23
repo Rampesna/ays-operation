@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Analysis;
 
+use App\Helpers\General;
 use App\Http\Api\AyssoftTakipApi;
 use App\Http\Controllers\Analysis\Employee\Job\EmployeeJobAnalysisService;
 use App\Http\Controllers\Analysis\Employee\Queue\EmployeeQueueAnalysisService;
@@ -28,24 +29,27 @@ class AnalysisController extends Controller
             $extensions[] = $employee->extension_number;
         }
 
-        $params = [
-            'extensionName' => $extensions,
-            'startDate' => $request->start_date,
-            'endDate' => $request->end_date,
-            'timeName' => 'custom'
-        ];
+        $dates = General::displayDates($request->start_date, $request->end_date);
 
-        try {
-            $incomingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
-            $incomingService->incoming();
+        foreach ($dates as $date) {
+            $params = [
+                'extensionName' => $extensions,
+                'startDate' => $date,
+                'endDate' => $date,
+                'timeName' => 'custom'
+            ];
 
-            $outgoingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
-            $outgoingService->outgoing();
+            try {
+                $incomingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
+                $incomingService->incoming();
 
-            return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
-        } catch (\Exception $exception) {
-            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu! Sistem Yöneticisi İle İletişime Geçin.']);
+                $outgoingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
+                $outgoingService->outgoing();
+            } catch (\Exception $exception) {
+                return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu!']);
+            }
         }
+        return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
     }
 
     public function employeeJobAnalysisCreate()
@@ -62,7 +66,7 @@ class AnalysisController extends Controller
 
             return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
         } catch (\Exception $exception) {
-            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu! Sistem Yöneticisi İle İletişime Geçin.']);
+            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu! Sistem Yöneticisi İle İletişime Geçin.', 'exception' => $exception]);
         }
     }
 

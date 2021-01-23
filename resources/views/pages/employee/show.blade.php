@@ -47,7 +47,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ $callAnalyses->where('employee_id', $employee->id)->sum('total_success_call') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @$callAnalyses->where('employee_id', $employee->id)->sum('total_success_call') }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Toplam Çağrı</span>
                         </div>
                         <!--end::Body-->
@@ -68,7 +68,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ $callAnalyses->where('employee_id', $employee->id)->sum('incoming_success_call') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @$callAnalyses->where('employee_id', $employee->id)->sum('incoming_success_call') }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Gelen Çağrı</span>
                         </div>
                         <!--end::Body-->
@@ -89,7 +89,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ $callAnalyses->where('employee_id', $employee->id)->sum('outgoing_success_call') - $callAnalyses->sum('incoming_error_call') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @($callAnalyses->where('employee_id', $employee->id)->sum('outgoing_success_call') - $callAnalyses->sum('incoming_error_call')) }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Giden Çağrı</span>
                         </div>
                         <!--end::Body-->
@@ -110,7 +110,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ $callAnalyses->where('employee_id', $employee->id)->sum('outgoing_error_call') + $callAnalyses->sum('incoming_error_call') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @($callAnalyses->where('employee_id', $employee->id)->sum('outgoing_error_call') + $callAnalyses->sum('incoming_error_call')) }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Cevapsız Çağrı</span>
                         </div>
                         <!--end::Body-->
@@ -131,8 +131,8 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            @php($seconds = array_sum($callAnalyses->where('employee_id', $employee->id)->map(function ($analysis) { return \Illuminate\Support\Carbon::createFromDate('2021-01-01 ' . $analysis->total_call_time)->diffInSeconds('2021-01-01 00:00:00'); })->all()))
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ sprintf('%02d:%02d:%02d', ($seconds / 3600), ($seconds / 60 % 60), $seconds % 60) }}</span>
+                            @php(@$seconds = array_sum($callAnalyses->where('employee_id', $employee->id)->map(function ($analysis) { return \Illuminate\Support\Carbon::createFromDate('2021-01-01 ' . $analysis->total_call_time)->diffInSeconds('2021-01-01 00:00:00'); })->all()))
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @(sprintf('%02d:%02d:%02d', ($seconds / 3600), ($seconds / 60 % 60), $seconds % 60)) }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Toplam Konuşma</span>
                         </div>
                         <!--end::Body-->
@@ -153,7 +153,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ number_format($callAnalyses->where('employee_id', $employee->id)->sum('operational_productivity_rate') / $callAnalyses->where('employee_id', $employee->id)->count(), 2, '.', '') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @number_format($callAnalyses->where('employee_id', $employee->id)->sum('operational_productivity_rate') / $callAnalyses->where('employee_id', $employee->id)->count(), 2, '.', '') }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Çağrı Verimliliği</span>
                         </div>
                         <!--end::Body-->
@@ -194,8 +194,9 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ $jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @$jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') }} / {{ @$jobAnalyses->sum('job_activity_count') }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Açılan Faaliyet</span>
+                            <span class="font-weight-bold text-white"  style="font-size: 20px">({{ $employeesCount . ' Kişi' }})</span>
                         </div>
                         <!--end::Body-->
                     </div>
@@ -215,8 +216,9 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ $jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @$jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') }} / {{ @$jobAnalyses->sum('job_complete_count') }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Tamamlanan İş</span>
+                            <span class="font-weight-bold text-white"  style="font-size: 20px">({{ $employeesCount . ' Kişi' }})</span>
                         </div>
                         <!--end::Body-->
                     </div>
@@ -236,8 +238,9 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 20px">{{ $jobAnalyses->where('employee_id', $employee->id)->sum('used_break_duration') }} / {{ $jobAnalyses->where('employee_id', $employee->id)->count() * 100 }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 20px">{{ @$jobAnalyses->where('employee_id', $employee->id)->sum('used_break_duration') }} / {{ @$jobAnalyses->where('employee_id', $employee->id)->count() * 100 }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Kullanılan Mola</span>
+                            <span class="font-weight-bold text-white"  style="font-size: 20px">%{{ @number_format($jobAnalyses->where('employee_id', $employee->id)->sum('used_break_duration') * 100 / ($jobAnalyses->where('employee_id', $employee->id)->count() * 100),2,'.',',') }}</span>
                         </div>
                         <!--end::Body-->
                     </div>
@@ -246,19 +249,10 @@
                     <div class="card card-custom bg-dark-75 card-stretch gutter-b" style="height: 200px">
                         <!--begin::Body-->
                         <div class="card-body cursor-pointer">
-                            <span class="svg-icon svg-icon-3x svg-icon-white">
-                                <!--begin::Svg Icon | path:assets/media/svg/icons/Communication/Group.svg-->
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"/>
-                                        <path d="M16.0322024,5.68722152 L5.75790403,15.945742 C5.12139076,16.5812778 5.12059836,17.6124773 5.75613416,18.2489906 C5.75642891,18.2492858 5.75672377,18.2495809 5.75701875,18.2498759 L5.75701875,18.2498759 C6.39304347,18.8859006 7.42424328,18.8859006 8.060268,18.2498759 C8.06056298,18.2495809 8.06085784,18.2492858 8.0611526,18.2489906 L18.3196731,7.9746922 C18.9505124,7.34288268 18.9501191,6.31942463 18.3187946,5.68810005 L18.3187946,5.68810005 C17.68747,5.05677547 16.6640119,5.05638225 16.0322024,5.68722152 Z" fill="#000000" fill-rule="nonzero"/>
-                                        <path d="M9.85714286,6.92857143 C9.85714286,8.54730513 8.5469533,9.85714286 6.93006028,9.85714286 C5.31316726,9.85714286 4,8.54730513 4,6.92857143 C4,5.30983773 5.31316726,4 6.93006028,4 C8.5469533,4 9.85714286,5.30983773 9.85714286,6.92857143 Z M20,17.0714286 C20,18.6901623 18.6898104,20 17.0729174,20 C15.4560244,20 14.1428571,18.6901623 14.1428571,17.0714286 C14.1428571,15.4497247 15.4560244,14.1428571 17.0729174,14.1428571 C18.6898104,14.1428571 20,15.4497247 20,17.0714286 Z" fill="#000000" opacity="0.3"/>
-                                    </g>
-                                </svg>
-                                <!--end::Svg Icon-->
-                            </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ number_format(($jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') + $jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count')) * 100 / ($jobAnalyses->sum('job_complete_count') + $jobAnalyses->sum('job_activity_count')), 2, '.', '') }}</span>
-                            <span class="font-weight-bold text-white"  style="font-size: 20px">İş Verimliliği</span>
+                            <span class="card-title font-weight-bolder text-white mt-n5 mb-0 mt-6 d-block" style="font-size: 24px">F: {{ number_format($jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') * 100 / ($jobAnalyses->sum('job_activity_count') / $employeesCount), 2, '.', '') }}%</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">T: {{ number_format($jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') * 100 / ($jobAnalyses->sum('job_complete_count') / $employeesCount), 2, '.', '') }}%</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">O: {{ number_format(($jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') * 100 / ($jobAnalyses->sum('job_complete_count') / $employeesCount) +  $jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') * 100 / ($jobAnalyses->sum('job_activity_count') / $employeesCount)) / 2, 2, '.', '') }}%</span>
+                            <span class="font-weight-bold text-white float-right"  style="font-size: 20px">İş Verimliliği</span>
                         </div>
                         <!--end::Body-->
                     </div>
@@ -324,6 +318,44 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="card card-custom gutter-b">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <h3 class="card-label">İş Analizi</h3>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <!--begin::Chart-->
+                            <div id="chart_10"></div>
+                            <!--end::Chart-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{{--        <div class="col-xl-6">--}}
+{{--            <div class="row">--}}
+{{--                <div class="col-xl-12">--}}
+{{--                    <div class="card card-custom gutter-b">--}}
+{{--                        <div class="card-header">--}}
+{{--                            <div class="card-title">--}}
+{{--                                <h3 class="card-label">İş Verimlilik Analizi</h3>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                        <div class="card-body">--}}
+{{--                            <!--begin::Chart-->--}}
+{{--                            <div id="chart_11"></div>--}}
+{{--                            <!--end::Chart-->--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </div>
 
 @endsection
@@ -469,7 +501,7 @@
                         width: [1, 1, 4]
                     },
                     title: {
-                        text: 'Çağrı Verimlilik İstatistiği - {{ !isset($request) ? date('01/m/Y') . ' , ' . date('d/m/Y') : date('d/m/Y', strtotime($request->start_date)) . ' - ' . date('d/m/Y', strtotime($request->end_date)) }}',
+                        text: '',
                         align: 'left',
                         offsetX: 110
                     },
@@ -504,11 +536,186 @@
                 chart.render();
             }
 
+            var _demo10 = function () {
+                const apexChart = "#chart_10";
+                var options = {
+                    series: [
+                        {
+                            name: 'Tamamlanan İş',
+                            color: warning,
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ !is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_complete_count : 0 }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: 'Ortalama Tamamlanan İş',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ number_format($date->sum('job_complete_count') / $employeesCount,2,'.','') }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: 'Faaliyet Sayısı',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ !is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_activity_count : 0 }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: 'Ortalama Faaliyet Sayısı',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ number_format($date->sum('job_activity_count') / $employeesCount,2,'.','') }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: '% Verimlilik',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ number_format((((!is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_activity_count : 0) * 100 / ($date->sum('job_activity_count') / $employeesCount)) + ((!is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_complete_count : 0) * 100 / ($date->sum('job_complete_count') / $employeesCount))) / 2, 2, '.', '') }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        }
+                    ],
+                    chart: {
+                        height: 350,
+                        type: 'area'
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        curve: 'smooth'
+                    },
+                    xaxis: {
+                        type: 'datetime',
+                        categories: [
+                            @foreach($callAnalyses->groupBy('date')->all() as $date => $data)
+                                '{{ $date }}'{{ !$loop->last ? ',' : null }}
+                            @endforeach
+                        ]
+                    },
+                    tooltip: {
+                        x: {
+                            format: 'yyyy-MM-dd'
+                        },
+                    },
+                    colors: [primary, success, warning, danger, info]
+                };
+
+                var chart = new ApexCharts(document.querySelector(apexChart), options);
+                chart.render();
+            }
+
+            var _demo11 = function () {
+                const apexChart = "#chart_11";
+                var options = {
+                    series: [
+                        {
+                            name: 'Tamamlanan',
+                            type: 'column',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ !is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_complete_count : 0 }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: 'Tamamlanan Ort.',
+                            type: 'column',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ number_format($date->sum('job_complete_count') / $employeesCount,2,'.','') }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: 'Faaliyet',
+                            type: 'column',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ !is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_activity_count : 0 }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: 'Faaliyet Ort.',
+                            type: 'column',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ number_format($date->sum('job_activity_count') / $employeesCount,2,'.','') }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        },
+                        {
+                            name: '% Verimlilik',
+                            type: 'line',
+                            data: [
+                                @foreach($jobAnalyses->groupBy('date')->all() as $date)
+                                {{ number_format((((!is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_activity_count : 0) * 100 / ($date->sum('job_activity_count') / $employeesCount)) + ((!is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->job_complete_count : 0) * 100 / ($date->sum('job_complete_count') / $employeesCount))) / 2, 2, '.', '') }}{{ !$loop->last ? ',' : null }}
+                                @endforeach
+                            ]
+                        }
+                    ],
+                    chart: {
+                        height: 350,
+                        type: 'line',
+                        stacked: false
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    stroke: {
+                        width: [1, 1, 4]
+                    },
+                    title: {
+                        text: '',
+                        align: 'left',
+                        offsetX: 110
+                    },
+                    xaxis: {
+                        categories: [
+                            @foreach($callAnalyses->groupBy('date')->all() as $date => $data)
+                                '{{ $date }}'{{ !$loop->last ? ',' : null }}
+                            @endforeach
+                        ],
+                    },
+                    yaxis: [
+                        {
+                            seriesName: '',
+                            opposite: true,
+                        },
+                    ],
+                    tooltip: {
+                        fixed: {
+                            enabled: true,
+                            position: 'topLeft', // topRight, topLeft, bottomRight, bottomLeft
+                            offsetY: 50,
+                            offsetX: 100
+                        },
+                    },
+                    legend: {
+                        horizontalAlign: 'left',
+                        offsetX: 200
+                    }
+                };
+
+                var chart = new ApexCharts(document.querySelector(apexChart), options);
+                chart.render();
+            }
+
             return {
                 // public functions
                 init: function () {
                     _demo2();
                     _demo5();
+                    _demo10();
+                    // _demo11();
                 }
             };
         }();

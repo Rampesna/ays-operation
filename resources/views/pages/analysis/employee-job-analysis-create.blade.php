@@ -50,4 +50,9 @@
             $("#loader").fadeIn(250);
         });
     </script>
+    <script>
+        @if(session()->has('exception'))
+        console.log('{{ session()->get('exception') }}');
+        @endif
+    </script>
 @stop

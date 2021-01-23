@@ -35,4 +35,9 @@ class EmployeeController extends Controller
         $employee = Employee::find($request->employee_id);
         return view('pages.employee.show', (new EmployeeService)->show($employee, $request));
     }
+
+    public function sync(Request $request)
+    {
+        return (new EmployeeService)->sync($request);
+    }
 }

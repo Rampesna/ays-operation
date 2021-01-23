@@ -151,7 +151,7 @@
                                 </a>
                             </li>
                             <li class="menu-item {{ Request::segment(1) === 'report' && Request::segment(2) === 'job-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
-                                <a href="#" class="menu-link">
+                                <a href="{{ route('report.general-this-month') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>

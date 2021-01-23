@@ -11,13 +11,20 @@ class AyssoftTakipApi extends ApiBase
     public function __construct()
     {
         $this->baseUrl = env('AYSSOFTTAKIP_API_BASE_URL', '192.168.2.200:5051/api/');
+//        $tokenControl = Cookie::get('accessToken');
+//        if (is_null($tokenControl)) {
+//            $this->Login();
+//            $this->_token = Cookie::get('accessToken');
+//        } else {
+//            $this->_token = Cookie::get('accessToken');
+//        }
     }
 
     public function Login()
     {
         $endpoint = 'Account/Login';
         $headers = [
-            'Content-Type: application/json'
+            'Content-Type' => 'application/json'
         ];
         $params = [
             'Email' => env('AYSSOFTTAKIP_API_USER'),
@@ -28,6 +35,15 @@ class AyssoftTakipApi extends ApiBase
 
     public function TvScreenGetJobList()
     {
+        if (is_null($this->_token)) {
+            $tokenControl = Cookie::get('accessToken');
+            if (is_null($tokenControl)) {
+                $this->Login();
+                $this->_token = Cookie::get('accessToken');
+            } else {
+                $this->_token = Cookie::get('accessToken');
+            }
+        }
         $endpoint = "TvScreen/GetJobList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,

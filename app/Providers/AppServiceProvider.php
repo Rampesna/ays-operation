@@ -31,7 +31,8 @@ class AppServiceProvider extends ServiceProvider
             'pages.employee.index',
             'pages.analysis.*',
             'pages.report.employee.comparison',
-            'pages.setting.queue.*'
+            'pages.setting.queue.*',
+            'pages.setting.competence.*'
         ], CompaniesComposer::class);
     }
 }

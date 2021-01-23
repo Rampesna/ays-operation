@@ -8,11 +8,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="updated_queue_id" id="updated_queue_id">
+                <input type="hidden" name="updated_competence_id" id="updated_competence_id">
                 <div class="row">
                     <div class="col-xl-6">
                         <div class="form-group">
-                            <label for="company_id_edit">Kuyruğun Bağlı Olacağı Firmayı Seçin</label>
+                            <label for="company_id_edit">Yetkinliğin Bağlı Olacağı Firmayı Seçin</label>
                             <select name="company_id_edit" id="company_id_edit" class="form-control selectpicker">
                                 @foreach($companies as $company)
                                     <option value="{{ $company->id }}">{{ $company->title }}</option>
@@ -22,22 +22,14 @@
                     </div>
                     <div class="col-xl-6">
                         <div class="form-group">
-                            <label for="short_edit">Kısa Ad (Kuyruğun Santraldeki İsmi)</label>
-                            <input type="text" name="short_edit" id="short_edit" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="form-group">
-                            <label for="name_edit">Kuyruğun Sistemde Görünecek Adı</label>
+                            <label for="name_edit">Yetkinlik Adı</label>
                             <input type="text" name="name_edit" id="name_edit" class="form-control">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="queue_update">Güncelle</button>
+                <button type="button" class="btn btn-success" id="competence_update">Güncelle</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Vazgeç</button>
 
             </div>

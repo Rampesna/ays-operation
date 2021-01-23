@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static find($primaryKey)
@@ -13,5 +14,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Competence extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class);
+    }
 }

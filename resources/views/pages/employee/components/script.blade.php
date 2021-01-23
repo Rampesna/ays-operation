@@ -1,4 +1,3 @@
-
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script>
@@ -106,7 +105,7 @@
         //    each_employee
         var keyword = $(this).val().toLowerCase();
         console.log(keyword);
-        $('.each_employee').each(function(i){
+        $('.each_employee').each(function (i) {
             var name = $(this).find(".employee-name").html().toLowerCase();
             if (name.includes(keyword)) {
                 $(this).show();
@@ -116,4 +115,30 @@
         });
     });
 
+</script>
+
+<script>
+    $("#sync").click(function () {
+        $("#SyncModal").modal('hide');
+        $("#loader").fadeIn(250);
+
+        var company_id = $("#company_id").val();
+        var force = $("#force").val();
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('employee.sync') }}',
+            data: {
+                company_id: company_id,
+                force: force
+            },
+            success: function () {
+                location.reload()
+            },
+            error: function () {
+                $("#loader").fadeOut(250);
+                toastr.error('Senkronizasyon Yapılırken Bir Hata Oluştu!');
+            }
+        });
+    });
 </script>

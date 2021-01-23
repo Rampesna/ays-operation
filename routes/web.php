@@ -32,6 +32,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::get('/index/{company_id?}', 'EmployeeController@index')->name('employee.index');
         Route::get('/show/{employee}/this-month', 'EmployeeController@show')->name('employee.show');
         Route::post('/show/detail', 'EmployeeController@showPost')->name('employee.show.post');
+        Route::get('/sync', 'EmployeeController@sync')->name('employee.sync');
     });
 
     Route::prefix('analysis')->namespace('Analysis')->group(function () {
@@ -53,6 +54,9 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::post('/comparison-report/show', 'Employee\\ReportController@comparisonReportShow')->name('report.comparison-report.show');
 
         Route::get('/queue-call-report/{queue_id?}', 'Queue\\ReportController@queueCallReport')->name('report.queue-call-report');
+
+        Route::get('/general-report/this-month', 'General\\ReportController@generalReportThisMonth')->name('report.general-this-month');
+        Route::get('/general-report/by-date', 'General\\ReportController@generalReportByDate')->name('report.general.by-date');
     });
 
     Route::prefix('setting')->namespace('Setting')->group(function () {
@@ -66,6 +70,17 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::get('/edit', 'QueueController@edit')->name('setting.queues.edit');
             Route::post('/update', 'QueueController@update')->name('setting.queues.update');
             Route::post('/delete', 'QueueController@delete')->name('setting.queues.delete');
+        });
+
+        Route::prefix('competences')->namespace('Competence')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.competences.index');
+            });
+            Route::get('/index', 'CompetenceController@index')->name('setting.competences.index');
+            Route::post('/store', 'CompetenceController@store')->name('setting.competences.store');
+            Route::get('/edit', 'CompetenceController@edit')->name('setting.competences.edit');
+            Route::post('/update', 'CompetenceController@update')->name('setting.competences.update');
+            Route::post('/delete', 'CompetenceController@delete')->name('setting.competences.delete');
         });
 
     });
