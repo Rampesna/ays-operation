@@ -11,11 +11,14 @@
 
     var queue_save_icon = $(".queue_save_icon");
     var competence_save_icon = $(".competence_save_icon");
+    var priority_save_icon = $(".priority_save_icon");
 
     $(".queue_selection_card").hide();
     $(".competence_selection_card").hide();
+    $(".priority_selection_card").hide();
     queue_save_icon.hide();
     competence_save_icon.hide();
+    priority_save_icon.hide();
 
     $(".queue_edit_icon").click(function () {
         var employeeId = $(this).data('employee-id');

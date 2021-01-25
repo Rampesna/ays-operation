@@ -12,11 +12,19 @@ class ReportController extends Controller
 {
     public function generalReportThisMonth()
     {
-        return view('pages.report.general.index');
+        return view('pages.report.general.index', [
+            'analyses' => (new GeneralService(date('Y-m-01'), date('Y-m-d')))->analyses(),
+            'startDate' => date('Y-m-01'),
+            'endDate' => date('Y-m-d')
+        ]);
     }
 
-    public function generalReportByDate()
+    public function generalReportByDate(Request $request)
     {
-
+        return view('pages.report.general.index', [
+            'analyses' => (new GeneralService($request->start_date, $request->end_date))->analyses(),
+            'startDate' => $request->start_date,
+            'endDate' => $request->end_date
+        ]);
     }
 }

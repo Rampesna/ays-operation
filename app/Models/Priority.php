@@ -12,22 +12,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static where(string $column, string $data)
  * @method static whereBetween($column, array $array)
  */
-class Employee extends Model
+class Priority extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function queues()
+    public function employees()
     {
-        return $this->belongsToMany(Queue::class);
-    }
-
-    public function competences()
-    {
-        return $this->belongsToMany(Competence::class);
-    }
-
-    public function priorities()
-    {
-        return $this->belongsToMany(Priority::class)->withPivot('value')->orderByDesc('value');
+        return $this->belongsToMany(Employee::class)->withPivot('value');
     }
 }

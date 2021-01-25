@@ -11,7 +11,7 @@
                 <input type="text" name="name-searching" id="name-searching" class="form-control" placeholder="İsme Göre Arayın...">
             </div>
         </div>
-        <div class="col-xl-4"></div>
+        <div class="col-xl-4 mt-8">Toplam <strong>{{ count($employees) }}</strong> Personel</div>
         <div class="col-xl-4 text-right">
             <div class="form-group">
                 <label for="company_id"></label>
@@ -162,6 +162,29 @@
                             </div>
                         </div>
 
+                        <br>
+                        <br>
+
+                        <div class="row">
+                            <div class="col-xl-6 mt-4">
+                                Öncelikler
+                            </div>
+                            <div class="col-xl-6 mb-2 text-right">
+                                <a href="{{ route('employee.priorities.edit', $employee) }}" class="btn btn-sm btn-pill btn-secondary" type="button"><i class="fa fa-edit"></i>Düzenle</a>
+                            </div>
+                        </div>
+                        <div class="separator separator-solid"></div>
+                        <div class="d-flex align-items-center flex-wrap mt-2">
+                            <div id="{{ $employee->id }}_priorities_list_card" class="col-xl-12 mt-2">
+                                <div class="row" id="{{ $employee->id }}_priorities_list_row">
+                                    @foreach($employee->priorities as $priority)
+                                        <a href="{{ route('employee.index.by-priority', $priority) }}" class="btn btn-dark-75 btn-square btn-sm m-1">
+                                            {{ $priority->name }}
+                                        </a>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

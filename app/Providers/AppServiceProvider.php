@@ -30,9 +30,10 @@ class AppServiceProvider extends ServiceProvider
         View::composer([
             'pages.employee.index',
             'pages.analysis.*',
-            'pages.report.employee.comparison',
+            'pages.report.employee.*',
             'pages.setting.queue.*',
-            'pages.setting.competence.*'
+            'pages.setting.competence.*',
+            'pages.setting.priority.*'
         ], CompaniesComposer::class);
     }
 }

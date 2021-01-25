@@ -30,7 +30,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             return redirect()->route('employee.index');
         });
         Route::get('/index/{company_id?}', 'EmployeeController@index')->name('employee.index');
+        Route::get('/index/by-priority/{priority}', 'EmployeeController@byPriority')->name('employee.index.by-priority');
         Route::get('/show/{employee}/this-month', 'EmployeeController@show')->name('employee.show');
+        Route::get('/priorities/edit/{employee}', 'EmployeeController@editPriorities')->name('employee.priorities.edit');
+        Route::post('/priorities/update', 'EmployeeController@updatePriorities')->name('employee.priorities.update');
         Route::post('/show/detail', 'EmployeeController@showPost')->name('employee.show.post');
         Route::get('/sync', 'EmployeeController@sync')->name('employee.sync');
     });
@@ -56,7 +59,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::get('/queue-call-report/{queue_id?}', 'Queue\\ReportController@queueCallReport')->name('report.queue-call-report');
 
         Route::get('/general-report/this-month', 'General\\ReportController@generalReportThisMonth')->name('report.general-this-month');
-        Route::get('/general-report/by-date', 'General\\ReportController@generalReportByDate')->name('report.general.by-date');
+        Route::post('/general-report/by-date', 'General\\ReportController@generalReportByDate')->name('report.general.by-date');
+
+        Route::get('/employees', 'Employee\\ReportController@employees')->name('report.employees');
+        Route::post('/employees/by-company', 'Employee\\ReportController@employeesByCompany')->name('report.employees.by-company');
     });
 
     Route::prefix('setting')->namespace('Setting')->group(function () {
@@ -81,6 +87,17 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::get('/edit', 'CompetenceController@edit')->name('setting.competences.edit');
             Route::post('/update', 'CompetenceController@update')->name('setting.competences.update');
             Route::post('/delete', 'CompetenceController@delete')->name('setting.competences.delete');
+        });
+
+        Route::prefix('priorities')->namespace('Priority')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.priorities.index');
+            });
+            Route::get('/index', 'PriorityController@index')->name('setting.priorities.index');
+            Route::post('/store', 'PriorityController@store')->name('setting.priorities.store');
+            Route::get('/edit', 'PriorityController@edit')->name('setting.priorities.edit');
+            Route::post('/update', 'PriorityController@update')->name('setting.priorities.update');
+            Route::post('/delete', 'PriorityController@delete')->name('setting.priorities.delete');
         });
 
     });

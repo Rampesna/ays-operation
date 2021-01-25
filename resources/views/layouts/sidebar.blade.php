@@ -158,6 +158,14 @@
                                     <span class="menu-text">Genel İş Raporu</span>
                                 </a>
                             </li>
+                            <li class="menu-item {{ Request::segment(1) === 'report' && Request::segment(2) === 'job-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('report.employees') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Personel Raporu</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

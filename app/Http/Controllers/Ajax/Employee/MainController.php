@@ -45,6 +45,6 @@ class MainController extends Controller
 
     public function getEmployeesByCompanyId(Request $request)
     {
-        return response()->json(Company::find($request->company_id)->employees, 200);
+        return response()->json(Company::find($request->company_id)->employees()->where('extension_number', '<>', null)->get(), 200);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Report\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\CallAnalysis;
+use App\Models\Company;
 use App\Models\Employee;
 use App\Models\JobAnalysis;
 use App\Models\Queue;
@@ -87,6 +88,18 @@ class ReportController extends Controller
         return view('pages.report.employee.comparison-show', [
             'comparisons' => $comparisons,
             'request' => $request
+        ]);
+    }
+
+    public function employees()
+    {
+        return view('pages.report.employee.employees');
+    }
+
+    public function employeesByCompany(Request $request)
+    {
+        return view('pages.report.employee.employees-by-company', [
+            'employees' => Company::find($request->company_id)->employees()->with(['queues', 'competences', 'priorities'])->get()
         ]);
     }
 }

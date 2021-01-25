@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 
 class CompetenceService
 {
-    public function save(Competence $queue, Request $request)
+    public function save(Competence $competence, Request $request)
     {
-        $queue->company_id = $request->company_id;
-        $queue->name = $request->name;
-        $queue->save();
+        $competence->company_id = $request->company_id;
+        $competence->name = $request->name;
+        $competence->save();
 
-        return $queue;
+        return $competence;
     }
 
     public function destroy(Competence $competence)

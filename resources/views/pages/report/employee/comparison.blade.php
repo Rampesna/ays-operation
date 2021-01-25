@@ -39,6 +39,13 @@
                             </div>
                         </div>
                         <div class="row">
+                            <div class="col-xl-12">
+                                <button type="button" id="select_all" class="btn btn-success">Tümünü Seç</button>
+                                <button type="button" id="deselect_all" class="btn btn-secondary">Tümünü Kaldır</button>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
                             <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="start_date">Başlangıç Tarihi</label>
@@ -142,6 +149,19 @@
 
         company.change(function () {
             getEmployeesByCompanyId(company.val());
+        });
+
+        $("#select_all").click(function () {
+            $('#employees option').each(function () {
+                if ($(this).is(':selected') === false) {
+                    $(this).prop('selected', true)
+                }
+            });
+            $("#employees").selectpicker('refresh');
+        });
+
+        $("#deselect_all").click(function () {
+            $('#employees').selectpicker('val', '');
         });
     </script>
 
