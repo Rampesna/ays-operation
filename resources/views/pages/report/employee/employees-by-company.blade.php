@@ -34,7 +34,7 @@
                                         <td>{{ $employee->identification_number }}</td>
                                         <td><textarea class="form-control" rows="2" disabled>{{ implode(" ", $employee->queues->map(function ($queue) { return '' . $queue->name . ','; })->all()) }}</textarea></td>
                                         <td><textarea class="form-control" rows="2" disabled>{{ implode(" ", $employee->competences->map(function ($competence) { return '' . $competence->name . ','; })->all()) }}</textarea></td>
-                                        <td><textarea class="form-control" rows="2" disabled>{{ implode(" ", $employee->priorities->map(function ($priority) { return '' . $priority->name . ','; })->all()) }}</textarea></td>
+                                        <td><textarea class="form-control" rows="2" disabled>{{ implode(" ", $employee->priorities->map(function ($priority) { return '' . $priority->name . '(' . $priority->pivot->value . ')' . ','; })->all()) }}</textarea></td>
                                     </tr>
                                 @endforeach
                                 </tbody>

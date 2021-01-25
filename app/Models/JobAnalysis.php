@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static whereBetween(string $string, array $array)
+ * @method static select(\Illuminate\Database\Query\Expression $raw)
  */
 class JobAnalysis extends Model
 {

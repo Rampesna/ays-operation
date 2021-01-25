@@ -25,7 +25,10 @@ class GeneralService
     {
         return [
             'callAnalyses' => $this->callAnalyses(),
-            'jobAnalyses' => $this->jobAnalyses()
+            'jobAnalyses' => $this->jobAnalyses(),
+            'yearlyCallAnalyses' => $this->yearlyCallAnalyses(),
+            'yearlyJobActivityAnalyses' => $this->yearlyJobActivityAnalyses(),
+            'yearlyJobCompleteAnalyses' => $this->yearlyJobCompleteAnalyses()
         ];
     }
 
@@ -45,5 +48,44 @@ class GeneralService
             $this->startDate,
             $this->endDate
         ])->get();
+    }
+
+    private function yearlyCallAnalyses()
+    {
+        return QueueAnalysis::
+        select(DB::raw('day(date) as day_of_month, month(date) as month_of_year, (sum(total_incoming_call) + sum(total_outgoing_call)) as total_call'))->
+        whereBetween('date', [
+            date('Y-01-01'),
+            date('Y-12-31')
+        ])->
+        groupByRaw('day(date), month(date)')->
+        orderByRaw('month_of_year asc, day_of_month asc')->
+        get();
+    }
+
+    private function yearlyJobActivityAnalyses()
+    {
+        return JobAnalysis::
+        select(DB::raw('day(date) as day_of_month, month(date) as month_of_year, (sum(job_activity_count)) as total_job_activity'))->
+        whereBetween('date', [
+            date('Y-01-01'),
+            date('Y-12-31')
+        ])->
+        groupByRaw('day(date), month(date)')->
+        orderByRaw('month_of_year asc, day_of_month asc')->
+        get();
+    }
+
+    private function yearlyJobCompleteAnalyses()
+    {
+        return JobAnalysis::
+        select(DB::raw('day(date) as day_of_month, month(date) as month_of_year, (sum(job_complete_count)) as total_job_complete'))->
+        whereBetween('date', [
+            date('Y-01-01'),
+            date('Y-12-31')
+        ])->
+        groupByRaw('day(date), month(date)')->
+        orderByRaw('month_of_year asc, day_of_month asc')->
+        get();
     }
 }

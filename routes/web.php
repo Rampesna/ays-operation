@@ -100,6 +100,17 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::post('/delete', 'PriorityController@delete')->name('setting.priorities.delete');
         });
 
+        Route::prefix('users')->namespace('User')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.users.index');
+            });
+            Route::get('/index', 'UserController@index')->name('setting.users.index');
+            Route::post('/store', 'UserController@store')->name('setting.users.store');
+            Route::get('/edit', 'UserController@edit')->name('setting.users.edit');
+            Route::post('/update', 'UserController@update')->name('setting.users.update');
+            Route::post('/delete', 'UserController@delete')->name('setting.users.delete');
+        });
+
     });
 
 });

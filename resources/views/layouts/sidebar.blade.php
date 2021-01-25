@@ -75,7 +75,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Analiz Oluştur</span>
+                        <span class="menu-text">Analiz</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">
@@ -128,7 +128,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Rapor Oluştur</span>
+                        <span class="menu-text">Rapor</span>
                         <i class="menu-arrow"></i>
                     </a>
                     <div class="menu-submenu">

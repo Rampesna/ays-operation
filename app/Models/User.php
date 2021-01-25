@@ -13,6 +13,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static select(array $array)
  * @method static where(string $column, string $data)
  * @method static whereBetween($column, array $array)
+ * @method static whereIn(string $column, string $operator, array $array)
  */
 class User extends Authenticatable
 {
@@ -38,6 +39,16 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function role()
+    {
+        return $this->hasOne(Role::class);
+    }
 
     public function authority($permission): bool
     {

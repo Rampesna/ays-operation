@@ -163,6 +163,10 @@
         $("#deselect_all").click(function () {
             $('#employees').selectpicker('val', '');
         });
+
+        comparison.click(function () {
+            $("#loader").fadeIn(250);
+        });
     </script>
 
 @stop
