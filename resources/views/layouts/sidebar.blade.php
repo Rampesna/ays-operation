@@ -58,7 +58,7 @@
                                 </g>
                             </svg>
                         </span>
-                        <span class="menu-text">Çalışanlar</span>
+                        <span class="menu-text">Personeller</span>
                     </a>
                 </li>
 
@@ -143,7 +143,7 @@
                                 </a>
                             </li>
                             <li class="menu-item {{ Request::segment(1) === 'report' && Request::segment(2) === 'queue-call-report' ? 'menu-item-active' : null }}" aria-haspopup="true">
-                                <a href="{{ route('report.queue-call-report') }}" class="menu-link">
+                                <a href="{{ route('report.queue-call-report.create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>
@@ -151,7 +151,7 @@
                                 </a>
                             </li>
                             <li class="menu-item {{ Request::segment(1) === 'report' && Request::segment(2) === 'job-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
-                                <a href="{{ route('report.general-this-month') }}" class="menu-link">
+                                <a href="{{ route('report.general.create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
                                     </i>

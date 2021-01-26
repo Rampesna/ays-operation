@@ -56,10 +56,11 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::get('/comparison-report', 'Employee\\ReportController@comparisonReport')->name('report.comparison-report');
         Route::post('/comparison-report/show', 'Employee\\ReportController@comparisonReportShow')->name('report.comparison-report.show');
 
-        Route::get('/queue-call-report/{queue_id?}', 'Queue\\ReportController@queueCallReport')->name('report.queue-call-report');
+        Route::get('/queue-call-report/create', 'Queue\\ReportController@queueCallReportCreate')->name('report.queue-call-report.create');
+        Route::post('/queue-call-report', 'Queue\\ReportController@queueCallReport')->name('report.queue-call-report');
 
-        Route::get('/general-report/this-month', 'General\\ReportController@generalReportThisMonth')->name('report.general-this-month');
-        Route::post('/general-report/by-date', 'General\\ReportController@generalReportByDate')->name('report.general.by-date');
+        Route::get('/general-report/create', 'General\\ReportController@generalReportCreate')->name('report.general.create');
+        Route::post('/general-report', 'General\\ReportController@generalReport')->name('report.general');
 
         Route::get('/employees', 'Employee\\ReportController@employees')->name('report.employees');
         Route::post('/employees/by-company', 'Employee\\ReportController@employeesByCompany')->name('report.employees.by-company');
@@ -105,7 +106,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
                 return redirect()->route('setting.users.index');
             });
             Route::get('/index', 'UserController@index')->name('setting.users.index');
-            Route::post('/store', 'UserController@store')->name('setting.users.store');
+            Route::any('/store', 'UserController@store')->name('setting.users.store');
             Route::get('/edit', 'UserController@edit')->name('setting.users.edit');
             Route::post('/update', 'UserController@update')->name('setting.users.update');
             Route::post('/delete', 'UserController@delete')->name('setting.users.delete');

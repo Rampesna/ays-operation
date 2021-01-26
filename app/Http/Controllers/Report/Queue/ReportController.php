@@ -10,23 +10,31 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
+    public function queueCallReportCreate()
+    {
+        return view('pages.report.queue.create');
+    }
+
     public function queueCallReport(Request $request)
     {
-        $queueId = $request->queue_id ?? auth()->user()->companies()->first()->queues()->first()->id;
         return view('pages.report.queue.index', [
             'queues' => Queue::all(),
-            'queueAnalyses' => QueueAnalysis::where('queue_id', $queueId)->orderBy('date', 'asc')->get(),
+            'queueAnalyses' => QueueAnalysis::
+            whereIn('queue_id', $request->queues)->orderBy('date', 'asc')->
+            whereBetween('date', [
+                date('Y-m-d', strtotime($request->start_date)),
+                date('Y-m-d', strtotime($request->end_date))
+            ])->get(),
             'yearlyAnalyses' => QueueAnalysis::
             select(DB::raw('day(date) as day_of_month, month(date) as month_of_year, (sum(total_incoming_call) + sum(total_outgoing_call)) as total_call'))->
-            where('queue_id', $queueId)->
+            whereIn('queue_id', $request->queues)->
             whereBetween('date', [
-                date('Y-01-01'),
-                date('Y-12-31')
+                date('Y-01-01', strtotime($request->start_date)),
+                date('Y-12-31', strtotime($request->start_date))
             ])->
             groupByRaw('day(date), month(date)')->
             orderByRaw('month_of_year asc, day_of_month asc')->
-            get(),
-            'queueId' => $queueId
+            get()
         ]);
     }
 }

@@ -4,21 +4,6 @@
 
 @section('content')
 
-    <div class="row mt-n10">
-        <div class="col-xl-4"></div>
-        <div class="col-xl-4"></div>
-        <div class="col-xl-4 text-right">
-            <div class="form-group">
-                <label for="queue_id"></label>
-                <select name="queue_id" id="queue_id" class="form-control selectpicker" data-live-search="true">
-                    @foreach($queues as $queue)
-                        <option @if($queue->id == $queueId) selected @endif value="{{ $queue->id }}">{{ $queue->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    </div>
-    <hr>
     <div class="row">
         <div class="col-xl-4">
             <div class="row mt-7">
@@ -204,15 +189,15 @@
                         {
                             name: 'Toplam Gelen Çağrı',
                             data: [
-                                @foreach($queueAnalyses as $queueAnalysis)
-                                {{ $queueAnalysis->total_incoming_call ?? 0 }}{{ !$loop->last ? ',' : null }}
+                                @foreach($queueAnalyses->sortBy('date')->groupBy('date')->all() as $date)
+                                {{ $date->sum('total_incoming_call') }}{{ !$loop->last ? ',' : null }}
                                 @endforeach
                             ]
                         }, {
                             name: 'Toplam Giden Çağrı',
                             data: [
-                                @foreach($queueAnalyses as $queueAnalysis)
-                                {{ $queueAnalysis->total_outgoing_call ?? 0 }}{{ !$loop->last ? ',' : null }}
+                                @foreach($queueAnalyses->sortBy('date')->groupBy('date')->all() as $date)
+                                {{ $date->sum('total_outgoing_call') }}{{ !$loop->last ? ',' : null }}
                                 @endforeach
                             ]
                         }
@@ -230,8 +215,8 @@
                     xaxis: {
                         type: 'datetime',
                         categories: [
-                            @foreach($queueAnalyses as $queueAnalysis)
-                            '{{ $queueAnalysis->date }}'{{ !$loop->last ? ',' : null }}
+                            @foreach($queueAnalyses->sortBy('date')->groupBy('date')->all() as $date => $data)
+                                '{{ $date }}'{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ]
                     },

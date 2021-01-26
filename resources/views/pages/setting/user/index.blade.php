@@ -21,6 +21,7 @@
                                 <tr>
                                     <th>Ad Soyad</th>
                                     <th>Rol</th>
+                                    <th>Durum</th>
                                     <th>E-posta</th>
                                     <th>Telefon Numarası</th>
                                     <th>Kimlik Numarası</th>
@@ -32,6 +33,17 @@
                                     <tr id="row-{{ $user->id }}">
                                         <td>{{ ucwords($user->name) }}</td>
                                         <td>{{ ucwords($user->role->name) }}</td>
+                                        <td>
+                                            @if($user->email_verified_at)
+                                                @if($user->suspend == 1)
+                                                    <i class="fas fa-exclamation-triangle text-danger"></i><span class="text-danger"> Engellenmiş</span>
+                                                @else
+                                                    <i class="fa fa-check-circle text-success"></i><span class="text-success"> Aktif</span>
+                                                @endif
+                                            @else
+                                                <i class="fa fa-clock text-warning"></i><span class="text-warning"> Mail Onayı Bekliyor</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->phone_number }}</td>
                                         <td>{{ $user->identification_number }}</td>
@@ -42,6 +54,47 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                     <ul class="navi navi-hover">
+                                                        @if($user->suspend == 1)
+                                                            <li class="navi-item">
+                                                                <a href="#"
+                                                                   data-id="{{ $user->id }}"
+                                                                   data-toggle="modal"
+                                                                   data-target="#ActivateModal"
+                                                                   class="navi-link activate">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-user-clock text-warning"></i>
+                                                                    </span>
+                                                                    <span class="navi-text text-warning">Engeli Kaldır</span>
+                                                                </a>
+                                                            </li>
+                                                        @else
+                                                            <li class="navi-item">
+                                                                <a href="#"
+                                                                   data-id="{{ $user->id }}"
+                                                                   data-toggle="modal"
+                                                                   data-target="#SuspendedModal"
+                                                                   class="navi-link activate">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-user-lock text-warning"></i>
+                                                                    </span>
+                                                                    <span class="navi-text text-warning">Engelle</span>
+                                                                </a>
+                                                            </li>
+                                                        @endif
+                                                        @if(!$user->email_verified_at)
+                                                            <li class="navi-item">
+                                                                <a href="#"
+                                                                   data-id="{{ $user->id }}"
+                                                                   data-toggle="modal"
+                                                                   data-target="#VerifyModal"
+                                                                   class="navi-link activate">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-user-check text-success"></i>
+                                                                    </span>
+                                                                    <span class="navi-text text-success">Hesabı Onayla</span>
+                                                                </a>
+                                                            </li>
+                                                        @endif
                                                         <li class="navi-item">
                                                             <a href="#"
                                                                data-id="{{ $user->id }}"

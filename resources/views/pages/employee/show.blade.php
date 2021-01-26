@@ -595,7 +595,7 @@
                     xaxis: {
                         type: 'datetime',
                         categories: [
-                            @foreach($callAnalyses->groupBy('date')->all() as $date => $data)
+                            @foreach($jobAnalyses->groupBy('date')->all() as $date => $data)
                                 '{{ $date }}'{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ]

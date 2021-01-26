@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Http\View\Composers\AuthenticatedComposer;
 use App\Http\View\Composers\CompaniesComposer;
+use App\Http\View\Composers\RolesComposer;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -31,10 +32,15 @@ class AppServiceProvider extends ServiceProvider
             'pages.employee.index',
             'pages.analysis.*',
             'pages.report.employee.*',
+            'pages.report.queue.*',
+            'pages.report.general.*',
             'pages.setting.queue.*',
             'pages.setting.competence.*',
             'pages.setting.priority.*',
             'pages.setting.user.*'
         ], CompaniesComposer::class);
+        View::composer([
+            'pages.setting.user.*'
+        ], RolesComposer::class);
     }
 }

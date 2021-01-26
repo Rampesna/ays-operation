@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static whereBetween(string $string, array $array)
+ * @method static where(string $string, $companyId)
  */
 class CallAnalysis extends Model
 {

@@ -17,10 +17,18 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('employee')->namespace('Employee')->group(function () {
-        Route::get('getEmployeesByCompanyId','MainController@getEmployeesByCompanyId')->name('ajax.employees-by-company-id');
+        Route::get('getEmployeesByCompanyId', 'MainController@getEmployeesByCompanyId')->name('ajax.employees-by-company-id');
 
         Route::post('updateQueues', 'MainController@updateQueues')->name('ajax.employee.updateQueues');
         Route::post('updateCompetences', 'MainController@updateCompetences')->name('ajax.employee.updateCompetences');
+    });
+
+    Route::prefix('queue')->namespace('Queue')->group(function () {
+        Route::get('getQueuesByCompany', 'MainController@getQueuesByCompany')->name('ajax.queue.getQueuesByCompany');
+    });
+
+    Route::prefix('user')->namespace('User')->group(function () {
+        Route::post('emailControl', 'MainController@emailControl')->name('ajax.emailControl');
     });
 
 });

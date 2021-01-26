@@ -43,40 +43,79 @@
             },
         ],
 
-        responsive: true,
-        colReorder: true,
-        rowReorder: false,
-        stateSave: true,
-        select: false
+        responsive: true
     });
 </script>
 
 <script>
-    $("#competence_create").click(function () {
-        var company_id = $("#company_id_create").val();
+    $("#user_create").click(function () {
+        var companies = $("#companies_create").val();
         var name = $("#name_create").val();
+        var email = $("#email_create").val();
+        var phone_number = $("#phone_number_create").val();
+        var activate_type = $("#activate_type_create").val();
+        var identification_number = $("#identification_number_create").val();
+        var role_id = $("#role_id_create").val();
+        var password = $("#password_create").val();
 
-        if (company_id == null || company_id === '') {
+        if (companies.length <= 0) {
             toastr.warning('Firma Seçilmesi Zorunludur');
         } else if (name == null || name === '') {
-            toastr.warning('Yetkinlik Adı Girilmesi Zorunludur');
+            toastr.warning('Ad Soyad Girilmesi Zorunludur');
+        } else if (email == null || email === '') {
+            toastr.warning('E-posta Adresi Girilmesi Zorunludur!');
         } else {
             $.ajax({
                 type: 'post',
-                url: '{{ route('setting.competences.store') }}',
-                dataType: 'json',
+                url: '{{ route('ajax.emailControl') }}',
                 data: {
                     _token: '{{ csrf_token() }}',
-                    company_id: company_id,
-                    name: name
+                    email: email
                 },
-                success: function () {
-                    toastr.success('Yeni Yetkinlik Başarıyla Oluşturuldu');
-                    $("#CreateModal").modal('hide');
-                    setTimeout(location.reload(), 1000);
+                success: function (response) {
+                    if (response === 'exist') {
+                        toastr.warning('Bu E-posta Adresi Zaten Sistemde Kayıtlı!');
+                    } else {
+                        if (activate_type == null || activate_type === '') {
+                            toastr.warning('Aktivasyon Türü Seçilmesi Zorunludur!');
+                        } else if (role_id == null || role_id === '') {
+                            toastr.warning('Kullanıcı Rolü Seçilmesi Zorunludur!');
+                        } else if (password == null || password === '') {
+                            toastr.warning('Şifre Boş Olamaz');
+                        } else if (password.length < 8) {
+                            toastr.warning('Şifre En Az 8 Haneli Olmalıdır!');
+                        } else {
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ route('setting.users.store') }}',
+                                dataType: 'json',
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    companies: companies,
+                                    name: name,
+                                    email: email,
+                                    phone_number: phone_number,
+                                    identification_number: identification_number,
+                                    activate_type: activate_type,
+                                    role_id: role_id,
+                                    password: password,
+                                    create: 1
+                                },
+                                success: function () {
+                                    toastr.success('Yeni Kullanıcı Başarıyla Oluşturuldu');
+                                    $("#CreateModal").modal('hide');
+                                    setTimeout(location.reload(), 1000);
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                    toastr.eror('Sistemsel Bir Hata Oluştu!');
+                                }
+                            });
+                        }
+                    }
                 },
                 error: function () {
-
+                    toastr.warning('E-posta Kontrolü Yapılırken Bir Hata Oluştu!');
                 }
             });
         }
@@ -86,17 +125,17 @@
 <script>
     $(".edit").click(function () {
         var id = $(this).data('id');
-        $("#updated_competence_id").val(id);
+        $("#updated_user_id").val(id);
         $.ajax({
             type: 'get',
-            url: '{{ route('setting.competences.edit') }}',
+            url: '{{ route('setting.users.edit') }}',
             dataType: 'json',
             data: {
                 id: id
             },
-            success: function (competence) {
-                $("#company_id_edit").val(competence.company_id).selectpicker('refresh');
-                $("#name_edit").val(competence.name);
+            success: function (user) {
+                $("#companies_edit").val(user.companies).selectpicker('refresh');
+                $("#name_edit").val(user.name);
             },
             error: function () {
 
@@ -106,26 +145,26 @@
 </script>
 
 <script>
-    $("#competence_update").click(function () {
-        var id = $("#updated_competence_id").val();
-        var company_id = $("#company_id_edit").val();
+    $("#user_update").click(function () {
+        var id = $("#updated_user_id").val();
+        var companies = $("#companies_edit").val();
         var name = $("#name_edit").val();
 
         if (id == null || id === '') {
             toastr.warning('Bir Hata Oluştu. Lütfen Sayfayı Yenileyip Tekrar Deneyin.');
-        } else if (company_id == null || company_id === '') {
+        } else if (companies == null || companies === '') {
             toastr.warning('Firma Seçilmesi Zorunludur');
         } else if (name == null || name === '') {
             toastr.warning('Yetkinlik Adı Girilmesi Zorunludur');
         } else {
             $.ajax({
                 type: 'post',
-                url: '{{ route('setting.competences.update') }}',
+                url: '{{ route('setting.users.update') }}',
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}',
                     id: id,
-                    company_id: company_id,
+                    companies: companies,
                     name: name
                 },
                 success: function () {
@@ -144,16 +183,16 @@
 <script>
     $(".delete").click(function () {
         var id = $(this).data('id');
-        $("#deleted_competence_id").val(id);
+        $("#deleted_user_id").val(id);
     });
 </script>
 
 <script>
-    $("#delete_competence").click(function () {
-        var id = $("#deleted_competence_id").val();
+    $("#delete_user").click(function () {
+        var id = $("#deleted_user_id").val();
         $.ajax({
             type: 'post',
-            url: '{{ route('setting.competences.delete') }}',
+            url: '{{ route('setting.users.delete') }}',
             dataType: 'json',
             data: {
                 _token: '{{ csrf_token() }}',
@@ -161,7 +200,7 @@
             },
             success: function () {
                 table.row($("#row-" + id).closest('tr')).remove().draw();
-                toastr.success('Yetkinlik Başarıyla Silindi');
+                toastr.success('Kullanıcı Başarıyla Silindi');
                 $("#DeleteModal").modal('hide');
             },
             error: function () {

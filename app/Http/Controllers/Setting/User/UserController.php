@@ -18,8 +18,8 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $queue = (new UserService)->save(new User, $request);
-        return response()->json($queue, 200);
+        $user = (new UserService)->store(new User, $request);
+        return response()->json($user, 200);
     }
 
     public function edit(Request $request)
@@ -29,8 +29,8 @@ class UserController extends Controller
 
     public function update(Request $request)
     {
-        $queue = (new UserService)->save(User::find($request->id), $request);
-        return response()->json($queue, 200);
+        $user = (new UserService)->update(User::find($request->id), $request);
+        return response()->json($user, 200);
     }
 
     public function delete(Request $request)

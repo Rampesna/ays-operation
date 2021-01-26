@@ -14,11 +14,13 @@ class GeneralService
 
     public $startDate;
     public $endDate;
+    public $companyId;
 
-    public function __construct($startDate, $endDate)
+    public function __construct($request)
     {
-        $this->startDate = $startDate;
-        $this->endDate = $endDate;
+        $this->startDate = $request->start_date;
+        $this->endDate = $request->end_date;
+        $this->companyId = $request->company_id;
     }
 
     public function analyses()
@@ -35,6 +37,7 @@ class GeneralService
     private function callAnalyses()
     {
         return CallAnalysis::
+        where('company_id', $this->companyId)->
         whereBetween('date', [
             $this->startDate,
             $this->endDate
@@ -44,6 +47,7 @@ class GeneralService
     private function jobAnalyses()
     {
         return JobAnalysis::
+        where('company_id', $this->companyId)->
         whereBetween('date', [
             $this->startDate,
             $this->endDate
@@ -54,9 +58,10 @@ class GeneralService
     {
         return QueueAnalysis::
         select(DB::raw('day(date) as day_of_month, month(date) as month_of_year, (sum(total_incoming_call) + sum(total_outgoing_call)) as total_call'))->
+        where('company_id', $this->companyId)->
         whereBetween('date', [
-            date('Y-01-01'),
-            date('Y-12-31')
+            date('Y-01-01', strtotime($this->startDate)),
+            date('Y-12-31', strtotime($this->startDate))
         ])->
         groupByRaw('day(date), month(date)')->
         orderByRaw('month_of_year asc, day_of_month asc')->
@@ -67,9 +72,10 @@ class GeneralService
     {
         return JobAnalysis::
         select(DB::raw('day(date) as day_of_month, month(date) as month_of_year, (sum(job_activity_count)) as total_job_activity'))->
+        where('company_id', $this->companyId)->
         whereBetween('date', [
-            date('Y-01-01'),
-            date('Y-12-31')
+            date('Y-01-01', strtotime($this->startDate)),
+            date('Y-12-31', strtotime($this->startDate))
         ])->
         groupByRaw('day(date), month(date)')->
         orderByRaw('month_of_year asc, day_of_month asc')->
@@ -80,9 +86,10 @@ class GeneralService
     {
         return JobAnalysis::
         select(DB::raw('day(date) as day_of_month, month(date) as month_of_year, (sum(job_complete_count)) as total_job_complete'))->
+        where('company_id', $this->companyId)->
         whereBetween('date', [
-            date('Y-01-01'),
-            date('Y-12-31')
+            date('Y-01-01', strtotime($this->startDate)),
+            date('Y-12-31', strtotime($this->startDate))
         ])->
         groupByRaw('day(date), month(date)')->
         orderByRaw('month_of_year asc, day_of_month asc')->

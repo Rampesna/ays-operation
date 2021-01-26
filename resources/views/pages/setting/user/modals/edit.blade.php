@@ -8,7 +8,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="updated_competence_id" id="updated_competence_id">
+                <input type="hidden" name="updated_user_id" id="updated_user_id">
                 <div class="row">
                     <div class="col-xl-6">
                         <div class="form-group">
@@ -29,7 +29,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="competence_update">Güncelle</button>
+                <button type="button" class="btn btn-success" id="user_update">Güncelle</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Vazgeç</button>
 
             </div>

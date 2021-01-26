@@ -20,7 +20,6 @@ class EmployeeJobAnalysisService
     public function jobsAndActivities($request)
     {
         $response = $this->api->GetJobList($request->start_date, $request->end_date)['response'];
-
         foreach ($response as $data) {
             $employee = Employee::where('extension_number', $data['dahili'])->first();
 

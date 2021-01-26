@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @method static where(string $string, mixed $queueId)
  * @method static select(\Illuminate\Database\Query\Expression $raw)
+ * @method static whereIn(string $string, mixed $queues)
  */
 class QueueAnalysis extends Model
 {

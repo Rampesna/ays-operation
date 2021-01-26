@@ -4,28 +4,12 @@
 
 @section('content')
 
-    <form action="{{ route('report.general.by-date') }}" method="post" class="row">
-        @csrf
+    <div class="row">
         <div class="col-xl-6">
             <br>
             {{ strftime("%d %B %Y", strtotime($startDate)) . ' - ' . strftime("%d %B %Y", strtotime($endDate)) }}, Aralığındaki İstatistikler Gösteriliyor.
         </div>
-        <div class="col-xl-2">
-            <div class="form-group">
-                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ $startDate }}" required>
-            </div>
-        </div>
-        <div class="col-xl-2">
-            <div class="form-group">
-                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ $endDate }}" required>
-            </div>
-        </div>
-        <div class="col-xl-2">
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary btn-block">Sorgula</button>
-            </div>
-        </div>
-    </form>
+    </div>
     <hr>
     <div class="row">
         <div class="col-xl-12">

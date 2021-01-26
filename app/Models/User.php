@@ -24,11 +24,11 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+//    protected $fillable = [
+//        'name',
+//        'email',
+//        'password',
+//    ];
 
     /**
      * The attributes that should be hidden for arrays.
@@ -47,7 +47,21 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->hasOne(Role::class);
+        return $this->belongsTo(Role::class);
+    }
+
+    public function roles()
+    {
+        if (is_null($this->top)) {
+            return Role::where('user_id', $this->id)->get();
+        }
+
+        $topUser = User::find($this->top);
+        while (!is_null($topUser->top)) {
+            $topUser = User::find($topUser->top);
+        }
+
+        return Role::where('user_id', $topUser->id)->get();
     }
 
     public function authority($permission): bool

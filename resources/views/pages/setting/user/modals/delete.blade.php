@@ -8,15 +8,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" name="deleted_competence_id" id="deleted_competence_id">
+                <input type="hidden" name="deleted_user_id" id="deleted_user_id">
                 <p>
-                    Yetkinliği silmek istediğinizden emin misiniz?
+                    Kullanıcıyı silmek istediğinizden emin misiniz?
                 </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-success" id="delete_competence">Sil</button>
+                <button type="button" class="btn btn-success" id="delete_user">Sil</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Vazgeç</button>
-
             </div>
         </div>
     </div>

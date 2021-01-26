@@ -63,6 +63,22 @@ $('.datepicker').datepicker({
 
 $('.mobile-phone-number').inputmask('(999) 999-99-99', {placeholder: '(___) ___-__-__'});
 
+$(".email-input-mask").inputmask({
+    mask: "*{1,20}[.*{1,20}][.*{1,20}][.*{1,20}]@*{1,20}[.*{2,6}][.*{1,2}]",
+    greedy: false,
+    onBeforePaste: function (pastedValue, opts) {
+        pastedValue = pastedValue.toLowerCase();
+        return pastedValue.replace("mailto:", "");
+    },
+    definitions: {
+        '*': {
+            validator: "[0-9A-Za-z!#$%&'*+/=?^_`{|}~\-]",
+            cardinality: 1,
+            casing: "lower"
+        }
+    }
+});
+
 toastr.options = {
     "closeButton": false,
     "debug": false,
@@ -83,21 +99,4 @@ toastr.options = {
 
 $(window).on('load', function () {
     $("#loader").fadeOut(250);
-});
-
-$(".languageSelector").click(function () {
-    var language = $(this).data('lang');
-    $(".changeLanguage").prop("disabled", false);
-    $(this).prop("disabled", true);
-    $.ajax({
-        type: "post",
-        url: '/language',
-        data: {
-            _token: $('meta[name="csrf-token"]').attr('content'),
-            language: language
-        },
-        success: function (response) {
-            response === 'success' ? location.reload() : toastr.warning(response.data);
-        }
-    });
 });
