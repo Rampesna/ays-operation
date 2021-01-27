@@ -25,6 +25,17 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
     });
     Route::get('/index', 'HomeController@index')->name('index')->middleware('Authority:1');
 
+    Route::prefix('applications')->namespace('Application')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('applications.index');
+        });
+        Route::get('/index', 'MainController@index')->name('applications.index');
+
+        Route::prefix('shift')->group(function () {
+
+        });
+    });
+
     Route::prefix('employee')->namespace('Employee')->group(function () {
         Route::get('/', function () {
             return redirect()->route('employee.index');
