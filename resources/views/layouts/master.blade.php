@@ -44,7 +44,7 @@
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
     <!--begin::Logo-->
     <a href="#">
-        <img alt="Logo" src="{{ asset('assets/media/logos/ayssoft_crm.png') }}" />
+        <img style="width: 30%; height: auto" alt="Logo" src="{{ asset('assets/media/logos/logo.png') }}" />
     </a>
     <!--end::Logo-->
     <!--begin::Toolbar-->

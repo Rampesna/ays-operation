@@ -31,4 +31,9 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         Route::post('emailControl', 'MainController@emailControl')->name('ajax.emailControl');
     });
 
+    Route::prefix('role')->namespace('Role')->group(function () {
+        Route::post('permissionsUpdate', 'MainController@permissionsUpdate')->name('ajax.role.permissionsUpdate');
+    });
+
+
 });

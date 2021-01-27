@@ -99,7 +99,7 @@
                                                             <a href="#"
                                                                data-id="{{ $user->id }}"
                                                                data-toggle="modal"
-                                                               data-target="#EditModal"
+                                                               data-target="#EditModal2"
                                                                class="navi-link edit">
                                                                     <span class="navi-icon">
                                                                         <i class="fa fa-edit"></i>

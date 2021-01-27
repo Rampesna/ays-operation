@@ -31,6 +31,7 @@
                 <div class="container-fluid">
                     <div class="row">
 
+                        @Authority(13)
                         <div class="col-xl-4">
                             <a href="#" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
@@ -48,7 +49,9 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
 
+                        @Authority(14)
                         <div class="col-xl-4">
                             <a href="{{ route('setting.queues.index') }}" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
@@ -65,7 +68,9 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
 
+                        @Authority(15)
                         <div class="col-xl-4">
                             <a href="{{ route('setting.competences.index') }}" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
@@ -82,7 +87,9 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
 
+                        @Authority(16)
                         <div class="col-xl-4">
                             <a href="{{ route('setting.priorities.index') }}" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
@@ -99,7 +106,9 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
 
+                        @Authority(17)
                         <div class="col-xl-4">
                             <a href="{{ route('setting.users.index') }}" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
@@ -116,9 +125,11 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
 
+                        @Authority(18)
                         <div class="col-xl-4">
-                            <a href="#" class="card card-custom card-stretch gutter-b">
+                            <a href="{{ route('setting.roles.index') }}" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
                                     <span class="svg-icon svg-icon-dark-75 svg-icon-3x ml-n1">
                                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -135,7 +146,7 @@
                                 </div>
                             </a>
                         </div>
-
+                        @endAuthority
                     </div>
                 </div>
                 <div class="text-center">

@@ -121,7 +121,7 @@
     <div class="copy-container center-xy">
         <span class="handle"></span>
         <p>
-            ays@soft:~# <a class="404" style="color: #f0801e">403</a> Permission Denied
+            ays@soft:~# <a class="404" style="color: #f0801e">403</a> Permission Denied // <span style="color: gray">Yetkisiz Erişim</span>
         </p>
         <span class="handle2"></span>
 
