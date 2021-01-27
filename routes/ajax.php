@@ -35,5 +35,15 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         Route::post('permissionsUpdate', 'MainController@permissionsUpdate')->name('ajax.role.permissionsUpdate');
     });
 
+    Route::prefix('monitoring')->namespace('Monitoring')->group(function () {
+        Route::any('CallQueues', 'MainController@CallQueues')->name('ajax.monitoring.CallQueues');
+        Route::any('GetJobList', 'MainController@GetJobList')->name('ajax.monitoring.GetJobList');
+        Route::any('EmployeeAndJobTracking', 'MainController@EmployeeAndJobTracking')->name('ajax.monitoring.EmployeeAndJobTracking');
+        Route::any('ShiftEmployeesLastSunday', 'MainController@ShiftEmployeesLastSunday')->name('ajax.monitoring.ShiftEmployeesLastSunday');
+        Route::any('Abandon', 'MainController@Abandon')->name('ajax.monitoring.Abandon');
+        Route::any('GetPointDay', 'MainController@GetPointDay')->name('ajax.monitoring.GetPointDay');
+        Route::any('GetPointWeek', 'MainController@GetPointWeek')->name('ajax.monitoring.GetPointWeek');
+        Route::any('GetMonthJobRanking', 'MainController@GetMonthJobRanking')->name('ajax.monitoring.GetMonthJobRanking');
+    });
 
 });

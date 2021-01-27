@@ -203,6 +203,8 @@
                     </div>
                 </li>
                 @endAuthority
+
+                @Authority(21)
                 <li class="menu-item {{ Request::segment(1) === 'tv' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -239,11 +241,14 @@
                         </ul>
                     </div>
                 </li>
+                @endAuthority
 
                 <li class="menu-section">
                     <h4 class="menu-text">YÖNETİM</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
+
+                @Authority(22)
                 <li class="menu-item {{ Request::segment(1) === 'exams' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -288,6 +293,9 @@
                         </ul>
                     </div>
                 </li>
+                @endAuthority
+
+                @Authority(23)
                 <li class="menu-item {{ Request::segment(1) === 'surveys' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -342,6 +350,9 @@
                         </ul>
                     </div>
                 </li>
+                @endAuthority
+
+                @Authority(24)
                 <li class="menu-item {{ Request::segment(1) === 'teams' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('teams.index') }}" class="menu-link">
@@ -357,6 +368,9 @@
                         <span class="menu-text">Takımlar</span>
                     </a>
                 </li>
+                @endAuthority
+
+                @Authority(25)
                 <li class="menu-item {{ Request::segment(1) === 'todo-list' ? 'menu-item-active' : null }}" aria-haspopup="true">
                     <a href="{{ route('todo-list.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -371,6 +385,9 @@
                         <span class="menu-text">Yapılacak İşler</span>
                     </a>
                 </li>
+                @endAuthority
+
+                @Authority(26)
                 <li class="menu-item {{ Request::segment(1) === 'uyum-crm' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -415,6 +432,7 @@
                         </ul>
                     </div>
                 </li>
+                @endAuthority
 
                 @Authority(19)
                 <li class="menu-item" aria-haspopup="true" style="position: absolute; bottom: 45px; width: 100%">

@@ -72,7 +72,7 @@
                             <div class="col-xl-12 text-center">
                                 <a href="{{ route($television->section->route) }}">
                                     <div class="card-spacer">
-                                        <img style="width: auto; height: 160px; opacity: 100%" src="{{ asset('assets/crm/media/svg/television/monitor.svg') }}">
+                                        <img style="width: auto; height: 160px; opacity: 100%" src="{{ asset('assets/media/svg/television/monitor.svg') }}">
                                     </div>
                                 </a>
                             </div>

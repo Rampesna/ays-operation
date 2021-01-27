@@ -66,6 +66,24 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::post('/employees/by-company', 'Employee\\ReportController@employeesByCompany')->name('report.employees.by-company')->middleware('Authority:11');
     });
 
+    Route::prefix('tv')->namespace('Monitoring')->middleware('Authority:21')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('tv.index');
+        });
+        Route::get('/index', 'TelevisionController@Index')->name('tv.index');
+        Route::post('/store', 'TelevisionController@Store')->name('tv.store');
+
+        Route::get('/abandons', 'TelevisionController@Abandons')->name('dashboard.abandons');
+
+        Route::prefix('sections')->group(function () {
+            Route::get('section/1', 'TelevisionController@Section1')->name('tv.section.1');
+            Route::get('section/2', 'TelevisionController@Section2')->name('tv.section.2');
+            Route::get('section/3', 'TelevisionController@Section3')->name('tv.section.3');
+            Route::get('section/4', 'TelevisionController@Section4')->name('tv.section.4');
+            Route::get('section/5', 'TelevisionController@Section5')->name('tv.section.5');
+        });
+    });
+
     Route::prefix('exams')->namespace('Exam')->group(function () {
         Route::get('/', function () {
             return redirect()->route('exams.index');
@@ -95,26 +113,6 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::post('/delete', 'ExamAnswerController@Delete')->name('exams.answers.delete');
         });
 
-    });
-
-
-    ////////////////////////////////////////////////////////////////////////////////
-    Route::prefix('tv')->group(function () {
-        Route::get('/', function () {
-            return redirect()->route('tv.index');
-        });
-        Route::get('/index', 'TvPanel@Index')->name('tv.index');
-        Route::post('/store', 'TvPanel@Store')->name('tv.store');
-
-        Route::get('/abandons', 'TvPanel@Abandons')->name('dashboard.abandons');
-
-        Route::prefix('sections')->group(function () {
-            Route::get('section/1', 'TvPanel@Section1')->name('tv.section.1');
-            Route::get('section/2', 'TvPanel@Section2')->name('tv.section.2');
-            Route::get('section/3', 'TvPanel@Section3')->name('tv.section.3');
-            Route::get('section/4', 'TvPanel@Section4')->name('tv.section.4');
-            Route::get('section/5', 'TvPanel@Section5')->name('tv.section.5');
-        });
     });
 
     Route::prefix('surveys')->namespace('Survey')->group(function () {
@@ -184,8 +182,6 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::get('/constants', 'Constant@Index')->name('uyum-crm.constants');
 
     });
-////////////////////////////////////////////////////////////////////////////////
-
 
     Route::prefix('setting')->namespace('Setting')->group(function () {
 

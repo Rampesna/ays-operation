@@ -119,7 +119,7 @@
 
             $.ajax({
                 type: "get",
-                url: "/GetPointDay",
+                url: "{{ route('ajax.monitoring.GetPointDay') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}'
@@ -187,7 +187,7 @@
 
             $.ajax({
                 type: "get",
-                url: "/GetPointWeek",
+                url: "{{ route('ajax.monitoring.GetPointWeek') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}'
@@ -255,7 +255,7 @@
 
             $.ajax({
                 type: "get",
-                url: "/GetMonthJobRanking",
+                url: "{{ route('ajax.monitoring.GetMonthJobRanking') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}'

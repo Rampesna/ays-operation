@@ -586,7 +586,7 @@
         {
             $.ajax({
                 type: "get",
-                url: "/EmployeeAndJobTracking",
+                url: "{{ route('ajax.monitoring.EmployeeAndJobTracking') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}'
@@ -596,7 +596,7 @@
 
                     $.ajax({
                         type: "get",
-                        url: "/CallQuees",
+                        url: "{{ route('ajax.monitoring.CallQueues') }}",
                         dataType: 'json',
                         data: {
                             _token: '{{ csrf_token() }}'
@@ -608,7 +608,7 @@
                             if (new Date().getDay() == 1) {
                                 $.ajax({
                                     type: "get",
-                                    url: "/ShiftEmployeesLastSunday",
+                                    url: "{{ route('ajax.monitoring.ShiftEmployeesLastSunday') }}",
                                     dataType: 'json',
                                     data: {
                                         _token: '{{ csrf_token() }}'

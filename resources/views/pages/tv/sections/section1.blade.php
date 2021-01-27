@@ -436,7 +436,7 @@
         {
             $.ajax({
                 type: "post",
-                url: "/CallQuees",
+                url: "{{ route('ajax.monitoring.CallQueues') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}'
@@ -668,7 +668,7 @@
 
             $.ajax({
                 type: "get",
-                url: "/GetJobList",
+                url: "{{ route('ajax.monitoring.GetJobList') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}'
