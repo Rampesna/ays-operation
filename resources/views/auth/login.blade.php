@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="pb-lg-0 pb-5">
-                            <button type="button" onclick="loginControl()" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Giriş Yap</button>
+                            <button type="submit" onclick="loginControl()" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Giriş Yap</button>
                         </div>
                     </form>
                 </div>

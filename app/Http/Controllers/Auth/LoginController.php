@@ -65,7 +65,7 @@ class LoginController extends Controller
         }
 
         if ($this->attemptLogin($request)) {
-            FailedLogin::where('user_id', User::where('email', $request->email)->first()->id)->where('cancel', 0)->update(['cancel' => 1]);
+//            FailedLogin::where('user_id', User::where('email', $request->email)->first()->id)->where('cancel', 0)->update(['cancel' => 1]);
             return $this->sendLoginResponse($request);
         }
 
@@ -80,34 +80,34 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-//        $errors = [$this->username() => trans('auth.failed')];
+//        $user = User::where('email', $request->email)->first();
+//
+//        if (is_null($user)) {
+//            $errors = ['error' => 'Böyle Bir Kullanıcı Sistemde Kayıtlı Değil!'];
+//        } else if ($user->suspend == 1) {
+//            $errors = ['error' => 'Hesabınız Engellenmiş! Lütfen Yöneticiniz İle İletişime Geçin.'];
+//        } else if (!Hash::check($request->password, $user->password)) {
+//
+//            $failedLogin = new FailedLogin;
+//            $failedLogin->user_id = $user->id;
+//            $failedLogin->date = date('Y-m-d H:i:s');
+//            $failedLogin->ip = $request->ip();
+//            $failedLogin->user_agent = serialize($request->userAgent());
+//            $failedLogin->cookie = serialize($request->cookie());
+//            $failedLogin->save();
+//
+//            $failedLoginControl = FailedLogin::where('user_id', $user->id)->where('cancel', 0)->count();
+//
+//            if ($failedLoginControl >= 3) {
+//                $errors = ['error' => '3 Defa Hatalı Giriş Yaptığınız İçin Hesabınız Engellendi! Lütfen Yöneticiniz İle İletişime Geçin.'];
+//                $user->suspend = 1;
+//                $user->save();
+//            } else {
+//                $errors = ['error' => 'Kullanıcı Adı ve Şifreniz Uyuşmuyor! ' . (3 - $failedLoginControl) . ' Defa Daha Hatalı Giriş Yaparsanız Hesabınız Engellenecektir!'];
+//            }
+//        }
 
-        $user = User::where('email', $request->email)->first();
-
-        if (is_null($user)) {
-            $errors = ['error' => 'Böyle Bir Kullanıcı Sistemde Kayıtlı Değil!'];
-        } else if ($user->suspend == 1) {
-            $errors = ['error' => 'Hesabınız Engellenmiş! Lütfen Yöneticiniz İle İletişime Geçin.'];
-        } else if (!Hash::check($request->password, $user->password)) {
-
-            $failedLogin = new FailedLogin;
-            $failedLogin->user_id = $user->id;
-            $failedLogin->date = date('Y-m-d H:i:s');
-            $failedLogin->ip = $request->ip();
-            $failedLogin->user_agent = serialize($request->userAgent());
-            $failedLogin->cookie = serialize($request->cookie());
-            $failedLogin->save();
-
-            $failedLoginControl = FailedLogin::where('user_id', $user->id)->where('cancel', 0)->count();
-
-            if ($failedLoginControl >= 3) {
-                $errors = ['error' => '3 Defa Hatalı Giriş Yaptığınız İçin Hesabınız Engellendi! Lütfen Yöneticiniz İle İletişime Geçin.'];
-                $user->suspend = 1;
-                $user->save();
-            } else {
-                $errors = ['error' => 'Kullanıcı Adı ve Şifreniz Uyuşmuyor! ' . (3 - $failedLoginControl) . ' Defa Daha Hatalı Giriş Yaparsanız Hesabınız Engellenecektir!'];
-            }
-        }
+        $errors = ['error' => ''];
 
         if ($request->expectsJson()) {
             return response()->json($errors, 422);
