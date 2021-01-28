@@ -9,23 +9,19 @@ class AyssoftTakipLoginApi extends ApiBase
 {
     public function __construct()
     {
-        try {
-            $this->baseUrl = env('AYSSOFTTAKIP_API_BASE_URL', '192.168.2.200:5051/api/');
-            if (!isset($_SESSION['accessTokenExpireTime']) && !isset($_SESSION['accessToken'])) {
+        $this->baseUrl = env('AYSSOFTTAKIP_API_BASE_URL', '192.168.2.200:5051/api/');
+        if (!isset($_SESSION['accessTokenExpireTime']) && !isset($_SESSION['accessToken'])) {
+            $this->_token = $this->Login();
+            $_SESSION['accessTokenExpireTime'] = time() + 10800;
+            $_SESSION['accessToken'] = $this->_token;
+        } else {
+            if (time() > $_SESSION['accessTokenExpireTime']) {
                 $this->_token = $this->Login();
                 $_SESSION['accessTokenExpireTime'] = time() + 10800;
                 $_SESSION['accessToken'] = $this->_token;
             } else {
-                if (time() > $_SESSION['accessTokenExpireTime']) {
-                    $this->_token = $this->Login();
-                    $_SESSION['accessTokenExpireTime'] = time() + 10800;
-                    $_SESSION['accessToken'] = $this->_token;
-                } else {
-                    $this->_token = $_SESSION['accessToken'];
-                }
+                $this->_token = $_SESSION['accessToken'];
             }
-        } catch (\Exception $exception) {
-             dd($exception);
         }
     }
 
@@ -39,11 +35,7 @@ class AyssoftTakipLoginApi extends ApiBase
             'Email' => env('AYSSOFTTAKIP_API_USER'),
             'Password' => env('AYSSOFTTAKIP_API_PASSWORD')
         ];
-
-        $response = $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
-        print_r($response->status());
-
-        return $response['accessToken'];
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['accessToken'];
     }
 
     public function TvScreenGetJobList()

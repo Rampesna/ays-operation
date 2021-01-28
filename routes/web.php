@@ -31,8 +31,11 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         });
         Route::get('/index', 'MainController@index')->name('applications.index');
 
-        Route::prefix('shift')->group(function () {
-
+        Route::prefix('shift')->namespace('Shift')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('applications.shift.index');
+            });
+            Route::get('/index', 'MainController@index')->name('applications.shift.index');
         });
     });
 

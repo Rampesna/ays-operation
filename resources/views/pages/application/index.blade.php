@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-xl-3">
             <!--begin::Stats Widget 16-->
-            <a href="{{ route('applications.index') }}" class="card card-custom card-stretch gutter-b">
+            <a href="{{ route('applications.shift.index') }}" class="card card-custom card-stretch gutter-b">
                 <!--begin::Body-->
                 <div class="card-body">
                     <span class="svg-icon svg-icon-success svg-icon-3x ml-n1">

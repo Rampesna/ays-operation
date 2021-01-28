@@ -6,7 +6,7 @@
     <div class="login login-3 wizard d-flex flex-column flex-lg-row flex-column-fluid">
         <div class="login-aside d-flex flex-column flex-row-auto">
             <div class="d-flex flex-column-auto flex-column">
-                <a href="#" class="login-logo text-center pb-10" style="margin-top: 100px">
+                <a href="{{ route('login') }}" class="login-logo text-center pb-10" style="margin-top: 100px">
                     <img src="{{ asset('assets/media/logos/logo.png') }}" class="max-h-75px" alt="" />
                 </a>
             </div>
@@ -28,10 +28,15 @@
                             <div class="d-flex justify-content-between mt-n5">
                                 <label for="password" class="font-size-h6 font-weight-bolder text-dark pt-5">Şifreniz</label>
                             </div>
-                            <input class="form-control h-auto py-7 px-6 rounded-lg border-0" type="password" name="password" id="password" autocomplete="off" />
-                            <div class="d-flex justify-content-between mt-n2">
-                                <a></a>
-                                <a href="#" class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5">Şifrenizi mi Unuttunuz ?</a>
+                            <input class="form-control h-auto py-7 px-6 rounded-lg border-0" type="password" name="password" id="password" autocomplete="new-password" />
+                        </div>
+                        <div class="form-group">
+                            <div class="d-flex">
+                                <label class="checkbox checkbox-dark">
+                                    <input type="checkbox" checked="checked" name="remember" /> Beni Hatırla
+                                    <span></span>
+                                </label>
+                                <i class="fa fa-info-circle ml-3 mt-1" data-toggle="tooltip" data-placement="right" title="Aktif Ederseniz Oturumunuz Otomatik Olarak Sonlandırılmaz."></i>
                             </div>
                         </div>
 
@@ -53,24 +58,47 @@
 
     <script>
 
+        var mail = $("#email");
+        var pass = $("#password");
+
         function validateEmail(email) {
             var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
             return emailReg.test(email);
         }
 
-        function loginControl () {
-            var email = $("#email").val();
-            var password = $("#password").val();
-            if (email == null || email == '') {
+        function loginControl() {
+            var email = mail.val();
+            var password = pass.val();
+            if (email == null || email === '') {
                 toastr.warning('E-posta Adresinizi Girin');
             } else if (!validateEmail(email)) {
                 toastr.warning('Lütfen Geçerli Bir E-posta Adresi Girin');
-            } else if (password == null || password == '') {
+            } else if (password == null || password === '') {
                 toastr.warning('Şifrenizi Girin');
             } else {
                 $("#login").submit();
             }
         }
+
+        mail.on('keypress', function (e) {
+            if (e.which === 13) {
+                if (mail.val() === '') {
+                    toastr.warning('Lütfen Geçerli Bir E-posta Adresi Girin');
+                } else {
+                    if (!validateEmail(mail.val())) {
+                        toastr.warning('Lütfen Geçerli Bir E-posta Adresi Girin');
+                    } else {
+                        pass.focus();
+                    }
+                }
+            }
+        });
+
+        pass.on('keypress', function (e) {
+            if (e.which === 13) {
+                loginControl();
+            }
+        });
 
         @if(count($errors->all()) > 0)
         toastr.warning("{{ $errors->first() }}");

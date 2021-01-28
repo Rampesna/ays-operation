@@ -27,12 +27,16 @@
         </div>
     </div>
 
+    @include('pages.application.applications.shift.modals.create')
+    @include('pages.application.applications.shift.modals.edit')
+    @include('pages.application.applications.shift.modals.delete')
+
 @endsection
 
 @section('page-styles')
-
+    @include('pages.application.applications.shift.components.style')
 @stop
 
 @section('page-script')
-
+    @include('pages.application.applications.shift.components.script')
 @stop
