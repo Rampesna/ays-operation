@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Monitoring;
 
+use App\Models\Queue;
 use App\Models\Section;
 use App\Models\Television;
 use Illuminate\Http\Request;
@@ -31,7 +32,9 @@ class TelevisionController extends Controller
 
     public function Section1()
     {
-        return view('pages.tv.sections.section1');
+        return view('pages.tv.sections.section1', [
+            'queues' => Queue::where('company_id', 1)->get()
+        ]);
     }
 
     public function Section2()
