@@ -46,4 +46,15 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         Route::any('GetMonthJobRanking', 'MainController@GetMonthJobRanking')->name('ajax.monitoring.GetMonthJobRanking');
     });
 
+    Route::prefix('application')->namespace('Application')->group(function () {
+
+        Route::prefix('shift')->namespace('Shift')->group(function () {
+            Route::post('store', 'MainController@store')->name('ajax.application.shift.store');
+            Route::get('edit', 'MainController@edit')->name('ajax.application.shift.edit');
+            Route::post('update', 'MainController@update')->name('ajax.application.shift.update');
+            Route::post('delete', 'MainController@delete')->name('ajax.application.shift.delete');
+        });
+
+    });
+
 });

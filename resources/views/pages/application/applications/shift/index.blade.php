@@ -28,6 +28,7 @@
     </div>
 
     @include('pages.application.applications.shift.modals.create')
+    @include('pages.application.applications.shift.modals.show')
     @include('pages.application.applications.shift.modals.edit')
     @include('pages.application.applications.shift.modals.delete')
 

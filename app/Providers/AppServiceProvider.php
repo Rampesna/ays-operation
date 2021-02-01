@@ -42,7 +42,8 @@ class AppServiceProvider extends ServiceProvider
             'pages.setting.queue.*',
             'pages.setting.competence.*',
             'pages.setting.priority.*',
-            'pages.setting.user.*'
+            'pages.setting.user.*',
+            'pages.application.applications.shift.*',
         ], CompaniesComposer::class);
         View::composer([
             'pages.setting.user.*'

@@ -25,4 +25,19 @@ class Company extends Model
     {
         return $this->hasMany(Queue::class);
     }
+
+    public function competences()
+    {
+        return $this->hasMany(Competence::class);
+    }
+
+    public function priorities()
+    {
+        return $this->hasMany(Priority::class);
+    }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
 }
