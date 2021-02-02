@@ -19,6 +19,7 @@
                             <table class="table table-hover" id="queues">
                                 <thead>
                                 <tr>
+                                    <th>Firma</th>
                                     <th>Kuyruk Adı</th>
                                     <th>Kısa Ad (Santral Adı)</th>
                                     <th class="text-right"></th>
@@ -27,6 +28,7 @@
                                 <tbody>
                                 @foreach($queues as $queue)
                                     <tr id="row-{{ $queue->id }}">
+                                        <td>{{ $queue->company->title }}</td>
                                         <td>{{ $queue->name }}</td>
                                         <td>{{ $queue->short }}</td>
                                         <td class="text-right">

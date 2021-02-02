@@ -23,7 +23,7 @@ class EmployeeService
         return Company::find($companyId)->employees()->with(['queues', 'competences'])->get();
     }
 
-    public function show(Employee $employee, $request = null)
+    public function report(Employee $employee, $request = null)
     {
         $startDate = !is_null($request) ? $request->start_date : date('Y-m-01');
         $endDate = !is_null($request) ? $request->end_date : date('Y-m-d');
@@ -67,5 +67,32 @@ class EmployeeService
             }
         }
         return response()->json('success', 200);
+    }
+
+    public function store(Employee $employee, $request)
+    {
+        $employee->company_id = $request->company_id;
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->phone_number = $request->phone_number;
+        $employee->identification_number = $request->identification_number;
+        $employee->extension_number = $request->extension_number;
+
+        $employee->image = $request->image;
+
+        if (!is_null($request->file('image'))) {
+            $imageName = strtotime(date("YmdHis")) . '.' . $request->file('image')->getClientOriginalExtension();
+            request()->image->move(public_path('employee/images/'), $imageName);
+            $employee->image = 'employee/images/' . $imageName;
+        } else {
+            if ($request->is_delete_image == 1) {
+                $employee->image = null;
+            }
+        }
+
+        $employee->title = $request->title;
+        $employee->save();
+
+        return $employee;
     }
 }

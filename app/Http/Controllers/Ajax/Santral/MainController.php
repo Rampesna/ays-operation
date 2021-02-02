@@ -6,6 +6,7 @@ use App\Http\Api\AyssoftTakipApi;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Queue;
+use App\Models\ShiftGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -13,7 +14,7 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return $request->header('cookie');
+        return ShiftGroup::find(1)->employees;
     }
 
     function get_server_load()

@@ -11,4 +11,14 @@ class MainController extends Controller
     {
         return view('pages.application.applications.shift.index');
     }
+
+    public function robot()
+    {
+        return view('pages.application.applications.shift.robot');
+    }
+
+    public function robotStore(Request $request)
+    {
+        return $request;
+    }
 }

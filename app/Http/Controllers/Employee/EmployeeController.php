@@ -34,15 +34,15 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function show(Employee $employee)
+    public function report(Employee $employee)
     {
-        return view('pages.employee.show', (new EmployeeService)->show($employee));
+        return view('pages.employee.report', (new EmployeeService)->report($employee));
     }
 
-    public function showPost(Request $request)
+    public function reportByDate(Request $request)
     {
         $employee = Employee::find($request->employee_id);
-        return view('pages.employee.show', (new EmployeeService)->show($employee, $request));
+        return view('pages.employee.report', (new EmployeeService)->report($employee, $request));
     }
 
     public function sync(Request $request)
@@ -70,6 +70,23 @@ class EmployeeController extends Controller
             return redirect()->back()->with(['type' => 'success', 'data' => 'Başarıyla Güncellendi']);
         } catch (\Exception $exception) {
             return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu!', 'exception' => $exception]);
+        }
+    }
+
+    public function edit(Employee $employee)
+    {
+        return view('pages.employee.edit', [
+            'employee' => $employee
+        ]);
+    }
+
+    public function update(Request $request)
+    {
+        try {
+            (new EmployeeService)->store(Employee::find($request->id), $request);
+            return redirect()->back()->with(['type' => 'success', 'data' => 'Bilgiler Başarıyla Güncellendi']);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu!']);
         }
     }
 }

@@ -4,7 +4,7 @@
 
 @section('content')
 
-    <form action="{{ route('employee.show.post') }}" method="post" class="row">
+    <form action="{{ route('employee.report.by-date') }}" method="post" class="row">
         @csrf
         <input type="hidden" name="employee_id" value="{{ $employee->id }}">
         <div class="col-xl-6">
@@ -249,9 +249,9 @@
                     <div class="card card-custom bg-dark-75 card-stretch gutter-b" style="height: 200px">
                         <!--begin::Body-->
                         <div class="card-body cursor-pointer">
-                            <span class="card-title font-weight-bolder text-white mt-n5 mb-0 mt-6 d-block" style="font-size: 24px">F: {{ number_format($jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') * 100 / ($jobAnalyses->sum('job_activity_count') / $employeesCount), 2, '.', '') }}%</span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">T: {{ number_format($jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') * 100 / ($jobAnalyses->sum('job_complete_count') / $employeesCount), 2, '.', '') }}%</span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">O: {{ number_format(($jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') * 100 / ($jobAnalyses->sum('job_complete_count') / $employeesCount) +  $jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') * 100 / ($jobAnalyses->sum('job_activity_count') / $employeesCount)) / 2, 2, '.', '') }}%</span>
+                            <span class="card-title font-weight-bolder text-white mt-n5 mb-0 mt-6 d-block" style="font-size: 24px">F: {{ @number_format($jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') * 100 / ($jobAnalyses->sum('job_activity_count') / $employeesCount), 2, '.', '') }}%</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">T: {{ @number_format($jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') * 100 / ($jobAnalyses->sum('job_complete_count') / $employeesCount), 2, '.', '') }}%</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">O: {{ @number_format(($jobAnalyses->where('employee_id', $employee->id)->sum('job_complete_count') * 100 / ($jobAnalyses->sum('job_complete_count') / $employeesCount) +  $jobAnalyses->where('employee_id', $employee->id)->sum('job_activity_count') * 100 / ($jobAnalyses->sum('job_activity_count') / $employeesCount)) / 2, 2, '.', '') }}%</span>
                             <span class="font-weight-bold text-white float-right"  style="font-size: 20px">İş Verimliliği</span>
                         </div>
                         <!--end::Body-->

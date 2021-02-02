@@ -36,6 +36,11 @@
                             <span class="navi-text text-muted text-hover-primary">{{ $authenticated->email }}</span>
                         </span>
                     </span>
+
+                    <a href="#" data-toggle="modal" data-target="#LogoutModal" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">
+                        Çıkış Yap
+                    </a>
+
                 </div>
             </div>
         </div>

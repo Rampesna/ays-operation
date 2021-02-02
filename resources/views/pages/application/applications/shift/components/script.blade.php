@@ -19,7 +19,7 @@
         defaultDate: '{{ date('Y-m-d') }}',
         selectable: true,
         selectMirror: true,
-        editable: true,
+        editable: false,
         droppable: false,
         eventLimit: false,
 
@@ -45,10 +45,10 @@
 
 
         events: [
-            @foreach($companies as $company)
-            @foreach($company->shifts as $shift)
+                @foreach($companies as $company)
+                @foreach($company->shifts as $shift)
             {
-                id: '{{ $shift->id }}',
+                id: {{ $shift->id }},
                 title: '{{ ucwords($shift->employee->name) }}',
                 textEscape: false,
                 start: '{{ strftime('%Y-%m-%dT%H:%M:00', strtotime($shift->start_date)) }}',
@@ -93,7 +93,7 @@
 
         $.ajax({
             type: 'get',
-            url: '{{ route('ajax.employees-by-company-id') }}',
+            url: '{{ route('ajax.all-employees-by-company-id') }}',
             data: {
                 company_id: company_id
             },
@@ -155,7 +155,7 @@
                     console.log(response);
                     $.each(response, function (index) {
                         $('#calendar').fullCalendar('renderEvent', {
-                            id: '' + response[index].id + '',
+                            id: response[index].id,
                             title: response[index].employee.name,
                             textEscape: false,
                             start: shiftStartDate + 'T' + shiftStartHour + ':00',
@@ -205,6 +205,7 @@
     });
 
     $("#update_shift").click(function () {
+        var shift_id = $("#updated_shift_id").val();
         var shiftStartDate = $("#shift_start_date_edit").val();
         var shiftStartHour = $("#shift_start_hour_edit").val();
         var shiftEndDate = $("#shift_end_date_edit").val();
@@ -219,33 +220,26 @@
         } else if (breakDuration === '' || breakDuration == null) {
             toastr.warning("Mola Süresi Boş Olamaz");
         } else {
+            var event = $("#calendar").fullCalendar('clientEvents', shift_id)[0];
             $.ajax({
                 type: "post",
                 url: "{{ route('ajax.application.shift.update') }}",
                 data: {
                     _token: '{{ csrf_token() }}',
+                    shift_id: shift_id,
                     start_date: shiftStartDate + ' ' + shiftStartHour,
                     end_date: shiftEndDate + ' ' + shiftEndHour,
                     break_duration: breakDuration,
-                    description: description,
+                    description: description
                 },
-                success: function (response) {
-                    console.log(response);
-                    $.each(response, function (index) {
-                        $('#calendar').fullCalendar('renderEvent', {
-                            title: response[index].employee.name,
-                            textEscape: false,
-                            start: shiftStartDate + 'T' + shiftStartHour + ':00',
-                            end: shiftEndDate + 'T' + shiftEndHour + ':00',
-                            url: 'javascript:void(0);',
-                            className: 'fc-event-light fc-event-solid-primary',
-                            breakDuration: response[index].break_duration + ' Dakika',
-                            description: response[index].description,
-                            shift_id: response[index].id
-                        });
-                    });
-                    toastr.success('Vardiyalar Eklendi');
-                    $("#CreateModal").modal('hide');
+                success: function () {
+                    event.start = shiftStartDate + 'T' + shiftStartHour;
+                    event.end = shiftEndDate + 'T' + shiftEndHour;
+                    event.breakDuration = breakDuration;
+                    event.description = description;
+                    $('#calendar').fullCalendar('updateEvent', event);
+                    toastr.success('Vardiya Başarıyla Güncellendi');
+                    $("#EditModal").modal('hide');
                 },
                 error: function (error) {
                     console.log(error);
@@ -270,12 +264,12 @@
                 shift_id: shift_id
             },
             success: function () {
-                toastr.success('Vardiya Silindi');
-                location.reload();
+                $('#calendar').fullCalendar('removeEvents', shift_id);
+                toastr.success('Vardiya Başarıyla Silindi');
+                $("#DeleteModal").modal('hide');
             }
         });
     });
-
 
 
 </script>

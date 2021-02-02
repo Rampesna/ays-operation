@@ -11,7 +11,7 @@ class QueueController extends Controller
     public function index()
     {
         return view('pages.setting.queue.index', [
-            'queues' => Queue::all()
+            'queues' => Queue::with('company')->get()
         ]);
     }
 

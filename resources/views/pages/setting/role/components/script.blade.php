@@ -136,7 +136,6 @@
                 toastr.success('Sistemsel Bir Hata Oluştu!');
             }
         });
-        console.log(permissions);
     });
 
 </script>

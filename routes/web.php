@@ -35,7 +35,9 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::get('/', function () {
                 return redirect()->route('applications.shift.index');
             });
-            Route::get('/index', 'MainController@index')->name('applications.shift.index');
+            Route::get('/index', 'MainController@index')->name('applications.shift.index')->middleware('Authority:29');
+            Route::get('/robot', 'MainController@robot')->name('applications.shift.robot')->middleware('Authority:30');
+            Route::post('/robot/store', 'MainController@robotStore')->name('applications.shift.robot.store')->middleware('Authority:30');
         });
     });
 
@@ -44,11 +46,13 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             return redirect()->route('employee.index');
         });
         Route::get('/index/{company_id?}', 'EmployeeController@index')->name('employee.index')->middleware('Authority:2');
+        Route::get('/edit/{employee}', 'EmployeeController@edit')->name('employee.edit')->middleware('Authority:28');
+        Route::post('/update', 'EmployeeController@update')->name('employee.update')->middleware('Authority:28');
         Route::get('/index/by-priority/{priority}', 'EmployeeController@byPriority')->name('employee.index.by-priority')->middleware('Authority:2');
-        Route::get('/show/{employee}/this-month', 'EmployeeController@show')->name('employee.show')->middleware('Authority:12');
+        Route::get('/report/{employee}/this-month', 'EmployeeController@report')->name('employee.report')->middleware('Authority:12');
+        Route::post('/report/detail', 'EmployeeController@reportByDate')->name('employee.report.by-date')->middleware('Authority:12');
         Route::get('/priorities/edit/{employee}', 'EmployeeController@editPriorities')->name('employee.priorities.edit')->middleware('Authority:2');
         Route::post('/priorities/update', 'EmployeeController@updatePriorities')->name('employee.priorities.update')->middleware('Authority:2');
-        Route::post('/show/detail', 'EmployeeController@showPost')->name('employee.show.post')->middleware('Authority:12');
         Route::get('/sync', 'EmployeeController@sync')->name('employee.sync')->middleware('Authority:100');
     });
 
@@ -230,6 +234,17 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::get('/edit', 'PriorityController@edit')->name('setting.priorities.edit');
             Route::post('/update', 'PriorityController@update')->name('setting.priorities.update');
             Route::post('/delete', 'PriorityController@delete')->name('setting.priorities.delete');
+        });
+
+        Route::prefix('shift-groups')->namespace('ShiftGroup')->middleware('Authority:30')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.shift-groups.index');
+            });
+            Route::get('/index', 'ShiftGroupController@index')->name('setting.shift-groups.index');
+            Route::post('/store', 'ShiftGroupController@store')->name('setting.shift-groups.store');
+            Route::get('/edit', 'ShiftGroupController@edit')->name('setting.shift-groups.edit');
+            Route::post('/update', 'ShiftGroupController@update')->name('setting.shift-groups.update');
+            Route::post('/delete', 'ShiftGroupController@delete')->name('setting.shift-groups.delete');
         });
 
         Route::prefix('users')->namespace('User')->middleware('Authority:17')->group(function () {

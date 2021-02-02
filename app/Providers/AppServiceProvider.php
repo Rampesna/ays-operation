@@ -35,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', AuthenticatedComposer::class);
         View::composer([
             'pages.employee.index',
+            'pages.employee.edit',
             'pages.analysis.*',
             'pages.report.employee.*',
             'pages.report.queue.*',
@@ -42,6 +43,7 @@ class AppServiceProvider extends ServiceProvider
             'pages.setting.queue.*',
             'pages.setting.competence.*',
             'pages.setting.priority.*',
+            'pages.setting.shift-group.*',
             'pages.setting.user.*',
             'pages.application.applications.shift.*',
         ], CompaniesComposer::class);

@@ -11,7 +11,7 @@ class CompetenceController extends Controller
     public function index()
     {
         return view('pages.setting.competence.index', [
-            'competences' => Competence::all()
+            'competences' => Competence::with('company')->get()
         ]);
     }
 

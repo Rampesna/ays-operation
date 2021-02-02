@@ -20,4 +20,9 @@ class Priority extends Model
     {
         return $this->belongsToMany(Employee::class)->withPivot('value');
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

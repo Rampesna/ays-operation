@@ -85,7 +85,7 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ number_format($queueAnalyses->sum('total_outgoing_in_of_company_call') * 100 / $queueAnalyses->sum('total_outgoing_call'), 2, '.', '') }}</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">{{ @number_format($queueAnalyses->sum('total_outgoing_in_of_company_call') * 100 / $queueAnalyses->sum('total_outgoing_call'), 2, '.', '') }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Giden Çağrı Şirket Yüzdesi</span>
                         </div>
                         <!--end::Body-->

@@ -25,7 +25,7 @@
     <link href="{{ asset('assets/css/themes/layout/brand/dark.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/themes/layout/aside/dark.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="{{ asset('assets/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/media/favicon/favicon.png') }}" />
 
     <style>
         .toast-top-center {

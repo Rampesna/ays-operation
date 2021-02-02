@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax\Application\Shift;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shift;
+use App\Models\ShiftGroup;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -52,5 +53,10 @@ class MainController extends Controller
     public function delete(Request $request)
     {
         Shift::find($request->shift_id)->delete();
+    }
+
+    public function getShiftGroupsByCompanyId(Request $request)
+    {
+        return ShiftGroup::where('company_id', $request->company_id)->get();
     }
 }

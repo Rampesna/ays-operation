@@ -25,7 +25,7 @@
     <link href="{{ asset('assets/css/themes/layout/brand/dark.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/themes/layout/aside/dark.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
-    <link rel="shortcut icon" href="{{ asset('assets/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('assets/media/favicon/favicon.png') }}" />
 
     <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
 
@@ -38,8 +38,13 @@
 
 </head>
 <!--end::Head-->
+@Authority(19)
+<div class="QuickActions isHidden cursor-pointer" data-toggle="modal" data-target="#ManagementModal">
+    <img class="QuickActions-button" src="{{ asset('assets/media/logos/quick-menu.png') }}" />
+</div>
+@endAuthority
 <!--begin::Body-->
-<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
+<body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading example">
 <div id="loader"></div>
 <div id="kt_header_mobile" class="header-mobile align-items-center header-mobile-fixed">
     <!--begin::Logo-->
@@ -77,6 +82,8 @@
     </div>
     <!--end::Toolbar-->
 </div>
+
+
 
 <!--end::Header Mobile-->
 <div class="d-flex flex-column flex-root">
@@ -118,7 +125,7 @@
 
 @stack('before-scripts')
 
-<script src="{{ asset('assets/plugins/global/plugins.bundle.js?v=7.0.3') }}"></script>
+<script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
 <script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.3') }}"></script>
 <script src="{{ asset('assets/js/scripts.bundle.js?v=7.0.3') }}"></script>
 <!--end::Global Theme Bundle-->
@@ -141,7 +148,7 @@
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 <script>
     @if(session()->has('type') && session()->has('data'))
-    toastr.{{ session()->get('type'.'') }}("{{ session()->get('data'.'') }}");
+    toastr.{{ session()->get('type') }}("{{ session()->get('data') }}");
     @endif
 </script>
 

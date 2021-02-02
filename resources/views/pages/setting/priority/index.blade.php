@@ -19,6 +19,7 @@
                             <table class="table table-hover" id="priorities">
                                 <thead>
                                 <tr>
+                                    <th>Firma</th>
                                     <th>Yetkinlik Adı</th>
                                     <th class="text-right"></th>
                                 </tr>
@@ -26,6 +27,7 @@
                                 <tbody>
                                 @foreach($priorities as $priority)
                                     <tr id="row-{{ $priority->id }}">
+                                        <td>{{ $priority->company->title }}</td>
                                         <td><a href="{{ route('employee.index.by-priority', $priority) }}">{{ $priority->name }}</a></td>
                                         <td class="text-right">
                                             <div class="dropdown dropdown-inline">

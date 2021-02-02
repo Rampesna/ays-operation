@@ -480,6 +480,7 @@
     </div>
     <!--end::Header-->
     <!--begin::Content-->
+
     <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
 
         <div class="container-fluid loaded" style="margin-top: -50px;">

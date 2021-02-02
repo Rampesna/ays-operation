@@ -30,7 +30,7 @@
                 <div class="card card-custom gutter-b">
                     <div class="card-body">
                         <!--begin::Details-->
-                        <div class="d-flex mb-9">
+                        <div class="d-flex">
                             <!--begin: Pic-->
                             <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                                 <div class="symbol symbol-50 symbol-lg-120">
@@ -46,29 +46,19 @@
                                 <!--begin::Title-->
                                 <div class="d-flex justify-content-between flex-wrap mt-1">
                                     <div class="d-flex mr-3">
-                                        <a @if(!is_null($employee->extension_number) && $employee->extension_number != '') href="{{ route('employee.show', $employee) }}" @endif class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
+                                        <a href="{{ route('employee.edit', $employee) }}" class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
                                         <a>
                                             <i class="flaticon2-correct text-success font-size-h5"></i>
                                         </a>
                                     </div>
-                                    <div class="dropdown dropdown-inline mt-n5 mr-n5">
-                                        <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="ki ki-more-hor"></i>
+                                    <div class="mt-n5 mr-n5">
+                                        <a @if(!is_null($employee->extension_number) && $employee->extension_number != '') href="{{ route('employee.report', $employee) }}" @endif class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                            <i class="fas fa-chart-line"></i>
                                         </a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                            <!--begin::Navigation-->
-                                            <ul class="navi navi-hover">
-                                                <li class="navi-item">
-                                                    <a href="#" class="navi-link">
-                                                            <span class="navi-icon">
-                                                                <i class="fa fa-eye"></i>
-                                                            </span>
-                                                        <span class="navi-text">Detaylı İncele</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <!--end::Navigation-->
-                                        </div>
+                                        <a href="#" data-id="{{ $employee->id }}" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon manage">
+                                            <i class="ki ki-solid-plus" id="{{ $employee->id }}_plus"></i>
+                                            <i class="ki ki-solid-minus" id="{{ $employee->id }}_minus"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <!--end::Title-->
@@ -94,94 +84,95 @@
                             </div>
                         </div>
 
-
-                        <div class="row">
-                            <div class="col-xl-6 mt-4">
-                                Kuyruklar
-                            </div>
-                            <div class="col-xl-6 mb-2 text-right">
-                                <button class="btn btn-sm btn-pill btn-secondary queue_edit_icon" type="button" id="{{ $employee->id }}_queue_edit_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-edit"></i>Düzenle</button>
-                                <button class="btn btn-sm btn-pill btn-success queue_save_icon" type="button" id="{{ $employee->id }}_queue_save_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-save"></i>Kaydet</button>
-                            </div>
-                        </div>
-                        <div class="separator separator-solid"></div>
-                        <div class="d-flex align-items-center flex-wrap mt-2">
-                            <div id="{{ $employee->id }}_queues_list_card" class="col-xl-12 mt-2">
-                                <div class="row" id="{{ $employee->id }}_queues_list_row">
-                                    @foreach($employee->queues as $queue)
-                                        <div class="btn btn-dark-75 btn-square btn-sm m-1" style="cursor:context-menu;">
-                                            {{ $queue->name }}
-                                        </div>
-                                    @endforeach
+                        <div id="{{ $employee->id }}_management" class="employeeManagement mt-9">
+                            <div class="row">
+                                <div class="col-xl-6 mt-4">
+                                    Kuyruklar
+                                </div>
+                                <div class="col-xl-6 mb-2 text-right">
+                                    <button class="btn btn-sm btn-pill btn-secondary queue_edit_icon" type="button" id="{{ $employee->id }}_queue_edit_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-edit"></i>Düzenle</button>
+                                    <button class="btn btn-sm btn-pill btn-success queue_save_icon" type="button" id="{{ $employee->id }}_queue_save_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-save"></i>Kaydet</button>
                                 </div>
                             </div>
-                            <div id="{{ $employee->id }}_queues_selection_card" class="col-xl-12 mt-2 queue_selection_card">
-                                <div class="form-group">
-                                    <label for="{{ $employee->id }}_queues_selection"></label>
-                                    <select id="{{ $employee->id }}_queues_selection" name="{{ $employee->id }}_queues[]" class="form-control selectpicker" multiple>
-                                        @foreach($queues as $queue)
-                                            <option @if($employee->queues()->where('queue_id', $queue->id)->exists()) selected @endif value="{{ $queue->id }}">{{ $queue->name }}</option>
+                            <div class="separator separator-solid"></div>
+                            <div class="d-flex align-items-center flex-wrap mt-2">
+                                <div id="{{ $employee->id }}_queues_list_card" class="col-xl-12 mt-2">
+                                    <div class="row" id="{{ $employee->id }}_queues_list_row">
+                                        @foreach($employee->queues as $queue)
+                                            <div class="btn btn-dark-75 btn-square btn-sm m-1" style="cursor:context-menu;">
+                                                {{ $queue->name }}
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+                                </div>
+                                <div id="{{ $employee->id }}_queues_selection_card" class="col-xl-12 mt-2 queue_selection_card">
+                                    <div class="form-group">
+                                        <label for="{{ $employee->id }}_queues_selection"></label>
+                                        <select id="{{ $employee->id }}_queues_selection" name="{{ $employee->id }}_queues[]" class="form-control selectpicker" multiple>
+                                            @foreach($queues as $queue)
+                                                <option @if($employee->queues()->where('queue_id', $queue->id)->exists()) selected @endif value="{{ $queue->id }}">{{ $queue->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <br>
-                        <br>
+                            <br>
+                            <br>
 
-                        <div class="row">
-                            <div class="col-xl-6 mt-4">
-                                Yetkinlikler
-                            </div>
-                            <div class="col-xl-6 mb-2 text-right">
-                                <button class="btn btn-sm btn-pill btn-secondary competence_edit_icon" type="button" id="{{ $employee->id }}_competence_edit_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-edit"></i>Düzenle</button>
-                                <button class="btn btn-sm btn-pill btn-success competence_save_icon" type="button" id="{{ $employee->id }}_competence_save_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-save"></i>Kaydet</button>
-                            </div>
-                        </div>
-                        <div class="separator separator-solid"></div>
-                        <div class="d-flex align-items-center flex-wrap mt-2">
-                            <div id="{{ $employee->id }}_competences_list_card" class="col-xl-12 mt-2">
-                                <div class="row" id="{{ $employee->id }}_competences_list_row">
-                                    @foreach($employee->competences as $competence)
-                                        <div class="btn btn-dark-75 btn-square btn-sm m-1" style="cursor:context-menu;">
-                                            {{ $competence->name }}
-                                        </div>
-                                    @endforeach
+                            <div class="row">
+                                <div class="col-xl-6 mt-4">
+                                    Yetkinlikler
+                                </div>
+                                <div class="col-xl-6 mb-2 text-right">
+                                    <button class="btn btn-sm btn-pill btn-secondary competence_edit_icon" type="button" id="{{ $employee->id }}_competence_edit_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-edit"></i>Düzenle</button>
+                                    <button class="btn btn-sm btn-pill btn-success competence_save_icon" type="button" id="{{ $employee->id }}_competence_save_icon" data-employee-id="{{ $employee->id }}"><i class="fa fa-save"></i>Kaydet</button>
                                 </div>
                             </div>
-                            <div id="{{ $employee->id }}_competences_selection_card" class="col-xl-12 mt-2 competence_selection_card">
-                                <div class="form-group">
-                                    <label for="{{ $employee->id }}_competences_selection"></label>
-                                    <select id="{{ $employee->id }}_competences_selection" name="{{ $employee->id }}_competences[]" class="form-control selectpicker" multiple>
-                                        @foreach($competences as $competence)
-                                            <option @if($employee->competences()->where('competence_id', $competence->id)->exists()) selected @endif value="{{ $competence->id }}">{{ $competence->name }}</option>
+                            <div class="separator separator-solid"></div>
+                            <div class="d-flex align-items-center flex-wrap mt-2">
+                                <div id="{{ $employee->id }}_competences_list_card" class="col-xl-12 mt-2">
+                                    <div class="row" id="{{ $employee->id }}_competences_list_row">
+                                        @foreach($employee->competences as $competence)
+                                            <div class="btn btn-dark-75 btn-square btn-sm m-1" style="cursor:context-menu;">
+                                                {{ $competence->name }}
+                                            </div>
                                         @endforeach
-                                    </select>
+                                    </div>
+                                </div>
+                                <div id="{{ $employee->id }}_competences_selection_card" class="col-xl-12 mt-2 competence_selection_card">
+                                    <div class="form-group">
+                                        <label for="{{ $employee->id }}_competences_selection"></label>
+                                        <select id="{{ $employee->id }}_competences_selection" name="{{ $employee->id }}_competences[]" class="form-control selectpicker" multiple>
+                                            @foreach($competences as $competence)
+                                                <option @if($employee->competences()->where('competence_id', $competence->id)->exists()) selected @endif value="{{ $competence->id }}">{{ $competence->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <br>
-                        <br>
+                            <br>
+                            <br>
 
-                        <div class="row">
-                            <div class="col-xl-6 mt-4">
-                                Öncelikler
+                            <div class="row">
+                                <div class="col-xl-6 mt-4">
+                                    Öncelikler
+                                </div>
+                                <div class="col-xl-6 mb-2 text-right">
+                                    <a href="{{ route('employee.priorities.edit', $employee) }}" class="btn btn-sm btn-pill btn-secondary" type="button"><i class="fa fa-edit"></i>Düzenle</a>
+                                </div>
                             </div>
-                            <div class="col-xl-6 mb-2 text-right">
-                                <a href="{{ route('employee.priorities.edit', $employee) }}" class="btn btn-sm btn-pill btn-secondary" type="button"><i class="fa fa-edit"></i>Düzenle</a>
-                            </div>
-                        </div>
-                        <div class="separator separator-solid"></div>
-                        <div class="d-flex align-items-center flex-wrap mt-2">
-                            <div id="{{ $employee->id }}_priorities_list_card" class="col-xl-12 mt-2">
-                                <div class="row" id="{{ $employee->id }}_priorities_list_row">
-                                    @foreach($employee->priorities as $priority)
-                                        <a href="{{ route('employee.index.by-priority', $priority) }}" class="btn btn-dark-75 btn-square btn-sm m-1">
-                                            {{ $priority->name }}
-                                        </a>
-                                    @endforeach
+                            <div class="separator separator-solid"></div>
+                            <div class="d-flex align-items-center flex-wrap mt-2">
+                                <div id="{{ $employee->id }}_priorities_list_card" class="col-xl-12 mt-2">
+                                    <div class="row" id="{{ $employee->id }}_priorities_list_row">
+                                        @foreach($employee->priorities as $priority)
+                                            <a href="{{ route('employee.index.by-priority', $priority) }}" class="btn btn-dark-75 btn-square btn-sm m-1">
+                                                {{ $priority->name }}
+                                            </a>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>

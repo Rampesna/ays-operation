@@ -19,6 +19,7 @@
                             <table class="table table-hover" id="competences">
                                 <thead>
                                 <tr>
+                                    <th>Firma</th>
                                     <th>Yetkinlik Adı</th>
                                     <th class="text-right"></th>
                                 </tr>
@@ -26,6 +27,7 @@
                                 <tbody>
                                 @foreach($competences as $competence)
                                     <tr id="row-{{ $competence->id }}">
+                                        <td>{{ $competence->company->title }}</td>
                                         <td>{{ $competence->name }}</td>
                                         <td class="text-right">
                                             <div class="dropdown dropdown-inline">

@@ -16,6 +16,11 @@ class Employee extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
     public function queues()
     {
         return $this->belongsToMany(Queue::class);
@@ -29,5 +34,10 @@ class Employee extends Model
     public function priorities()
     {
         return $this->belongsToMany(Priority::class)->withPivot('value')->orderByDesc('value');
+    }
+
+    public function shiftGroups()
+    {
+        return $this->belongsToMany(ShiftGroup::class);
     }
 }

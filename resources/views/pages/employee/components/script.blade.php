@@ -1,5 +1,3 @@
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-
 <script>
     $("#company_id").change(function () {
         window.location.replace("{{ route('employee.index') }}/" + $(this).val());
@@ -143,5 +141,17 @@
                 toastr.error('Senkronizasyon Yapılırken Bir Hata Oluştu!');
             }
         });
+    });
+</script>
+
+<script>
+    $(".employeeManagement").hide();
+    $(".ki-solid-minus").hide();
+
+    $(".manage").click(function () {
+        var id = $(this).data('id');
+        $("#" + id + "_management").toggle();
+        $("#" + id + "_plus").toggle();
+        $("#" + id + "_minus").toggle();
     });
 </script>

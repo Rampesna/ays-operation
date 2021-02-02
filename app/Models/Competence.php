@@ -20,4 +20,9 @@ class Competence extends Model
     {
         return $this->belongsToMany(Employee::class);
     }
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
 }

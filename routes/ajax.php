@@ -18,9 +18,15 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('employee')->namespace('Employee')->group(function () {
         Route::get('getEmployeesByCompanyId', 'MainController@getEmployeesByCompanyId')->name('ajax.employees-by-company-id');
+        Route::get('getAllEmployeesByCompanyId', 'MainController@getAllEmployeesByCompanyId')->name('ajax.all-employees-by-company-id');
 
         Route::post('updateQueues', 'MainController@updateQueues')->name('ajax.employee.updateQueues');
         Route::post('updateCompetences', 'MainController@updateCompetences')->name('ajax.employee.updateCompetences');
+    });
+
+    Route::prefix('general')->namespace('General')->group(function () {
+        Route::get('getMonthsByYears', 'MainController@getMonthsByYears')->name('ajax.general.getMonthsByYears');
+        Route::get('getDaysByMonths', 'MainController@getDaysByMonths')->name('ajax.general.getDaysByMonths');
     });
 
     Route::prefix('queue')->namespace('Queue')->group(function () {
@@ -33,6 +39,10 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('role')->namespace('Role')->group(function () {
         Route::post('permissionsUpdate', 'MainController@permissionsUpdate')->name('ajax.role.permissionsUpdate');
+    });
+
+    Route::prefix('shift-group')->namespace('ShiftGroup')->group(function () {
+        Route::any('employeesUpdate', 'MainController@employeesUpdate')->name('ajax.shift-group.employeesUpdate');
     });
 
     Route::prefix('monitoring')->namespace('Monitoring')->group(function () {
@@ -53,6 +63,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::get('edit', 'MainController@edit')->name('ajax.application.shift.edit');
             Route::post('update', 'MainController@update')->name('ajax.application.shift.update');
             Route::post('delete', 'MainController@delete')->name('ajax.application.shift.delete');
+            Route::get('getShiftGroupsByCompanyId', 'MainController@getShiftGroupsByCompanyId')->name('ajax.application.shift.getShiftGroupsByCompanyId');
         });
 
     });

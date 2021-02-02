@@ -5,6 +5,7 @@
 @section('content')
 
     <div class="row">
+        @Authority(29)
         <div class="col-xl-3">
             <!--begin::Stats Widget 16-->
             <a href="{{ route('applications.shift.index') }}" class="card card-custom card-stretch gutter-b">
@@ -27,6 +28,7 @@
             </a>
             <!--end::Stats Widget 16-->
         </div>
+        @endAuthority
     </div>
 
 @endsection

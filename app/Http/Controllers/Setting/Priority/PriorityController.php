@@ -12,7 +12,7 @@ class PriorityController extends Controller
     public function index()
     {
         return view('pages.setting.priority.index', [
-            'priorities' => Priority::all()
+            'priorities' => Priority::with('company')->get()
         ]);
     }
 
