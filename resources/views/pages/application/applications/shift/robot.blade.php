@@ -10,7 +10,7 @@
             <div class="col-xl-6 col-12">
                 <div class="row mt-1">
                     <div class="col-xl-12">
-                        <button type="submit" class="btn btn-success btn-block">Oluştur</button>
+                        <button type="submit" id="robot" class="btn btn-success btn-block">Oluştur</button>
                     </div>
                 </div>
                 <hr>
@@ -44,14 +44,14 @@
                                         <div class="form-group">
                                             <label for="add_type">Eklenme Türü</label>
                                             <select name="add_type" id="add_type" class="form-control selectpicker">
-                                                <option value="0">Her Güne Herkes Eklensin</option>
+                                                <option value="1">Her Güne Herkes Eklensin</option>
                                                 <option value="0">Her Güne Belirli Sayıda Kişi Eklensin</option>
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-xl-6">
+                                    <div class="col-xl-6" id="perDayColumn">
                                         <div class="form-group">
-                                            <label for="per_day">Her Güne Eklenecek Kişi</label>
+                                            <label for="per_day">Her Güne Eklenecek Kişi Sayısı</label>
                                             <input name="per_day" id="per_day" type="text" class="form-control onlyNumber">
                                         </div>
                                     </div>
@@ -70,7 +70,7 @@
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label for="years">İşlem Yapılacak Yılları Seçin</label>
-                                            <select class="form-control selectpicker" name="years[]" multiple id="years" data-live-search="true">
+                                            <select class="form-control selectpicker" name="years[]" id="years" data-live-search="true" multiple required>
                                                 @for($yearCounter = date('Y') ; $yearCounter <= 2030; $yearCounter++)
                                                     <option @if(date('Y') == $yearCounter) selected @endif value="{{ $yearCounter }}">{{ $yearCounter }}</option>
                                                 @endfor
@@ -80,7 +80,7 @@
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label for="months">İşlem Yapılacak Ayları Seçin</label>
-                                            <select class="form-control selectpicker" name="months[]" multiple id="months" data-live-search="true">
+                                            <select class="form-control selectpicker" name="months[]" id="months" data-live-search="true" multiple required>
 
                                             </select>
                                         </div>
@@ -88,7 +88,7 @@
                                     <div class="col-xl-6">
                                         <div class="form-group">
                                             <label for="days">İşlem Yapılacak Günleri Seçin</label>
-                                            <select required class="form-control selectpicker" name="days[]" multiple id="days" data-live-search="true">
+                                            <select class="form-control selectpicker" name="days[]" id="days" data-live-search="true" multiple required>
 
                                             </select>
                                         </div>
@@ -109,6 +109,44 @@
                                         <div class="form-group">
                                             <label>Açıklama</label>
                                             <textarea class="form-control" rows="4" name="description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5>Ek Ayarlar</h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-success">
+                                                    <input name="delete_if_exist" id="delete_if_exist" type="checkbox" checked="checked" /> Zaten Vardiya Mevcutsa, Var Olan Silinsin Yenisi Eklensin
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                            <span class="form-text text-muted"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        <div class="form-group">
+                                            <div class="checkbox-inline">
+                                                <label class="checkbox checkbox-success">
+                                                    <input name="after_sunday" id="after_sunday" type="checkbox" checked="checked" /> Pazar Vardiyası Olan Personele, Pazartesi Günü Vardiya Eklenmesin
+                                                    <span></span>
+                                                </label>
+                                            </div>
+                                            <span class="form-text text-muted"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -331,7 +369,6 @@
         </div>
     </form>
 
-
 @endsection
 
 @section('page-styles')
@@ -454,6 +491,13 @@
         var daysSelector = $("#days");
         var companyIdSelector = $("#company_id");
         var groupIdSelector = $("#group_id");
+        var add_type = $("#add_type");
+        var per_day = $("#per_day");
+        var perDayColumn = $("#perDayColumn");
+        var robotSelector = $("#robot");
+
+        perDayColumn.hide();
+        per_day.prop('required', false);
 
         function getDaysByMonths() {
             var months = monthsSelector.val();
@@ -519,15 +563,17 @@
                 },
                 success: function (groups) {
                     groupIdSelector.empty().selectpicker('refresh');
-                    groupIdSelector.append('<option value="0">Tüm Çalışanlara Eklensin</option>');
+                    var optgroup = '<option value="0">Tüm Çalışanlara Eklensin</option><optgroup label="Vardiya Grupları">';
                     $.each(groups, function (index) {
-                        groupIdSelector.append('<option value="' + groups[index].id + '">' + groups[index].name + '</option>');
+                        optgroup += "<option value='" + groups[index].id + "'>" + groups[index].name + "</option>"
                     });
+                    optgroup += "</optgroup>"
+                    groupIdSelector.append(optgroup);
                     groupIdSelector.selectpicker('refresh');
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Sistemsel Bir Hata Oluştu');
+                    toastr.error('Sistemsel Bir Hata Oluştu!');
                 }
             });
         }
@@ -550,6 +596,20 @@
         daysSelector.selectpicker({
             selectAllText: 'Your select-all-text',
             deselectAllText: 'Your deselect-all-text'
+        });
+
+        add_type.change(function () {
+            if ($(this).val() == 1) {
+                perDayColumn.hide();
+                per_day.prop('required', false);
+            } else {
+                perDayColumn.show();
+                per_day.prop('required', true);
+            }
+        });
+
+        robotSelector.click(function () {
+            $("#loader").fadeIn(250);
         });
 
     </script>

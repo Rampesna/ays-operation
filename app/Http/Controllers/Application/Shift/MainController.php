@@ -19,6 +19,7 @@ class MainController extends Controller
 
     public function robotStore(Request $request)
     {
-        return $request;
+        (new ShiftService)->robot($request);
+        return redirect()->route('applications.shift.index')->with(['type' => 'success', 'data' => 'Vardiyalar Başarıyla Oluşturuldu']);
     }
 }

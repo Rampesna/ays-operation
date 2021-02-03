@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static find(int $primaryKey)
+ * @method static where(string $string, $id)
  */
 class Shift extends Model
 {
