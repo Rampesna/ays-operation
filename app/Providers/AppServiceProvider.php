@@ -34,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', AuthenticatedComposer::class);
         View::composer([
+            'pages.dashboard.index',
             'pages.employee.index',
             'pages.employee.edit',
             'pages.analysis.*',

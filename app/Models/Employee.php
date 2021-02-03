@@ -40,4 +40,26 @@ class Employee extends Model
     {
         return $this->belongsToMany(ShiftGroup::class);
     }
+
+    public function getTodayTotalCallAttribute()
+    {
+        return CallAnalysis::
+        where('employee_id', $this->id)->
+        whereBetween('date', [
+            date('Y-m-d 00:00:00'),
+            date('Y-m-d 23:59:59')
+        ])->
+        sum('total_success_call');
+    }
+
+    public function getTodayTotalJobsAttribute()
+    {
+        return JobAnalysis::
+        selectRaw('sum(job_activity_count) as total_activity, sum(job_complete_count) as total_job')->
+        where('employee_id', $this->id)->
+        whereBetween('date', [
+            date('Y-m-d 00:00:00'),
+            date('Y-m-d 23:59:59')
+        ])->get();
+    }
 }

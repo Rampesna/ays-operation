@@ -23,6 +23,19 @@ class EmployeeService
         return Company::find($companyId)->employees()->with(['queues', 'competences'])->get();
     }
 
+    public function getEmployeesWithReportsByCompany($companyId)
+    {
+        if (is_null($companyId)) {
+            return abort(404);
+        }
+
+        if (!auth()->user()->companies()->where('company_id', $companyId)->exists()) {
+            return abort(403);
+        }
+
+        return Company::find($companyId)->employees()->get()->append(['today_total_call', 'today_total_jobs']);
+    }
+
     public function report(Employee $employee, $request = null)
     {
         $startDate = !is_null($request) ? $request->start_date : date('Y-m-01');

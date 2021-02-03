@@ -16,6 +16,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
+    Route::prefix('dashboard')->namespace('Dashboard')->group(function () {
+
+    });
+
     Route::prefix('employee')->namespace('Employee')->group(function () {
         Route::get('getEmployeesByCompanyId', 'MainController@getEmployeesByCompanyId')->name('ajax.employees-by-company-id');
         Route::get('getAllEmployeesByCompanyId', 'MainController@getAllEmployeesByCompanyId')->name('ajax.all-employees-by-company-id');
