@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Employee;
 
+use App\Http\Api\AyssoftIkApi;
 use App\Http\Api\AyssoftTakipApi;
 use App\Models\CallAnalysis;
 use App\Models\Company;
@@ -55,6 +56,8 @@ class EmployeeService
             ])->
             orderBy('date', 'asc')->
             get(),
+            'permit' => (new AyssoftIkApi)->GetEmployeePermit($employee->email, $startDate, $endDate)['content'],
+            'overtime' => (new AyssoftIkApi)->GetEmployeeOvertime($employee->email, $startDate, $endDate)['content'],
             'request' => $request
         ];
     }

@@ -271,7 +271,16 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">0</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block"
+                                  @if(strlen($permit) > 15)
+                                  style="font-size: 15px"
+                                  @elseif(strlen($permit) > 8)
+                                  style="font-size: 21px"
+                                  @else
+                                  style="font-size: 24px"
+                                  @endif
+                                 >
+                                {{ $permit == '' ? 0 : $permit }}</span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Kullanılan İzin</span>
                         </div>
                         <!--end::Body-->
@@ -294,7 +303,15 @@
                                 </svg>
                                 <!--end::Svg Icon-->
                             </span>
-                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block" style="font-size: 24px">0</span>
+                            <span class="card-title font-weight-bolder text-white mb-0 mt-6 d-block"
+                                  @if(strlen($overtime) > 12)
+                                  style="font-size: 20px"
+                                  @else
+                                  style="font-size: 24px"
+                                  @endif
+                            >
+                            {{ $overtime == '' ? 0 : $overtime }}
+                            </span>
                             <span class="font-weight-bold text-white"  style="font-size: 20px">Fazla Mesai</span>
                         </div>
                         <!--end::Body-->
@@ -484,7 +501,11 @@
                             type: 'line',
                             data: [
                                 @foreach($callAnalyses->groupBy('date')->all() as $date)
+                                @if(($date->sum('total_success_call') / $employeesCount) <= 0)
+                                0{{ !$loop->last ? ',' : null }}
+                                @else
                                 {{ number_format((!is_null($date->where('employee_id', $employee->id)->first()) ? $date->where('employee_id', $employee->id)->first()->total_success_call : 0) * 100 / ($date->sum('total_success_call') / $employeesCount), 2, '.', ',') }}{{ !$loop->last ? ',' : null }}
+                                @endif
                                 @endforeach
                             ]
                         }

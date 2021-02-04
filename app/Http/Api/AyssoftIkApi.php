@@ -48,4 +48,32 @@ class AyssoftIkApi extends ApiBase
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
     }
 
+    public function GetEmployeePermit($email, $startDate, $endDate)
+    {
+        $endpoint = "Permit/GetEmployeePermit";
+        $headers = [
+            '_token' => $this->_token,
+        ];
+        $params = [
+            'email' => $email,
+            'start_date' => $startDate,
+            'end_date' => $endDate
+        ];
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
+    public function GetEmployeeOvertime($email, $startDate, $endDate)
+    {
+        $endpoint = "Overtime/GetEmployeeOvertime";
+        $headers = [
+            '_token' => $this->_token,
+        ];
+        $params = [
+            'email' => $email,
+            'start_date' => $startDate,
+            'end_date' => $endDate
+        ];
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
 }

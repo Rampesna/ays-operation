@@ -72,8 +72,6 @@
                                     <select name="reports[]" id="reports" class="form-control selectpicker" multiple required>
                                         <option value="1">Çağrı Raporları Karşılaştırmaya Dahil Edilsin</option>
                                         <option value="2">İş Raporları Karşılaştırmaya Dahil Edilsin</option>
-                                        <option value="3">İzin Durumları Karşılaştırmaya Dahil Edilsin</option>
-                                        <option value="4">Fazla Mesailer Karşılaştırmaya Dahil Edilsin</option>
                                     </select>
                                 </div>
                             </div>
