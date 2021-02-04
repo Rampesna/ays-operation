@@ -23,7 +23,7 @@ class EmployeeService
         return Company::find($companyId)->employees()->with(['queues', 'competences'])->get();
     }
 
-    public function getEmployeesWithReportsByCompany($companyId)
+    public function getEmployeesWithReportsByCompany($companyId, $startDate, $endDate)
     {
         if (is_null($companyId)) {
             return abort(404);
@@ -33,7 +33,7 @@ class EmployeeService
             return abort(403);
         }
 
-        return Company::find($companyId)->employees()->get()->append(['today_total_call', 'today_total_jobs']);
+        return Company::find($companyId)->employees()->get();
     }
 
     public function report(Employee $employee, $request = null)

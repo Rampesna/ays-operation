@@ -4,16 +4,33 @@
 
 @section('content')
 
-    <div class="row mt-n10">
-        <div class="col-xl-4 text-right">
-            <label for="company_id"></label>
+    <form action="{{ route('index') }}" class="row mt-n5">
+        <div class="col-xl-3">
+            <label for="company_id">Firma</label>
             <select name="company_id" id="company_id" class="form-control selectpicker" data-live-search="true">
                 @foreach($companies as $company)
                     <option @if($company->id == $companyId) selected @endif value="{{ $company->id }}">{{ $company->title }}</option>
                 @endforeach
             </select>
         </div>
-    </div>
+        <div class="col-xl-2">
+            <div class="form-group">
+                <label for="start_date">Başlangıç Tarihi</label>
+                <input type="date" name="start_date" id="start_date" class="form-control" value="{{ $startDate }}">
+            </div>
+        </div>
+        <div class="col-xl-2">
+            <div class="form-group">
+                <label for="end_date">Bitiş Tarihi</label>
+                <input type="date" name="end_date" id="end_date" class="form-control" value="{{ $endDate }}">
+            </div>
+        </div>
+        <div class="col-xl-5">
+            <div class="form-group">
+                <button type="submit" class="btn btn-success btn-sm mt-8"><i class="fab fa-sistrix"></i></button>
+            </div>
+        </div>
+    </form>
     <hr>
     <div class="row">
         <div class="col-xl-2 col-12">
@@ -44,7 +61,7 @@
         <div class="col-xl-5 col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>Bugünkü Çağrı Durumu</h2>
+                    <h2>Çağrı Durumu</h2>
                 </div>
                 <div class="card-body">
                     <div class="row text-center">
@@ -87,7 +104,7 @@
         <div class="col-xl-5 col-12">
             <div class="card">
                 <div class="card-header text-center">
-                    <h2>Bugünkü İş Durumu</h2>
+                    <h2>İş Durumu</h2>
                 </div>
                 <div class="card-body">
                     <div class="row text-center">

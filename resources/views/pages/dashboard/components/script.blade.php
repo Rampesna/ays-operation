@@ -49,7 +49,7 @@
                         name: 'Çağrı Sayısı',
                         data: [
                             @foreach($employees as $employee)
-                            {{ $employee->today_total_call ?? 0 }}{{ !$loop->last ? ',' : null }}
+                            {{ $employee->total_success_call }}{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ]
                     },
@@ -57,7 +57,7 @@
                         name: 'Faaliyet Sayısı',
                         data: [
                             @foreach($employees as $employee)
-                            {{ $employee->today_total_jobs[0]['total_activity'] ?? 0 }}{{ !$loop->last ? ',' : null }}
+                            {{ $employee->job_activity_count }}{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ]
                     },
@@ -65,7 +65,7 @@
                         name: 'Tamamlanan İş',
                         data: [
                             @foreach($employees as $employee)
-                            {{ $employee->today_total_jobs[0]['total_job'] ?? 0 }}{{ !$loop->last ? ',' : null }}
+                            {{ $employee->job_complete_count }}{{ !$loop->last ? ',' : null }}
                             @endforeach
                         ]
                     }
@@ -134,12 +134,5 @@
 
     jQuery(document).ready(function () {
         KTApexChartsDemo.init();
-    });
-</script>
-
-<script>
-    var companyIdSelector = $("#company_id");
-    companyIdSelector.change(function () {
-        window.location.replace("{{ route('index') }}/" + $(this).val());
     });
 </script>
