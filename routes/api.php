@@ -17,3 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+Route::middleware(['TokenControl'])->namespace('App\\Http\\Controllers\\Api')->group(function () {
+
+    Route::prefix('Employee')->namespace('Employee')->group(function () {
+        Route::any('Report', 'EmployeeController@report');
+    });
+
+});

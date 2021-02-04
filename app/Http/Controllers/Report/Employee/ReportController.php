@@ -22,6 +22,8 @@ class ReportController extends Controller
 
     public function comparisonReportShow(Request $request)
     {
+        $comparisons = [];
+
         $callAnalyses = CallAnalysis::
         with('employee')->
         whereIn('employee_id', $request->employees)->
@@ -30,17 +32,6 @@ class ReportController extends Controller
             $request->end_date,
         ])->
         get();
-
-        $jobAnalyses = JobAnalysis::
-        with('employee')->
-        whereIn('employee_id', $request->employees)->
-        whereBetween('date', [
-            $request->start_date,
-            $request->end_date,
-        ])->
-        get();
-
-        $comparisons = [];
 
         foreach ($callAnalyses as $callAnalysis) {
 
@@ -54,6 +45,17 @@ class ReportController extends Controller
             ];
         }
 
+        $calls = collect($comparisons['call'])->unique('employee_id')->sortByDesc('total_success_call_rate');
+
+        $jobAnalyses = JobAnalysis::
+        with('employee')->
+        whereIn('employee_id', $request->employees)->
+        whereBetween('date', [
+            $request->start_date,
+            $request->end_date,
+        ])->
+        get();
+
         foreach ($jobAnalyses as $jobAnalysis) {
 
             $comparisons['job'][] = [
@@ -66,7 +68,6 @@ class ReportController extends Controller
             ];
         }
 
-        $calls = collect($comparisons['call'])->unique('employee_id')->sortByDesc('total_success_call_rate');
         $jobs = collect($comparisons['job'])->unique('employee_id')->sortByDesc('job_complete_rate');
 
         $comparisons = [];
