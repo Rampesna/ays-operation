@@ -74,4 +74,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Company::class);
     }
 
+    public function customPercents()
+    {
+        return $this->hasMany(CustomPercent::class);
+    }
+
 }
