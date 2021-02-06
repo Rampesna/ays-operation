@@ -56,4 +56,9 @@ class Employee extends Model
         return $this->hasMany(CustomPercent::class);
     }
 
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
 }

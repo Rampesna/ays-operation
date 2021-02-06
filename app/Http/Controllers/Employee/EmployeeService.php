@@ -6,6 +6,7 @@ use App\Http\Api\AyssoftIkApi;
 use App\Http\Api\AyssoftTakipApi;
 use App\Models\CallAnalysis;
 use App\Models\Company;
+use App\Models\CustomPercent;
 use App\Models\Employee;
 use App\Models\JobAnalysis;
 
@@ -58,6 +59,13 @@ class EmployeeService
             get(),
             'permit' => (new AyssoftIkApi)->GetEmployeePermit($employee->email, $startDate, $endDate)['content'],
             'overtime' => (new AyssoftIkApi)->GetEmployeeOvertime($employee->email, $startDate, $endDate)['content'],
+            'customPercents' => CustomPercent::
+            where('employee_id', $employee->id)->
+            where('year', date('Y', strtotime($startDate)))->
+            where('month', intval(date('m', strtotime($startDate))))->
+            get(),
+            'startDate' => $startDate,
+            'endDate' => $endDate,
             'request' => $request
         ];
     }
@@ -73,6 +81,9 @@ class EmployeeService
             },
             'jobAnalyses' => function ($jobAnalyses) use ($startDate, $endDate) {
                 $jobAnalyses->whereBetween('date', [$startDate, $endDate]);
+            },
+            'customPercents' => function ($customPercents) use ($startDate) {
+                $customPercents->where('year', date('Y', strtotime($startDate)))->where('month', intval(date('m', strtotime($startDate))));
             }
         ])->where('extension_number', '<>', null)->get();
     }

@@ -42,9 +42,15 @@
                                         <td>{{ $employee->jobAnalyses->sum('job_activity_count') . ' / ' . $companyJobAnalyses->sum('job_activity_count') }}</td>
                                         <td>{{ $employee->jobAnalyses->sum('job_complete_count') . ' / ' . $companyJobAnalyses->sum('job_complete_count') }}</td>
                                         <td>{{ $employee->jobAnalyses->sum('used_break_duration') . ' / ' . ($employee->jobAnalyses->count() * 100) }}</td>
-                                        <td>{{ number_format($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count()),2,'.',',') }}%</td>
-                                        <td>{{ number_format($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count()),2,'.',',') }}%</td>
-                                        <td>{{ number_format((($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count())) + ($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count()))) / 2,2,'.',',') }}%</td>
+                                        @if(count($employee->customPercents) > 0)
+                                            <td>{{ number_format((($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count())) + $employee->customPercents->sum('percent')) / ($employee->customPercents->count() + 1),2,'.',',') }}%</td>
+                                            <td>{{ number_format((($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count())) + $employee->customPercents->sum('percent')) / ($employee->customPercents->count() + 1),2,'.',',') }}%</td>
+                                            <td>{{ number_format((((($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count())) + $employee->customPercents->sum('percent')) / ($employee->customPercents->count() + 1)) + ((($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count())) + $employee->customPercents->sum('percent')) / ($employee->customPercents->count() + 1))) / 2,2,'.',',') }}%</td>
+                                        @else
+                                            <td>{{ number_format($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count()),2,'.',',') }}%</td>
+                                            <td>{{ number_format($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count()),2,'.',',') }}%</td>
+                                            <td>{{ number_format((($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count())) + ($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count()))) / 2,2,'.',',') }}%</td>
+                                        @endif
                                     </tr>
                                 @endforeach
                                 </tbody>
