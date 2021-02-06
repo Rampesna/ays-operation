@@ -62,6 +62,21 @@ class EmployeeService
         ];
     }
 
+    public function performance($request)
+    {
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        return Company::find($request->company_id)->employees()->with([
+            'callAnalyses' => function ($callAnalyses) use ($startDate, $endDate) {
+                $callAnalyses->whereBetween('date', [$startDate, $endDate]);
+            },
+            'jobAnalyses' => function ($callAnalyses) use ($startDate, $endDate) {
+                $callAnalyses->whereBetween('date', [$startDate, $endDate]);
+            }
+        ])->get();
+    }
+
     public function sync($request)
     {
         $api = new AyssoftTakipApi();

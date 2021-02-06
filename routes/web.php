@@ -70,6 +70,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
 
         Route::get('/employees', 'Employee\\ReportController@employees')->name('report.employees')->middleware('Authority:11');
         Route::post('/employees/by-company', 'Employee\\ReportController@employeesByCompany')->name('report.employees.by-company')->middleware('Authority:11');
+
+        Route::get('performance','Performance\\ReportController@create')->name('report.performance.create');
+        Route::post('performance/report','Performance\\ReportController@report')->name('report.performance.report');
+
     });
 
     Route::prefix('tv')->namespace('Monitoring')->middleware('Authority:21')->group(function () {

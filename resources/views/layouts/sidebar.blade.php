@@ -199,6 +199,17 @@
                                 </a>
                             </li>
                             @endAuthority
+
+                            @Authority(11)
+                            <li class="menu-item {{ Request::segment(1) === 'report' && Request::segment(2) === 'performance-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('report.performance.create') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Performans Raporu</span>
+                                </a>
+                            </li>
+                            @endAuthority
                         </ul>
                     </div>
                 </li>
