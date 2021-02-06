@@ -48,7 +48,7 @@ class Employee extends Model
 
     public function jobAnalyses()
     {
-        return $this->hasMany(CallAnalysis::class);
+        return $this->hasMany(JobAnalysis::class);
     }
 
     public function customPercents()

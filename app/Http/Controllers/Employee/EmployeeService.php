@@ -71,10 +71,10 @@ class EmployeeService
             'callAnalyses' => function ($callAnalyses) use ($startDate, $endDate) {
                 $callAnalyses->whereBetween('date', [$startDate, $endDate]);
             },
-            'jobAnalyses' => function ($callAnalyses) use ($startDate, $endDate) {
-                $callAnalyses->whereBetween('date', [$startDate, $endDate]);
+            'jobAnalyses' => function ($jobAnalyses) use ($startDate, $endDate) {
+                $jobAnalyses->whereBetween('date', [$startDate, $endDate]);
             }
-        ])->get();
+        ])->where('extension_number', '<>', null)->get();
     }
 
     public function sync($request)

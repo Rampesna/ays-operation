@@ -129,6 +129,8 @@
             </form>
         </div>
     </div>
+
+    @Authority(31)
     <hr>
     <div class="row">
         <div class="col-xl-12">
@@ -148,8 +150,44 @@
                                 </thead>
                                 <tbody>
                                 @foreach($employee->customPercents as $percent)
-                                    <tr>
-                                        <td></td>
+                                    <tr id="row-{{ $percent->id }}">
+                                        <td>
+                                            @if($percent->user_id == auth()->user()->getId())
+                                                <div class="dropdown dropdown-inline">
+                                                    <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <i class="ki ki-bold-more-ver"></i>
+                                                    </a>
+                                                    <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
+                                                        <ul class="navi navi-hover">
+                                                            <li class="navi-item">
+                                                                <a href="#"
+                                                                   data-id="{{ $percent->id }}"
+                                                                   data-toggle="modal"
+                                                                   data-target="#EditModal"
+                                                                   class="navi-link edit">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </span>
+                                                                    <span class="navi-text">Düzenle</span>
+                                                                </a>
+                                                            </li>
+                                                            <li class="navi-item">
+                                                                <a href="#"
+                                                                   data-id="{{ $percent->id }}"
+                                                                   data-toggle="modal"
+                                                                   data-target="#DeleteModal"
+                                                                   class="navi-link delete">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fa fa-trash-alt text-danger"></i>
+                                                                    </span>
+                                                                    <span class="navi-text text-danger">Sil</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </td>
                                         <td>{{ ucwords($percent->user->name) }}</td>
                                         <td>{{ strftime("%B %Y", strtotime($percent->year . '-' . $percent->month)) }}</td>
                                         <td>{{ $percent->percent }} %</td>
@@ -167,6 +205,7 @@
     @include('pages.employee.modals.create-custom-percent')
     @include('pages.employee.modals.edit-custom-percent')
     @include('pages.employee.modals.delete-custom-percent')
+    @endAuthority
 
 @endsection
 
@@ -269,6 +308,126 @@
         $("#delete_profile_image").click(function () {
             $('#profile_image').attr('src', '{{ asset('assets/media/logos/avatar.jpg') }}');
             $("#is_delete_image").val(1);
+        });
+
+        $("#custom_percent_create").click(function () {
+            var user_id = '{{ auth()->user()->getId() }}';
+            var employee_id = '{{ $employee->id }}';
+            var year = $("#year_create").val();
+            var month = $("#month_create").val();
+            var percent = $("#percent_create").val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.employee.createCustomPercent') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    user_id: user_id,
+                    employee_id: employee_id,
+                    year: year,
+                    month: month,
+                    percent: percent
+                },
+                success: function (response) {
+                    if (response.status === '200') {
+                        toastr.success('Yüzde Dilimi Başarıyla Oluşturuldu');
+                        location.reload();
+                    } else if (response.status === '400') {
+                        toastr.warning('Bu Tarih İçin Zaten Sizin Tarafınızdan Oluşturulmuş Bir Yüzde Mevcut!');
+                    } else {
+                        console.log(response);
+                        toastr.error('Sistemsel Bir Sorun Oluştu!');
+                    }
+                },
+                error: function (error) {
+                    $("#loader").fadeOut(250);
+                    console.log(error);
+                    toastr.error('Sistemsel Bir Hata Oluştu!');
+                }
+            });
+        });
+
+        $(".edit").click(function () {
+            var custom_percent_id = $(this).data('id');
+            $("#updated_custom_percent_id").val(custom_percent_id);
+
+            $.ajax({
+                type: 'get',
+                url: '{{ route('ajax.employee.editCustomPercent') }}',
+                data: {
+                    custom_percent_id: custom_percent_id
+                },
+                success: function (customPercent) {
+                    $("#percent_edit").val(customPercent.percent);
+                    $("#year_edit").val(customPercent.year);
+                    $("#month_edit").val(customPercent.month);
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Sistemsel Bir Hata Oluştu');
+                }
+            });
+        });
+
+        $("#custom_percent_update").click(function () {
+            var custom_percent_id = $("#updated_custom_percent_id").val();
+            var year = $("#year_edit").val();
+            var month = $("#month_edit").val();
+            var percent = $("#percent_edit").val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.employee.updateCustomPercent') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    custom_percent_id: custom_percent_id,
+                    year: year,
+                    month: month,
+                    percent: percent
+                },
+                success: function (response) {
+                    if (response.status === '200') {
+                        toastr.success('Yüzde Dilimi Başarıyla Güncellendi');
+                        location.reload();
+                    } else if (response.status === '400') {
+                        toastr.warning('Bu Tarih İçin Zaten Sizin Tarafınızdan Oluşturulmuş Başka Bir Yüzde Mevcut!');
+                    } else {
+                        console.log(response);
+                        toastr.error('Sistemsel Bir Sorun Oluştu!');
+                    }
+                },
+                error: function (error) {
+                    $("#loader").fadeOut(250);
+                    console.log(error);
+                    toastr.error('Sistemsel Bir Hata Oluştu!');
+                }
+            });
+        });
+
+        $(".delete").click(function () {
+            var custom_percent_id = $(this).data('id');
+            $("#deleted_custom_percent_id").val(custom_percent_id);
+        });
+
+        $("#custom_percent_delete").click(function () {
+            var custom_percent_id = $("#deleted_custom_percent_id").val();
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.employee.deleteCustomPercent') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    custom_percent_id: custom_percent_id
+                },
+                success: function () {
+                    table.row($("#row-" + custom_percent_id).closest('tr')).remove().draw();
+                    toastr.success('Yüzde Dilimi Başarıyla Silindi');
+                    $("#DeleteModal").modal('hide');
+                },
+                error: function (error) {
+                    console.log(error);
+                    toastr.error('Sistemsel Bir Hata Oluştu');
+                }
+            });
         });
     </script>
 @stop

@@ -26,6 +26,11 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
         Route::post('updateQueues', 'MainController@updateQueues')->name('ajax.employee.updateQueues');
         Route::post('updateCompetences', 'MainController@updateCompetences')->name('ajax.employee.updateCompetences');
+
+        Route::post('createCustomPercent', 'MainController@createCustomPercent')->name('ajax.employee.createCustomPercent');
+        Route::get('editCustomPercent', 'MainController@editCustomPercent')->name('ajax.employee.editCustomPercent');
+        Route::post('updateCustomPercent', 'MainController@updateCustomPercent')->name('ajax.employee.updateCustomPercent');
+        Route::post('deleteCustomPercent', 'MainController@deleteCustomPercent')->name('ajax.employee.deleteCustomPercent');
     });
 
     Route::prefix('general')->namespace('General')->group(function () {

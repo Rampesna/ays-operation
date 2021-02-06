@@ -40,4 +40,14 @@ class Company extends Model
     {
         return $this->hasMany(Shift::class);
     }
+
+    public function callAnalyses()
+    {
+        return $this->hasMany(CallAnalysis::class);
+    }
+
+    public function jobAnalyses()
+    {
+        return $this->hasMany(JobAnalysis::class);
+    }
 }

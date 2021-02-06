@@ -32,18 +32,19 @@
                                 @foreach($employees as $employee)
                                     <tr>
                                         <td>{{ ucwords($employee->name) }}</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $employee->callAnalyses->sum('total_success_call') }}</td>
+                                        <td>{{ $employee->callAnalyses->sum('incoming_success_call') }}</td>
+                                        <td>{{ $employee->callAnalyses->sum('outgoing_success_call') }}</td>
+                                        <td>{{ $employee->callAnalyses->sum('total_error_call') }}</td>
+                                        @php(@$seconds = array_sum($employee->callAnalyses->map(function ($analysis) { return \Illuminate\Support\Carbon::createFromDate('2021-01-01 ' . $analysis->total_call_time)->diffInSeconds('2021-01-01 00:00:00'); })->all()))
+                                        <td>{{ @(sprintf('%02d:%02d:%02d', ($seconds / 3600), ($seconds / 60 % 60), $seconds % 60)) }}</td>
+                                        <td>{{ $employee->callAnalyses->avg('operational_productivity_rate') ?? 0 }}%</td>
+                                        <td>{{ $employee->jobAnalyses->sum('job_activity_count') . ' / ' . $companyJobAnalyses->sum('job_activity_count') }}</td>
+                                        <td>{{ $employee->jobAnalyses->sum('job_complete_count') . ' / ' . $companyJobAnalyses->sum('job_complete_count') }}</td>
+                                        <td>{{ $employee->jobAnalyses->sum('used_break_duration') . ' / ' . ($employee->jobAnalyses->count() * 100) }}</td>
+                                        <td>{{ number_format($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count()),2,'.',',') }}%</td>
+                                        <td>{{ number_format($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count()),2,'.',',') }}%</td>
+                                        <td>{{ number_format((($employee->jobAnalyses->sum('job_activity_count') * 100 / ($companyJobAnalyses->sum('job_activity_count') / $employees->count())) + ($employee->jobAnalyses->sum('job_complete_count') * 100 / ($companyJobAnalyses->sum('job_complete_count') / $employees->count()))) / 2,2,'.',',') }}%</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
