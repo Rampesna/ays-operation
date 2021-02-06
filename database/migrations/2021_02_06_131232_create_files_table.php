@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotesTable extends Migration
+class CreateFilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,15 @@ class CreateNotesTable extends Migration
      */
     public function up()
     {
-        Schema::create('notes', function (Blueprint $table) {
+        Schema::create('files', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('creator_id')->unsigned();
-            $table->string('creator_type');
+            $table->bigInteger('uploader_id')->unsigned();
+            $table->string('uploader_type');
             $table->bigInteger('relation_id')->unsigned();
             $table->string('relation_type');
-            $table->text('note');
+            $table->string('type');
+            $table->string('name');
+            $table->string('path');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +34,6 @@ class CreateNotesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notes');
+        Schema::dropIfExists('files');
     }
 }

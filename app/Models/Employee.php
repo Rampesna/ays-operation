@@ -61,4 +61,14 @@ class Employee extends Model
         return $this->hasMany(Task::class);
     }
 
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'creator');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'uploader');
+    }
+
 }

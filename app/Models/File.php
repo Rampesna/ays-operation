@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Note extends Model
+class File extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -15,7 +15,7 @@ class Note extends Model
         return $this->morphTo();
     }
 
-    public function creator()
+    public function uploader()
     {
         return $this->morphTo();
     }

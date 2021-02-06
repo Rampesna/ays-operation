@@ -79,4 +79,14 @@ class User extends Authenticatable
         return $this->hasMany(CustomPercent::class);
     }
 
+    public function notes()
+    {
+        return $this->morphMany(Note::class, 'creator');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'uploader');
+    }
+
 }

@@ -24,4 +24,9 @@ class Project extends Model
     {
         return $this->morphMany(Comment::class, 'relation');
     }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'relation');
+    }
 }
