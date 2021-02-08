@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method static find($primaryKey)
+ */
 class Project extends Model
 {
     use HasFactory, SoftDeletes;
@@ -15,9 +18,19 @@ class Project extends Model
         return $this->hasMany(Task::class);
     }
 
-    public function notes()
+    public function timesheets()
     {
-        return $this->morphMany(Note::class, 'relation');
+        return $this->hasManyThrough(Timesheet::class,Task::class);
+    }
+
+    public function milestones()
+    {
+        return $this->hasMany(Milestone::class);
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'relation');
     }
 
     public function comments()
@@ -25,8 +38,8 @@ class Project extends Model
         return $this->morphMany(Comment::class, 'relation');
     }
 
-    public function files()
+    public function notes()
     {
-        return $this->morphMany(File::class, 'relation');
+        return $this->morphMany(Note::class, 'relation');
     }
 }

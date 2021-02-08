@@ -25,6 +25,11 @@ class Task extends Model
         return $this->hasMany(ChecklistItem::class);
     }
 
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
+    }
+
     public function notes()
     {
         return $this->morphMany(Note::class, 'relation');

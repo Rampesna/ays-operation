@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ajax\Santral;
 use App\Http\Api\AyssoftTakipApi;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Project;
 use App\Models\Queue;
 use App\Models\ShiftGroup;
 use Illuminate\Http\Request;
@@ -14,7 +15,27 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return ShiftGroup::find(1)->employees;
+        return Project::with([
+            'tasks' => function ($tasks) {
+                $tasks->with([
+                    'timesheets'
+                ]);
+            },
+            'timesheets' => function ($timesheets) {
+                $timesheets->with([
+                    'employee',
+                    'task'
+                ]);
+            },
+            'milestones' => function ($milestones) {
+                $milestones->with([
+                    'tasks'
+                ]);
+            },
+            'files',
+            'comments',
+            'notes'
+        ])->find(1);
     }
 
     function get_server_load()

@@ -10,5 +10,13 @@ class Timesheet extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
 
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

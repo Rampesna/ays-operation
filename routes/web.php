@@ -13,22 +13,6 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
     });
     Route::get('/index/{company_id?}', 'HomeController@index')->name('index')->middleware('Authority:1');
 
-    Route::prefix('applications')->namespace('Application')->group(function () {
-        Route::get('/', function () {
-            return redirect()->route('applications.index');
-        });
-        Route::get('/index', 'MainController@index')->name('applications.index');
-
-        Route::prefix('shift')->namespace('Shift')->group(function () {
-            Route::get('/', function () {
-                return redirect()->route('applications.shift.index');
-            });
-            Route::get('/index', 'MainController@index')->name('applications.shift.index')->middleware('Authority:29');
-            Route::get('/robot', 'MainController@robot')->name('applications.shift.robot')->middleware('Authority:30');
-            Route::post('/robot/store', 'MainController@robotStore')->name('applications.shift.robot.store')->middleware('Authority:30');
-        });
-    });
-
     Route::prefix('employee')->namespace('Employee')->group(function () {
         Route::get('/', function () {
             return redirect()->route('employee.index');
@@ -71,8 +55,8 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         Route::get('/employees', 'Employee\\ReportController@employees')->name('report.employees')->middleware('Authority:11');
         Route::post('/employees/by-company', 'Employee\\ReportController@employeesByCompany')->name('report.employees.by-company')->middleware('Authority:11');
 
-        Route::get('performance','Performance\\ReportController@create')->name('report.performance.create');
-        Route::post('performance/report','Performance\\ReportController@report')->name('report.performance.report');
+        Route::get('performance', 'Performance\\ReportController@create')->name('report.performance.create');
+        Route::post('performance/report', 'Performance\\ReportController@report')->name('report.performance.report');
 
     });
 
@@ -91,6 +75,16 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::get('section/3', 'TelevisionController@Section3')->name('tv.section.3');
             Route::get('section/4', 'TelevisionController@Section4')->name('tv.section.4');
             Route::get('section/5', 'TelevisionController@Section5')->name('tv.section.5');
+        });
+    });
+
+    Route::prefix('project-management')->namespace('Project')->group(function () {
+        Route::prefix('project')->namespace('Project')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('');
+            });
+            Route::get('index','ProjectController@index')->name('project.project.index');
+            Route::get('{project}/{tab}','ProjectController@show')->name('project.project.show');
         });
     });
 
@@ -263,6 +257,22 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::post('/delete', 'RoleController@delete')->name('setting.roles.delete');
         });
 
+    });
+
+    Route::prefix('applications')->namespace('Application')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('applications.index');
+        });
+        Route::get('/index', 'MainController@index')->name('applications.index');
+
+        Route::prefix('shift')->namespace('Shift')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('applications.shift.index');
+            });
+            Route::get('/index', 'MainController@index')->name('applications.shift.index')->middleware('Authority:29');
+            Route::get('/robot', 'MainController@robot')->name('applications.shift.robot')->middleware('Authority:30');
+            Route::post('/robot/store', 'MainController@robotStore')->name('applications.shift.robot.store')->middleware('Authority:30');
+        });
     });
 
 });

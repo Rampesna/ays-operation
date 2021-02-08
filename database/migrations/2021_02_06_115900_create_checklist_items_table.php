@@ -17,8 +17,8 @@ class CreateChecklistItemsTable extends Migration
             $table->id();
             $table->bigInteger('task_id')->unsigned();
             $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('checked_by')->unsigned();
-            $table->string('name')->unsigned();
+            $table->bigInteger('checked_by')->unsigned()->nullable();
+            $table->string('name');
             $table->boolean('checked')->default(0);
             $table->timestamps();
             $table->softDeletes();

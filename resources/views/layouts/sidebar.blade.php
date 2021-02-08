@@ -259,7 +259,7 @@
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
 
-                <li class="menu-item {{ Request::segment(1) === 'software' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(1) === 'software' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -276,7 +276,7 @@
                     <div class="menu-submenu">
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
-                            <li class="menu-item {{ Request::segment(1) === 'software' && Request::segment(2) === 'employees' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                            <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(2) === 'software' && Request::segment(2) === 'employees' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="#" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
@@ -284,7 +284,7 @@
                                     <span class="menu-text">Personeller</span>
                                 </a>
                             </li>
-                            <li class="menu-item {{ Request::segment(1) === 'software' && Request::segment(2) === 'missions' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                            <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(2) === 'software' && Request::segment(2) === 'tasks' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="#" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
@@ -295,7 +295,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="menu-item {{ Request::segment(1) === 'integration' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+                <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(2) === 'integration' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -314,7 +314,7 @@
                     <div class="menu-submenu">
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
-                            <li class="menu-item {{ Request::segment(1) === 'integration' && Request::segment(2) === 'employees' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                            <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(2) === 'integration' && Request::segment(3) === 'employees' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="#" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
@@ -322,7 +322,7 @@
                                     <span class="menu-text">Personeller</span>
                                 </a>
                             </li>
-                            <li class="menu-item {{ Request::segment(1) === 'integration' && Request::segment(2) === 'missions' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                            <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(2) === 'integration' && Request::segment(3) === 'tasks' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="#" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
                                         <span></span>
@@ -333,9 +333,9 @@
                         </ul>
                     </div>
                 </li>
-                <li class="menu-item {{ Request::segment(1) === 'project' ? 'menu-item-active' : null }}"
+                <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(2) === 'project' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
-                    <a href="#" class="menu-link">
+                    <a href="{{ route('project.project.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

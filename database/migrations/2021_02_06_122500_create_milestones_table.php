@@ -19,8 +19,8 @@ class CreateMilestonesTable extends Migration
             $table->bigInteger('created_by')->unsigned();
             $table->tinyInteger('order')->unsigned();
             $table->string('name');
-            $table->text('description');
-            $table->string('color');
+            $table->text('description')->nullable();
+            $table->string('color')->default('#eeeeee');
             $table->timestamps();
             $table->softDeletes();
         });
