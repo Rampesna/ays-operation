@@ -26,3 +26,7 @@ Route::middleware(['TokenControl'])->namespace('App\\Http\\Controllers\\Api')->g
     });
 
 });
+
+Route::prefix('organization')->namespace('App\\Http\\Controllers\\Api\\Organization')->group(function () {
+    Route::post('login','Auth\LoginController@login');
+});

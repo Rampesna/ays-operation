@@ -4,28 +4,18 @@
 
 @section('content')
 
-    <form class="row mt-n10">
-        <div class="col-xl-4">
-            <div class="form-group">
-                <label for="company_id"></label>
-                <select name="company_id" id="company_id" class="form-control selectpicker">
-                    @foreach($companies as $company)
-                        <option value="{{ $company->id }}">{{ $company->title }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="col-xl-2 mt-7">
-            <div class="form-group">
-                <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-search"></i></button>
-            </div>
-        </div>
-    </form>
-    <hr class="mt-n4">
-    <div class="row">
+    @include('pages.project.project.index.components.subheader')
+
+    <style>
+        .xxx{
+            color: darkslateblue;
+        }
+    </style>
+
+    <div class="row mt-15">
         <div class="col-xl-12">
             <div class="row">
-                @for($counter = 1 ; $counter <= 5 ; $counter++)
+                @foreach($projects as $project)
                     <div class="col-xl-4">
                         <!--begin::Card-->
                         <div class="card card-custom gutter-b card-stretch">
@@ -35,7 +25,9 @@
                                 <div class="d-flex align-items-center">
 
                                     <div class="d-flex flex-column mr-auto">
-                                        <a href="{{ route('project.project.show', ['project' => $counter,'tab' => 'overview']) }}" class="card-title text-hover-primary font-weight-bolder font-size-h5 text-dark mb-1">Nexa - Next generation SAAS</a>
+                                        <a href="{{ route('project.project.show', ['project' => $project,'tab' => 'overview']) }}" class="card-title text-hover-primary font-weight-bolder font-size-h5 text-dark mb-1">
+                                            {{ $project->name }}
+                                        </a>
                                     </div>
 
                                     <div class="card-toolbar mb-auto">
@@ -47,7 +39,7 @@
                                                 <!--begin::Navigation-->
                                                 <ul class="navi navi-hover">
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'overview']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'overview']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-th"></i>
                                                             </span>
@@ -55,7 +47,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'tasks']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-clipboard-list"></i>
                                                             </span>
@@ -63,7 +55,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'timesheets']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'timesheets']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-hourglass-half"></i>
                                                             </span>
@@ -71,7 +63,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'milestones']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'milestones']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-flag"></i>
                                                             </span>
@@ -79,7 +71,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'files']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'files']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-folder-open"></i>
                                                             </span>
@@ -87,7 +79,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'comments']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'comments']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-comments"></i>
                                                             </span>
@@ -95,7 +87,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'tickets']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tickets']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="far fa-life-ring"></i>
                                                             </span>
@@ -103,7 +95,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'notes']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'notes']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-sticky-note"></i>
                                                             </span>
@@ -122,11 +114,11 @@
                                 <div class="d-flex flex-wrap mt-14">
                                     <div class="mr-12 d-flex flex-column mb-7">
                                         <span class="d-block font-weight-bold mb-4">Başlangıç Tarihi</span>
-                                        <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text">15 Ocak, 2021</span>
+                                        <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text">{{ strftime("%d %B, %Y", strtotime($project->start_date)) }}</span>
                                     </div>
                                     <div class="mr-12 d-flex flex-column mb-7">
                                         <span class="d-block font-weight-bold mb-4">Bitiş Tarihi</span>
-                                        <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">15 Mart, 2021</span>
+                                        <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">{{ strftime("%d %B, %Y", strtotime($project->end_date)) }}</span>
                                     </div>
                                     <!--begin::Progress-->
                                     <div class="flex-row-fluid mb-7">
@@ -142,7 +134,9 @@
                                 </div>
                                 <!--end::Content-->
                                 <!--begin::Text-->
-                                <p class="mb-7 mt-3">I distinguish three main text objectives.First, your objective could be merely to inform people.A second be to persuade people.</p>
+                                <p class="mb-7 mt-3">
+                                    {!! $project->description !!}
+                                </p>
                                 <!--end::Text-->
                                 <!--begin::Blog-->
                                 <div class="d-flex flex-wrap">
@@ -150,24 +144,18 @@
                                     <div class="d-flex flex-column flex-lg-fill float-left mb-7">
                                         <span class="font-weight-bolder mb-4">Personeller</span>
                                         <div class="symbol-group symbol-hover">
-                                            <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Mark Stone">
-                                                <img alt="Pic" src="{{ asset('assets/media/users/300_25.jpg') }}" />
-                                            </div>
-                                            <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Charlie Stone">
-                                                <img alt="Pic" src="{{ asset('assets/media/users/300_19.jpg') }}" />
-                                            </div>
-                                            <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Luca Doncic">
-                                                <img alt="Pic" src="{{ asset('assets/media/users/300_22.jpg') }}" />
-                                            </div>
-                                            <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Nick Mana">
-                                                <img alt="Pic" src="{{ asset('assets/media/users/300_23.jpg') }}" />
-                                            </div>
-                                            <div class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Teresa Fox">
-                                                <img alt="Pic" src="{{ asset('assets/media/users/300_18.jpg') }}" />
-                                            </div>
-                                            <div class="symbol symbol-30 symbol-circle symbol-light">
-                                                <span class="symbol-label font-weight-bold">+</span>
-                                            </div>
+                                            @foreach($project->employees as $employee)
+                                                @if($loop->iteration <= 5)
+                                                    <a href="{{ route('employee.edit', $employee) }}" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{ $employee->name }}">
+                                                        <img alt="Pic" src="{{ $employee->image ? asset($employee->image) : asset('assets/media/logos/avatar.jpg') }}" />
+                                                    </a>
+                                                @else
+                                                    <div class="symbol symbol-30 symbol-circle symbol-light">
+                                                        <span class="symbol-label font-weight-bold">+{{ $project->employees->count() - 5 }}</span>
+                                                    </div>
+                                                    @break
+                                                @endif
+                                            @endforeach
                                         </div>
                                     </div>
                                     <!--end::Item-->
@@ -190,7 +178,7 @@
                                             </svg>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'tasks']) }}" class="font-weight-bolder text-primary ml-2">72 Görev</a>
+                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="font-weight-bolder text-primary ml-2">72 Görev</a>
                                     </div>
                                     <div class="d-flex align-items-center mr-7">
                                         <span class="svg-icon svg-icon-gray-500">
@@ -204,7 +192,7 @@
                                             </svg>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <a href="{{ route('project.project.show', ['project' => $counter, 'tab' => 'comments']) }}" class="font-weight-bolder text-primary ml-2">648 Yorum</a>
+                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'comments']) }}" class="font-weight-bolder text-primary ml-2">648 Yorum</a>
                                     </div>
                                 </div>
                             </div>
@@ -212,7 +200,7 @@
                         </div>
                         <!--end::Card-->
                     </div>
-                @endfor
+                @endforeach
             </div>
         </div>
     </div>

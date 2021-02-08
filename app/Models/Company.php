@@ -50,4 +50,9 @@ class Company extends Model
     {
         return $this->hasMany(JobAnalysis::class);
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
 }

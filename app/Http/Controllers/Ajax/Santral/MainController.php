@@ -10,32 +10,35 @@ use App\Models\Queue;
 use App\Models\ShiftGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return Project::with([
-            'tasks' => function ($tasks) {
-                $tasks->with([
-                    'timesheets'
-                ]);
-            },
-            'timesheets' => function ($timesheets) {
-                $timesheets->with([
-                    'employee',
-                    'task'
-                ]);
-            },
-            'milestones' => function ($milestones) {
-                $milestones->with([
-                    'tasks'
-                ]);
-            },
-            'files',
-            'comments',
-            'notes'
-        ])->find(1);
+
+//        return Project::with([
+//            'employees',
+//            'tasks' => function ($tasks) {
+//                $tasks->with([
+//                    'timesheets'
+//                ]);
+//            },
+//            'timesheets' => function ($timesheets) {
+//                $timesheets->with([
+//                    'employee',
+//                    'task'
+//                ]);
+//            },
+//            'milestones' => function ($milestones) {
+//                $milestones->with([
+//                    'tasks'
+//                ]);
+//            },
+//            'files',
+//            'comments',
+//            'notes'
+//        ])->find(1);
     }
 
     function get_server_load()
