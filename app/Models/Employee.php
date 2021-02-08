@@ -71,4 +71,9 @@ class Employee extends Model
         return $this->morphMany(File::class, 'uploader');
     }
 
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
+
 }

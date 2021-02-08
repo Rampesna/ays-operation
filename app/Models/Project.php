@@ -20,7 +20,7 @@ class Project extends Model
 
     public function timesheets()
     {
-        return $this->hasManyThrough(Timesheet::class,Task::class);
+        return $this->hasManyThrough(Timesheet::class, Task::class);
     }
 
     public function milestones()
@@ -41,5 +41,10 @@ class Project extends Model
     public function notes()
     {
         return $this->morphMany(Note::class, 'relation');
+    }
+
+    public function employees()
+    {
+        return $this->belongsToMany(Employee::class);
     }
 }
