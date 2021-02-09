@@ -76,4 +76,8 @@ class Employee extends Model
         return $this->belongsToMany(Project::class);
     }
 
+    public function timesheets()
+    {
+        return $this->morphMany(Timesheet::class, 'starter');
+    }
 }

@@ -16,4 +16,26 @@ class General
         }
         return $dates;
     }
+
+    public static function clearTagifyTags($tags)
+    {
+        $returnObject = [];
+
+        foreach (json_decode($tags) as $key => $tag) {
+            $returnObject[] = $tag->value;
+        }
+
+        return implode(',', $returnObject);
+    }
+
+    public static function clearFormRepeater($checklist)
+    {
+        $returnObject = [];
+
+        foreach ($checklist as $key => $value) {
+            $returnObject[] = $value['checklist'];
+        }
+
+        return $returnObject;
+    }
 }

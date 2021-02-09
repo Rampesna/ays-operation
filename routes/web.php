@@ -83,12 +83,16 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::get('/', function () {
                 return redirect()->route('');
             });
-            Route::get('index','ProjectController@index')->name('project.project.index');
-            Route::get('{project}/{tab}','ProjectController@show')->name('project.project.show');
+            Route::get('index', 'ProjectController@index')->name('project.project.index');
+            Route::get('{project}/{tab}', 'ProjectController@show')->name('project.project.show');
 
-            Route::post('project/employees/update','ProjectController@employeesUpdate')->name('project.project.employees.update');
-            Route::post('project/create','ProjectController@create')->name('project.project.create');
-            Route::post('project/update','ProjectController@update')->name('project.project.update');
+            Route::post('employees/update', 'ProjectController@employeesUpdate')->name('project.project.employees.update');
+            Route::post('create', 'ProjectController@create')->name('project.project.create');
+            Route::post('update', 'ProjectController@update')->name('project.project.update');
+
+            Route::prefix('task')->namespace('Task')->group(function () {
+                Route::post('create', 'TaskController@create')->name('project.project.task.create');
+            });
         });
     });
 

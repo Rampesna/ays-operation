@@ -77,4 +77,12 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     });
 
+    Route::prefix('project')->namespace('Project')->group(function () {
+
+        Route::prefix('task')->group(function () {
+            Route::get('edit','TaskController@edit')->name('ajax.project.task.edit');
+        });
+
+    });
+
 });

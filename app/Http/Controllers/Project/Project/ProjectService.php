@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Project\Project;
 
+use App\Helpers\General;
 use App\Models\Company;
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -33,7 +34,7 @@ class ProjectService
         $this->project->description = $request->description;
         $this->project->start_date = $request->start_date;
         $this->project->end_date = $request->end_date;
-        $this->project->tags = $request->tags ? $this->clearTagifyTags($request->tags) : null;
+        $this->project->tags = $request->tags ? General::clearTagifyTags($request->tags) : null;
         $this->project->save();
         $status == 0 ? $this->project->employees()->sync($request->employees) : null;
 

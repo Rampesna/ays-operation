@@ -16,7 +16,8 @@ class CreateTimesheetsTable extends Migration
         Schema::create('timesheets', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('task_id')->unsigned();
-            $table->bigInteger('employee_id')->unsigned();
+            $table->string('starter_type');
+            $table->bigInteger('starter_id')->unsigned();
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
             $table->timestamps();

@@ -16,8 +16,9 @@ class CreateChecklistItemsTable extends Migration
         Schema::create('checklist_items', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('task_id')->unsigned();
-            $table->bigInteger('created_by')->unsigned();
-            $table->bigInteger('checked_by')->unsigned()->nullable();
+            $table->bigInteger('creator_id')->unsigned();
+            $table->string('checker_type')->nullable();
+            $table->bigInteger('checker_id')->unsigned()->nullable();
             $table->string('name');
             $table->boolean('checked')->default(0);
             $table->timestamps();

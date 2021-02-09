@@ -8,6 +8,7 @@ use App\Models\Company;
 use App\Models\Project;
 use App\Models\Queue;
 use App\Models\ShiftGroup;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
@@ -16,6 +17,8 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
+
+        return collect(Task::find(1)->timesheets()->with('starter')->get())->groupBy(['starter_type','starter_id']);
 
 //        return Project::with([
 //            'employees',
@@ -26,7 +29,7 @@ class MainController extends Controller
 //            },
 //            'timesheets' => function ($timesheets) {
 //                $timesheets->with([
-//                    'employee',
+//                    'starter',
 //                    'task'
 //                ]);
 //            },

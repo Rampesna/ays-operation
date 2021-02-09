@@ -28,7 +28,10 @@ class ProjectController extends Controller
 
     public function show(Project $project, $tab)
     {
-        return view('pages.project.project.show.' . $tab, (new ProjectShowService($project, $tab))->$tab());
+        return view('pages.project.project.show.' . $tab, [
+            'project' => $project,
+            'tab' => $tab
+        ]);
     }
 
     public function create(Request $request)
@@ -39,7 +42,7 @@ class ProjectController extends Controller
 
     public function update(Request $request)
     {
-        $project = (new ProjectService(Project::find($request->project_id)))->store($request, 1);
+        (new ProjectService(Project::find($request->project_id)))->store($request, 1);
         return redirect()->back()->with(['type' => 'success', 'data' => 'Proje Güncellendi']);
     }
 

@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label for="employees">Personeller</label>
                             <select name="employees[]" id="employees" class="form-control selectpicker" data-live-search="true" multiple>
-                                @foreach($employees as $employee)
+                                @foreach(\App\Models\Company::find($project->company_id)->employees as $employee)
                                     <option @if($project->employees()->where('employee_id', $employee->id)->exists()) selected @endif value="{{ $employee->id }}">{{ $employee->name }}</option>
                                 @endforeach
                             </select>

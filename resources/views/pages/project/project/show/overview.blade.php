@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="my-lg-0 my-1">
                                     <a href="#" class="btn btn-sm btn-secondary font-weight-bolder" data-toggle="modal" data-target="#EditProject">Projeyi Düzenle</a>
-                                    <a href="#" class="btn btn-sm btn-success font-weight-bolder">Yeni Görev</a>
+                                    <a href="#" class="btn btn-sm btn-success font-weight-bolder" data-toggle="modal" data-target="#CreateTask">Yeni Görev</a>
                                 </div>
                             </div>
                             <!--end: Title-->
@@ -175,6 +175,7 @@
 
     @include('pages.project.project.show.modals.employees')
     @include('pages.project.project.show.modals.edit-project')
+    @include('pages.project.project.show.modals.create-task')
 
 @endsection
 

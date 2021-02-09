@@ -14,4 +14,14 @@ class ChecklistItem extends Model
     {
         return $this->belongsTo(Task::class);
     }
+
+    public function checker()
+    {
+        return $this->morphTo();
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 }

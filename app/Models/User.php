@@ -89,4 +89,8 @@ class User extends Authenticatable
         return $this->morphMany(File::class, 'uploader');
     }
 
+    public function timesheets()
+    {
+        return $this->morphMany(Timesheet::class, 'starter');
+    }
 }

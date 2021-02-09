@@ -15,8 +15,8 @@ class Timesheet extends Model
         return $this->belongsTo(Task::class);
     }
 
-    public function employee()
+    public function starter()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->morphTo();
     }
 }

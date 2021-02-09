@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method static find($primaryKey)
+ */
 class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function employee()
+    public function creator()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function project()
@@ -38,5 +41,10 @@ class Task extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'relation');
+    }
+
+    public function milestone()
+    {
+        return $this->belongsTo(Milestone::class);
     }
 }
