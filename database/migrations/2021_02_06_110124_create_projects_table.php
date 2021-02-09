@@ -17,7 +17,7 @@ class CreateProjectsTable extends Migration
             $table->id();
             $table->bigInteger('company_id')->unsigned();
             $table->string('name');
-            $table->text('description')->nullable();
+            $table->longText('description')->nullable();
             $table->string('status')->default('on_hold');
             $table->string('priority')->default('low');
             $table->text('tags')->nullable();

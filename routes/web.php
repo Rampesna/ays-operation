@@ -85,6 +85,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             });
             Route::get('index','ProjectController@index')->name('project.project.index');
             Route::get('{project}/{tab}','ProjectController@show')->name('project.project.show');
+
+            Route::post('project/employees/update','ProjectController@employeesUpdate')->name('project.project.employees.update');
+            Route::post('project/create','ProjectController@create')->name('project.project.create');
+            Route::post('project/update','ProjectController@update')->name('project.project.update');
         });
     });
 

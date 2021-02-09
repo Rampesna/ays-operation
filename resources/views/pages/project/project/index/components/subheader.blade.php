@@ -3,8 +3,8 @@
         <form class="row">
             <div class="col-xl-3">
                 <div class="form-group">
-                    <label for="company_id"></label>
-                    <select name="company_id" id="company_id" class="form-control selectpicker">
+                    <label for="header_company_id"></label>
+                    <select name="company_id" id="header_company_id" class="form-control selectpicker">
                         @foreach($companies as $company)
                             <option @if($company->id == $companyId) selected @endif value="{{ $company->id }}">{{ $company->title }}</option>
                         @endforeach
@@ -21,6 +21,10 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-search"></i></button>
                 </div>
+            </div>
+            <div class="col-xl-2"></div>
+            <div class="col-xl-2 mt-7 text-right">
+                <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#CreateProject">Yeni Proje Oluştur</button>
             </div>
         </form>
     </div>

@@ -122,7 +122,7 @@
                                     </div>
                                     <!--begin::Progress-->
                                     <div class="flex-row-fluid mb-7">
-                                        <span class="d-block font-weight-bold mb-4">Durum</span>
+                                        <span class="d-block font-weight-bold mb-4">İlerleme</span>
                                         <div class="d-flex align-items-center pt-2">
                                             <div class="progress progress-xs mt-2 mb-2 w-100">
                                                 <div class="progress-bar bg-warning" role="progressbar" style="width: 78%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
@@ -178,7 +178,7 @@
                                             </svg>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="font-weight-bolder text-primary ml-2">72 Görev</a>
+                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="font-weight-bolder text-primary ml-2">{{ $project->tasks->count() }} Görev</a>
                                     </div>
                                     <div class="d-flex align-items-center mr-7">
                                         <span class="svg-icon svg-icon-gray-500">
@@ -192,7 +192,7 @@
                                             </svg>
                                             <!--end::Svg Icon-->
                                         </span>
-                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'comments']) }}" class="font-weight-bolder text-primary ml-2">648 Yorum</a>
+                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'comments']) }}" class="font-weight-bolder text-primary ml-2">{{ $project->comments->count() }} Yorum</a>
                                     </div>
                                 </div>
                             </div>
@@ -204,6 +204,8 @@
             </div>
         </div>
     </div>
+
+    @include('pages.project.project.index.modals.create-project')
 
 @endsection
 

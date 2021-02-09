@@ -26,8 +26,26 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function show($project, $tab)
+    public function show(Project $project, $tab)
     {
-        return view('pages.project.project.show.' . $tab, (new ProjectService($project, $tab))->$tab());
+        return view('pages.project.project.show.' . $tab, (new ProjectShowService($project, $tab))->$tab());
+    }
+
+    public function create(Request $request)
+    {
+        $project = (new ProjectService(new Project))->store($request, 0);
+        return redirect()->route('project.project.show', ['project' => $project, 'tab' => 'overview'])->with(['type' => 'success', 'data' => 'Proje Oluşturuldu']);
+    }
+
+    public function update(Request $request)
+    {
+        $project = (new ProjectService(Project::find($request->project_id)))->store($request, 1);
+        return redirect()->back()->with(['type' => 'success', 'data' => 'Proje Güncellendi']);
+    }
+
+    public function employeesUpdate(Request $request)
+    {
+        Project::find($request->project_id)->employees()->sync($request->employees);
+        return redirect()->back()->with(['type' => 'success', 'data' => 'Proje Personelleri Güncellendi']);
     }
 }

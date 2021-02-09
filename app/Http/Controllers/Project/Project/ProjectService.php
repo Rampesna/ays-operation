@@ -2,80 +2,41 @@
 
 namespace App\Http\Controllers\Project\Project;
 
+use App\Models\Company;
+use App\Models\Project;
 use Illuminate\Http\Request;
 
 class ProjectService
 {
     private $project;
-    private $tab;
 
-    public function __construct($project, $tab)
+    public function __construct(Project $project)
     {
         $this->project = $project;
-        $this->tab = $tab;
     }
 
-    public function overview()
+    private function clearTagifyTags($tags)
     {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
+        $returnObject = [];
+
+        foreach (json_decode($tags) as $key => $tag) {
+            $returnObject[] = $tag->value;
+        }
+
+        return implode(',', $returnObject);
     }
 
-    public function tasks()
+    public function store(Request $request, $status)
     {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
-    }
+        $status == 0 ? $this->project->company_id = $request->company_id : null;
+        $this->project->name = $request->name;
+        $this->project->description = $request->description;
+        $this->project->start_date = $request->start_date;
+        $this->project->end_date = $request->end_date;
+        $this->project->tags = $request->tags ? $this->clearTagifyTags($request->tags) : null;
+        $this->project->save();
+        $status == 0 ? $this->project->employees()->sync($request->employees) : null;
 
-    public function timesheets()
-    {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
-    }
-
-    public function milestones()
-    {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
-    }
-
-    public function files()
-    {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
-    }
-
-    public function comments()
-    {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
-    }
-
-    public function tickets()
-    {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
-    }
-
-    public function notes()
-    {
-        return [
-            'project' => $this->project,
-            'tab' => $this->tab
-        ];
+        return $this->project;
     }
 }
