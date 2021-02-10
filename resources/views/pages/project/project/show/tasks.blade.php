@@ -208,6 +208,7 @@
             var checklistCardSelector = $("#checklist_card");
             var commentsCardSelector = $("#comments_card");
             var checklistItemCreateIcon = $("#checklistItemCreate");
+            var taskProgressSelector = $("#task_progress");
 
             $.ajax({
                 type: 'get',
@@ -219,6 +220,10 @@
                     checklistItemCreateIcon.data('id',task.id);
 
                     var exists = timesheetExistControl(task.id,'{{ auth()->user()->getId() }}');
+                    var progress = calculateTaskProgress(task.id);
+
+                    taskProgressSelector.html(progress + '%');
+                    taskProgressSelector.css({'width': progress + '%'});
 
                     $("#showTaskHeaderTitle").html(task.name);
 
@@ -319,6 +324,11 @@
                                 }
                             });
                         }
+
+                        var progress = calculateTaskProgress(task.id);
+
+                        taskProgressSelector.html(progress + '%');
+                        taskProgressSelector.css({'width': progress + '%'});
                     });
 
                     $(".checklistItemInput").focusout(function () {
@@ -355,14 +365,17 @@
                             },
                             success: function () {
                                 $("#checklist_item_row_" + checklist_item_id).remove();
+
+                                var progress = calculateTaskProgress(task.id);
+
+                                taskProgressSelector.html(progress + '%');
+                                taskProgressSelector.css({'width': progress + '%'});
                             },
                             error: function (error) {
                                 console.log(error);
 
                             }
                         });
-
-
                     });
                 },
                 error: function (error) {
@@ -374,6 +387,7 @@
 
         $("#checklistItemCreate").click(function () {
             var task_id = $(this).data('id');
+            var taskProgressSelector = $("#task_progress");
 
             $.ajax({
                 type: 'post',
@@ -424,6 +438,11 @@
                                 }
                             });
                         }
+
+                        var progress = calculateTaskProgress(task_id);
+
+                        taskProgressSelector.html(progress + '%');
+                        taskProgressSelector.css({'width': progress + '%'});
                     });
 
                     $(".checklistItemInput").focusout(function () {
@@ -460,6 +479,11 @@
                             },
                             success: function () {
                                 $("#checklist_item_row_" + checklist_item_id).remove();
+
+                                var progress = calculateTaskProgress(task_id);
+
+                                taskProgressSelector.html(progress + '%');
+                                taskProgressSelector.css({'width': progress + '%'});
                             },
                             error: function (error) {
                                 console.log(error);
@@ -469,6 +493,11 @@
 
 
                     });
+
+                    var progress = calculateTaskProgress(task_id);
+
+                    taskProgressSelector.html(progress + '%');
+                    taskProgressSelector.css({'width': progress + '%'});
 
                 },
                 error: function (error) {
@@ -495,9 +524,21 @@
             return result;
         }
 
-        function calculateTaskProgress()
+        function calculateTaskProgress(task_id)
         {
-
+            var progress = null;
+            $.ajax({
+                async: false,
+                type: 'get',
+                url: '{{ route('ajax.project.task.calculateTaskProgress') }}',
+                data: {
+                    task_id: task_id
+                },
+                success: function (response) {
+                    progress = response;
+                }
+            });
+            return progress;
         }
     </script>
 
