@@ -8,6 +8,12 @@
 
     <div class="row mt-15">
         <div class="col-xl-12">
+            <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}" class="btn btn-primary">Kanban Board</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
