@@ -34,9 +34,9 @@
                         <hr>
                         <div class="row">
                             <div class="col-xl-12 mb-5">
-                                <h5 class="text-primary">Alt İşler <i class="fa fa-plus-circle text-success cursor-pointer ml-3"></i></h5>
+                                <h5 class="text-primary">Alt İşler <i class="fa fa-plus-circle text-success cursor-pointer ml-3" id="checklistItemCreate" data-id=""></i></h5>
                                 <div class="progress">
-                                    <div class="progress-bar" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                                    <div class="progress-bar" role="progressbar" id="task_progress" style="width: 75%;"></div>
                                 </div>
                             </div>
                             <div class="col-xl-12" id="checklist_card">
@@ -62,7 +62,7 @@
 
                         </div>
                     </div>
-                    <div class="col-xl-4 bg-warning-o-10 mt-n8 mb-n8">
+                    <div class="col-xl-4 bg-warning-o-20 mt-n8 mb-n8">
                         <div class="row">
                             <div class="col-xl-12 pt-5">
                                 <h6>Görev Bilgileri</h6>
@@ -89,7 +89,7 @@
                         <hr>
                         <div class="row">
                             <div class="col-xl-12">
-                                
+
                             </div>
                         </div>
                         <hr>

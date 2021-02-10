@@ -80,7 +80,17 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
     Route::prefix('project')->namespace('Project')->group(function () {
 
         Route::prefix('task')->group(function () {
-            Route::get('edit','TaskController@edit')->name('ajax.project.task.edit');
+            Route::get('edit', 'TaskController@edit')->name('ajax.project.task.edit');
+
+            Route::post('createChecklistItem', 'TaskController@createChecklistItem')->name('ajax.project.task.createChecklistItem');
+            Route::post('updateChecklistItem', 'TaskController@updateChecklistItem')->name('ajax.project.task.updateChecklistItem');
+            Route::post('deleteChecklistItem', 'TaskController@deleteChecklistItem')->name('ajax.project.task.deleteChecklistItem');
+            Route::post('checkChecklistItem', 'TaskController@checkChecklistItem')->name('ajax.project.task.checkChecklistItem');
+            Route::post('uncheckChecklistItem', 'TaskController@uncheckChecklistItem')->name('ajax.project.task.uncheckChecklistItem');
+        });
+
+        Route::prefix('timesheet')->group(function () {
+            Route::get('exists','TimesheetController@exists')->name('ajax.project.timesheet.exists');
         });
 
     });

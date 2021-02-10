@@ -19,7 +19,7 @@ class CreateChecklistItemsTable extends Migration
             $table->bigInteger('creator_id')->unsigned();
             $table->string('checker_type')->nullable();
             $table->bigInteger('checker_id')->unsigned()->nullable();
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->boolean('checked')->default(0);
             $table->timestamps();
             $table->softDeletes();

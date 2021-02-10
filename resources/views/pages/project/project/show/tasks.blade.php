@@ -29,7 +29,31 @@
                                 @foreach($project->tasks as $task)
                                     <tr>
                                         <td><a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">#{{ $task->id }}</a></td>
-                                        <td><a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">{{ $task->name }}</a></td>
+                                        <td>
+                                            <a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">
+                                                {{ $task->name }}
+                                            </a>
+                                            <br>
+                                            @php($timesheet = \App\Models\Timesheet::where('task_id', $task->id)->
+                                                where('starter_type', 'App\Models\User')->
+                                                where('starter_id', auth()->user()->getId())->
+                                                where('start_time','<>', null)->
+                                                where('end_time', null)->
+                                                first())
+                                            @if(!is_null($timesheet))
+                                                <a href="#" onclick="document.getElementById('stop_form_{{ $task->id }}').submit();" class="text-danger">Durdur</a>
+                                                <form method="post" id="stop_form_{{ $task->id }}" action="{{ route('project.project.timesheet.stop') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">
+                                                </form>
+                                            @else
+                                                <a href="#" onclick="document.getElementById('start_form_{{ $task->id }}').submit();" class="text-success">Başlat</a>
+                                                <form method="post" id="start_form_{{ $task->id }}" action="{{ route('project.project.timesheet.start') }}">
+                                                    @csrf
+                                                    <input type="hidden" name="task_id" value="{{ $task->id }}">
+                                                </form>
+                                            @endif
+                                        </td>
                                         <td>{{ $task->status }}</td>
                                         <td data-sort="{{ date('Y-m-d', strtotime($task->start_date)) }}">{{ strftime("%d %B, %Y", strtotime($task->start_date)) }}</td>
                                         <td data-sort="{{ date('Y-m-d', strtotime($task->end_date)) }}">{{ strftime("%d %B, %Y", strtotime($task->end_date)) }}</td>
@@ -183,6 +207,7 @@
             var task_id = $(this).data('id');
             var checklistCardSelector = $("#checklist_card");
             var commentsCardSelector = $("#comments_card");
+            var checklistItemCreateIcon = $("#checklistItemCreate");
 
             $.ajax({
                 type: 'get',
@@ -191,7 +216,12 @@
                     task_id: task_id
                 },
                 success: function (task) {
-                    console.log(task);
+                    checklistItemCreateIcon.data('id',task.id);
+
+                    var exists = timesheetExistControl(task.id,'{{ auth()->user()->getId() }}');
+
+                    $("#showTaskHeaderTitle").html(task.name);
+
                     if (task.milestone_id == null) {
                         $("#milestone_card").html(' -- ');
                     } else {
@@ -202,24 +232,51 @@
 
                     checklistCardSelector.html('');
                     $.each(task.checklist_items, function (index) {
-                        checklistCardSelector.append('' +
-                            '<div class="row">' +
-                            '<div class="col-xl-1">' +
-                            '<label class="checkbox checkbox-circle checkbox-success checkbox-lg mr-2">' +
-                            '<input type="checkbox" />' +
-                            '<span></span>' +
-                            '</label>' +
-                            '</div>' +
-                            '<div class="col-xl-9 mt-3">' +
-                            '<label style="width: 100%">' +
-                            '<input type="text" class="form-control" value="' + task.checklist_items[index].name + '">' +
-                            '</label>' +
-                            '</div>' +
-                            '<div class="col-xl-2 mt-6 ml-n5">' +
-                            '<i class="fa fa-times-circle text-danger cursor-pointer"></i>' +
-                            '</div>' +
-                            '</div>' +
-                            '');
+                        var checkedControl = '';
+                        if (task.checklist_items[index].checked == 1) {
+                            checkedControl = 'checked';
+                        }
+
+                        if (exists === "1") {
+                            checklistItemCreateIcon.show();
+                            checklistCardSelector.append('' +
+                                '<div class="row" id="checklist_item_row_' + task.checklist_items[index].id + '">' +
+                                '<div class="col-xl-1">' +
+                                '<label class="checkbox checkbox-circle checkbox-success checkbox-lg mr-2">' +
+                                '<input ' + checkedControl + ' type="checkbox" class="checklistItemCheckbox" data-id="' + task.checklist_items[index].id + '" />' +
+                                '<span></span>' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="col-xl-9 mt-3">' +
+                                '<label style="width: 100%">' +
+                                '<input type="text" class="form-control checklistItemInput" data-id="' + task.checklist_items[index].id + '" value="' + task.checklist_items[index].name + '">' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="col-xl-2 mt-6 ml-n5">' +
+                                '<i class="fa fa-times-circle text-danger cursor-pointer checklistItemDelete" data-id="' + task.checklist_items[index].id + '"></i>' +
+                                '</div>' +
+                                '</div>' +
+                                '');
+                        } else {
+                            checklistItemCreateIcon.hide();
+                            checklistCardSelector.append('' +
+                                '<div class="row" id="checklist_item_row_' + task.checklist_items[index].id + '">' +
+                                '<div class="col-xl-1">' +
+                                '<label class="checkbox checkbox-circle checkbox-success checkbox-lg mr-2">' +
+                                '<input disabled ' + checkedControl + ' type="checkbox" class="checklistItemCheckbox" data-id="' + task.checklist_items[index].id + '" />' +
+                                '<span></span>' +
+                                '</label>' +
+                                '</div>' +
+                                '<div class="col-xl-9 mt-3">' +
+                                '<label style="width: 100%">' +
+                                '<input disabled type="text" class="form-control checklistItemInput" data-id="' + task.checklist_items[index].id + '" value="' + task.checklist_items[index].name + '">' +
+                                '</label>' +
+                                '</div>' +
+                                '</div>' +
+                                '');
+                        }
+
+
                     });
 
                     commentsCardSelector.html('');
@@ -241,12 +298,207 @@
                     $("#end_date_card").html('Bitiş Tarihi: ' + task.end_date);
                     $("#priority_card").html('Öncelik: ' + task.priority);
 
+                    $(".checklistItemCheckbox").click(function () {
+                        var checklist_item_id = $(this).data('id');
+                        if ($(this).is(':checked')) {
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ route('ajax.project.task.checkChecklistItem') }}',
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    checklist_item_id: checklist_item_id
+                                }
+                            });
+                        } else {
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ route('ajax.project.task.uncheckChecklistItem') }}',
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    checklist_item_id: checklist_item_id
+                                }
+                            });
+                        }
+                    });
+
+                    $(".checklistItemInput").focusout(function () {
+                        var checklist_item_id = $(this).data('id');
+                        var name = $(this).val();
+
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ route('ajax.project.task.updateChecklistItem') }}',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                checklist_item_id: checklist_item_id,
+                                name: name
+                            },
+                            success: function () {
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+
+                            }
+                        });
+                    });
+
+                    $(".checklistItemDelete").click(function () {
+                        var checklist_item_id = $(this).data('id');
+
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ route('ajax.project.task.deleteChecklistItem') }}',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                checklist_item_id: checklist_item_id
+                            },
+                            success: function () {
+                                $("#checklist_item_row_" + checklist_item_id).remove();
+                            },
+                            error: function (error) {
+                                console.log(error);
+
+                            }
+                        });
+
+
+                    });
                 },
                 error: function (error) {
                     console.log(error);
-                    toastr.error('Sistemsel Bir Hata Oluştu');
+
                 }
             });
         });
+
+        $("#checklistItemCreate").click(function () {
+            var task_id = $(this).data('id');
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task.createChecklistItem') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    task_id: task_id,
+                    creator_id: '{{ auth()->user()->getId() }}'
+                },
+                success: function (checklistItem) {
+                    $("#checklist_card").append('' +
+                        '<div class="row" id="checklist_item_row_' + checklistItem.id + '">' +
+                        '<div class="col-xl-1">' +
+                        '<label class="checkbox checkbox-circle checkbox-success checkbox-lg mr-2">' +
+                        '<input type="checkbox" class="checklistItemCheckbox" data-id="' + checklistItem.id + '" />' +
+                        '<span></span>' +
+                        '</label>' +
+                        '</div>' +
+                        '<div class="col-xl-9 mt-3">' +
+                        '<label style="width: 100%">' +
+                        '<input type="text" class="form-control checklistItemInput" data-id="' + checklistItem.id + '">' +
+                        '</label>' +
+                        '</div>' +
+                        '<div class="col-xl-2 mt-6 ml-n5">' +
+                        '<i class="fa fa-times-circle text-danger cursor-pointer checklistItemDelete" data-id="' + checklistItem.id + '"></i>' +
+                        '</div>' +
+                        '</div>' +
+                        '');
+
+                    $(".checklistItemCheckbox").click(function () {
+                        var checklist_item_id = $(this).data('id');
+                        if ($(this).is(':checked')) {
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ route('ajax.project.task.checkChecklistItem') }}',
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    checklist_item_id: checklist_item_id
+                                }
+                            });
+                        } else {
+                            $.ajax({
+                                type: 'post',
+                                url: '{{ route('ajax.project.task.uncheckChecklistItem') }}',
+                                data: {
+                                    _token: '{{ csrf_token() }}',
+                                    checklist_item_id: checklist_item_id
+                                }
+                            });
+                        }
+                    });
+
+                    $(".checklistItemInput").focusout(function () {
+                        var checklist_item_id = $(this).data('id');
+                        var name = $(this).val();
+
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ route('ajax.project.task.updateChecklistItem') }}',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                checklist_item_id: checklist_item_id,
+                                name: name
+                            },
+                            success: function () {
+
+                            },
+                            error: function (error) {
+                                console.log(error);
+
+                            }
+                        });
+                    });
+
+                    $(".checklistItemDelete").click(function () {
+                        var checklist_item_id = $(this).data('id');
+
+                        $.ajax({
+                            type: 'post',
+                            url: '{{ route('ajax.project.task.deleteChecklistItem') }}',
+                            data: {
+                                _token: '{{ csrf_token() }}',
+                                checklist_item_id: checklist_item_id
+                            },
+                            success: function () {
+                                $("#checklist_item_row_" + checklist_item_id).remove();
+                            },
+                            error: function (error) {
+                                console.log(error);
+
+                            }
+                        });
+
+
+                    });
+
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        function timesheetExistControl(task_id, starter_id)
+        {
+            var result = null;
+            $.ajax({
+                async: false,
+                type: 'get',
+                url: '{{ route('ajax.project.timesheet.exists') }}',
+                data: {
+                    task_id: task_id,
+                    starter_id: starter_id
+                },
+                success: function (response) {
+                    result = response;
+                }
+            });
+            return result;
+        }
+
+        function calculateTaskProgress()
+        {
+
+        }
     </script>
+
 @stop
