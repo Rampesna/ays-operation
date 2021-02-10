@@ -84,7 +84,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
                 return redirect()->route('');
             });
             Route::get('index', 'ProjectController@index')->name('project.project.index');
-            Route::get('{project}/{tab}', 'ProjectController@show')->name('project.project.show');
+            Route::get('{project}/{tab}/{sub?}', 'ProjectController@show')->name('project.project.show');
 
             Route::post('employees/update', 'ProjectController@employeesUpdate')->name('project.project.employees.update');
             Route::post('create', 'ProjectController@create')->name('project.project.create');

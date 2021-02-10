@@ -26,12 +26,23 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function show(Project $project, $tab)
+    public function show(Project $project, $tab, $sub = null)
     {
-        return view('pages.project.project.show.' . $tab, [
-            'project' => $project,
-            'tab' => $tab
-        ]);
+        if ($sub) {
+            if ($sub == 'kanban') {
+                return view('pages.project.project.show.tasks-kanban', [
+                    'project' => $project,
+                    'tab' => $tab
+                ]);
+            } else {
+                return abort(404);
+            }
+        } else {
+            return view('pages.project.project.show.' . $tab, [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        }
     }
 
     public function create(Request $request)

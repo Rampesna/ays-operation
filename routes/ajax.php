@@ -89,6 +89,8 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::post('uncheckChecklistItem', 'TaskController@uncheckChecklistItem')->name('ajax.project.task.uncheckChecklistItem');
 
             Route::get('calculateTaskProgress', 'TaskController@calculateTaskProgress')->name('ajax.project.task.calculateTaskProgress');
+
+            Route::post('updateStatus','TaskController@updateStatus')->name('ajax.project.task.updateStatus');
         });
 
         Route::prefix('timesheet')->group(function () {

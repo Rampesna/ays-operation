@@ -13,6 +13,8 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['status'];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'creator_id');
@@ -46,5 +48,10 @@ class Task extends Model
     public function milestone()
     {
         return $this->belongsTo(Milestone::class);
+    }
+
+    public function getStatusAttribute()
+    {
+        return TaskStatus::find($this->status_id)->name;
     }
 }

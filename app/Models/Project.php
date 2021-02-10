@@ -13,6 +13,8 @@ class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['status'];
+
     public function tasks()
     {
         return $this->hasMany(Task::class);
@@ -46,5 +48,10 @@ class Project extends Model
     public function employees()
     {
         return $this->belongsToMany(Employee::class);
+    }
+
+    public function getStatusAttribute()
+    {
+        return ProjectStatus::find($this->status_id)->name;
     }
 }
