@@ -105,6 +105,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
                 Route::post('start', 'TimesheetController@start')->name('project.project.timesheet.start');
                 Route::post('stop', 'TimesheetController@stop')->name('project.project.timesheet.stop');
             });
+
+            Route::prefix('file')->namespace('File')->group(function () {
+                Route::post('create', 'FileController@create')->name('project.project.file.create');
+            });
         });
     });
 

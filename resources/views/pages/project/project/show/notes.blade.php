@@ -10,9 +10,9 @@
 @endsection
 
 @section('page-styles')
-    @include('pages.project.project.show.components.style')
+
 @stop
 
 @section('page-script')
-    @include('pages.project.project.show.components.script')
+
 @stop
