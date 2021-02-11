@@ -61,9 +61,9 @@
                                     <div class="flex-grow-1 flex-shrink-0 w-150px w-xl-300px mt-4 mt-sm-0">
                                         <span class="font-weight-bold">İlerleme</span>
                                         <div class="progress progress-xs mt-2 mb-2">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 63%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $project->progress }}%;"></div>
                                         </div>
-                                        <span class="font-weight-bolder text-dark">78%</span>
+                                        <span class="font-weight-bolder text-dark">{{ $project->progress }}%</span>
                                     </div>
                                 </div>
                             </div>

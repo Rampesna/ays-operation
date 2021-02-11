@@ -5,8 +5,17 @@
 @section('content')
 
     @include('pages.project.project.show.components.subheader')
-
+    <input type="hidden" id="loaderControl" value="0">
     <div class="row mt-15">
+        <div class="col-xl-6">
+            <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="btn btn-primary">Liste Görünümüne Geç</a>
+        </div>
+        <div class="col-xl-6 text-right">
+            <a href="#" class="btn btn-success font-weight-bolder" data-toggle="modal" data-target="#CreateTask">Yeni Görev</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
@@ -17,6 +26,7 @@
     </div>
 
     @include('pages.project.project.show.modals.show-task')
+    @include('pages.project.project.show.modals.create-task')
 
 @endsection
 
@@ -36,6 +46,119 @@
     <script src="{{ asset('assets/js/pages/crud/forms/editors/summernote.js') }}"></script>
 
     <script>
+        // Class definition
+        var KTTagifyDemos = function() {
+            // Private functions
+            var tags = function() {
+                var input = document.getElementById('task_tags'),
+                    // init Tagify script on the above inputs
+                    tagify = new Tagify(input, {
+
+                    })
+
+                // Chainable event listeners
+                tagify.on('add', onAddTag)
+                    .on('remove', onRemoveTag)
+                    .on('input', onInput)
+                    .on('edit', onTagEdit)
+                    .on('invalid', onInvalidTag)
+                    .on('click', onTagClick)
+                    .on('dropdown:show', onDropdownShow)
+                    .on('dropdown:hide', onDropdownHide)
+
+                // tag added callback
+                function onAddTag(e) {
+                    console.log("onAddTag: ", e.detail);
+                    console.log("original input value: ", input.value)
+                    tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
+                }
+
+                // tag remvoed callback
+                function onRemoveTag(e) {
+                    console.log(e.detail);
+                    console.log("tagify instance value:", tagify.value)
+                }
+
+                // on character(s) added/removed (user is typing/deleting)
+                function onInput(e) {
+                    console.log(e.detail);
+                    console.log("onInput: ", e.detail);
+                }
+
+                function onTagEdit(e) {
+                    console.log("onTagEdit: ", e.detail);
+                }
+
+                // invalid tag added callback
+                function onInvalidTag(e) {
+                    console.log("onInvalidTag: ", e.detail);
+                }
+
+                // invalid tag added callback
+                function onTagClick(e) {
+                    console.log(e.detail);
+                    console.log("onTagClick: ", e.detail);
+                }
+
+                function onDropdownShow(e) {
+                    console.log("onDropdownShow: ", e.detail)
+                }
+
+                function onDropdownHide(e) {
+                    console.log("onDropdownHide: ", e.detail)
+                }
+            }
+
+            return {
+                // public functions
+                init: function() {
+                    tags();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function() {
+            KTTagifyDemos.init();
+        });
+
+    </script>
+
+    <script>
+        var KTFormRepeater = function() {
+
+            // Private functions
+            var repeater1 = function() {
+                $('#kt_repeater_1').repeater({
+                    initEmpty: false,
+
+                    defaultValues: {
+                        'text-input': 'foo'
+                    },
+
+                    show: function () {
+                        $(this).slideDown();
+                    },
+
+                    hide: function (deleteElement) {
+                        $(this).slideUp(deleteElement);
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function() {
+                    repeater1();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function() {
+            KTFormRepeater.init();
+        });
+    </script>
+
+    <script>
         "use strict";
 
         // Class definition
@@ -49,8 +172,11 @@
                     widthBoard: '350px',
                     dragBoards: false,
                     click: function(el) {
-                        $("#ShowTask").modal('show');
-                        showTask(el.dataset.eid);
+                        var loaderControlSelector = $("#loaderControl");
+                        if (loaderControlSelector.val() === 0 || loaderControlSelector.val() === "0") {
+                            $("#ShowTask").modal('show');
+                            showTask(el.dataset.eid);
+                        }
                     },
                     dropEl: function (el, source) {
                         $.ajax({
@@ -71,8 +197,33 @@
                             'item': [
                                 @foreach($status->tasks as $task)
                                 {
-                                    'id' : '{{ $task->id }}',
-                                    'title': '<span class="font-weight-bold" data-id="{{ $task->id }}">{{ $task->name }}</span>'
+                                    'id': '{{ $task->id }}',
+
+                                    'title': '<div class="row" style="margin-bottom: -20px">' +
+                                        '<div class="col-xl-8">' +
+                                        '   {{ $task->name }}' + '' +
+                                        '</div>' +
+                                        '<div class="col-xl-4 text-right">' +
+                                        @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
+                                        '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                        '       <i class="fa fa-stop text-danger"><i>' +
+                                        '   </a>' +
+                                        '<form style="visibility: hidden" id="stop_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.stop') }}">' +
+                                        '@csrf' +
+                                        '<input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">' +
+                                        '</form>' +
+                                        '</div>' +
+                                        @else
+                                        '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                        '       <i class="fa fa-play text-success"><i>' +
+                                        '   </a>' +
+                                        '<form style="visibility: hidden" id="start_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.start') }}">' +
+                                        '@csrf' +
+                                        '<input type="hidden" name="task_id" value="{{ $task->id }}">' +
+                                        '</form>' +
+                                        '</div>' +
+                                        @endif
+                                        '</div>'
                                 }
                                 {{ !$loop->last ? ',' : null }}
                                 @endforeach

@@ -47,7 +47,7 @@
                                                         </a>
                                                     </li>
                                                     <li class="navi-item">
-                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="navi-link">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}" class="navi-link">
                                                             <span class="navi-icon">
                                                                 <i class="fas fa-clipboard-list"></i>
                                                             </span>
@@ -125,9 +125,11 @@
                                         <span class="d-block font-weight-bold mb-4">İlerleme</span>
                                         <div class="d-flex align-items-center pt-2">
                                             <div class="progress progress-xs mt-2 mb-2 w-100">
-                                                <div class="progress-bar bg-warning" role="progressbar" style="width: 78%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                                <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $project->progress }}%;"></div>
                                             </div>
-                                            <span class="ml-3 font-weight-bolder">78%</span>
+                                            <span class="ml-3 font-weight-bolder">
+                                                {{ $project->progress }}%
+                                            </span>
                                         </div>
                                     </div>
                                     <!--end::Progress-->

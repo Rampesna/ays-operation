@@ -8,7 +8,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link @if($tab == 'tasks') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}">
+                <a class="nav-link @if($tab == 'tasks') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}">
                     <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
                     <span class="nav-text">Görevler</span>
                 </a>

@@ -7,8 +7,11 @@
     @include('pages.project.project.show.components.subheader')
 
     <div class="row mt-15">
-        <div class="col-xl-12">
+        <div class="col-xl-6">
             <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}" class="btn btn-primary">Kanban Board</a>
+        </div>
+        <div class="col-xl-6 text-right">
+            <a href="#" class="btn btn-success font-weight-bolder" data-toggle="modal" data-target="#CreateTask">Yeni Görev</a>
         </div>
     </div>
     <hr>
@@ -21,6 +24,7 @@
                             <table class="table" id="tasks">
                                 <thead>
                                 <tr>
+                                    <th></th>
                                     <th>#</th>
                                     <th>Görev Adı</th>
                                     <th>Durum</th>
@@ -32,33 +36,32 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($project->tasks as $task)
+                                @foreach($project->tasks()->with('timesheets')->get() as $task)
                                     <tr>
-                                        <td><a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">#{{ $task->id }}</a></td>
                                         <td>
-                                            <a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">
-                                                {{ $task->name }}
-                                            </a>
-                                            <br>
-                                            @php($timesheet = \App\Models\Timesheet::where('task_id', $task->id)->
-                                                where('starter_type', 'App\Models\User')->
-                                                where('starter_id', auth()->user()->getId())->
-                                                where('start_time','<>', null)->
-                                                where('end_time', null)->
-                                                first())
-                                            @if(!is_null($timesheet))
-                                                <a href="#" onclick="document.getElementById('stop_form_{{ $task->id }}').submit();" class="text-danger">Durdur</a>
+                                            @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
+                                                <a href="#" onclick="document.getElementById('stop_form_{{ $task->id }}').submit();">
+                                                    <i class="fa fa-stop text-danger"></i>
+                                                </a>
                                                 <form method="post" id="stop_form_{{ $task->id }}" action="{{ route('project.project.timesheet.stop') }}">
                                                     @csrf
                                                     <input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">
                                                 </form>
                                             @else
-                                                <a href="#" onclick="document.getElementById('start_form_{{ $task->id }}').submit();" class="text-success">Başlat</a>
+                                                <a href="#" onclick="document.getElementById('start_form_{{ $task->id }}').submit();">
+                                                    <i class="fa fa-play text-success"></i>
+                                                </a>
                                                 <form method="post" id="start_form_{{ $task->id }}" action="{{ route('project.project.timesheet.start') }}">
                                                     @csrf
                                                     <input type="hidden" name="task_id" value="{{ $task->id }}">
                                                 </form>
                                             @endif
+                                        </td>
+                                        <td><a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">#{{ $task->id }}</a></td>
+                                        <td>
+                                            <a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">
+                                                {{ $task->name }}
+                                            </a>
                                         </td>
                                         <td>{{ $task->status }}</td>
                                         <td data-sort="{{ date('Y-m-d', strtotime($task->start_date)) }}">{{ strftime("%d %B, %Y", strtotime($task->start_date)) }}</td>
@@ -88,6 +91,7 @@
                                 </tbody>
                                 <tfoot>
                                 <tr>
+                                    <th></th>
                                     <th>#</th>
                                     <th>Görev Adı</th>
                                     <th>Durum</th>
@@ -107,6 +111,7 @@
     </div>
 
     @include('pages.project.project.show.modals.show-task')
+    @include('pages.project.project.show.modals.create-task')
 
 @endsection
 
@@ -125,6 +130,120 @@
     <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js?v=7.0.3') }}"></script>
     <script src="{{ asset('assets/js/pages/crud/datatables/extensions/buttons.js?v=7.0.3') }}"></script>
     <script src="{{ asset('assets/js/pages/crud/forms/editors/summernote.js') }}"></script>
+
+    <script>
+        // Class definition
+        var KTTagifyDemos = function() {
+            // Private functions
+            var tags = function() {
+                var input = document.getElementById('task_tags'),
+                    // init Tagify script on the above inputs
+                    tagify = new Tagify(input, {
+
+                    })
+
+                // Chainable event listeners
+                tagify.on('add', onAddTag)
+                    .on('remove', onRemoveTag)
+                    .on('input', onInput)
+                    .on('edit', onTagEdit)
+                    .on('invalid', onInvalidTag)
+                    .on('click', onTagClick)
+                    .on('dropdown:show', onDropdownShow)
+                    .on('dropdown:hide', onDropdownHide)
+
+                // tag added callback
+                function onAddTag(e) {
+                    console.log("onAddTag: ", e.detail);
+                    console.log("original input value: ", input.value)
+                    tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
+                }
+
+                // tag remvoed callback
+                function onRemoveTag(e) {
+                    console.log(e.detail);
+                    console.log("tagify instance value:", tagify.value)
+                }
+
+                // on character(s) added/removed (user is typing/deleting)
+                function onInput(e) {
+                    console.log(e.detail);
+                    console.log("onInput: ", e.detail);
+                }
+
+                function onTagEdit(e) {
+                    console.log("onTagEdit: ", e.detail);
+                }
+
+                // invalid tag added callback
+                function onInvalidTag(e) {
+                    console.log("onInvalidTag: ", e.detail);
+                }
+
+                // invalid tag added callback
+                function onTagClick(e) {
+                    console.log(e.detail);
+                    console.log("onTagClick: ", e.detail);
+                }
+
+                function onDropdownShow(e) {
+                    console.log("onDropdownShow: ", e.detail)
+                }
+
+                function onDropdownHide(e) {
+                    console.log("onDropdownHide: ", e.detail)
+                }
+            }
+
+            return {
+                // public functions
+                init: function() {
+                    tags();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function() {
+            KTTagifyDemos.init();
+        });
+
+    </script>
+
+
+    <script>
+        var KTFormRepeater = function() {
+
+            // Private functions
+            var repeater1 = function() {
+                $('#kt_repeater_1').repeater({
+                    initEmpty: false,
+
+                    defaultValues: {
+                        'text-input': 'foo'
+                    },
+
+                    show: function () {
+                        $(this).slideDown();
+                    },
+
+                    hide: function (deleteElement) {
+                        $(this).slideUp(deleteElement);
+                    }
+                });
+            }
+
+            return {
+                // public functions
+                init: function() {
+                    repeater1();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function() {
+            KTFormRepeater.init();
+        });
+    </script>
 
     <script>
         var table = $('#tasks').DataTable({
@@ -176,19 +295,21 @@
             columnDefs: [
                 {
                     targets: 0,
-                    width: "3%"
+                    width: "3%",
+                    orderable: false,
+                    searchable: false
                 },
                 {
                     targets: 1,
-                    width: "22%"
+                    width: "3%"
                 },
                 {
                     targets: 2,
-                    width: "5%"
+                    width: "22%"
                 },
                 {
                     targets: 3,
-                    width: "10%"
+                    width: "5%"
                 },
                 {
                     targets: 4,
@@ -196,10 +317,14 @@
                 },
                 {
                     targets: 5,
+                    width: "10%"
+                },
+                {
+                    targets: 6,
                     width: "8%"
                 },
                 {
-                    targets: 7,
+                    targets: 8,
                     width: "5%"
                 }
             ],

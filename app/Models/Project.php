@@ -13,7 +13,7 @@ class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['status'];
+    protected $appends = ['status', 'progress'];
 
     public function tasks()
     {
@@ -53,5 +53,12 @@ class Project extends Model
     public function getStatusAttribute()
     {
         return ProjectStatus::find($this->status_id)->name;
+    }
+
+    public function getProgressAttribute()
+    {
+        return count($this->tasks) > 0 ?
+            number_format(((count($this->tasks()->where('status_id', 5)->get()) / count($this->tasks)) * 100),2,'.',',') :
+            0;
     }
 }
