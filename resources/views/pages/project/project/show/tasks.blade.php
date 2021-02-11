@@ -646,6 +646,7 @@
                 url: '{{ route('ajax.project.timesheet.exists') }}',
                 data: {
                     task_id: task_id,
+                    starter_type: 'App\\Models\\User',
                     starter_id: starter_id
                 },
                 success: function (response) {

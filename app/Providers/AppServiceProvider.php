@@ -32,6 +32,10 @@ class AppServiceProvider extends ServiceProvider
             return auth()->user()->authority($permission);
         });
 
+        Blade::if('EmployeeAuthority', function ($authorization) {
+            return auth()->user()->authority($authorization);
+        });
+
         View::composer('*', AuthenticatedComposer::class);
         View::composer([
             'pages.dashboard.index',

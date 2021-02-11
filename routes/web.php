@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLoginForm'])->name('employee-panel.login.form');
+Route::post('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLogin'])->name('employee-panel.login');
+
 Route::get('/example', [\App\Http\Controllers\Ajax\Santral\MainController::class, 'index'])->name('example');
 
 Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function () {
@@ -99,8 +102,8 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             });
 
             Route::prefix('timesheet')->namespace('Timesheet')->group(function () {
-                Route::post('start','TimesheetController@start')->name('project.project.timesheet.start');
-                Route::post('stop','TimesheetController@stop')->name('project.project.timesheet.stop');
+                Route::post('start', 'TimesheetController@start')->name('project.project.timesheet.start');
+                Route::post('stop', 'TimesheetController@stop')->name('project.project.timesheet.stop');
             });
         });
     });
@@ -292,4 +295,24 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
         });
     });
 
+});
+
+Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\\Controllers\\EmployeePanel')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('employee-panel.index');
+    });
+    Route::get('index', 'MainController@index')->name('employee-panel.index');
+
+    Route::prefix('project')->namespace('Project')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('employee-panel.project.index');
+        });
+        Route::get('index', 'ProjectController@index')->name('employee-panel.project.index');
+        Route::get('{project}/{tab}', 'ProjectController@show')->name('employee-panel.project.show');
+
+        Route::prefix('timesheet')->group(function () {
+            Route::post('start', 'TimesheetController@start')->name('employee-panel.project.timesheet.start');
+            Route::post('stop', 'TimesheetController@stop')->name('employee-panel.project.timesheet.stop');
+        });
+    });
 });

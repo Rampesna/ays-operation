@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 /**
  * @method static find($primaryKey)
@@ -12,9 +14,26 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static where(string $column, string $data)
  * @method static whereBetween($column, array $array)
  */
-class Employee extends Model
+class Employee extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
+
+    protected $guard = 'employee';
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function authority($authorization): bool
+    {
+        return $this->authorizations()->where('authorization_id', $authorization)->exists() ? true : false;
+    }
+
+    public function authorizations()
+    {
+        return $this->belongsToMany(Authorization::class);
+    }
 
     public function company()
     {

@@ -9,6 +9,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -41,6 +42,26 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+        $this->middleware('guest:employee')->except('logout');
+    }
+
+    public function employeeLoginForm()
+    {
+        return view('employee.auth.login');
+    }
+
+    public function employeeLogin(Request $request)
+    {
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->intended('/employee/index');
+        }
+
+        return back()->withInput($request->only('email', 'remember'));
     }
 
     protected function credentials(Request $request)
@@ -120,8 +141,11 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-
         $login = 'login';
+
+        if (auth()->guard('employee')->check()) {
+            $login = 'employee-panel.login';
+        }
 
         $this->guard()->logout();
 

@@ -1,6 +1,5 @@
-@extends('layouts.authentication')
+@extends('employee.layouts.authentication')
 @section('title', 'Giriş Yap')
-
 
 @section('content')
     <div class="login login-3 wizard d-flex flex-column flex-lg-row flex-column-fluid">
@@ -15,10 +14,10 @@
         <div class="login-content flex-row-fluid d-flex flex-column p-10">
             <div class="d-flex flex-row-fluid flex-center">
                 <div class="login-form">
-                    <form class="form" id="login" action="{{ route('login') }}" method="post">
+                    <form class="form" id="login" action="{{ route('employee-panel.login') }}" method="post">
                         @csrf
                         <div class="pb-5 pb-lg-15">
-                            <h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Yönetim</h3>
+                            <h3 class="font-weight-bolder text-dark font-size-h2 font-size-h1-lg">Personel</h3>
                         </div>
                         <div class="form-group">
                             <label for="email" class="font-size-h6 font-weight-bolder text-dark">E-posta Adresiniz</label>
@@ -46,7 +45,7 @@
                                     <button type="submit" onclick="loginControl()" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Giriş Yap</button>
                                 </div>
                                 <div class="col-xl-8">
-                                    <a href="{{ route('employee-panel.login.form') }}" type="submit" class="btn btn-secondary btn-block font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Personel Girişi</a>
+                                    <a href="{{ route('login') }}" type="submit" class="btn btn-secondary btn-block font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Yönetici Girişi</a>
                                 </div>
                             </div>
                         </div>
