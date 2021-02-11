@@ -84,13 +84,20 @@ class TaskController extends Controller
     public function calculateTaskProgress(Request $request)
     {
         $checklistItems = Task::find($request->task_id)->checklistItems;
-        return response()->json((count($checklistItems->where('checked', 1)->all()) / count($checklistItems)) * 100);
+        return response()->json(number_format((count($checklistItems->where('checked', 1)->all()) / count($checklistItems)) * 100,2,'.',','),200);
     }
 
     public function updateStatus(Request $request)
     {
         $task = Task::find($request->task_id);
         $task->status_id = $request->status_id;
+        $task->save();
+    }
+
+    public function updateMilestone(Request $request)
+    {
+        $task = Task::find($request->task_id);
+        $task->milestone_id = $request->milestone_id;
         $task->save();
     }
 }

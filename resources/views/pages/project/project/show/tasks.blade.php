@@ -120,8 +120,8 @@
 
     <style>
         .showTaskHeaderTitleBackground{
-            background: rgb(181,77,0);
-            background: linear-gradient(90deg, rgba(181,77,0,1) 0%, rgba(255,139,0,1) 100%);
+            background: rgb(255,139,0);
+            background: linear-gradient(90deg, rgba(255,139,0,1) 0%, rgba(181,77,0,1) 100%);
         }
     </style>
 @stop

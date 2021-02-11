@@ -91,6 +91,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::get('calculateTaskProgress', 'TaskController@calculateTaskProgress')->name('ajax.project.task.calculateTaskProgress');
 
             Route::post('updateStatus','TaskController@updateStatus')->name('ajax.project.task.updateStatus');
+            Route::post('updateMilestone','TaskController@updateMilestone')->name('ajax.project.task.updateMilestone');
         });
 
         Route::prefix('timesheet')->group(function () {

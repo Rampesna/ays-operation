@@ -94,6 +94,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
                 Route::post('create', 'TaskController@create')->name('project.project.task.create');
             });
 
+            Route::prefix('milestone')->namespace('Milestone')->group(function () {
+                Route::post('create', 'MilestoneController@create')->name('project.project.milestone.create');
+            });
+
             Route::prefix('timesheet')->namespace('Timesheet')->group(function () {
                 Route::post('start','TimesheetController@start')->name('project.project.timesheet.start');
                 Route::post('stop','TimesheetController@stop')->name('project.project.timesheet.stop');
