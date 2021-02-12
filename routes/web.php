@@ -99,6 +99,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
 
             Route::prefix('milestone')->namespace('Milestone')->group(function () {
                 Route::post('create', 'MilestoneController@create')->name('project.project.milestone.create');
+                Route::post('delete', 'MilestoneController@delete')->name('project.project.milestone.delete');
             });
 
             Route::prefix('timesheet')->namespace('Timesheet')->group(function () {
@@ -108,6 +109,8 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
 
             Route::prefix('file')->namespace('File')->group(function () {
                 Route::post('create', 'FileController@create')->name('project.project.file.create');
+                Route::post('delete', 'FileController@delete')->name('project.project.file.delete');
+                Route::post('download', 'FileController@download')->name('project.project.file.download');
             });
         });
     });

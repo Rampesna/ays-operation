@@ -25,7 +25,7 @@
                         @foreach($project->timesheets()->orderBy('created_at')->get() as $timesheet)
                             <tr>
                                 <td></td>
-                                <td>{{ $timesheet->starter->name }}</td>
+                                <td>{{ @$timesheet->starter->name }}</td>
                                 <td>{{ $timesheet->task->name }}</td>
                                 <td>{{ $timesheet->start_time }}</td>
                                 <td>{{ $timesheet->end_time }}</td>

@@ -97,7 +97,7 @@ class TaskController extends Controller
     public function updateMilestone(Request $request)
     {
         $task = Task::find($request->task_id);
-        $task->milestone_id = $request->milestone_id;
+        $task->milestone_id = $request->milestone_id == '0' ? null : $request->milestone_id;
         $task->save();
     }
 }

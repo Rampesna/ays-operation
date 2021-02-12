@@ -29,19 +29,27 @@ class ProjectController extends Controller
     public function show(Project $project, $tab, $sub = null)
     {
         if ($sub) {
-            if ($sub == 'kanban') {
-                return view('pages.project.project.show.tasks-kanban', [
-                    'project' => $project,
-                    'tab' => $tab
-                ]);
+            if ($tab == 'tasks' && $sub == 'kanban') {
+                try {
+                    return view('pages.project.project.show.tasks-kanban', [
+                        'project' => $project,
+                        'tab' => $tab
+                    ]);
+                } catch (\Exception $exception) {
+                    return abort(404);
+                }
             } else {
                 return abort(404);
             }
         } else {
-            return view('pages.project.project.show.' . $tab, [
-                'project' => $project,
-                'tab' => $tab
-            ]);
+            try {
+                return view('pages.project.project.show.' . $tab, [
+                    'project' => $project,
+                    'tab' => $tab
+                ]);
+            } catch (\Exception $exception) {
+                return abort(404);
+            }
         }
     }
 

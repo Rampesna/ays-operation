@@ -69,8 +69,8 @@
                                         <td>
                                             @foreach(collect($task->timesheets()->with('starter')->get())->groupBy(['starter_type','starter_id'])->all() as $group)
                                                 @foreach($group as $starters)
-                                                    <a class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{ $starters->first()->starter->name }}">
-                                                        <img alt="Pic" src="{{ $starters->first()->starter->image ? asset($starters->first()->starter->image) : asset('assets/media/logos/avatar.jpg') }}" />
+                                                    <a class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{ @$starters->first()->starter->name }}">
+                                                        <img alt="Pic" src="{{ @$starters->first()->starter->image ? asset($starters->first()->starter->image) : asset('assets/media/logos/avatar.jpg') }}" />
                                                     </a>
                                                     @if($loop->iteration % 3 == 0)
                                                         <br>

@@ -24,6 +24,7 @@
 
     @include('pages.project.project.show.modals.create-milestone')
     @include('pages.project.project.show.modals.show-task')
+    @include('pages.project.project.show.modals.delete-milestone')
 
 @endsection
 
@@ -43,63 +44,63 @@
 
     <script>
         "use strict";
-
-        // Class definition
-
-        var KTKanbanBoardDemo = function () {
-            // Private functions
-            var _demo1 = function () {
-                var kanban = new jKanban({
-                    element: '#milestones',
-                    gutter: '0',
-                    widthBoard: '350px',
-                    click: function(el) {
-                        $("#ShowTask").modal('show');
-                        showTask(el.dataset.eid);
-                    },
-                    dropEl: function (el, source) {
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.updateMilestone') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                task_id: el.dataset.eid,
-                                milestone_id: el.parentNode.parentNode.dataset.id
-                            }
-                        });
-                    },
-                    boards: [
-                        @foreach($project->milestones()->orderBy('order','asc')->get() as $milestone)
+        var kanban = new jKanban({
+            element: '#milestones',
+            gutter: '0',
+            widthBoard: '350px',
+            dragBoards: false,
+            click: function(el) {
+                $("#ShowTask").modal('show');
+                showTask(el.dataset.eid);
+            },
+            dropEl: function (el, source) {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('ajax.project.task.updateMilestone') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        task_id: el.dataset.eid,
+                        milestone_id: el.parentNode.parentNode.dataset.id
+                    }
+                });
+            },
+            buttonClick: function(el, boardId) {
+                console.log(el);
+                console.log(boardId);
+            },
+            boards: [
+                {
+                    'id': '0',
+                    'title': 'Kilometre Taşsız Görevler',
+                    'class' : 'dark-75',
+                    'item': [
+                        @foreach($project->tasks()->where('milestone_id', null)->get() as $task)
                         {
-                            'id': '{{ $milestone->id }}',
-                            'title': '{{ $milestone->name }}',
-                            'class' : '{{ $milestone->color }}',
-                            'item': [
-                                @foreach($milestone->tasks as $task)
-                                {
-                                    'id' : '{{ $task->id }}',
-                                    'title': '<span class="font-weight-bold">{{ $task->name }}</span>'
-                                }
-                                {{ !$loop->last ? ',' : null }}
-                                @endforeach
-                            ]
+                            'id' : '{{ $task->id }}',
+                            'title': '{{ $task->name }}'
                         }
                         {{ !$loop->last ? ',' : null }}
                         @endforeach
                     ]
-                });
-            }
-
-            // Public functions
-            return {
-                init: function () {
-                    _demo1();
+                },
+                    @foreach($project->milestones()->orderBy('order','asc')->get() as $milestone)
+                {
+                    'id': '{{ $milestone->id }}',
+                    'title': '<div class="row"><div class="col-xl-10">{{ $milestone->name }}</div><div class="col-xl-2 text-right"><a href="#" data-id="{{ $milestone->id }}" class="deleteBoard" data-toggle="modal" data-target="#DeleteMilestoneModal"><i class="fa fa-trash text-white"></i></a></div></div>',
+                    'class' : '{{ $milestone->color }}',
+                    'item': [
+                            @foreach($milestone->tasks as $task)
+                        {
+                            'id' : '{{ $task->id }}',
+                            'title': '{{ $task->name }}'
+                        }
+                        {{ !$loop->last ? ',' : null }}
+                        @endforeach
+                    ]
                 }
-            };
-        }();
-
-        jQuery(document).ready(function () {
-            KTKanbanBoardDemo.init();
+                {{ !$loop->last ? ',' : null }}
+                @endforeach
+            ]
         });
 
     </script>
@@ -443,5 +444,18 @@
             });
             return progress;
         }
+    </script>
+
+    <script>
+
+        $(".deleteBoard").click(function () {
+            var milestone_id = $(this).data('id');
+            $("#deleted_milestone_id").val(milestone_id);
+        });
+
+        $("#cancelDeleteMilestone").click(function () {
+            $("#deleted_milestone_id").val('');
+        });
+
     </script>
 @stop

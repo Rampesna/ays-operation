@@ -10,6 +10,17 @@ class FileController extends Controller
 {
     public function create(Request $request)
     {
-        return response()->json(File::with(['uploader', 'relation'])->find((new FileService(new File))->store($request)->id), 200);
+        return response()->json(File::with(['uploader', 'comments'])->find((new FileService(new File))->store($request)->id), 200);
+    }
+
+    public function delete(Request $request)
+    {
+        File::find($request->file_id)->delete();
+        return redirect()->back();
+    }
+
+    public function download(Request $request)
+    {
+        return $request;
     }
 }

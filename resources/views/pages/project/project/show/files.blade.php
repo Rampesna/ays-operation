@@ -30,7 +30,8 @@
                     <table class="table" id="files">
                         <thead>
                         <tr>
-                            <th>Önizleme</th>
+                            <th></th>
+                            <th>Dosya</th>
                             <th>Dosya Adı</th>
                             <th>Dosya Türü</th>
                             <th>Yüklenme Zamanı</th>
@@ -42,13 +43,18 @@
                         @foreach($project->files()->with(['uploader','relation'])->get() as $file)
                             <tr>
                                 <td>
-                                    <img src="{{ asset($file->path . $file->name) }}" style="width: 100px; height: auto" />
+                                    @if($file->uploader_type == 'App\Models\User' && $file->uploader_id == auth()->user()->getId())
+                                        <a href="#" class="fileDelete" data-id="{{ $file->id }}" data-toggle="modal" data-target="#DeleteFileModal">
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </a>
+                                    @endif
                                 </td>
+                                <td><a href="{{ asset($file->path . $file->name) }}" download><i class="{{ $file->icon }}"></i></a></td>
                                 <td>{{ $file->name }}</td>
                                 <td>{{ $file->type }}</td>
                                 <td>{{ $file->created_at }}</td>
                                 <td>{{ $file->comments->count() }}</td>
-                                <td>{{ $file->uploader->name }}</td>
+                                <td>{{ @$file->uploader->name }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -57,6 +63,8 @@
             </div>
         </div>
     </div>
+
+    @include('pages.project.project.show.modals.delete-file')
 
 @endsection
 
@@ -105,7 +113,7 @@
             columnDefs: [
                 {
                     targets: 0,
-                    width: "15%",
+                    width: "3%",
                     orderable: false,
                     order: false
                 },
@@ -130,7 +138,19 @@
                         this.removeFile(file);
                     },
                     success : function(file, response){
-                        location.reload();
+                        table.row.add([
+                            '<a href="#" class="fileDelete" data-id="' + response.id + '" data-toggle="modal" data-target="#DeleteFileModal"><i class="fa fa-trash text-danger"></i></a>',
+                            '<i class="' + response.icon + '"></i>',
+                            response.name,
+                            response.type,
+                            response.created_at,
+                            response.comments.length,
+                            response.uploader.name
+                        ]).draw();
+
+                        $(".fileDelete").click(function () {
+                            $("#deleted_file_id").val($(this).data('id'));
+                        });
                     },
                     error: function (error) {
                         console.log(error);
@@ -154,6 +174,12 @@
     </script>
 
     <script>
+        $(".fileDelete").click(function () {
+            $("#deleted_file_id").val($(this).data('id'));
+        });
 
+        $("#cancelDeleteFile").click(function () {
+            $("#deleted_file_id").val('');
+        });
     </script>
 @stop

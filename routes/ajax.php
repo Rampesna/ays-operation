@@ -98,6 +98,20 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::get('exists','TimesheetController@exists')->name('ajax.project.timesheet.exists');
         });
 
+        Route::prefix('comment')->group(function () {
+            Route::post('create','CommentController@create')->name('ajax.project.comment.create');
+            Route::get('edit','CommentController@edit')->name('ajax.project.comment.edit');
+            Route::post('update','CommentController@update')->name('ajax.project.comment.update');
+            Route::post('delete','CommentController@delete')->name('ajax.project.comment.delete');
+        });
+
+        Route::prefix('note')->group(function () {
+            Route::post('create','NoteController@create')->name('ajax.project.note.create');
+            Route::get('edit','NoteController@edit')->name('ajax.project.note.edit');
+            Route::post('update','NoteController@update')->name('ajax.project.note.update');
+            Route::post('delete','NoteController@delete')->name('ajax.project.note.delete');
+        });
+
     });
 
 });

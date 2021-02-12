@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static find($primaryKey)
+ * @method static where($column, $parameter)
  */
 class Task extends Model
 {

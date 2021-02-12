@@ -195,11 +195,10 @@
                             'id': '{{ $status->id }}',
                             'title': '{{ $status->name }}',
                             'item': [
-                                @foreach($status->tasks as $task)
+                                @foreach($status->tasks()->where('project_id', $project->id)->get() as $task)
                                 {
                                     'id': '{{ $task->id }}',
-
-                                    'title': '<div class="row" style="margin-bottom: -20px">' +
+                                    'title': '<div class="row">' +
                                         '<div class="col-xl-8">' +
                                         '   {{ $task->name }}' + '' +
                                         '</div>' +
