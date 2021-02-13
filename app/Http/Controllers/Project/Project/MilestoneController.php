@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Project\Project\Milestone;
+namespace App\Http\Controllers\Project\Project;
 
 use App\Http\Controllers\Controller;
 use App\Models\Milestone;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Services\MilestoneService;
 
 class MilestoneController extends Controller
 {

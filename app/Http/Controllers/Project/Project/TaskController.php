@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Project\Project\Task;
+namespace App\Http\Controllers\Project\Project;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Services\TaskService;
 
 class TaskController extends Controller
 {

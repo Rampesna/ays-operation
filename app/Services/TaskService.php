@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Project\Project\Task;
+namespace App\Services;
 
 use App\Helpers\General;
 use App\Models\ChecklistItem;

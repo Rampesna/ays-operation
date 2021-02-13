@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use App\Services\ProjectService;
 
 class ProjectController extends Controller
 {

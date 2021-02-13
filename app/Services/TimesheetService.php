@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Project\Project\Timesheet;
+namespace App\Services;
 
 use Illuminate\Http\Request;
 

@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Project\Project\File;
+namespace App\Http\Controllers\Project\Project;
 
 use App\Http\Controllers\Controller;
 use App\Models\File;
 use Illuminate\Http\Request;
+use App\Services\FileService;
 
 class FileController extends Controller
 {

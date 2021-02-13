@@ -45,6 +45,7 @@
                         <div class="form-group">
                             <label for="milestone_id">Kilometre Taşı</label>
                             <select class="form-control" name="milestone_id" id="milestone_id">
+                                <option selected hidden disabled></option>
                                 @foreach($project->milestones as $milestone)
                                     <option value="{{ $milestone->id }}">{{ $milestone->name }}</option>
                                 @endforeach

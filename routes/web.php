@@ -93,21 +93,21 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::post('create', 'ProjectController@create')->name('project.project.create');
             Route::post('update', 'ProjectController@update')->name('project.project.update');
 
-            Route::prefix('task')->namespace('Task')->group(function () {
+            Route::prefix('task')->group(function () {
                 Route::post('create', 'TaskController@create')->name('project.project.task.create');
             });
 
-            Route::prefix('milestone')->namespace('Milestone')->group(function () {
+            Route::prefix('milestone')->group(function () {
                 Route::post('create', 'MilestoneController@create')->name('project.project.milestone.create');
                 Route::post('delete', 'MilestoneController@delete')->name('project.project.milestone.delete');
             });
 
-            Route::prefix('timesheet')->namespace('Timesheet')->group(function () {
+            Route::prefix('timesheet')->group(function () {
                 Route::post('start', 'TimesheetController@start')->name('project.project.timesheet.start');
                 Route::post('stop', 'TimesheetController@stop')->name('project.project.timesheet.stop');
             });
 
-            Route::prefix('file')->namespace('File')->group(function () {
+            Route::prefix('file')->group(function () {
                 Route::post('create', 'FileController@create')->name('project.project.file.create');
                 Route::post('delete', 'FileController@delete')->name('project.project.file.delete');
                 Route::post('download', 'FileController@download')->name('project.project.file.download');

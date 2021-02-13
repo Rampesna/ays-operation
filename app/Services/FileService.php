@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Project\Project\File;
+namespace App\Services;
 
 use App\Models\File;
 use Illuminate\Http\Request;
