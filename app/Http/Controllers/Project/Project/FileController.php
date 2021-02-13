@@ -19,9 +19,4 @@ class FileController extends Controller
         File::find($request->file_id)->delete();
         return redirect()->back();
     }
-
-    public function download(Request $request)
-    {
-        return $request;
-    }
 }

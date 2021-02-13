@@ -110,7 +110,6 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function
             Route::prefix('file')->group(function () {
                 Route::post('create', 'FileController@create')->name('project.project.file.create');
                 Route::post('delete', 'FileController@delete')->name('project.project.file.delete');
-                Route::post('download', 'FileController@download')->name('project.project.file.download');
             });
         });
     });
@@ -320,6 +319,10 @@ Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\
         Route::prefix('timesheet')->group(function () {
             Route::post('start', 'TimesheetController@start')->name('employee-panel.project.timesheet.start');
             Route::post('stop', 'TimesheetController@stop')->name('employee-panel.project.timesheet.stop');
+        });
+
+        Route::prefix('file')->group(function () {
+            Route::post('create', 'FileController@create')->name('employee-panel.project.file.create');
         });
     });
 });
