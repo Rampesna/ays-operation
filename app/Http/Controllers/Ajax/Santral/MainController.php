@@ -2,16 +2,9 @@
 
 namespace App\Http\Controllers\Ajax\Santral;
 
-use App\Http\Api\AyssoftTakipApi;
 use App\Http\Controllers\Controller;
-use App\Models\Company;
-use App\Models\Project;
-use App\Models\Queue;
-use App\Models\ShiftGroup;
 use App\Models\Task;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 
 class MainController extends Controller
 {

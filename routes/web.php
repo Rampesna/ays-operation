@@ -10,11 +10,11 @@ Route::post('/login/employee', [\App\Http\Controllers\Auth\LoginController::clas
 
 Route::get('/example', [\App\Http\Controllers\Ajax\Santral\MainController::class, 'index'])->name('example');
 
-Route::middleware(['auth'])->namespace('App\\Http\\Controllers')->group(function () {
+Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->group(function () {
     Route::get('/', function () {
         return redirect()->route('index');
     });
-    Route::get('/index/{company_id?}', 'HomeController@index')->name('index')->middleware('Authority:1');
+    Route::get('/index/{company_id?}', 'MainController@index')->name('index')->middleware('Authority:1');
 
     Route::prefix('employee')->namespace('Employee')->group(function () {
         Route::get('/', function () {

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Ajax\ShiftGroup;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use App\Models\ShiftGroup;
 use Illuminate\Http\Request;
 

@@ -140,7 +140,7 @@
                     success : function(file, response){
                         table.row.add([
                             '<a href="#" class="fileDelete" data-id="' + response.id + '" data-toggle="modal" data-target="#DeleteFileModal"><i class="fa fa-trash text-danger"></i></a>',
-                            '<i class="' + response.icon + '"></i>',
+                            '<a href="{{ asset('') }}' + response.path + response.name + '" download><i class="' + response.icon + '"></i></a>',
                             response.name,
                             response.type,
                             response.created_at,

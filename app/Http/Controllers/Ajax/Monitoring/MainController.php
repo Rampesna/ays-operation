@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Ajax\Monitoring;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class MainController extends Controller
 {

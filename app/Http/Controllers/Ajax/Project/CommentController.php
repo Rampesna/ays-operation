@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Ajax\Project;
 
 use App\Http\Controllers\Controller;
 use App\Models\Comment;
-use App\Models\Company;
-use App\Models\Employee;
-use App\Models\Project;
 use App\Services\CommentService;
 use Illuminate\Http\Request;
 
