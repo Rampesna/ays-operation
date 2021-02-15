@@ -5,6 +5,7 @@
 @section('content')
 
     @include('pages.project.project.show.components.subheader')
+    <input type="hidden" id="kt_quick_cart_toggle">
     <input type="hidden" id="loaderControl" value="0">
     <input type="hidden" id="sublistControl" value="0">
     <div class="row mt-15">
@@ -13,15 +14,11 @@
         </div>
     </div>
     <hr>
-    <div class="row">
-        <div class="col-xl-12">
-            <div id="tasks"></div>
-            <div id="addNewBoard" class="bg-hover-secondary" style="width: 275px; height: auto; background-color: #f4f7fa; border-radius: 5%; text-align: center;"><i class="fa fa-plus fa-lg mt-6 mb-6"></i></div>
-        </div>
-    </div>
+    <div id="tasks"></div>
 
     @include('pages.project.project.show.modals.show-task')
     @include('pages.project.project.show.modals.create-task')
+    @include('pages.project.project.show.components.task-rightbar')
 
 @endsection
 
@@ -35,7 +32,23 @@
         }
 
         .kanban-board-header {
-            background-color: #eeeff8;
+            margin-bottom: -20px;
+        }
+
+        .kanban-container .kanban-board {
+            float: none;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            margin-bottom: 1.25rem;
+            margin-right: 1.25rem !important;
+            background-color: transparent;
+            border-radius: 0.42rem;
+        }
+
+        .kanban-container .kanban-board .kanban-drag .kanban-item {
+            border-radius: 1rem;
+            -webkit-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.05);
+            box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.05);
         }
     </style>
 @stop
@@ -166,24 +179,12 @@
     </script>
 
     <script>
-        $(document).on("click", ".editableLabel", function () {
-            var value = $(this).html();
-            $(this).replaceWith('<input type="text" class="editedInput" value="' + value + '">');
-        });
-
-        $(document).on("blur focusOut", ".editedInput", function () {
-            var value = $(this).val();
-            $(this).replaceWith('<label class="editedInput">' + value + '</label>');
-        });
-    </script>
-
-    <script>
         "use strict";
 
         var kanban = new jKanban({
             element: '#tasks',
             gutter: '0',
-            widthBoard: '275px',
+            widthBoard: '290px',
             dragBoards: true,
             click: function(el) {
                 // var loaderControlSelector = $("#loaderControl");
@@ -224,7 +225,7 @@
                 @foreach($project->taskStatuses()->orderBy('order','asc')->get() as $status)
                 {
                     'id': '{{ $status->id }}',
-                    'title': '<div class="row"><div class="col-xl-10"><input data-id="{{ $status->id }}" class="form-control font-weight-bold editBoardTitle" type="text" value="{{ $status->name }}" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-2"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="{{ $status->id }}"></i></div></div>',
+                    'title': '<div class="row"><div class="col-xl-1"><i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i></div><div class="col-xl-9"><input data-id="{{ $status->id }}" class="form-control font-weight-bold editBoardTitle" type="text" value="{{ $status->name }}" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-1 text-right"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="{{ $status->id }}"></i></div></div>',
                     'item': [
                             @foreach($status->tasks()->where('project_id', $project->id)->get() as $task)
                         {
@@ -279,6 +280,13 @@
                 }
                 {{ !$loop->last ? ',' : null }}
                 @endforeach
+                ,{
+                    'id': '0',
+                    'order': 99999,
+                    'title': '<div class="row"><div id="addNewBoard" class="col-xl-12 bg-dark-75-o-25 bg-hover-secondary text-center cursor-pointer" style="border-radius: 2rem"><span class="form-control mt-1 font-weight-bold text-dark-75 editBoardTitle" style="font-size: 12px; border: none; background: transparent"><i class="fa fa-plus fa-sm mr-2"></i>Yeni Pano</span></div></div>',
+                    'class': '',
+                    'dragBoards': false
+                }
             ]
         });
     </script>
@@ -383,81 +391,6 @@
                     $("#start_date_card").html('Başlangıç Tarihi: ' + task.start_date);
                     $("#end_date_card").html('Bitiş Tarihi: ' + task.end_date);
                     $("#priority_card").html('Öncelik: ' + task.priority);
-
-                    $(".checklistItemCheckbox").click(function () {
-                        var checklist_item_id = $(this).data('id');
-                        if ($(this).is(':checked')) {
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ route('ajax.project.task.checkChecklistItem') }}',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    checklist_item_id: checklist_item_id
-                                }
-                            });
-                        } else {
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ route('ajax.project.task.uncheckChecklistItem') }}',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    checklist_item_id: checklist_item_id
-                                }
-                            });
-                        }
-
-                        var progress = calculateTaskProgress(task.id);
-
-                        taskProgressSelector.html(progress + '%');
-                        taskProgressSelector.css({'width': progress + '%'});
-                    });
-
-                    $(".checklistItemInput").focusout(function () {
-                        var checklist_item_id = $(this).data('id');
-                        var name = $(this).val();
-
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.updateChecklistItem') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                checklist_item_id: checklist_item_id,
-                                name: name
-                            },
-                            success: function () {
-
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        });
-                    });
-
-                    $(".checklistItemDelete").click(function () {
-                        var checklist_item_id = $(this).data('id');
-
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.deleteChecklistItem') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                checklist_item_id: checklist_item_id
-                            },
-                            success: function () {
-                                $("#checklist_item_row_" + checklist_item_id).remove();
-
-                                var progress = calculateTaskProgress(task.id);
-
-                                taskProgressSelector.html(progress + '%');
-                                taskProgressSelector.css({'width': progress + '%'});
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        });
-                    });
                 },
                 error: function (error) {
                     console.log(error);
@@ -587,8 +520,82 @@
             });
         });
 
-        function timesheetExistControl(task_id, starter_id)
-        {
+        $(document).delegate('.checklistItemCheckbox', 'click', function () {
+            var checklist_item_id = $(this).data('id');
+            if ($(this).is(':checked')) {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('ajax.project.task.checkChecklistItem') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        checklist_item_id: checklist_item_id
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('ajax.project.task.uncheckChecklistItem') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        checklist_item_id: checklist_item_id
+                    }
+                });
+            }
+
+            var progress = calculateTaskProgress(task.id);
+
+            taskProgressSelector.html(progress + '%');
+            taskProgressSelector.css({'width': progress + '%'});
+        });
+
+        $(document).delegate('.checklistItemInput', 'focusout', function () {
+            var checklist_item_id = $(this).data('id');
+            var name = $(this).val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task.updateChecklistItem') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    checklist_item_id: checklist_item_id,
+                    name: name
+                },
+                success: function () {
+
+                },
+                error: function (error) {
+                    console.log(error);
+
+                }
+            });
+        });
+
+        $(document).delegate('.checklistItemDelete', 'click', function () {
+            var checklist_item_id = $(this).data('id');
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task.deleteChecklistItem') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    checklist_item_id: checklist_item_id
+                },
+                success: function () {
+                    $("#checklist_item_row_" + checklist_item_id).remove();
+
+                    var progress = calculateTaskProgress(task.id);
+
+                    taskProgressSelector.html(progress + '%');
+                    taskProgressSelector.css({'width': progress + '%'});
+                },
+                error: function (error) {
+                    console.log(error);
+
+                }
+            });
+        });
+
+        function timesheetExistControl(task_id, starter_id) {
             var result = null;
             $.ajax({
                 async: false,
@@ -606,8 +613,7 @@
             return result;
         }
 
-        function calculateTaskProgress(task_id)
-        {
+        function calculateTaskProgress(task_id) {
             var progress = null;
             $.ajax({
                 async: false,
@@ -634,6 +640,7 @@
         });
 
         $(".taskItemTitle").click(function () {
+            $("#kt_quick_cart_toggle").click();
             showTask($(this).data('id'));
             $("#ShowTask").modal('show');
         });
@@ -644,7 +651,7 @@
             $("#sublist_" + id).slideToggle();
         }
 
-        $(".editBoardTitle").focusout(function () {
+        $(document).delegate('.editBoardTitle','focusout',function () {
             var task_id = $(this).data('id');
             var name = $(this).val();
 
@@ -659,7 +666,7 @@
             });
         });
 
-        $("#addNewBoard").click(function () {
+        $(document).delegate("#addNewBoard", "click", function (e) {
             var project_id = '{{ $project->id }}';
             $.ajax({
                 type: 'post',
@@ -669,12 +676,21 @@
                     project_id: project_id
                 },
                 success: function (taskStatus) {
+                    kanban.removeBoard('0');
                     kanban.addBoards([
                         {
                             id: '' + taskStatus.id + '',
-                            title: '<div class="row"><div class="col-xl-10"><input data-id="' + taskStatus.id + '" class="form-control font-weight-bold editBoardTitle" type="text" value="' + taskStatus.name + '" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-2"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="' + taskStatus.id + '"></i></div></div>',
+                            title: '<div class="row"><div class="col-xl-1 mr-n4"><i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i></div><div class="col-xl-10"><input data-id="' + taskStatus.id + '" class="form-control font-weight-bold editBoardTitle" type="text" value="' + taskStatus.name + '" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-1 text-right"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="' + taskStatus.id + '"></i></div></div>',
                             item: [],
                             order: taskStatus.order
+                        }
+                    ]);
+                    kanban.addBoards([
+                        {
+                            id: '0',
+                            order: 99999,
+                            title: '<div class="row"><div id="addNewBoard" class="col-xl-12 bg-dark-75-o-25 bg-hover-secondary text-center cursor-pointer" style="border-radius: 2rem"><span class="form-control mt-1 font-weight-bold text-dark-75 editBoardTitle" type="text" style="font-size: 12px; border: none; background: transparent"><i class="fa fa-plus fa-sm mr-2"></i>Yeni Pano</span></div></div>',
+                            dragBoards: false
                         }
                     ]);
                 },

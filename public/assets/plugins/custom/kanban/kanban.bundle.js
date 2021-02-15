@@ -24,7 +24,7 @@
         !function () {
             this.jKanban = function () {
                 var b = this, e = {enabled: !1};
-                this._disallowedItemProperties = ["id", "title", "click", "drag", "dragend", "drop", "order"], this.element = "", this.container = "", this.boardContainer = [], this.handlers = [], this.dragula = i, this.drake = "", this.drakeBoard = "", this.addItemButton = !1;
+                this._disallowedItemProperties = ["id", "title", "click", "drag", "dragend", "drop", "order"], this.element = "", this.container = "", this.boardContainer = [], this.handlers = [], this.dragula = i, this.drake = "", this.drakeBoard = "", this.addItemButton = 1;
                 var t = {
                     element: "",
                     gutter: "15px",
@@ -101,7 +101,7 @@
                         e.classList.add("kanban-container"), b.container = e, b.addBoards(b.options.boards, !0), b.element.appendChild(b.container)
                     }(), window.innerWidth > b.options.responsive && (b.drakeBoard = b.dragula([b.container], {
                         moves: function (e, t, n, i) {
-                            return !!b.options.dragBoards && (n.classList.contains("kanban-board-header") || n.classList.contains("kanban-title-board"))
+                            return !!b.options.dragBoards && (n.classList.contains("kanban-board-header") || n.classList.contains("kanban-title-board") || n.classList.contains("moveTaskIcon"))
                         }, accepts: function (e, t, n, i) {
                             return t.classList.contains("kanban-container")
                         }, revertOnSpill: !0, direction: "horizontal"
