@@ -25,6 +25,11 @@ class Project extends Model
         return $this->hasManyThrough(Timesheet::class, Task::class);
     }
 
+    public function checklistItems()
+    {
+        return $this->hasManyThrough(ChecklistItem::class, Task::class);
+    }
+
     public function milestones()
     {
         return $this->hasMany(Milestone::class);
@@ -50,15 +55,29 @@ class Project extends Model
         return $this->belongsToMany(Employee::class);
     }
 
+    public function taskStatuses()
+    {
+        return $this->hasMany(TaskStatus::class, 'project_id', 'id');
+    }
+
     public function getStatusAttribute()
     {
         return ProjectStatus::find($this->status_id)->name;
     }
 
+    public function getCompletedTasksAttribute()
+    {
+        $tasks = $this->tasks;
+        $total = 0;
+        foreach ($tasks as $task) {
+            $task->checklistItems()->where('checked', 0)->count() == 0 ? $total += 1 : null;
+        }
+
+        return $total;
+    }
+
     public function getProgressAttribute()
     {
-        return count($this->tasks) > 0 ?
-            number_format(((count($this->tasks()->where('status_id', 5)->get()) / count($this->tasks)) * 100),2,'.',',') :
-            0;
+        return $this->checklistItems->count() > 0 ? number_format(($this->checklistItems()->where('checked', 1)->count() / $this->checklistItems->count()) * 100, 2, '.', ',') : 0;
     }
 }

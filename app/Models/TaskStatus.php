@@ -13,8 +13,15 @@ class TaskStatus extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $guarded = [];
+
     public function tasks()
     {
         return $this->hasMany(Task::class, 'status_id', 'id');
+    }
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 }

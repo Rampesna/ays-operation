@@ -117,7 +117,7 @@
                                 <!--end::Svg Icon-->
                             </span>
                             <h4 class="font-30 font-weight-bold text-col-blue" style="font-size: 30px">
-                                {{ $project->tasks()->where('status_id', 5)->count() . ' / ' . $project->tasks()->count() }}
+                                {{ $project->completed_tasks . ' / ' . $project->tasks()->count() }}
                             </h4>
 
                         </div>

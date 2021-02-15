@@ -92,27 +92,33 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
             Route::get('calculateTaskProgress', 'TaskController@calculateTaskProgress')->name('ajax.project.task.calculateTaskProgress');
 
-            Route::post('updateStatus','TaskController@updateStatus')->name('ajax.project.task.updateStatus');
-            Route::post('updateMilestone','TaskController@updateMilestone')->name('ajax.project.task.updateMilestone');
+            Route::post('updateStatus', 'TaskController@updateStatus')->name('ajax.project.task.updateStatus');
+            Route::post('updateMilestone', 'TaskController@updateMilestone')->name('ajax.project.task.updateMilestone');
+
+            Route::prefix('task-status')->group(function () {
+                Route::post('create', 'TaskStatusController@create')->name('ajax.project.task-status.create');
+                Route::post('name-update', 'TaskStatusController@nameUpdate')->name('ajax.project.task-status.name-update');
+                Route::post('order-update', 'TaskStatusController@orderUpdate')->name('ajax.project.task-status.order-update');
+            });
         });
 
         Route::prefix('timesheet')->group(function () {
-            Route::get('exists','TimesheetController@exists')->name('ajax.project.timesheet.exists');
-            Route::get('getOpenTimesheets','TimesheetController@getOpenTimesheets')->name('ajax.project.timesheet.getOpenTimesheets');
+            Route::get('exists', 'TimesheetController@exists')->name('ajax.project.timesheet.exists');
+            Route::get('getOpenTimesheets', 'TimesheetController@getOpenTimesheets')->name('ajax.project.timesheet.getOpenTimesheets');
         });
 
         Route::prefix('comment')->group(function () {
-            Route::post('create','CommentController@create')->name('ajax.project.comment.create');
-            Route::get('edit','CommentController@edit')->name('ajax.project.comment.edit');
-            Route::post('update','CommentController@update')->name('ajax.project.comment.update');
-            Route::post('delete','CommentController@delete')->name('ajax.project.comment.delete');
+            Route::post('create', 'CommentController@create')->name('ajax.project.comment.create');
+            Route::get('edit', 'CommentController@edit')->name('ajax.project.comment.edit');
+            Route::post('update', 'CommentController@update')->name('ajax.project.comment.update');
+            Route::post('delete', 'CommentController@delete')->name('ajax.project.comment.delete');
         });
 
         Route::prefix('note')->group(function () {
-            Route::post('create','NoteController@create')->name('ajax.project.note.create');
-            Route::get('edit','NoteController@edit')->name('ajax.project.note.edit');
-            Route::post('update','NoteController@update')->name('ajax.project.note.update');
-            Route::post('delete','NoteController@delete')->name('ajax.project.note.delete');
+            Route::post('create', 'NoteController@create')->name('ajax.project.note.create');
+            Route::get('edit', 'NoteController@edit')->name('ajax.project.note.edit');
+            Route::post('update', 'NoteController@update')->name('ajax.project.note.update');
+            Route::post('delete', 'NoteController@delete')->name('ajax.project.note.delete');
         });
 
     });

@@ -203,11 +203,28 @@
                     }
                 });
             },
+            dragendBoard: function (el) {
+                var allBoards = document.querySelectorAll('.kanban-board');
+                if (allBoards.length > 0) {
+                    var list = [];
+                    for (var i = 0; i < allBoards.length; i++) {
+                        list[allBoards[i].dataset.id] = allBoards[i].dataset.order
+                    }
+                    $.ajax({
+                        type: 'post',
+                        url: '{{ route('ajax.project.task-status.order-update') }}',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            list: list
+                        }
+                    });
+                }
+            },
             boards: [
-                @foreach(\App\Models\TaskStatus::all() as $status)
+                @foreach($project->taskStatuses()->orderBy('order','asc')->get() as $status)
                 {
                     'id': '{{ $status->id }}',
-                    'title': '<div class="row"><div class="col-xl-10"><input class="form-control font-weight-bold editBoardTitle" type="text" value="{{ $status->name }}" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-2"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="{{ $status->id }}"></i></div></div>',
+                    'title': '<div class="row"><div class="col-xl-10"><input data-id="{{ $status->id }}" class="form-control font-weight-bold editBoardTitle" type="text" value="{{ $status->name }}" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-2"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="{{ $status->id }}"></i></div></div>',
                     'item': [
                             @foreach($status->tasks()->where('project_id', $project->id)->get() as $task)
                         {
@@ -240,7 +257,7 @@
                                 '<br><br>' +
                                 '<div class="row mt-n3">' +
                                 '<div class="col-xl-12">' +
-                                '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->priority }}</span>@if($task->milestone) <span class="btn btn-pill btn-sm btn-info" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->milestone->name }}</span> @endif' +
+                                '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->priority }}</span>@if($task->milestone) <span class="btn btn-pill btn-sm btn-{{ $task->milestone->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->milestone->name }}</span> @endif' +
                                 '</div>' +
                                 '</div>' +
                                 '<br><br>' +
@@ -265,8 +282,6 @@
             ]
         });
     </script>
-
-
 
     <script>
         function showTask(task_id)
@@ -630,17 +645,43 @@
         }
 
         $(".editBoardTitle").focusout(function () {
-            console.log($(this).val());
+            var task_id = $(this).data('id');
+            var name = $(this).val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task-status.name-update') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    task_id: task_id,
+                    name: name
+                }
+            });
         });
 
         $("#addNewBoard").click(function () {
-            kanban.addBoards([
-                {
-                    id: "_default",
-                    title: "Yeni Board",
-                    item: []
+            var project_id = '{{ $project->id }}';
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task-status.create') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    project_id: project_id
+                },
+                success: function (taskStatus) {
+                    kanban.addBoards([
+                        {
+                            id: '' + taskStatus.id + '',
+                            title: '<div class="row"><div class="col-xl-10"><input data-id="' + taskStatus.id + '" class="form-control font-weight-bold editBoardTitle" type="text" value="' + taskStatus.name + '" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-2"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="' + taskStatus.id + '"></i></div></div>',
+                            item: [],
+                            order: taskStatus.order
+                        }
+                    ]);
+                },
+                error: function (error) {
+                    console.log(error);
                 }
-            ]);
+            });
         });
     </script>
 @stop
