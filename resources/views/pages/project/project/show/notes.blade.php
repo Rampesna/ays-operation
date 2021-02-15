@@ -172,86 +172,6 @@
                     table.draw(false);
                     $("#note_create").val('');
                     $("#CreateNote").modal('hide');
-
-                    $(".edit").click(function () {
-                        var note_id = $(this).data('id');
-                        $("#updated_note_id").val(note_id);
-
-                        $.ajax({
-                            async: false,
-                            type: 'get',
-                            url: '{{ route('ajax.project.note.edit') }}',
-                            data: {
-                                note_id: note_id
-                            },
-                            success: function (note) {
-                                $("#note_edit").val(note.note);
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        }).done();
-                    });
-
-                    $("#update_note").click(function () {
-                        var note_id = $("#updated_note_id").val();
-                        var note = $("#note_edit").val();
-                        var creator_type = 'App\\Models\\User';
-                        var creator_id = '{{ auth()->user()->getId() }}';
-                        var relation_type = 'App\\Models\\Project';
-                        var relation_id = '{{ $project->id }}';
-
-                        $.ajax({
-                            async: false,
-                            type: 'post',
-                            url: '{{ route('ajax.project.note.update') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                note_id: note_id,
-                                creator_type: creator_type,
-                                creator_id: creator_id,
-                                relation_type: relation_type,
-                                relation_id: relation_id,
-                                note: note
-                            },
-                            success: function (note) {
-                                location.reload();
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        }).done();
-                    });
-
-                    $(".delete").click(function () {
-                        var note_id = $(this).data('id');
-                        $("#deleted_note_id").val(note_id);
-                    });
-
-                    $("#delete_note").click(function () {
-                        var note_id = $("#deleted_note_id").val();
-
-                        $.ajax({
-                            async: false,
-                            type: 'post',
-                            url: '{{ route('ajax.project.note.delete') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                note_id: note_id
-                            },
-                            success: function () {
-                                table.row('#row_id_' + note_id).remove().draw();
-                                $("#DeleteNote").modal('hide');
-                                $("#deleted_note_id").val('');
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        }).done();
-                    });
                 },
                 error: function (error) {
                     console.log(error);
@@ -263,10 +183,8 @@
         $("#cancelCreateNote").click(function () {
             $("#note_create").val('');
         });
-    </script>
 
-    <script>
-        $(".edit").click(function () {
+        $(document).delegate(".edit", "click", function (e) {
             var note_id = $(this).data('id');
             $("#updated_note_id").val(note_id);
 
@@ -309,7 +227,16 @@
                     note: note
                 },
                 success: function (note) {
-                    location.reload();
+                    table.row("#row_id_" + note_id).remove().draw();
+                    table.row.add([
+                        '<div class="dropdown dropdown-inline"><a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ki ki-bold-more-ver"></i></a><div class="dropdown-menu dropdown-menu-sm dropdown-menu-right"><ul class="navi navi-hover"><li class="navi-item"><a href="#" data-id="' + note.id + '" data-toggle="modal" data-target="#EditNote" class="navi-link edit"><span class="navi-icon"><i class="fa fa-edit"></i></span><span class="navi-text">Düzenle</span></a></li><li class="navi-item"><a href="#" data-id="' + note.id + '" data-toggle="modal" data-target="#DeleteNote" class="navi-link delete"><span class="navi-icon"><i class="fa fa-trash-alt text-danger"></i></span><span class="navi-text text-danger">Sil</span></a></li></ul></div></div>',
+                        moment(new Date(note.created_at)).format('YYYY-MM-DD HH:mm:ss'),
+                        note.creator.name,
+                        '<textarea class="form-control" rows="2" disabled>' + note.note + '</textarea>'
+                    ]).node().id = 'row_id_' + note.id;
+                    table.draw(false);
+                    $("#note_edit").val('');
+                    $("#EditNote").modal('hide');
                 },
                 error: function (error) {
                     console.log(error);
@@ -318,12 +245,12 @@
             }).done();
         });
 
-        $(".delete").click(function () {
+        $(document).delegate(".delete", "click", function (e) {
             var note_id = $(this).data('id');
             $("#deleted_note_id").val(note_id);
         });
 
-        $("#delete_note").click(function () {
+        $(document).delegate("#delete_note", "click", function (e) {
             var note_id = $("#deleted_note_id").val();
 
             $.ajax({
