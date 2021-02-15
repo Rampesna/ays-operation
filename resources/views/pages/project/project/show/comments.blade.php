@@ -172,86 +172,6 @@
                     table.draw(false);
                     $("#comment_create").val('');
                     $("#CreateComment").modal('hide');
-
-                    $(".edit").click(function () {
-                        var comment_id = $(this).data('id');
-                        $("#updated_comment_id").val(comment_id);
-
-                        $.ajax({
-                            async: false,
-                            type: 'get',
-                            url: '{{ route('ajax.project.comment.edit') }}',
-                            data: {
-                                comment_id: comment_id
-                            },
-                            success: function (comment) {
-                                $("#comment_edit").val(comment.comment);
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        }).done();
-                    });
-
-                    $("#update_comment").click(function () {
-                        var comment_id = $("#updated_comment_id").val();
-                        var comment = $("#comment_edit").val();
-                        var creator_type = 'App\\Models\\User';
-                        var creator_id = '{{ auth()->user()->getId() }}';
-                        var relation_type = 'App\\Models\\Project';
-                        var relation_id = '{{ $project->id }}';
-
-                        $.ajax({
-                            async: false,
-                            type: 'post',
-                            url: '{{ route('ajax.project.comment.update') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                comment_id: comment_id,
-                                creator_type: creator_type,
-                                creator_id: creator_id,
-                                relation_type: relation_type,
-                                relation_id: relation_id,
-                                comment: comment
-                            },
-                            success: function (comment) {
-                                location.reload();
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        }).done();
-                    });
-
-                    $(".delete").click(function () {
-                        var comment_id = $(this).data('id');
-                        $("#deleted_comment_id").val(comment_id);
-                    });
-
-                    $("#delete_comment").click(function () {
-                        var comment_id = $("#deleted_comment_id").val();
-
-                        $.ajax({
-                            async: false,
-                            type: 'post',
-                            url: '{{ route('ajax.project.comment.delete') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                comment_id: comment_id
-                            },
-                            success: function () {
-                                table.row('#row_id_' + comment_id).remove().draw();
-                                $("#DeleteComment").modal('hide');
-                                $("#deleted_comment_id").val('');
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        }).done();
-                    });
                 },
                 error: function (error) {
                     console.log(error);
@@ -263,13 +183,10 @@
         $("#cancelCreateComment").click(function () {
             $("#comment_create").val('');
         });
-    </script>
 
-    <script>
-        $(".edit").click(function () {
+        $(document).delegate(".edit", "click", function (e) {
             var comment_id = $(this).data('id');
             $("#updated_comment_id").val(comment_id);
-
             $.ajax({
                 async: false,
                 type: 'get',
@@ -309,7 +226,16 @@
                     comment: comment
                 },
                 success: function (comment) {
-                    location.reload();
+                    table.row("#row_id_" + comment_id).remove().draw();
+                    table.row.add([
+                        '<div class="dropdown dropdown-inline"><a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ki ki-bold-more-ver"></i></a><div class="dropdown-menu dropdown-menu-sm dropdown-menu-right"><ul class="navi navi-hover"><li class="navi-item"><a href="#" data-id="' + comment.id + '" data-toggle="modal" data-target="#EditComment" class="navi-link edit"><span class="navi-icon"><i class="fa fa-edit"></i></span><span class="navi-text">Düzenle</span></a></li><li class="navi-item"><a href="#" data-id="' + comment.id + '" data-toggle="modal" data-target="#DeleteComment" class="navi-link delete"><span class="navi-icon"><i class="fa fa-trash-alt text-danger"></i></span><span class="navi-text text-danger">Sil</span></a></li></ul></div></div>',
+                        moment(new Date(comment.created_at)).format('YYYY-MM-DD HH:mm:ss'),
+                        comment.creator.name,
+                        '<textarea class="form-control" rows="2" disabled>' + comment.comment + '</textarea>'
+                    ]).node().id = 'row_id_' + comment.id;
+                    table.draw(false);
+                    $("#comment_edit").val('');
+                    $("#EditComment").modal('hide');
                 },
                 error: function (error) {
                     console.log(error);
@@ -318,12 +244,12 @@
             }).done();
         });
 
-        $(".delete").click(function () {
+        $(document).delegate(".delete", "click", function (e) {
             var comment_id = $(this).data('id');
             $("#deleted_comment_id").val(comment_id);
         });
 
-        $("#delete_comment").click(function () {
+        $(document).delegate("#delete_comment", "click", function (e) {
             var comment_id = $("#deleted_comment_id").val();
 
             $.ajax({
