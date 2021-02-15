@@ -7,7 +7,7 @@
     <meta name="description" content="@yield('meta_description', config('app.name'))" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-@yield('meta')
+    @yield('meta')
 <!--begin::Fonts-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
     <!--end::Fonts-->
@@ -146,11 +146,7 @@
 @endif
 
 <script src="{{ asset('assets/js/custom.js') }}"></script>
-<script>
-    @if(session()->has('type') && session()->has('data'))
-    toastr.{{ session()->get('type') }}("{{ session()->get('data') }}");
-    @endif
-</script>
+@include('layouts.custom-scripts')
 
 
 </body>

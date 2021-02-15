@@ -28,6 +28,7 @@ class TaskService
         $this->task->tags = $request->tags ? General::clearTagifyTags($request->tags) : null;
         $this->task->start_date = $request->start_date;
         $this->task->end_date = $request->end_date;
+        $this->task->status_id = $request->status_id ?? 1;
         $this->task->save();
 
         $checklist = General::clearFormRepeater($request->checklist);

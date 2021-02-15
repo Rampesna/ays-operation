@@ -2,6 +2,7 @@
     <div class="modal-dialog" role="document" style="max-width:900px;">
         <form action="{{ route('project.project.task.create') }}" method="post" class="modal-content">
             @csrf
+            <input type="hidden" name="status_id" id="status_id">
             <input type="hidden" name="project_id" value="{{ $project->id }}">
             <div class="modal-header">
                 <h5 class="modal-title">Yeni Görev Ekle</h5>

@@ -14,7 +14,7 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['status'];
+    protected $appends = ['status', 'progress'];
 
     public function creator()
     {
@@ -54,5 +54,10 @@ class Task extends Model
     public function getStatusAttribute()
     {
         return TaskStatus::find($this->status_id)->name;
+    }
+
+    public function getProgressAttribute()
+    {
+        return ($this->checklistItems()->where('checked', 1)->count() / count($this->checklistItems)) * 100;
     }
 }

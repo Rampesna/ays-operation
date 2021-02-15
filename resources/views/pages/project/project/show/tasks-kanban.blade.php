@@ -6,22 +6,17 @@
 
     @include('pages.project.project.show.components.subheader')
     <input type="hidden" id="loaderControl" value="0">
+    <input type="hidden" id="sublistControl" value="0">
     <div class="row mt-15">
         <div class="col-xl-6">
             <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="btn btn-primary">Liste Görünümüne Geç</a>
-        </div>
-        <div class="col-xl-6 text-right">
-            <a href="#" class="btn btn-success font-weight-bolder" data-toggle="modal" data-target="#CreateTask">Yeni Görev</a>
         </div>
     </div>
     <hr>
     <div class="row">
         <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body">
-                    <div id="tasks"></div>
-                </div>
-            </div>
+            <div id="tasks"></div>
+            <div id="addNewBoard" class="bg-hover-secondary" style="width: 275px; height: auto; background-color: #f4f7fa; border-radius: 5%; text-align: center;"><i class="fa fa-plus fa-lg mt-6 mb-6"></i></div>
         </div>
     </div>
 
@@ -37,6 +32,10 @@
         .showTaskHeaderTitleBackground{
             background: rgb(255,139,0);
             background: linear-gradient(90deg, rgba(255,139,0,1) 0%, rgba(181,77,0,1) 100%);
+        }
+
+        .kanban-board-header {
+            background-color: #eeeff8;
         }
     </style>
 @stop
@@ -159,94 +158,115 @@
     </script>
 
     <script>
+        var taskAdder = $(".taskAdder");
+
+        taskAdder.click(function () {
+            alert();
+        });
+    </script>
+
+    <script>
+        $(document).on("click", ".editableLabel", function () {
+            var value = $(this).html();
+            $(this).replaceWith('<input type="text" class="editedInput" value="' + value + '">');
+        });
+
+        $(document).on("blur focusOut", ".editedInput", function () {
+            var value = $(this).val();
+            $(this).replaceWith('<label class="editedInput">' + value + '</label>');
+        });
+    </script>
+
+    <script>
         "use strict";
 
-        // Class definition
-
-        var KTKanbanBoardDemo = function () {
-            // Private functions
-            var _demo1 = function () {
-                var kanban = new jKanban({
-                    element: '#tasks',
-                    gutter: '0',
-                    widthBoard: '350px',
-                    dragBoards: false,
-                    click: function(el) {
-                        var loaderControlSelector = $("#loaderControl");
-                        if (loaderControlSelector.val() === 0 || loaderControlSelector.val() === "0") {
-                            $("#ShowTask").modal('show');
-                            showTask(el.dataset.eid);
-                        }
-                    },
-                    dropEl: function (el, source) {
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.updateStatus') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                task_id: el.dataset.eid,
-                                status_id: el.parentNode.parentNode.dataset.id
-                            }
-                        });
-                    },
-                    boards: [
-                        @foreach(\App\Models\TaskStatus::all() as $status)
+        var kanban = new jKanban({
+            element: '#tasks',
+            gutter: '0',
+            widthBoard: '275px',
+            dragBoards: true,
+            click: function(el) {
+                // var loaderControlSelector = $("#loaderControl");
+                // if (loaderControlSelector.val() === 0 || loaderControlSelector.val() === "0") {
+                //     $("#ShowTask").modal('show');
+                //     showTask(el.dataset.eid);
+                // }
+            },
+            dropEl: function (el, source) {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('ajax.project.task.updateStatus') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        task_id: el.dataset.eid,
+                        status_id: el.parentNode.parentNode.dataset.id
+                    }
+                });
+            },
+            boards: [
+                @foreach(\App\Models\TaskStatus::all() as $status)
+                {
+                    'id': '{{ $status->id }}',
+                    'title': '<div class="row"><div class="col-xl-10"><input class="form-control font-weight-bold editBoardTitle" type="text" value="{{ $status->name }}" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-2"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="{{ $status->id }}"></i></div></div>',
+                    'item': [
+                            @foreach($status->tasks()->where('project_id', $project->id)->get() as $task)
                         {
-                            'id': '{{ $status->id }}',
-                            'title': '{{ $status->name }}',
-                            'item': [
-                                @foreach($status->tasks()->where('project_id', $project->id)->get() as $task)
-                                {
-                                    'id': '{{ $task->id }}',
-                                    'title': '<div class="row">' +
-                                        '<div class="col-xl-8">' +
-                                        '   {{ $task->name }}' + '' +
-                                        '</div>' +
-                                        '<div class="col-xl-4 text-right">' +
-                                        @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
-                                        '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
-                                        '       <i class="fa fa-stop text-danger"><i>' +
-                                        '   </a>' +
-                                        '<form style="visibility: hidden" id="stop_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.stop') }}">' +
-                                        '@csrf' +
-                                        '<input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">' +
-                                        '</form>' +
-                                        '</div>' +
-                                        @else
-                                        '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
-                                        '       <i class="fa fa-play text-success"><i>' +
-                                        '   </a>' +
-                                        '<form style="visibility: hidden" id="start_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.start') }}">' +
-                                        '@csrf' +
-                                        '<input type="hidden" name="task_id" value="{{ $task->id }}">' +
-                                        '</form>' +
-                                        '</div>' +
-                                        @endif
-                                        '</div>'
-                                }
-                                {{ !$loop->last ? ',' : null }}
+                            'id': '{{ $task->id }}',
+                            'title': '<div class="row">' +
+                                '<div class="col-xl-10">' +
+                                '   <i class="@if($task->progress == '100') fa fa-check-circle text-success @else far fa-check-circle @endif mr-3"></i><span data-id="{{ $task->id }}" class="taskItemTitle cursor-pointer">{{ $task->name }}</span>' +
+                                '</div>' +
+                                '<div class="col-xl-2 text-right">' +
+                                @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
+                                    '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '       <i class="fa fa-stop text-danger"></i>' +
+                                '   </a>' +
+                                '<form style="visibility: hidden" id="stop_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.stop') }}">' +
+                                '@csrf' +
+                                '<input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">' +
+                                '</form>' +
+                                '</div>' +
+                                @else
+                                    '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '       <i class="fa fa-play text-success"></i>' +
+                                '   </a>' +
+                                '<form style="visibility: hidden" id="start_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.start') }}">' +
+                                '@csrf' +
+                                '<input type="hidden" name="task_id" value="{{ $task->id }}">' +
+                                '</form>' +
+                                '</div>' +
+                                @endif
+                                    '</div>' +
+                                '<br><br>' +
+                                '<div class="row mt-n3">' +
+                                '<div class="col-xl-12">' +
+                                '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->priority }}</span>@if($task->milestone) <span class="btn btn-pill btn-sm btn-info" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->milestone->name }}</span> @endif' +
+                                '</div>' +
+                                '</div>' +
+                                '<br><br>' +
+                                '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px">{{ strftime('%d %B, %Y', strtotime($task->end_date)) }}</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer" onclick="runSublistChecker({{ $task->id }}); $(\'#sublistControl\').val(1)" data-id="{{ $task->id }}"></i></div></div>' +
+                                '<div id="sublist_{{ $task->id }}" class="taskSublist">' +
+                                '<hr>' +
+                                '<div class="row">' +
+                                @foreach($task->checklistItems as $checklistItem)
+                                '<div class="col-xl-12 m-1">' +
+                                '<i class="@if($checklistItem->checked == 1) fa fa-check-circle text-success @else far fa-check-circle @endif mr-3"></i>{{ $checklistItem->name }}' +
+                                '</div>' +
                                 @endforeach
-                            ]
+                                '</div>' +
+                                '</div>'
                         }
                         {{ !$loop->last ? ',' : null }}
                         @endforeach
                     ]
-                });
-            }
-
-            // Public functions
-            return {
-                init: function () {
-                    _demo1();
                 }
-            };
-        }();
-
-        jQuery(document).ready(function () {
-            KTKanbanBoardDemo.init();
+                {{ !$loop->last ? ',' : null }}
+                @endforeach
+            ]
         });
-
     </script>
+
+
 
     <script>
         function showTask(task_id)
@@ -587,5 +607,40 @@
             });
             return progress;
         }
+    </script>
+
+    <script>
+        $(".taskAdder").click(function () {
+            $("#CreateTask").modal('show');
+            $("#status_id").val($(this).data('id'));
+            // kanban.addElement($(this).data('id'), {
+            //     title: "Test Add"
+            // });
+        });
+
+        $(".taskItemTitle").click(function () {
+            showTask($(this).data('id'));
+            $("#ShowTask").modal('show');
+        });
+
+        $(".taskSublist").hide();
+
+        function runSublistChecker(id) {
+            $("#sublist_" + id).slideToggle();
+        }
+
+        $(".editBoardTitle").focusout(function () {
+            console.log($(this).val());
+        });
+
+        $("#addNewBoard").click(function () {
+            kanban.addBoards([
+                {
+                    id: "_default",
+                    title: "Yeni Board",
+                    item: []
+                }
+            ]);
+        });
     </script>
 @stop

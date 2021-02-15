@@ -79,6 +79,8 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('project')->namespace('Project')->group(function () {
 
+//        Route::post('');
+
         Route::prefix('task')->group(function () {
             Route::get('edit', 'TaskController@edit')->name('ajax.project.task.edit');
 
@@ -96,6 +98,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
         Route::prefix('timesheet')->group(function () {
             Route::get('exists','TimesheetController@exists')->name('ajax.project.timesheet.exists');
+            Route::get('getOpenTimesheets','TimesheetController@getOpenTimesheets')->name('ajax.project.timesheet.getOpenTimesheets');
         });
 
         Route::prefix('comment')->group(function () {

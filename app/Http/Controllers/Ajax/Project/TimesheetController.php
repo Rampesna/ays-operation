@@ -17,4 +17,9 @@ class TimesheetController extends Controller
         where('end_time', null)->
         first()) ? 1 : 0;
     }
+
+    public function getOpenTimesheets(Request $request)
+    {
+        return response()->json(auth()->user()->timesheets()->with(['task'])->where('end_time', null)->get(), 200);
+    }
 }
