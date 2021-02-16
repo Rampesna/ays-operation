@@ -5,13 +5,8 @@
     <div class="offcanvas-content">
         <div class="offcanvas-wrapper mb-5 scroll-pull">
             <div class="row">
-                <div class="col-xl-10">
+                <div class="col-xl-12">
                     <h3 id="taskNameSelector">--</h3>
-                </div>
-                <div class="col-xl-2 text-right">
-                    <a href="#" class="btn btn-xs btn-icon btn-light btn-hover-primary" id="taskDeleteButton" data-toggle="modal" data-target="#DeleteTaskModal">
-                        <i class="fa fa-trash text-danger"></i>
-                    </a>
                 </div>
             </div>
             <hr>
@@ -60,7 +55,7 @@
                     <span class="font-weight-bold">Görevli: </span>
                 </div>
                 <div class="col-xl-9">
-                    <select class="selectpicker" id="taskEmployeeSelector">
+                    <select disabled class="selectpicker" id="taskEmployeeSelector">
                         @foreach($project->employees as $employee)
                             <option value="{{ $employee->id }}">{{ $employee->name }}</option>
                         @endforeach
@@ -73,8 +68,7 @@
                     <span class="font-weight-bold">Açıklama: </span>
                 </div>
                 <div class="col-xl-9">
-                    <textarea class="form-control" id="taskDescriptionSelector" rows="3" style="border: none"></textarea>
-                    <label for="taskDescriptionSelector"></label>
+                    <p id="taskDescriptionSelector"></p>
                 </div>
             </div>
             <hr>

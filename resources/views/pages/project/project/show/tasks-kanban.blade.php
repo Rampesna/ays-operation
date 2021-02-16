@@ -236,6 +236,8 @@
                                 '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->priority }}</span>@if($task->milestone) <span class="btn btn-pill btn-sm btn-{{ $task->milestone->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->milestone->name }}</span> @endif' +
                                 '</div>' +
                                 '</div>' +
+                                '<br>' +
+                                'Görevli: {{ $task->assigned ? $task->assigned->name : 'Yok' }}' +
                                 '<br><br>' +
                                 '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px">{{ strftime('%d %B, %Y', strtotime($task->end_date)) }}</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer" onclick="runSublistChecker({{ $task->id }}); $(\'#sublistControl\').val(1)" data-id="{{ $task->id }}"></i></div></div>' +
                                 '<div id="sublist_{{ $task->id }}" class="taskSublist">' +
@@ -291,6 +293,7 @@
         var taskMilestoneSelector = $("#taskMilestoneSelector");
         var taskDescriptionSelector = $("#taskDescriptionSelector");
         var checklistItemsSelector = $("#checklistItemsSelector");
+        var taskEmployeeSelector = $("#taskEmployeeSelector");
 
         var checklistItemCreateIcon = $("#checklistItemCreate");
         var taskProgressSelector = $("#task_progress");
@@ -366,6 +369,9 @@
                         taskMilestoneSelector.addClass('btn btn-pill btn-sm btn-' + task.milestone.color);
                     }
 
+                    taskEmployeeSelector.val(task.employee_id);
+                    taskEmployeeSelector.selectpicker('refresh');
+
                     taskDescriptionSelector.val(task.description);
 
                     checklistItemsSelector.html('');
@@ -420,7 +426,6 @@
 
         checklistItemCreateIcon.click(function () {
             var task_id = $(this).data('id');
-            var taskProgressSelector = $("#task_progress");
 
             $.ajax({
                 type: 'post',
@@ -447,6 +452,11 @@
                         '   </div>' +
                         '</div>' +
                         '');
+
+                    var progress = calculateTaskProgress(checklistItem.task_id);
+
+                    taskProgressSelector.html(progress + '%');
+                    taskProgressSelector.css({'width': progress + '%'});
                 },
                 error: function (error) {
                     console.log(error);
@@ -463,7 +473,9 @@
                     url: '{{ route('ajax.project.task.checkChecklistItem') }}',
                     data: {
                         _token: '{{ csrf_token() }}',
-                        checklist_item_id: checklist_item_id
+                        checklist_item_id: checklist_item_id,
+                        checker_type: 'App\\Models\\User',
+                        checker_id: '{{ auth()->user()->getId() }}'
                     }
                 });
             } else {
@@ -563,10 +575,8 @@
             });
             return progress;
         }
-    </script>
 
-    <script>
-        $(".taskAdder").click(function () {
+        $(document).delegate(".taskAdder","click", function () {
             $("#CreateTask").modal('show');
             $("#status_id").val($(this).data('id'));
             // kanban.addElement($(this).data('id'), {
@@ -574,7 +584,7 @@
             // });
         });
 
-        $(".taskItemTitle").click(function () {
+        $(document).delegate(".taskItemTitle", "click", function () {
             $("#kt_quick_cart_toggle").click();
             showTask($(this).data('id'));
             // $("#ShowTask").modal('show');
@@ -615,7 +625,7 @@
                     kanban.addBoards([
                         {
                             id: '' + taskStatus.id + '',
-                            title: '<div class="row"><div class="col-xl-1 mr-n4"><i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i></div><div class="col-xl-10"><input data-id="' + taskStatus.id + '" class="form-control font-weight-bold editBoardTitle" type="text" value="' + taskStatus.name + '" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-1 text-right"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="' + taskStatus.id + '"></i></div></div>',
+                            title: '<div class="row"><div class="col-xl-1"><i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i></div><div class="col-xl-9"><input data-id="' + taskStatus.id + '" class="form-control font-weight-bold editBoardTitle" type="text" value="" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-1 text-right"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="' + taskStatus.id + '"></i></div></div>',
                             item: [],
                             order: taskStatus.order
                         }
@@ -683,6 +693,21 @@
                     kanban.removeElement("" + task_id + "");
                     $("#DeleteTaskModal").modal('hide');
                     $("#kt_quick_cart_toggle").click();
+                }
+            });
+        })
+
+        $(document).delegate("#taskEmployeeSelector", "change", function () {
+            var task_id = $("#selectedTaskIdSelector").val();
+            var employee_id = $(this).val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task.updateEmployee') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    task_id: task_id,
+                    employee_id: employee_id
                 }
             });
         })

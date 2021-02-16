@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Helpers\General;
+use App\Models\Assignment;
 use App\Models\ChecklistItem;
 use App\Models\Project;
 use App\Models\Task;
@@ -21,6 +22,7 @@ class TaskService
     {
         $this->task->company_id = Project::find($request->project_id)->company_id;
         $this->task->project_id = $request->project_id;
+        $this->task->employee_id = $request->employee_id;
         $this->task->creator_id = auth()->user()->getId();
         $this->task->milestone_id = $request->milestone_id;
         $this->task->name = $request->name;
@@ -30,6 +32,14 @@ class TaskService
         $this->task->end_date = $request->end_date;
         $this->task->status_id = $request->status_id ?? 1;
         $this->task->save();
+
+        if ($request->employee_id) {
+            $assignment = new Assignment;
+            $assignment->task_id = $this->task->id;
+            $assignment->employee_id = $request->employee_id;
+            $assignment->date = date('Y-m-d H:i:s');
+            $assignment->save();
+        }
 
         $checklist = General::clearFormRepeater($request->checklist);
 

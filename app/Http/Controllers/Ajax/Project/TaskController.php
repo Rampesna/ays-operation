@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax\Project;
 
 use App\Http\Controllers\Controller;
+use App\Models\Assignment;
 use App\Models\ChecklistItem;
 use App\Models\Task;
 use Illuminate\Http\Request;
@@ -108,5 +109,18 @@ class TaskController extends Controller
         $task = Task::find($request->task_id);
         $task->description = $request->description;
         $task->save();
+    }
+
+    public function updateEmployee(Request $request)
+    {
+        $task = Task::find($request->task_id);
+        $task->employee_id = $request->employee_id;
+        $task->save();
+
+        $assignment = new Assignment;
+        $assignment->task_id = $request->task_id;
+        $assignment->employee_id = $request->employee_id;
+        $assignment->date = date('Y-m-d H:i:s');
+        $assignment->save();
     }
 }

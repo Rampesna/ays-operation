@@ -71,4 +71,9 @@ class Task extends Model
             ->groupBy('task_id', 'starter_type', 'starter_id')
             ->get();
     }
+
+    public function getAssignedAttribute()
+    {
+        return $this->employee_id ? Employee::find($this->employee_id) : null;
+    }
 }

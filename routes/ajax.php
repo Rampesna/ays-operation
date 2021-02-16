@@ -96,6 +96,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::post('updateStatus', 'TaskController@updateStatus')->name('ajax.project.task.updateStatus');
             Route::post('updateMilestone', 'TaskController@updateMilestone')->name('ajax.project.task.updateMilestone');
             Route::post('updateDescription', 'TaskController@updateDescription')->name('ajax.project.task.updateDescription');
+            Route::post('updateEmployee', 'TaskController@updateEmployee')->name('ajax.project.task.updateEmployee');
 
             Route::prefix('task-status')->group(function () {
                 Route::post('create', 'TaskStatusController@create')->name('ajax.project.task-status.create');

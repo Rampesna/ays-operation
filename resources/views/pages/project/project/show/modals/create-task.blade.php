@@ -42,7 +42,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-12">
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="employee_id">Personel Ataması</label>
+                            <select class="form-control" name="employee_id" id="employee_id">
+                                <option selected hidden disabled></option>
+                                @foreach($project->employees as $employee)
+                                    <option value="{{ $employee->id }}">{{ $employee->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
                         <div class="form-group">
                             <label for="milestone_id">Kilometre Taşı</label>
                             <select class="form-control" name="milestone_id" id="milestone_id">

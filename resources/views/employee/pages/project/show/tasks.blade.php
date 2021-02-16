@@ -5,226 +5,267 @@
 @section('content')
 
     @include('employee.pages.project.show.components.subheader')
+    <input type="hidden" id="kt_quick_cart_toggle">
+    <input type="hidden" id="loaderControl" value="0">
+    <input type="hidden" id="sublistControl" value="0">
+    <div class="mt-15" id="tasks"></div>
 
-    <div class="row mt-15">
-        <div class="col-xl-6">
-            <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}" class="btn btn-primary">Kanban Board</a>
-        </div>
-        <div class="col-xl-6 text-right">
-            <a href="#" class="btn btn-success font-weight-bolder" data-toggle="modal" data-target="#CreateTask">Yeni Görev</a>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <table class="table" id="tasks">
-                                <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>#</th>
-                                    <th>Görev Adı</th>
-                                    <th>Durum</th>
-                                    <th>Başlangıç Tarihi</th>
-                                    <th>Bitiş Tarihi</th>
-                                    <th>İşlem Yapanlar</th>
-                                    <th>Etiketler</th>
-                                    <th>Öncelik</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($project->tasks()->with('timesheets')->get() as $task)
-                                    <tr>
-                                        <td>
-                                            @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
-                                                <a href="#" onclick="document.getElementById('stop_form_{{ $task->id }}').submit();">
-                                                    <i class="fa fa-stop text-danger"></i>
-                                                </a>
-                                                <form method="post" id="stop_form_{{ $task->id }}" action="{{ route('employee-panel.project.timesheet.stop') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">
-                                                </form>
-                                            @else
-                                                <a href="#" onclick="document.getElementById('start_form_{{ $task->id }}').submit();">
-                                                    <i class="fa fa-play text-success"></i>
-                                                </a>
-                                                <form method="post" id="start_form_{{ $task->id }}" action="{{ route('employee-panel.project.timesheet.start') }}">
-                                                    @csrf
-                                                    <input type="hidden" name="task_id" value="{{ $task->id }}">
-                                                </form>
-                                            @endif
-                                        </td>
-                                        <td><a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">#{{ $task->id }}</a></td>
-                                        <td>
-                                            <a href="#" data-id="{{ $task->id }}" data-toggle="modal" data-target="#ShowTask" class="showTask">
-                                                {{ $task->name }}
-                                            </a>
-                                        </td>
-                                        <td>{{ $task->status }}</td>
-                                        <td data-sort="{{ date('Y-m-d', strtotime($task->start_date)) }}">{{ strftime("%d %B, %Y", strtotime($task->start_date)) }}</td>
-                                        <td data-sort="{{ date('Y-m-d', strtotime($task->end_date)) }}">{{ strftime("%d %B, %Y", strtotime($task->end_date)) }}</td>
-                                        <td>
-                                            @foreach(collect($task->timesheets()->with('starter')->get())->groupBy(['starter_type','starter_id'])->all() as $group)
-                                                @foreach($group as $starters)
-                                                    <a class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{ @$starters->first()->starter->name }}">
-                                                        <img alt="Pic" src="{{ @$starters->first()->starter->image ? asset($starters->first()->starter->image) : asset('assets/media/logos/avatar.jpg') }}" />
-                                                    </a>
-                                                    @if($loop->iteration % 3 == 0)
-                                                        <br>
-                                                    @endif
-                                                @endforeach
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            @if($task->tags)
-                                                @foreach(explode(',',$task->tags) as $tag)
-                                                    <span class="btn btn-outline-secondary btn-hover-secondary btn-sm" style="cursor: context-menu">{{ $tag }}</span>
-                                                @endforeach
-                                            @endif
-                                        </td>
-                                        <td>{{ $task->priority }}</td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                                <tfoot>
-                                <tr>
-                                    <th></th>
-                                    <th>#</th>
-                                    <th>Görev Adı</th>
-                                    <th>Durum</th>
-                                    <th>Başlangıç Tarihi</th>
-                                    <th>Bitiş Tarihi</th>
-                                    <th>İşlem Yapanlar</th>
-                                    <th>Etiketler</th>
-                                    <th>Öncelik</th>
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    @include('employee.pages.project.show.modals.show-task')
+    @include('employee.pages.project.show.components.task-rightbar')
 
 @endsection
 
 @section('page-styles')
-    <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('assets/plugins/custom/kanban/kanban.bundle.css') }}" rel="stylesheet" type="text/css"/>
 
     <style>
         .showTaskHeaderTitleBackground{
             background: rgb(255,139,0);
             background: linear-gradient(90deg, rgba(255,139,0,1) 0%, rgba(181,77,0,1) 100%);
         }
+
+        .kanban-board-header {
+            margin-bottom: -20px;
+        }
+
+        .kanban-container .kanban-board {
+            float: none;
+            -ms-flex-negative: 0;
+            flex-shrink: 0;
+            margin-bottom: 1.25rem;
+            margin-right: 1.25rem !important;
+            background-color: transparent;
+            border-radius: 0.42rem;
+        }
+
+        .kanban-container .kanban-board .kanban-drag .kanban-item {
+            border-radius: 1rem;
+            -webkit-box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.05);
+            box-shadow: 0px 0px 13px 0px rgba(0, 0, 0, 0.05);
+        }
     </style>
 @stop
 
 @section('page-script')
-    <script src="{{ asset('assets/plugins/custom/datatables/datatables.bundle.js?v=7.0.3') }}"></script>
-    <script src="{{ asset('assets/js/pages/crud/datatables/extensions/buttons.js?v=7.0.3') }}"></script>
+    <script src="{{ asset('assets/plugins/custom/kanban/kanban.bundle.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/crud/forms/editors/summernote.js') }}"></script>
 
     <script>
-        var table = $('#tasks').DataTable({
-            language: {
-                info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
-                infoEmpty: "Gösterilecek Hiç Kayıt Yok.",
-                loadingRecords: "Kayıtlar Yükleniyor.",
-                zeroRecords: "Tablo Boş",
-                search: "Arama:",
-                infoFiltered: "(Toplam _MAX_ Kayıttan Filtrelenenler)",
-                lengthMenu: "Sayfa Başı _MENU_ Kayıt Göster",
-                sProcessing: "Yükleniyor...",
-                paginate: {
-                    first: "İlk",
-                    previous: "Önceki",
-                    next: "Sonraki",
-                    last: "Son"
-                },
-                select: {
-                    rows: {
-                        "_": "%d kayıt seçildi",
-                        "0": "",
-                        "1": "1 kayıt seçildi"
-                    }
-                },
-                buttons: {
-                    print: {
-                        title: 'Yazdır'
-                    }
+        // Class definition
+        var KTTagifyDemos = function() {
+            // Private functions
+            var tags = function() {
+                var input = document.getElementById('task_tags'),
+                    // init Tagify script on the above inputs
+                    tagify = new Tagify(input, {
+
+                    })
+
+                // Chainable event listeners
+                tagify.on('add', onAddTag)
+                    .on('remove', onRemoveTag)
+                    .on('input', onInput)
+                    .on('edit', onTagEdit)
+                    .on('invalid', onInvalidTag)
+                    .on('click', onTagClick)
+                    .on('dropdown:show', onDropdownShow)
+                    .on('dropdown:hide', onDropdownHide)
+
+                // tag added callback
+                function onAddTag(e) {
+                    console.log("onAddTag: ", e.detail);
+                    console.log("original input value: ", input.value)
+                    tagify.off('add', onAddTag) // exmaple of removing a custom Tagify event
                 }
+
+                // tag remvoed callback
+                function onRemoveTag(e) {
+                    console.log(e.detail);
+                    console.log("tagify instance value:", tagify.value)
+                }
+
+                // on character(s) added/removed (user is typing/deleting)
+                function onInput(e) {
+                    console.log(e.detail);
+                    console.log("onInput: ", e.detail);
+                }
+
+                function onTagEdit(e) {
+                    console.log("onTagEdit: ", e.detail);
+                }
+
+                // invalid tag added callback
+                function onInvalidTag(e) {
+                    console.log("onInvalidTag: ", e.detail);
+                }
+
+                // invalid tag added callback
+                function onTagClick(e) {
+                    console.log(e.detail);
+                    console.log("onTagClick: ", e.detail);
+                }
+
+                function onDropdownShow(e) {
+                    console.log("onDropdownShow: ", e.detail)
+                }
+
+                function onDropdownHide(e) {
+                    console.log("onDropdownHide: ", e.detail)
+                }
+            }
+
+            return {
+                // public functions
+                init: function() {
+                    tags();
+                }
+            };
+        }();
+
+        jQuery(document).ready(function() {
+            KTTagifyDemos.init();
+        });
+
+    </script>
+
+    <script>
+        $('#kt_repeater_1').repeater({
+            initEmpty: false,
+
+            defaultValues: {
+                'text-input': 'foo'
             },
 
-            dom: 'rtipl',
-
-            initComplete: function () {
-                var r = $('#tasks tfoot tr');
-                $('#tasks thead').append(r);
-                this.api().columns().every(function () {
-                    var column = this;
-                    var input = document.createElement('input');
-                    input.className = 'form-control';
-                    $(input).appendTo($(column.footer()).empty())
-                        .on('change', function () {
-                            column.search($(this).val(), false, false, true).draw();
-                        });
-                });
+            show: function () {
+                $(this).slideDown();
             },
 
-            columnDefs: [
-                {
-                    targets: 0,
-                    width: "3%",
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    targets: 1,
-                    width: "3%"
-                },
-                {
-                    targets: 2,
-                    width: "22%"
-                },
-                {
-                    targets: 3,
-                    width: "5%"
-                },
-                {
-                    targets: 4,
-                    width: "10%"
-                },
-                {
-                    targets: 5,
-                    width: "10%"
-                },
-                {
-                    targets: 6,
-                    width: "8%"
-                },
-                {
-                    targets: 8,
-                    width: "5%"
-                }
-            ],
-
-            responsive: true
+            hide: function (deleteElement) {
+                $(this).slideUp(deleteElement);
+            }
         });
     </script>
 
     <script>
-        $(".showTask").click(function () {
-            var task_id = $(this).data('id');
-            var checklistCardSelector = $("#checklist_card");
-            var commentsCardSelector = $("#comments_card");
-            var checklistItemCreateIcon = $("#checklistItemCreate");
-            var taskProgressSelector = $("#task_progress");
+        "use strict";
 
+        var kanban = new jKanban({
+            element: '#tasks',
+            gutter: '0',
+            widthBoard: '290px',
+            dragBoards: false,
+            click: function(el) {},
+            dragEl: false,
+            dragendBoard: function (el) {},
+            boards: [
+                @foreach($project->taskStatuses()->orderBy('order','asc')->get() as $status)
+                {
+                    'id': '{{ $status->id }}',
+                    'title': '{{ $status->name }}',
+                    'item': [
+                            @foreach($status->tasks()->where('project_id', $project->id)->get() as $task)
+                        {
+                            'id': '{{ $task->id }}',
+                            'title': '<div class="row">' +
+                                '<div class="col-xl-10">' +
+                                '   <i class="@if($task->progress == '100') fa fa-check-circle text-success @else far fa-check-circle @endif mr-3"></i><span data-id="{{ $task->id }}" class="taskItemTitle cursor-pointer">{{ $task->name }}</span>' +
+                                '</div>' +
+                                '<div class="col-xl-2 text-right">' +
+                                @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
+                                    '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '       <i class="fa fa-stop text-danger"></i>' +
+                                '   </a>' +
+                                '<form style="visibility: hidden" id="stop_form_{{ $task->id }}" method="post" action="{{ route('employee-panel.project.timesheet.stop') }}">' +
+                                '@csrf' +
+                                '<input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">' +
+                                '</form>' +
+                                '</div>' +
+                                @else
+                                    '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '       <i class="fa fa-play text-success"></i>' +
+                                '   </a>' +
+                                '<form style="visibility: hidden" id="start_form_{{ $task->id }}" method="post" action="{{ route('employee-panel.project.timesheet.start') }}">' +
+                                '@csrf' +
+                                '<input type="hidden" name="task_id" value="{{ $task->id }}">' +
+                                '</form>' +
+                                '</div>' +
+                                @endif
+                                    '</div>' +
+                                '<br><br>' +
+                                '<div class="row mt-n3">' +
+                                '<div class="col-xl-12">' +
+                                '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->priority }}</span>@if($task->milestone) <span class="btn btn-pill btn-sm btn-{{ $task->milestone->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->milestone->name }}</span> @endif' +
+                                '</div>' +
+                                '</div>' +
+                                '<br>' +
+                                'Görevli: {{ $task->assigned ? $task->assigned->name : 'Yok' }}' +
+                                '<br><br>' +
+                                '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px">{{ strftime('%d %B, %Y', strtotime($task->end_date)) }}</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer" onclick="runSublistChecker({{ $task->id }}); $(\'#sublistControl\').val(1)" data-id="{{ $task->id }}"></i></div></div>' +
+                                '<div id="sublist_{{ $task->id }}" class="taskSublist">' +
+                                '<hr>' +
+                                '<div class="row">' +
+                                @foreach($task->checklistItems as $checklistItem)
+                                    '<div class="col-xl-12 m-1">' +
+                                '<i class="@if($checklistItem->checked == 1) fa fa-check-circle text-success @else far fa-check-circle @endif mr-3"></i>{{ $checklistItem->name }}' +
+                                '</div>' +
+                                @endforeach
+                                    '</div>' +
+                                '</div>'
+                        }
+                        {{ !$loop->last ? ',' : null }}
+                        @endforeach
+                    ]
+                }
+                {{ !$loop->last ? ',' : null }}
+                @endforeach
+            ]
+        });
+    </script>
+
+    <script>
+        const monthNames = [
+            "Ocak",
+            "Şubat",
+            "Mart",
+            "Nisan",
+            "Mayıs",
+            "Haziran",
+            "Temmuz",
+            "Ağustos",
+            "Eylül",
+            "Ekim",
+            "Kasım",
+            "Aralık"
+        ];
+
+        var selectedTaskIdSelector = $("#selectedTaskIdSelector");
+        var taskNameSelector = $("#taskNameSelector");
+        var timesheetersSelector = $("#timesheetersSelector");
+        var taskDateSelector = $("#taskDateSelector");
+        var taskPrioritySelector = $("#taskPrioritySelector");
+        var taskStatusSelector = $("#taskStatusSelector");
+        var taskMilestoneSelector = $("#taskMilestoneSelector");
+        var taskDescriptionSelector = $("#taskDescriptionSelector");
+        var checklistItemsSelector = $("#checklistItemsSelector");
+        var taskEmployeeSelector = $("#taskEmployeeSelector");
+
+        var checklistItemCreateIcon = $("#checklistItemCreate");
+        var taskProgressSelector = $("#task_progress");
+
+        function handleDate(dataD) {
+            let data = new Date(dataD)
+            let month = data.getMonth()
+            let day = data.getDate()
+            let year = data.getFullYear()
+            if (day <= 9)
+                day = '0' + day
+            if (month < 10)
+                month = '0' + month
+            return day + ' ' + monthNames[parseInt(month)] + ' ' + year
+        }
+
+        function showTask(task_id)
+        {
+            $("#kt_quick_cart").hide();
             $.ajax({
                 type: 'get',
                 url: '{{ route('ajax.project.task.edit') }}',
@@ -232,297 +273,139 @@
                     task_id: task_id
                 },
                 success: function (task) {
+                    selectedTaskIdSelector.val(task.id);
                     checklistItemCreateIcon.data('id',task.id);
 
                     var exists = timesheetExistControl(task.id,'{{ auth()->user()->getId() }}');
+
+                    if (exists === "1") {
+                        checklistItemCreateIcon.show();
+                    } else {
+                        checklistItemCreateIcon.hide();
+                    }
                     var progress = calculateTaskProgress(task.id);
 
                     taskProgressSelector.html(progress + '%');
                     taskProgressSelector.css({'width': progress + '%'});
 
-                    $("#showTaskHeaderTitle").html(task.name);
+                    taskNameSelector.html(task.name);
+                    timesheetersSelector.html('');
+                    $.each(task.timesheeters, function (timesheeter) {
+                        var image = task.timesheeters[timesheeter].starter.image ?? '{{ asset('assets/media/logos/avatar.jpg') }}';
+                        timesheetersSelector.append('' +
+                            '<a class="symbol symbol-35 symbol-circle m-1" data-toggle="tooltip" title="' + task.timesheeters[timesheeter].starter.name + '">' +
+                            '<img alt="' + task.timesheeters[timesheeter].starter.name + '" src="' + image + '" />' +
+                            '</a>');
+                    });
+                    taskDateSelector.html(handleDate(task.start_date) + '  ,  ' + handleDate(task.end_date));
 
-                    if (task.milestone_id == null) {
-                        $("#milestone_card").html(' -- ');
-                    } else {
-                        $("#milestone_card").html(task.milestone.name);
+                    var priorityColor = 'secondary';
+                    if (task.priority === 'low') {
+                        priorityColor = 'success';
+                    } else if (task.priority === 'medium') {
+                        priorityColor = 'warning';
+                    } else if (task.priority === 'high') {
+                        priorityColor = 'danger';
+                    } else if (task.priority === 'urgent') {
+                        priorityColor = 'info';
+                    }
+                    taskPrioritySelector.removeClass();
+                    taskPrioritySelector.html('');
+                    taskPrioritySelector.addClass('btn btn-pill btn-sm btn-' + priorityColor);
+                    taskPrioritySelector.html(task.priority);
+                    taskStatusSelector.html(task.status);
+
+                    taskMilestoneSelector.removeClass();
+                    taskMilestoneSelector.html('');
+                    if (task.milestone_id != null) {
+                        taskMilestoneSelector.html(task.milestone.name);
+                        taskMilestoneSelector.addClass('btn btn-pill btn-sm btn-' + task.milestone.color);
                     }
 
-                    $("#description_card").html(task.description);
+                    taskEmployeeSelector.val(task.employee_id);
+                    taskEmployeeSelector.selectpicker('refresh');
 
-                    checklistCardSelector.html('');
-                    $.each(task.checklist_items, function (index) {
+                    taskDescriptionSelector.val(task.description);
+
+                    checklistItemsSelector.html('');
+                    $.each(task.checklist_items, function (item) {
                         var checkedControl = '';
-                        if (task.checklist_items[index].checked == 1) {
+                        if (task.checklist_items[item].checked === 1) {
                             checkedControl = 'checked';
                         }
 
                         if (exists === "1") {
-                            checklistItemCreateIcon.show();
-                            checklistCardSelector.append('' +
-                                '<div class="row" id="checklist_item_row_' + task.checklist_items[index].id + '">' +
-                                '<div class="col-xl-1">' +
-                                '<label class="checkbox checkbox-circle checkbox-success checkbox-lg mr-2">' +
-                                '<input ' + checkedControl + ' type="checkbox" class="checklistItemCheckbox" data-id="' + task.checklist_items[index].id + '" />' +
-                                '<span></span>' +
-                                '</label>' +
-                                '</div>' +
-                                '<div class="col-xl-9 mt-3">' +
-                                '<label style="width: 100%">' +
-                                '<input type="text" class="form-control checklistItemInput" data-id="' + task.checklist_items[index].id + '" value="' + task.checklist_items[index].name + '">' +
-                                '</label>' +
-                                '</div>' +
-                                '<div class="col-xl-2 mt-6 ml-n5">' +
-                                '<i class="fa fa-times-circle text-danger cursor-pointer checklistItemDelete" data-id="' + task.checklist_items[index].id + '"></i>' +
-                                '</div>' +
+                            checklistItemsSelector.append('' +
+                                '<div class="row mt-n3" id="checklist_item_row_' + task.checklist_items[item].id + '">' +
+                                '	<div class="col-xl-1">' +
+                                '		<label class="checkbox checkbox-circle checkbox-success">' +
+                                '			<input ' + checkedControl + ' type="checkbox" class="checklistItemCheckbox" data-id="' + task.checklist_items[item].id + '" />' +
+                                '			<span></span>' +
+                                '		</label>' +
+                                '	</div>' +
+                                '	<div class="col-xl-9 ml-n8 mt-2">' +
+                                '		<input disabled style="color:gray; font-size: 15px; border: none; background: transparent" type="text" class="form-control form-control-sm checklistItemInput" data-id="' + task.checklist_items[item].id + '" value="' + task.checklist_items[item].name + '">' +
+                                '	</div>' +
                                 '</div>' +
                                 '');
                         } else {
-                            checklistItemCreateIcon.hide();
-                            checklistCardSelector.append('' +
-                                '<div class="row" id="checklist_item_row_' + task.checklist_items[index].id + '">' +
-                                '<div class="col-xl-1">' +
-                                '<label class="checkbox checkbox-circle checkbox-success checkbox-lg mr-2">' +
-                                '<input disabled ' + checkedControl + ' type="checkbox" class="checklistItemCheckbox" data-id="' + task.checklist_items[index].id + '" />' +
-                                '<span></span>' +
-                                '</label>' +
-                                '</div>' +
-                                '<div class="col-xl-9 mt-3">' +
-                                '<label style="width: 100%">' +
-                                '<input disabled type="text" class="form-control checklistItemInput" data-id="' + task.checklist_items[index].id + '" value="' + task.checklist_items[index].name + '">' +
-                                '</label>' +
-                                '</div>' +
+                            checklistItemsSelector.append('' +
+                                '<div class="row mt-n3" id="checklist_item_row_' + task.checklist_items[item].id + '">' +
+                                '	<div class="col-xl-1">' +
+                                '		<label class="checkbox checkbox-circle checkbox-success">' +
+                                '			<input ' + checkedControl + ' disabled type="checkbox" class="checklistItemCheckbox" data-id="' + task.checklist_items[item].id + '" />' +
+                                '			<span></span>' +
+                                '		</label>' +
+                                '	</div>' +
+                                '	<div class="col-xl-9 ml-n8 mt-2">' +
+                                '		<input disabled style="color:gray; font-size: 15px; border: none; background: transparent" type="text" class="form-control form-control-sm checklistItemInput" data-id="' + task.checklist_items[item].id + '" value="' + task.checklist_items[item].name + '">' +
+                                '	</div>' +
                                 '</div>' +
                                 '');
                         }
-
-
                     });
-
-                    commentsCardSelector.html('');
-                    $.each(task.comments, function (index) {
-                        commentsCardSelector.append('' +
-                            '<div class="col-xl-12">' +
-                            '<span style="font-size: 12px">' + task.comments[index].created_at + '</span>' +
-                            '<h6>' + task.comments[index].creator.name + '</h6>' +
-                            '</div>' +
-                            '<div class="col-xl-12">' +
-                            '<p>' + task.comments[index].comment + '</p>' +
-                            '</div>' +
-                            '');
-                    });
-
-                    $("#created_at_card").html('Oluşturulma Tarihi: ' + task.created_at);
-                    $("#status_card").html('Durum: ' + task.status);
-                    $("#start_date_card").html('Başlangıç Tarihi: ' + task.start_date);
-                    $("#end_date_card").html('Bitiş Tarihi: ' + task.end_date);
-                    $("#priority_card").html('Öncelik: ' + task.priority);
-
-                    $(".checklistItemCheckbox").click(function () {
-                        var checklist_item_id = $(this).data('id');
-                        if ($(this).is(':checked')) {
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ route('ajax.project.task.checkChecklistItem') }}',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    checklist_item_id: checklist_item_id
-                                }
-                            });
-                        } else {
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ route('ajax.project.task.uncheckChecklistItem') }}',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    checklist_item_id: checklist_item_id
-                                }
-                            });
-                        }
-
-                        var progress = calculateTaskProgress(task.id);
-
-                        taskProgressSelector.html(progress + '%');
-                        taskProgressSelector.css({'width': progress + '%'});
-                    });
-
-                    $(".checklistItemInput").focusout(function () {
-                        var checklist_item_id = $(this).data('id');
-                        var name = $(this).val();
-
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.updateChecklistItem') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                checklist_item_id: checklist_item_id,
-                                name: name
-                            },
-                            success: function () {
-
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        });
-                    });
-
-                    $(".checklistItemDelete").click(function () {
-                        var checklist_item_id = $(this).data('id');
-
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.deleteChecklistItem') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                checklist_item_id: checklist_item_id
-                            },
-                            success: function () {
-                                $("#checklist_item_row_" + checklist_item_id).remove();
-
-                                var progress = calculateTaskProgress(task.id);
-
-                                taskProgressSelector.html(progress + '%');
-                                taskProgressSelector.css({'width': progress + '%'});
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        });
-                    });
+                    $("#kt_quick_cart").fadeIn();
                 },
                 error: function (error) {
                     console.log(error);
-
+                    $("#kt_quick_cart_toggle").click();
+                    toastr.error('Görev Bilgileri Alınırken Bir Hata Oluştu! Sayfayı Yenilemeyi Deneyin');
                 }
             });
+        }
+
+        $(document).delegate('.checklistItemCheckbox', 'click', function () {
+            var checklist_item_id = $(this).data('id');
+
+            if ($(this).is(':checked')) {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('ajax.project.task.checkChecklistItem') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        checklist_item_id: checklist_item_id,
+                        checker_type: 'App\\Models\\Employee',
+                        checker_id: '{{ auth()->user()->getId() }}'
+                    }
+                });
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('ajax.project.task.uncheckChecklistItem') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        checklist_item_id: checklist_item_id
+                    }
+                });
+            }
+
+            var progress = calculateTaskProgress($("#selectedTaskIdSelector").val());
+
+            taskProgressSelector.html(progress + '%');
+            taskProgressSelector.css({'width': progress + '%'});
         });
 
-        $("#checklistItemCreate").click(function () {
-            var task_id = $(this).data('id');
-            var taskProgressSelector = $("#task_progress");
-
-            $.ajax({
-                type: 'post',
-                url: '{{ route('ajax.project.task.createChecklistItem') }}',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    task_id: task_id,
-                    creator_id: '{{ auth()->user()->getId() }}'
-                },
-                success: function (checklistItem) {
-                    $("#checklist_card").append('' +
-                        '<div class="row" id="checklist_item_row_' + checklistItem.id + '">' +
-                        '<div class="col-xl-1">' +
-                        '<label class="checkbox checkbox-circle checkbox-success checkbox-lg mr-2">' +
-                        '<input type="checkbox" class="checklistItemCheckbox" data-id="' + checklistItem.id + '" />' +
-                        '<span></span>' +
-                        '</label>' +
-                        '</div>' +
-                        '<div class="col-xl-9 mt-3">' +
-                        '<label style="width: 100%">' +
-                        '<input type="text" class="form-control checklistItemInput" data-id="' + checklistItem.id + '">' +
-                        '</label>' +
-                        '</div>' +
-                        '<div class="col-xl-2 mt-6 ml-n5">' +
-                        '<i class="fa fa-times-circle text-danger cursor-pointer checklistItemDelete" data-id="' + checklistItem.id + '"></i>' +
-                        '</div>' +
-                        '</div>' +
-                        '');
-
-                    $(".checklistItemCheckbox").click(function () {
-                        var checklist_item_id = $(this).data('id');
-                        if ($(this).is(':checked')) {
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ route('ajax.project.task.checkChecklistItem') }}',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    checklist_item_id: checklist_item_id
-                                }
-                            });
-                        } else {
-                            $.ajax({
-                                type: 'post',
-                                url: '{{ route('ajax.project.task.uncheckChecklistItem') }}',
-                                data: {
-                                    _token: '{{ csrf_token() }}',
-                                    checklist_item_id: checklist_item_id
-                                }
-                            });
-                        }
-
-                        var progress = calculateTaskProgress(task_id);
-
-                        taskProgressSelector.html(progress + '%');
-                        taskProgressSelector.css({'width': progress + '%'});
-                    });
-
-                    $(".checklistItemInput").focusout(function () {
-                        var checklist_item_id = $(this).data('id');
-                        var name = $(this).val();
-
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.updateChecklistItem') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                checklist_item_id: checklist_item_id,
-                                name: name
-                            },
-                            success: function () {
-
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        });
-                    });
-
-                    $(".checklistItemDelete").click(function () {
-                        var checklist_item_id = $(this).data('id');
-
-                        $.ajax({
-                            type: 'post',
-                            url: '{{ route('ajax.project.task.deleteChecklistItem') }}',
-                            data: {
-                                _token: '{{ csrf_token() }}',
-                                checklist_item_id: checklist_item_id
-                            },
-                            success: function () {
-                                $("#checklist_item_row_" + checklist_item_id).remove();
-
-                                var progress = calculateTaskProgress(task_id);
-
-                                taskProgressSelector.html(progress + '%');
-                                taskProgressSelector.css({'width': progress + '%'});
-                            },
-                            error: function (error) {
-                                console.log(error);
-
-                            }
-                        });
-
-
-                    });
-
-                    var progress = calculateTaskProgress(task_id);
-
-                    taskProgressSelector.html(progress + '%');
-                    taskProgressSelector.css({'width': progress + '%'});
-
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            });
-        });
-
-        function timesheetExistControl(task_id, starter_id)
-        {
+        function timesheetExistControl(task_id, starter_id) {
             var result = null;
             $.ajax({
                 async: false,
@@ -540,8 +423,7 @@
             return result;
         }
 
-        function calculateTaskProgress(task_id)
-        {
+        function calculateTaskProgress(task_id) {
             var progress = null;
             $.ajax({
                 async: false,
@@ -556,6 +438,17 @@
             });
             return progress;
         }
-    </script>
 
+        $(document).delegate(".taskItemTitle", "click", function () {
+            $("#kt_quick_cart_toggle").click();
+            showTask($(this).data('id'));
+            // $("#ShowTask").modal('show');
+        });
+
+        $(".taskSublist").hide();
+
+        function runSublistChecker(id) {
+            $("#sublist_" + id).slideToggle();
+        }
+    </script>
 @stop

@@ -13,7 +13,7 @@ class Project extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $appends = ['status', 'progress'];
+    protected $appends = ['status', 'progress', 'assigned'];
 
     public function tasks()
     {

@@ -103,4 +103,9 @@ class Employee extends Authenticatable
     {
         return $this->morphMany(Timesheet::class, 'starter');
     }
+
+    public function assignments()
+    {
+        return $this->hasMany(Assignment::class);
+    }
 }
