@@ -16,7 +16,7 @@
     <hr>
     <div id="tasks"></div>
 
-{{--    @include('pages.project.project.show.modals.show-task')--}}
+    @include('pages.project.project.show.modals.delete-task')
     @include('pages.project.project.show.modals.create-task')
     @include('pages.project.project.show.components.task-rightbar')
 
@@ -669,5 +669,22 @@
                 }
             });
         });
+
+        $(document).delegate("#deleteTask", "click", function () {
+            var task_id = $("#selectedTaskIdSelector").val();
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task.delete') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    task_id: task_id
+                },
+                success: function () {
+                    kanban.removeElement("" + task_id + "");
+                    $("#DeleteTaskModal").modal('hide');
+                    $("#kt_quick_cart_toggle").click();
+                }
+            });
+        })
     </script>
 @stop

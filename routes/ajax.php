@@ -83,6 +83,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
         Route::prefix('task')->group(function () {
             Route::get('edit', 'TaskController@edit')->name('ajax.project.task.edit');
+            Route::post('delete', 'TaskController@delete')->name('ajax.project.task.delete');
 
             Route::post('createChecklistItem', 'TaskController@createChecklistItem')->name('ajax.project.task.createChecklistItem');
             Route::post('updateChecklistItem', 'TaskController@updateChecklistItem')->name('ajax.project.task.updateChecklistItem');

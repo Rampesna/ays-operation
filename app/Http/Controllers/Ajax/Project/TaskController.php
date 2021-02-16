@@ -32,6 +32,11 @@ class TaskController extends Controller
             , 200);
     }
 
+    public function delete(Request $request)
+    {
+        Task::find($request->task_id)->delete();
+    }
+
     public function createChecklistItem(Request $request)
     {
         $checklistItem = new ChecklistItem;
@@ -81,7 +86,7 @@ class TaskController extends Controller
     public function calculateTaskProgress(Request $request)
     {
         $checklistItems = Task::find($request->task_id)->checklistItems;
-        return response()->json(number_format((count($checklistItems->where('checked', 1)->all()) / count($checklistItems)) * 100,2,'.',','),200);
+        return response()->json(number_format((count($checklistItems->where('checked', 1)->all()) / count($checklistItems)) * 100, 2, '.', ','), 200);
     }
 
     public function updateStatus(Request $request)
