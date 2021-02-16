@@ -28,7 +28,7 @@ class TaskController extends Controller
                 'creator',
                 'milestone'
 
-            ])->find($request->task_id)
+            ])->find($request->task_id)->append('timesheeters')
             , 200);
     }
 
@@ -95,6 +95,13 @@ class TaskController extends Controller
     {
         $task = Task::find($request->task_id);
         $task->milestone_id = $request->milestone_id == '0' ? null : $request->milestone_id;
+        $task->save();
+    }
+
+    public function updateDescription(Request $request)
+    {
+        $task = Task::find($request->task_id);
+        $task->description = $request->description;
         $task->save();
     }
 }

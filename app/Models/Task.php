@@ -60,4 +60,15 @@ class Task extends Model
     {
         return ($this->checklistItems()->where('checked', 1)->count() / count($this->checklistItems)) * 100;
     }
+
+    public function getTimesheetersAttribute()
+    {
+        return Timesheet::with([
+            'starter'
+        ])
+            ->select('task_id', 'starter_type', 'starter_id')
+            ->where('task_id', $this->id)
+            ->groupBy('task_id', 'starter_type', 'starter_id')
+            ->get();
+    }
 }

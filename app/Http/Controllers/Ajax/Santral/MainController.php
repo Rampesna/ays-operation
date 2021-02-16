@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax\Santral;
 
 use App\Http\Controllers\Controller;
 use App\Models\Task;
+use App\Models\Timesheet;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -11,7 +12,7 @@ class MainController extends Controller
     public function index(Request $request)
     {
 
-        return collect(Task::find(1)->timesheets()->with('starter')->get())->groupBy(['starter_type','starter_id']);
+        return Task::find(1)->append('timesheeters');
 
 //        return Project::with([
 //            'employees',

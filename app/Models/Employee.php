@@ -20,6 +20,10 @@ class Employee extends Authenticatable
 
     protected $guard = 'employee';
 
+    protected $hidden = [
+        'password'
+    ];
+
     public function getId()
     {
         return $this->id;
