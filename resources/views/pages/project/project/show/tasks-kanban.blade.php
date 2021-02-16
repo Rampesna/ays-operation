@@ -412,6 +412,8 @@
                 },
                 error: function (error) {
                     console.log(error);
+                    $("#kt_quick_cart_toggle").click();
+                    toastr.error('Görev Bilgileri Alınırken Bir Hata Oluştu! Sayfayı Yenilemeyi Deneyin');
                 }
             });
         }
