@@ -30,7 +30,7 @@ class TaskService
         $this->task->tags = $request->tags ? General::clearTagifyTags($request->tags) : null;
         $this->task->start_date = $request->start_date;
         $this->task->end_date = $request->end_date;
-        $this->task->status_id = $request->status_id ?? 1;
+        $this->task->status_id = $request->status_id;
         $this->task->save();
 
         if ($request->employee_id) {
@@ -41,14 +41,15 @@ class TaskService
             $assignment->save();
         }
 
-        $checklist = General::clearFormRepeater($request->checklist);
-
-        foreach ($checklist as $item) {
-            $newChecklistItem = new ChecklistItem;
-            $newChecklistItem->task_id = $this->task->id;
-            $newChecklistItem->creator_id = auth()->user()->getId();
-            $newChecklistItem->name = $item;
-            $newChecklistItem->save();
+        if ($request->checklist) {
+            $checklist = General::clearFormRepeater($request->checklist);
+            foreach ($checklist as $item) {
+                $newChecklistItem = new ChecklistItem;
+                $newChecklistItem->task_id = $this->task->id;
+                $newChecklistItem->creator_id = auth()->user()->getId();
+                $newChecklistItem->name = $item;
+                $newChecklistItem->save();
+            }
         }
 
         return $this->task;

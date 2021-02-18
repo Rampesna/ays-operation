@@ -32,4 +32,8 @@
     });
 
     getEmployeesByCompanyId(companySelector.val());
+
+    $(".deleteProject").click(function () {
+        $("#deleted_project_id").val($(this).data('id'));
+    });
 </script>

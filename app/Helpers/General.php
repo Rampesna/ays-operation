@@ -30,12 +30,14 @@ class General
 
     public static function clearFormRepeater($checklist)
     {
-        $returnObject = [];
+        if (!$checklist) {
+            return [];
+        }
 
+        $returnObject = [];
         foreach ($checklist as $key => $value) {
             $returnObject[] = $value['checklist'];
         }
-
         return $returnObject;
     }
 }

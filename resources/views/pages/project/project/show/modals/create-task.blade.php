@@ -1,6 +1,6 @@
 <div class="modal fade" id="CreateTask" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
     <div class="modal-dialog" role="document" style="max-width:900px;">
-        <form action="{{ route('project.project.task.create') }}" method="post" class="modal-content">
+        <form action="{{ route('project.project.task.create') }}" method="post" class="modal-content" id="newTaskCreateForm">
             @csrf
             <input type="hidden" name="status_id" id="status_id">
             <input type="hidden" name="project_id" value="{{ $project->id }}">
@@ -23,7 +23,7 @@
                     <div class="col-xl-12">
                         <div class="form-group">
                             <label for="description">Proje Açıklaması</label>
-                            <textarea class="form-control summernote" name="description" id="description" rows="5"></textarea>
+                            <textarea class="form-control" name="description" id="description" rows="5"></textarea>
                         </div>
                     </div>
                 </div>
@@ -91,7 +91,7 @@
                                     <div data-repeater-item="" class="form-group row align-items-center">
                                         <div class="col-md-8">
                                             <label style="width: 100%">
-                                                <input type="text" name="checklist" class="form-control" placeholder="Alt İş Başlığı" />
+                                                <input type="text" name="checklist" class="form-control checklistItemsList" placeholder="Alt İş Başlığı" />
                                             </label>
                                             <div class="d-md-none mb-2"></div>
                                         </div>
@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">Oluştur</button>
+                <button type="submit" class="btn btn-success" id="createTaskButtonX">Oluştur</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Vazgeç</button>
             </div>
         </form>

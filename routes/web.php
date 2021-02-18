@@ -81,13 +81,14 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         });
     });
 
-    Route::prefix('project-management')->namespace('Project')->group(function () {
+    Route::middleware(['Authority:32'])->prefix('project-management')->namespace('Project')->group(function () {
         Route::prefix('project')->namespace('Project')->group(function () {
             Route::get('/', function () {
                 return redirect()->route('');
             });
             Route::get('index', 'ProjectController@index')->name('project.project.index');
             Route::get('{project}/{tab}/{sub?}', 'ProjectController@show')->name('project.project.show');
+            Route::post('delete', 'ProjectController@delete')->name('project.project.delete');
 
             Route::post('employees/update', 'ProjectController@employeesUpdate')->name('project.project.employees.update');
             Route::post('create', 'ProjectController@create')->name('project.project.create');

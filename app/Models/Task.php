@@ -58,7 +58,7 @@ class Task extends Model
 
     public function getProgressAttribute()
     {
-        return ($this->checklistItems()->where('checked', 1)->count() / count($this->checklistItems)) * 100;
+        return count($this->checklistItems) > 0 ? ($this->checklistItems()->where('checked', 1)->count() / count($this->checklistItems)) * 100 : 0;
     }
 
     public function getTimesheetersAttribute()

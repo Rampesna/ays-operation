@@ -102,6 +102,17 @@
                                                             <span class="navi-text">Notlar</span>
                                                         </a>
                                                     </li>
+                                                    @Authority(22)
+                                                    <hr>
+                                                    <li class="navi-item">
+                                                        <a href="#" data-toggle="modal" data-target="#DeleteProject" data-id="{{ $project->id }}" class="navi-link deleteProject">
+                                                            <span class="navi-icon">
+                                                                <i class="fa fa-trash text-danger"></i>
+                                                            </span>
+                                                            <span class="navi-text">Projeyi Sil</span>
+                                                        </a>
+                                                    </li>
+                                                    @endAuthority
                                                 </ul>
                                                 <!--end::Navigation-->
                                             </div>
@@ -208,6 +219,7 @@
     </div>
 
     @include('pages.project.project.index.modals.create-project')
+    @include('pages.project.project.index.modals.delete-project')
 
 @endsection
 

@@ -239,13 +239,21 @@
                                 '<br>' +
                                 'Görevli: {{ $task->assigned ? $task->assigned->name : 'Yok' }}' +
                                 '<br><br>' +
+                                '<div class="row">' +
+                                @foreach($task->timesheets()->with(['starter'])->where('end_time', null)->get() as $timesheet)
+                                '<div class="col-xl-12 m-1">' +
+                                '<i class="fa fa-user text-success mr-3"></i><span>{{ $timesheet->starter->name }}</span>' +
+                                '</div>' +
+                                @endforeach
+                                '</div>' +
+                                '<br>' +
                                 '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px">{{ strftime('%d %B, %Y', strtotime($task->end_date)) }}</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer" onclick="runSublistChecker({{ $task->id }}); $(\'#sublistControl\').val(1)" data-id="{{ $task->id }}"></i></div></div>' +
                                 '<div id="sublist_{{ $task->id }}" class="taskSublist">' +
                                 '<hr>' +
-                                '<div class="row">' +
+                                '<div class="row" id="task_sublist_control_{{ $task->id }}">' +
                                 @foreach($task->checklistItems as $checklistItem)
-                                '<div class="col-xl-12 m-1">' +
-                                '<i class="@if($checklistItem->checked == 1) fa fa-check-circle text-success @else far fa-check-circle @endif mr-3"></i>{{ $checklistItem->name }}' +
+                                '<div class="col-xl-12 m-1" id="checklist_item_id_{{ $checklistItem->id }}">' +
+                                '<i id="checklist_item_icon_id_{{ $checklistItem->id }}" class="@if($checklistItem->checked == 1) fa fa-check-circle text-success @else far fa-check-circle @endif mr-3"></i><span id="checklist_item_name_id_{{ $checklistItem->id }}">{{ $checklistItem->name }}</span>' +
                                 '</div>' +
                                 @endforeach
                                 '</div>' +
@@ -294,6 +302,7 @@
         var taskDescriptionSelector = $("#taskDescriptionSelector");
         var checklistItemsSelector = $("#checklistItemsSelector");
         var taskEmployeeSelector = $("#taskEmployeeSelector");
+        var createTaskButtonSelector = $("#createTaskButton");
 
         var checklistItemCreateIcon = $("#checklistItemCreate");
         var taskProgressSelector = $("#task_progress");
@@ -424,8 +433,101 @@
             });
         }
 
+        createTaskButtonSelector.click(function () {
+            var checklist = [];
+            var list = $('.checklistItemsList');
+            $.each(list, function (index) {
+                checklist.push(list[index].value);
+            });
+            var status_id = $("#status_id").val();
+            var project_id = '{{ $project->id }}';
+            var employee_id = $("#employee_id").val();
+            var creator_id = '{{ auth()->user()->getId() }}';
+            var milestone_id = $("#milestone_id").val();
+            var name = $("#name").val();
+            var description = $("#description").val();
+            var tags = $("#task_tags").val();
+            var start_date = $("#start_date").val();
+            var end_date = $("#end_date").val();
+
+            $.ajax({
+                type: 'get',
+                url: '{{ route('ajax.project.task.create') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    status_id: status_id,
+                    project_id: project_id,
+                    employee_id: employee_id,
+                    creator_id: creator_id,
+                    milestone_id: milestone_id,
+                    name: name,
+                    description: description,
+                    tags: tags,
+                    start_date: start_date,
+                    end_date: end_date,
+                    checklist: checklist
+                },
+                success: function (task) {
+                    console.log(task);
+                    var assigned = 'Yok';
+                    if (task.assigned != null) {
+                        assigned = task.assigned.name;
+                    }
+                    var checklistString = '';
+                    $.each(task.checklist_items, function (item) {
+                        checklistString = checklistString + '<div class="col-xl-12 m-1"><i class="far fa-check-circle mr-3"></i>' + task.checklist_items[item].name + '</div>';
+                    });
+                    kanban.addElement(status_id, {
+                        'id': task.id,
+                        'title': '<div class="row">' +
+                            '<div class="col-xl-10">' +
+                            '   <i class="far fa-check-circle mr-3"></i><span data-id="' + task.id + '" class="taskItemTitle cursor-pointer">' + task.name + '</span>' +
+                            '</div>' +
+                            '<div class="col-xl-2 text-right">' +
+                            '   <a href="#" onclick="document.getElementById(\'start_form_' + task.id + '\').submit(); $(\'#loaderControl\').val(1);">' +
+                            '       <i class="fa fa-play text-success"></i>' +
+                            '   </a>' +
+                            '<form style="visibility: hidden" id="start_form_' + task.id + '" method="post" action="{{ route('project.project.timesheet.start') }}">' +
+                            '@csrf' +
+                            '<input type="hidden" name="task_id" value="' + task.id + '">' +
+                            '</form>' +
+                            '</div>' +
+                            '</div>' +
+                            '<br><br>' +
+                            '<div class="row mt-n3">' +
+                            '<div class="col-xl-12">' +
+                            '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">' + task.priority + '</span>' +
+                            '</div>' +
+                            '</div>' +
+                            '<br>' +
+                            'Görevli: ' + assigned + '' +
+                            '<br><br>' +
+                            '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px;">' + task.end_date + '</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer" onclick="runSublistChecker(' + task.id + '); $(\'#sublistControl\').val(1)" data-id="' + task.id + '"></i></div></div>' +
+                            '<div id="sublist_{{ $task->id }}" class="taskSublist" style="display: none">' +
+                            '<hr>' +
+                            '<div class="row">' +
+                            checklistString +
+                            '</div>' +
+                            '</div>'
+                    });
+                    $.each(list, function (index) {
+                        if (index !== 1) {
+                            $(this).parent().parent().parent().remove();
+                        }
+                    });
+                    $("#newTaskCreateForm")[0].reset();
+                    $("#CreateTask").modal('hide');
+                    $(".taskSublist").hide();
+                    function runSublistChecker(id) {
+                        $("#sublist_" + id).slideToggle();
+                    }
+                }
+            });
+        });
+
         checklistItemCreateIcon.click(function () {
             var task_id = $(this).data('id');
+            var sublistSelector = $("#task_sublist_control_" + task_id);
 
             $.ajax({
                 type: 'post',
@@ -457,6 +559,7 @@
 
                     taskProgressSelector.html(progress + '%');
                     taskProgressSelector.css({'width': progress + '%'});
+                    sublistSelector.append('<div class="col-xl-12 m-1" id="checklist_item_id_' + checklistItem.id + '">' + '<i class="far fa-check-circle mr-3"></i>' + checklistItem.name + '</div>');
                 },
                 error: function (error) {
                     console.log(error);
@@ -466,6 +569,7 @@
 
         $(document).delegate('.checklistItemCheckbox', 'click', function () {
             var checklist_item_id = $(this).data('id');
+            var checklistItemIconSelector = $("#checklist_item_icon_id_" + checklist_item_id);
 
             if ($(this).is(':checked')) {
                 $.ajax({
@@ -476,6 +580,10 @@
                         checklist_item_id: checklist_item_id,
                         checker_type: 'App\\Models\\User',
                         checker_id: '{{ auth()->user()->getId() }}'
+                    },
+                    success: function () {
+                        checklistItemIconSelector.removeClass();
+                        checklistItemIconSelector.addClass('fa fa-check-circle text-success mr-3');
                     }
                 });
             } else {
@@ -485,6 +593,10 @@
                     data: {
                         _token: '{{ csrf_token() }}',
                         checklist_item_id: checklist_item_id
+                    },
+                    success: function () {
+                        checklistItemIconSelector.removeClass();
+                        checklistItemIconSelector.addClass('far fa-check-circle mr-3');
                     }
                 });
             }
@@ -497,6 +609,7 @@
 
         $(document).delegate('.checklistItemInput', 'focusout', function () {
             var checklist_item_id = $(this).data('id');
+            var checklistItemNameSelector = $("#checklist_item_name_id_" + checklist_item_id);
             var name = $(this).val();
 
             $.ajax({
@@ -507,8 +620,8 @@
                     checklist_item_id: checklist_item_id,
                     name: name
                 },
-                success: function () {
-
+                success: function (checklistItem) {
+                    checklistItemNameSelector.html(checklistItem.name);
                 },
                 error: function (error) {
                     console.log(error);
@@ -519,6 +632,7 @@
 
         $(document).delegate('.checklistItemDelete', 'click', function () {
             var checklist_item_id = $(this).data('id');
+            var checklistItemSelector = $("#checklist_item_id_" + checklist_item_id);
 
             $.ajax({
                 type: 'post',
@@ -534,6 +648,7 @@
 
                     taskProgressSelector.html(progress + '%');
                     taskProgressSelector.css({'width': progress + '%'});
+                    checklistItemSelector.remove();
                 },
                 error: function (error) {
                     console.log(error);

@@ -2,14 +2,53 @@
 
 namespace App\Http\Controllers\Ajax\Project;
 
+use App\Helpers\General;
 use App\Http\Controllers\Controller;
 use App\Models\Assignment;
 use App\Models\ChecklistItem;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
+    public function create(Request $request)
+    {
+        $task = new Task;
+        $task->company_id = Project::find($request->project_id)->company_id;
+        $task->project_id = $request->project_id;
+        $task->employee_id = $request->employee_id;
+        $task->creator_id = $request->creator_id;
+        $task->milestone_id = $request->milestone_id;
+        $task->name = $request->name;
+        $task->description = $request->description;
+        $task->tags = $request->tags ? General::clearTagifyTags($request->tags) : null;
+        $task->start_date = $request->start_date;
+        $task->end_date = $request->end_date;
+        $task->status_id = $request->status_id;
+        $task->save();
+
+        if ($request->employee_id) {
+            $assignment = new Assignment;
+            $assignment->task_id = $task->id;
+            $assignment->employee_id = $request->employee_id;
+            $assignment->date = date('Y-m-d H:i:s');
+            $assignment->save();
+        }
+
+        if ($request->checklist) {
+            foreach ($request->checklist as $item) {
+                $newChecklistItem = new ChecklistItem;
+                $newChecklistItem->task_id = $task->id;
+                $newChecklistItem->creator_id = $request->creator_id;
+                $newChecklistItem->name = $item;
+                $newChecklistItem->save();
+            }
+        }
+
+        return response()->json(Task::with(['checklistItems'])->find($task->id)->append('assigned'));
+    }
+
     public function edit(Request $request)
     {
         return response()->json(
@@ -87,7 +126,7 @@ class TaskController extends Controller
     public function calculateTaskProgress(Request $request)
     {
         $checklistItems = Task::find($request->task_id)->checklistItems;
-        return response()->json(number_format((count($checklistItems->where('checked', 1)->all()) / count($checklistItems)) * 100, 2, '.', ','), 200);
+        return count($checklistItems) > 0 ? number_format((count($checklistItems->where('checked', 1)->all()) / count($checklistItems)) * 100, 2, '.', ',') : 0;
     }
 
     public function updateStatus(Request $request)

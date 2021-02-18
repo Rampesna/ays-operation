@@ -29,28 +29,83 @@ class ProjectController extends Controller
 
     public function show(Project $project, $tab, $sub = null)
     {
-        if ($sub) {
-            if ($tab == 'tasks' && $sub == 'kanban') {
-                try {
+        if ($tab == 'overview') {
+            if (!auth()->user()->authority(33)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.overview', [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'tasks') {
+            if (!auth()->user()->authority(34)) {
+                return abort(403);
+            }
+            if ($sub) {
+                if ($sub == 'kanban') {
                     return view('pages.project.project.show.tasks-kanban', [
                         'project' => $project,
                         'tab' => $tab
                     ]);
-                } catch (\Exception $exception) {
+                } else {
                     return abort(404);
                 }
             } else {
-                return abort(404);
-            }
-        } else {
-            try {
-                return view('pages.project.project.show.' . $tab, [
+                return view('pages.project.project.show.tasks', [
                     'project' => $project,
                     'tab' => $tab
                 ]);
-            } catch (\Exception $exception) {
-                return abort(404);
             }
+        } else if ($tab == 'timesheets') {
+            if (!auth()->user()->authority(35)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.timesheets', [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'milestones') {
+            if (!auth()->user()->authority(36)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.milestones', [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'files') {
+            if (!auth()->user()->authority(37)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.files', [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'comments') {
+            if (!auth()->user()->authority(38)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.comments', [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'tickets') {
+            if (!auth()->user()->authority(39)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.tickets', [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'notes') {
+            if (!auth()->user()->authority(40)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.notes', [
+                'project' => $project,
+                'tab' => $tab
+            ]);
+        } else {
+            return abort(404);
         }
     }
 
@@ -64,6 +119,12 @@ class ProjectController extends Controller
     {
         (new ProjectService(Project::find($request->project_id)))->store($request, 1);
         return redirect()->back()->with(['type' => 'success', 'data' => 'Proje Güncellendi']);
+    }
+
+    public function delete(Request $request)
+    {
+        Project::find($request->project_id)->delete();
+        return redirect()->back()->with(['type' => 'success', 'data' => 'Proje Silindi']);
     }
 
     public function employeesUpdate(Request $request)

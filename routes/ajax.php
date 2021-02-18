@@ -82,6 +82,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 //        Route::post('');
 
         Route::prefix('task')->group(function () {
+            Route::get('create', 'TaskController@create')->name('ajax.project.task.create');
             Route::get('edit', 'TaskController@edit')->name('ajax.project.task.edit');
             Route::post('delete', 'TaskController@delete')->name('ajax.project.task.delete');
 
