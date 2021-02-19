@@ -20,22 +20,22 @@
 
 @section('page-styles')
     <style>
-        .fc-day:hover{
-            background: lightgrey;
-        }
+        /*.fc-day:hover{*/
+        /*    background: lightgrey;*/
+        /*}*/
 
-        /*Allow pointer-events through*/
-        .fc-slats, /*horizontals*/
-        .fc-content-skeleton, /*day numbers*/
-        .fc-bgevent-skeleton /*events container*/{
-            pointer-events:none
-        }
+        /*!*Allow pointer-events through*!*/
+        /*.fc-slats, !*horizontals*!*/
+        /*.fc-content-skeleton, !*day numbers*!*/
+        /*.fc-bgevent-skeleton !*events container*!{*/
+        /*    pointer-events:none*/
+        /*}*/
 
-        /*Turn pointer events back on*/
-        .fc-bgevent,
-        .fc-event-container{
-            pointer-events:auto; /*events*/
-        }
+        /*!*Turn pointer events back on*!*/
+        /*.fc-bgevent,*/
+        /*.fc-event-container{*/
+        /*    pointer-events:auto; !*events*!*/
+        /*}*/
     </style>
 @stop
 
@@ -81,7 +81,7 @@
             },
 
             eventClick: function (calEvent, jsEvent, view) {
-                
+
             },
 
             events: [
@@ -94,7 +94,7 @@
                     url: 'javascript:void(0);',
                     className: 'fc-event-solid-{{ $task->priority->color }}',
                     taskPriority: '{{ $task->priority->name }}',
-                    taskDescription: '{!! $task->description !!}'
+                    taskDescription: "{{ $task->description }}"
                 }{{ $loop->last ? null : ',' }}
                 @endforeach
             ]
