@@ -22,7 +22,7 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->string('description')->nullable();
             $table->string('status')->default('not_started');
-            $table->string('priority')->default('low');
+            $table->tinyInteger('priority_id')->unsigned()->default(1);
             $table->text('tags')->nullable();
             $table->date('start_date');
             $table->date('end_date');

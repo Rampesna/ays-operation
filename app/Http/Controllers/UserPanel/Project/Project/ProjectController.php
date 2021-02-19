@@ -5,6 +5,7 @@ namespace App\Http\Controllers\UserPanel\Project\Project;
 use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Project;
+use App\Models\TaskPriority;
 use Illuminate\Http\Request;
 use App\Services\ProjectService;
 
@@ -45,7 +46,8 @@ class ProjectController extends Controller
                 if ($sub == 'kanban') {
                     return view('pages.project.project.show.tasks-kanban', [
                         'project' => $project,
-                        'tab' => $tab
+                        'tab' => $tab,
+                        'taskPriorities' => TaskPriority::all()
                     ]);
                 } else {
                     return abort(404);

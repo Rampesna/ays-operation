@@ -61,6 +61,11 @@ class Task extends Model
         return count($this->checklistItems) > 0 ? ($this->checklistItems()->where('checked', 1)->count() / count($this->checklistItems)) * 100 : 0;
     }
 
+    public function priority()
+    {
+        return $this->belongsTo(TaskPriority::class,'priority_id','id');
+    }
+
     public function getTimesheetersAttribute()
     {
         return Timesheet::with([

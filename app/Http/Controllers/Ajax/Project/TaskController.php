@@ -26,6 +26,7 @@ class TaskController extends Controller
         $task->start_date = $request->start_date;
         $task->end_date = $request->end_date;
         $task->status_id = $request->status_id;
+        $task->priority_id = $request->priority_id;
         $task->save();
 
         if ($request->employee_id) {
@@ -46,7 +47,7 @@ class TaskController extends Controller
             }
         }
 
-        return response()->json(Task::with(['checklistItems'])->find($task->id)->append('assigned'));
+        return response()->json(Task::with(['checklistItems', 'priority'])->find($task->id)->append('assigned'));
     }
 
     public function edit(Request $request)
@@ -134,6 +135,8 @@ class TaskController extends Controller
         $task = Task::find($request->task_id);
         $task->status_id = $request->status_id;
         $task->save();
+
+        return response()->json($task, 200);
     }
 
     public function updateMilestone(Request $request)
@@ -141,6 +144,17 @@ class TaskController extends Controller
         $task = Task::find($request->task_id);
         $task->milestone_id = $request->milestone_id == '0' ? null : $request->milestone_id;
         $task->save();
+
+        return response()->json($task, 200);
+    }
+
+    public function updatePriority(Request $request)
+    {
+        $task = Task::with(['priority'])->find($request->task_id);
+        $task->priority_id = $request->priority_id;
+        $task->save();
+
+        return response()->json($task, 200);
     }
 
     public function updateDescription(Request $request)
@@ -148,6 +162,8 @@ class TaskController extends Controller
         $task = Task::find($request->task_id);
         $task->description = $request->description;
         $task->save();
+
+        return response()->json($task, 200);
     }
 
     public function updateEmployee(Request $request)
@@ -161,5 +177,7 @@ class TaskController extends Controller
         $assignment->employee_id = $request->employee_id;
         $assignment->date = date('Y-m-d H:i:s');
         $assignment->save();
+
+        return response()->json($task, 200);
     }
 }

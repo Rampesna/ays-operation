@@ -36,7 +36,14 @@
                     <span class="font-weight-bold">Öncelik Durumu: </span>
                 </div>
                 <div class="col-xl-9">
-                    <span id="taskPrioritySelector" class="btn btn-pill btn-sm btn-info" style="font-size: 11px; height: 20px; padding-top: 2px">--</span>
+                    <div class="form-group">
+                        <select id="taskPrioritySelector" class="selectpicker">
+                            @foreach($taskPriorities as $taskPriority)
+                                <option data-color="{{ $taskPriority->color }}" value="{{ $taskPriority->id }}">{{ $taskPriority->name }}</option>
+                            @endforeach
+                        </select>
+                        <label for="taskPrioritySelector"></label>
+                    </div>
                 </div>
             </div>
             <div class="row mt-6">

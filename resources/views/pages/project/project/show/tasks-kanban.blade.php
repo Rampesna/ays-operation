@@ -210,7 +210,7 @@
                                 '</div>' +
                                 '<div class="col-xl-2 text-right">' +
                                 @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
-                                    '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
                                 '       <i class="fa fa-stop text-danger"></i>' +
                                 '   </a>' +
                                 '<form style="visibility: hidden" id="stop_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.stop') }}">' +
@@ -219,7 +219,7 @@
                                 '</form>' +
                                 '</div>' +
                                 @else
-                                    '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
                                 '       <i class="fa fa-play text-success"></i>' +
                                 '   </a>' +
                                 '<form style="visibility: hidden" id="start_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.start') }}">' +
@@ -228,11 +228,11 @@
                                 '</form>' +
                                 '</div>' +
                                 @endif
-                                    '</div>' +
+                                '</div>' +
                                 '<br><br>' +
                                 '<div class="row mt-n3">' +
                                 '<div class="col-xl-12">' +
-                                '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->priority }}</span>@if($task->milestone) <span class="btn btn-pill btn-sm btn-{{ $task->milestone->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->milestone->name }}</span> @endif' +
+                                '<span id="task_priority_span_id_{{ $task->id }}" class="btn btn-pill btn-sm btn-{{ $task->priority->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->priority->name }}</span>@if($task->milestone) <span class="btn btn-pill btn-sm btn-{{ $task->milestone->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $task->milestone->name }}</span> @endif' +
                                 '</div>' +
                                 '</div>' +
                                 '<br>' +
@@ -354,20 +354,8 @@
                     });
                     taskDateSelector.html(handleDate(task.start_date) + '  ,  ' + handleDate(task.end_date));
 
-                    var priorityColor = 'secondary';
-                    if (task.priority === 'low') {
-                        priorityColor = 'success';
-                    } else if (task.priority === 'medium') {
-                        priorityColor = 'warning';
-                    } else if (task.priority === 'high') {
-                        priorityColor = 'danger';
-                    } else if (task.priority === 'urgent') {
-                        priorityColor = 'info';
-                    }
-                    taskPrioritySelector.removeClass();
-                    taskPrioritySelector.html('');
-                    taskPrioritySelector.addClass('btn btn-pill btn-sm btn-' + priorityColor);
-                    taskPrioritySelector.html(task.priority);
+                    taskPrioritySelector.val(task.priority_id);
+                    taskPrioritySelector.selectpicker('refresh');
                     taskStatusSelector.html(task.status);
 
                     taskMilestoneSelector.removeClass();
@@ -443,6 +431,7 @@
             var employee_id = $("#employee_id").val();
             var creator_id = '{{ auth()->user()->getId() }}';
             var milestone_id = $("#milestone_id").val();
+            var priority_id = $("#priority_id").val();
             var name = $("#name").val();
             var description = $("#description").val();
             var tags = $("#task_tags").val();
@@ -461,6 +450,8 @@
                 toastr.warning('Başlangıç Tarihi Zorunludur');
             } else if (end_date == null || end_date === '') {
                 toastr.warning('Bitiş Tarihi Zorunludur');
+            } else if (priority_id == null || priority_id === '') {
+                toastr.warning('Öncelik Durumu Seçilmesi Zorunludur');
             } else {
                 $.ajax({
                     type: 'get',
@@ -472,6 +463,7 @@
                         employee_id: employee_id,
                         creator_id: creator_id,
                         milestone_id: milestone_id,
+                        priority_id: priority_id,
                         name: name,
                         description: description,
                         tags: tags,
@@ -508,7 +500,7 @@
                                 '<br><br>' +
                                 '<div class="row mt-n3">' +
                                 '<div class="col-xl-12">' +
-                                '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">' + task.priority + '</span>' +
+                                '<span id="task_priority_span_id_' + task.id + '" class="btn btn-pill btn-sm btn-' + task.priority.color + '" style="font-size: 11px; height: 20px; padding-top: 2px">' + task.priority.name + '</span>' +
                                 '</div>' +
                                 '</div>' +
                                 '<br>' +
@@ -570,6 +562,29 @@
                 },
                 error: function (error) {
                     console.log(error);
+                }
+            });
+        });
+
+        taskPrioritySelector.change(function () {
+            var task_id = selectedTaskIdSelector.val();
+            var priority_id = $(this).val();
+            var taskPrioritySpanSelector = $("#task_priority_span_id_" + task_id);
+            var taskPrioritySpanSelectorSelected = $("#taskPrioritySelector option:selected");
+
+            var priorityName = taskPrioritySpanSelectorSelected.text();
+            var priorityColor = taskPrioritySpanSelectorSelected.data('color');
+
+            taskPrioritySpanSelector.html(priorityName);
+            taskPrioritySpanSelector.removeClass();
+            taskPrioritySpanSelector.addClass('btn btn-pill btn-sm btn-' + priorityColor);
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task.updatePriority') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    task_id: task_id,
+                    priority_id: priority_id
                 }
             });
         });

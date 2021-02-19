@@ -10,9 +10,6 @@
         <div class="col-xl-6">
             <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}" class="btn btn-primary">Kanban Board</a>
         </div>
-        <div class="col-xl-6 text-right">
-            <a href="#" class="btn btn-success font-weight-bolder" data-toggle="modal" data-target="#CreateTask">Yeni Görev</a>
-        </div>
     </div>
     <hr>
     <div class="row">
@@ -85,7 +82,7 @@
                                                 @endforeach
                                             @endif
                                         </td>
-                                        <td>{{ $task->priority }}</td>
+                                        <td>{{ $task->priority->name }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -111,7 +108,6 @@
     </div>
 
     @include('pages.project.project.show.modals.show-task')
-    @include('pages.project.project.show.modals.create-task')
 
 @endsection
 

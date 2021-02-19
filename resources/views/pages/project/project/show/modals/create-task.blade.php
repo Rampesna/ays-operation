@@ -42,7 +42,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="employee_id">Personel Ataması</label>
                             <select class="form-control" name="employee_id" id="employee_id">
@@ -53,13 +53,23 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="milestone_id">Kilometre Taşı</label>
                             <select class="form-control" name="milestone_id" id="milestone_id">
                                 <option selected hidden disabled></option>
                                 @foreach($project->milestones as $milestone)
                                     <option value="{{ $milestone->id }}">{{ $milestone->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
+                            <label for="priority_id">Görev Önceliği</label>
+                            <select class="form-control" name="priority_id" id="priority_id">
+                                @foreach($taskPriorities as $taskPriority)
+                                    <option value="{{ $taskPriority->id }}">{{ $taskPriority->name }}</option>
                                 @endforeach
                             </select>
                         </div>
