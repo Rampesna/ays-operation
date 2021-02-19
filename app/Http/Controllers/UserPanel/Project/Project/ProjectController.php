@@ -58,6 +58,15 @@ class ProjectController extends Controller
                     'tab' => $tab
                 ]);
             }
+        } else if ($tab == 'calendar') {
+            if (!auth()->user()->authority(42)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.calendar', [
+                'project' => $project,
+                'tab' => $tab,
+                'taskPriorities' => TaskPriority::all()
+            ]);
         } else if ($tab == 'timesheets') {
             if (!auth()->user()->authority(35)) {
                 return abort(403);

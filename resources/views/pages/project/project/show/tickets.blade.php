@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Proje Detayı')
+@section('title', 'Proje Destek Talepleri')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
 @section('content')

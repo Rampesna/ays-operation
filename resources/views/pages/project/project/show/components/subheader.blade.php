@@ -20,6 +20,15 @@
             </li>
             @endAuthority
 
+            @Authority(42)
+            <li class="nav-item">
+                <a class="nav-link @if($tab == 'calendar') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'calendar']) }}">
+                    <span class="nav-icon"><i class="far fa-calendar-alt"></i></span>
+                    <span class="nav-text">Takvim</span>
+                </a>
+            </li>
+            @endAuthority
+
             @Authority(35)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'timesheets') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'timesheets']) }}">
