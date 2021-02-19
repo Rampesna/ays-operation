@@ -107,7 +107,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success" id="createTaskButtonX">Oluştur</button>
+                <button type="button" class="btn btn-success" id="createTaskButton">Oluştur</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Vazgeç</button>
             </div>
         </form>

@@ -7,7 +7,6 @@
     @include('pages.project.project.show.components.subheader')
     <input type="hidden" id="kt_quick_cart_toggle">
     <input type="hidden" id="loaderControl" value="0">
-    <input type="hidden" id="sublistControl" value="0">
     <div class="row mt-15">
         <div class="col-xl-6">
             <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="btn btn-primary">Liste Görünümüne Geç</a>
@@ -247,7 +246,7 @@
                                 @endforeach
                                 '</div>' +
                                 '<br>' +
-                                '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px">{{ strftime('%d %B, %Y', strtotime($task->end_date)) }}</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer" onclick="runSublistChecker({{ $task->id }}); $(\'#sublistControl\').val(1)" data-id="{{ $task->id }}"></i></div></div>' +
+                                '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px">{{ strftime('%d %B, %Y', strtotime($task->end_date)) }}</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer sublistToggleIcon" data-id="{{ $task->id }}"></i></div></div>' +
                                 '<div id="sublist_{{ $task->id }}" class="taskSublist">' +
                                 '<hr>' +
                                 '<div class="row" id="task_sublist_control_{{ $task->id }}">' +
@@ -450,79 +449,87 @@
             var start_date = $("#start_date").val();
             var end_date = $("#end_date").val();
 
-            $.ajax({
-                type: 'get',
-                url: '{{ route('ajax.project.task.create') }}',
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    status_id: status_id,
-                    project_id: project_id,
-                    employee_id: employee_id,
-                    creator_id: creator_id,
-                    milestone_id: milestone_id,
-                    name: name,
-                    description: description,
-                    tags: tags,
-                    start_date: start_date,
-                    end_date: end_date,
-                    checklist: checklist
-                },
-                success: function (task) {
-                    console.log(task);
-                    var assigned = 'Yok';
-                    if (task.assigned != null) {
-                        assigned = task.assigned.name;
-                    }
-                    var checklistString = '';
-                    $.each(task.checklist_items, function (item) {
-                        checklistString = checklistString + '<div class="col-xl-12 m-1"><i class="far fa-check-circle mr-3"></i>' + task.checklist_items[item].name + '</div>';
-                    });
-                    kanban.addElement(status_id, {
-                        'id': task.id,
-                        'title': '<div class="row">' +
-                            '<div class="col-xl-10">' +
-                            '   <i class="far fa-check-circle mr-3"></i><span data-id="' + task.id + '" class="taskItemTitle cursor-pointer">' + task.name + '</span>' +
-                            '</div>' +
-                            '<div class="col-xl-2 text-right">' +
-                            '   <a href="#" onclick="document.getElementById(\'start_form_' + task.id + '\').submit(); $(\'#loaderControl\').val(1);">' +
-                            '       <i class="fa fa-play text-success"></i>' +
-                            '   </a>' +
-                            '<form style="visibility: hidden" id="start_form_' + task.id + '" method="post" action="{{ route('project.project.timesheet.start') }}">' +
-                            '@csrf' +
-                            '<input type="hidden" name="task_id" value="' + task.id + '">' +
-                            '</form>' +
-                            '</div>' +
-                            '</div>' +
-                            '<br><br>' +
-                            '<div class="row mt-n3">' +
-                            '<div class="col-xl-12">' +
-                            '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">' + task.priority + '</span>' +
-                            '</div>' +
-                            '</div>' +
-                            '<br>' +
-                            'Görevli: ' + assigned + '' +
-                            '<br><br>' +
-                            '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px;">' + task.end_date + '</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer" onclick="runSublistChecker(' + task.id + '); $(\'#sublistControl\').val(1)" data-id="' + task.id + '"></i></div></div>' +
-                            '<div id="sublist_{{ $task->id }}" class="taskSublist" style="display: none">' +
-                            '<hr>' +
-                            '<div class="row">' +
-                            checklistString +
-                            '</div>' +
-                            '</div>'
-                    });
-                    $.each(list, function (index) {
-                        if (index !== 1) {
-                            $(this).parent().parent().parent().remove();
+            if (status_id == null || status_id === '') {
+                toastr.error('Pano Seçiminde Bir Hata Oluştu. Sayfayı Yenileyip Tekrar Deneyin');
+            } else if (project_id === '') {
+                toastr.error('Bir Hata Oluştu! Sayfayı Yenilemeyi Deneyin');
+            } else if (creator_id === '') {
+                toastr.error('Bir Hata Oluştu! Sayfayı Yenilemeyi Deneyin');
+            } else if (name == null || name === '') {
+                toastr.warning('Görev Adı Girilmesi Zorunludur');
+            } else if (start_date == null || start_date === '') {
+                toastr.warning('Başlangıç Tarihi Zorunludur');
+            } else if (end_date == null || end_date === '') {
+                toastr.warning('Bitiş Tarihi Zorunludur');
+            } else {
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('ajax.project.task.create') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        status_id: status_id,
+                        project_id: project_id,
+                        employee_id: employee_id,
+                        creator_id: creator_id,
+                        milestone_id: milestone_id,
+                        name: name,
+                        description: description,
+                        tags: tags,
+                        start_date: start_date,
+                        end_date: end_date,
+                        checklist: checklist
+                    },
+                    success: function (task) {
+                        console.log(task);
+                        var assigned = 'Yok';
+                        if (task.assigned != null) {
+                            assigned = task.assigned.name;
                         }
-                    });
-                    $("#newTaskCreateForm")[0].reset();
-                    $("#CreateTask").modal('hide');
-                    $(".taskSublist").hide();
-                    function runSublistChecker(id) {
-                        $("#sublist_" + id).slideToggle();
+                        var checklistString = '';
+                        $.each(task.checklist_items, function (item) {
+                            checklistString = checklistString + '<div class="col-xl-12 m-1"><i class="far fa-check-circle mr-3"></i>' + task.checklist_items[item].name + '</div>';
+                        });
+                        kanban.addElement(status_id, {
+                            'id': task.id,
+                            'title': '<div class="row">' +
+                                '<div class="col-xl-10">' +
+                                '   <i class="far fa-check-circle mr-3"></i><span data-id="' + task.id + '" class="taskItemTitle cursor-pointer">' + task.name + '</span>' +
+                                '</div>' +
+                                '<div class="col-xl-2 text-right">' +
+                                '   <a href="#" onclick="document.getElementById(\'start_form_' + task.id + '\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '       <i class="fa fa-play text-success"></i>' +
+                                '   </a>' +
+                                '<form style="visibility: hidden" id="start_form_' + task.id + '" method="post" action="{{ route('project.project.timesheet.start') }}">' +
+                                '@csrf' +
+                                '<input type="hidden" name="task_id" value="' + task.id + '">' +
+                                '</form>' +
+                                '</div>' +
+                                '</div>' +
+                                '<br><br>' +
+                                '<div class="row mt-n3">' +
+                                '<div class="col-xl-12">' +
+                                '<span class="btn btn-pill btn-sm btn-dark-75" style="font-size: 11px; height: 20px; padding-top: 2px">' + task.priority + '</span>' +
+                                '</div>' +
+                                '</div>' +
+                                '<br>' +
+                                'Görevli: ' + assigned + '' +
+                                '<br><br>' +
+                                '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px;">' + task.end_date + '</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer sublistToggleIcon" data-id="' + task.id + '"></i></div></div>' +
+                                '<div id="sublist_' + task.id + '" class="taskSublist" style="display: none">' +
+                                '<hr>' +
+                                '<div class="row">' +
+                                checklistString +
+                                '</div>' +
+                                '</div>'
+                        });
+                        $.each(list, function (index) {
+                            $(this).parent().parent().parent().remove();
+                        });
+                        $("#newTaskCreateForm")[0].reset();
+                        $("#CreateTask").modal('hide');
                     }
-                }
-            });
+                });
+            }
         });
 
         checklistItemCreateIcon.click(function () {
@@ -559,7 +566,7 @@
 
                     taskProgressSelector.html(progress + '%');
                     taskProgressSelector.css({'width': progress + '%'});
-                    sublistSelector.append('<div class="col-xl-12 m-1" id="checklist_item_id_' + checklistItem.id + '">' + '<i class="far fa-check-circle mr-3"></i>' + checklistItem.name + '</div>');
+                    sublistSelector.append('<div class="col-xl-12 m-1" id="checklist_item_id_' + checklistItem.id + '">' + '<i class="far fa-check-circle mr-3"></i><span id="checklist_item_name_id_' + checklistItem.id + '"></span></div>');
                 },
                 error: function (error) {
                     console.log(error);
@@ -625,7 +632,6 @@
                 },
                 error: function (error) {
                     console.log(error);
-
                 }
             });
         });
@@ -706,10 +712,6 @@
         });
 
         $(".taskSublist").hide();
-
-        function runSublistChecker(id) {
-            $("#sublist_" + id).slideToggle();
-        }
 
         $(document).delegate('.editBoardTitle','focusout',function () {
             var task_id = $(this).data('id');
@@ -826,5 +828,18 @@
                 }
             });
         })
+
+        $(document).delegate(".sublistToggleIcon", "click", function () {
+            $("#sublist_" + $(this).data('id')).slideToggle();
+        });
+
+        $(document).ready(function () {
+            var list = $('.checklistItemsList');
+            $.each(list, function (index) {
+                if (index !== 1) {
+                    $(this).parent().parent().parent().remove();
+                }
+            });
+        });
     </script>
 @stop
