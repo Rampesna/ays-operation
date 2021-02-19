@@ -1,12 +1,19 @@
-<script src="{{ asset('assets/js/pages/crud/forms/editors/summernote.js') }}"></script>
-<script src="{{ asset('assets/js/pages/crud/forms/widgets/tagify.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        var input = document.getElementById('tags'),
+            tagify = new Tagify(input, {})
+        tagify.on('add', onAddTag)
+        function onAddTag(e) {
+            tagify.off('add', onAddTag)
+        }
+    });
+</script>
 
 <script>
     var companySelector = $("#company_id");
     var employeesSelector = $("#employees");
 
     function getEmployeesByCompanyId(company_id) {
-        console.log(company_id);
         $.ajax({
             type: 'get',
             url: '{{ route('ajax.all-employees-by-company-id') }}',

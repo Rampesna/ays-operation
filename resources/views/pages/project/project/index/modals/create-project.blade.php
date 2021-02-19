@@ -41,7 +41,7 @@
                     <div class="col-xl-12">
                         <div class="form-group">
                             <label for="description">Proje Açıklaması</label>
-                            <textarea class="form-control summernote" name="description" id="description" rows="5"></textarea>
+                            <textarea class="form-control" name="description" id="description" rows="5"></textarea>
                         </div>
                     </div>
                 </div>

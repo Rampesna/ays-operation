@@ -592,8 +592,6 @@
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (result) {
-                    console.log(result);
-
                     $.ajax({
                         type: "get",
                         url: "{{ route('ajax.monitoring.CallQueues') }}",
@@ -602,8 +600,6 @@
                             _token: '{{ csrf_token() }}'
                         },
                         success: function (quees) {
-                            console.log(quees.dahililer);
-
                             var sundayShiftUserList = null;
                             if (new Date().getDay() == 1) {
                                 $.ajax({
