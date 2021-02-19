@@ -325,7 +325,7 @@
                     taskEmployeeSelector.val(task.employee_id);
                     taskEmployeeSelector.selectpicker('refresh');
 
-                    taskDescriptionSelector.val(task.description);
+                    taskDescriptionSelector.html(task.description);
 
                     checklistItemsSelector.html('');
                     $.each(task.checklist_items, function (item) {
