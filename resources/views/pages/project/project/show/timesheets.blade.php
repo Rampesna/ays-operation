@@ -13,7 +13,6 @@
                     <table class="table" id="timesheets">
                         <thead>
                         <tr>
-                            <th></th>
                             <th>İşlemi Yapan</th>
                             <th>Görev</th>
                             <th>Başlangıç Zamanı</th>
@@ -24,7 +23,6 @@
                         <tbody>
                         @foreach($project->timesheets()->orderBy('created_at')->get() as $timesheet)
                             <tr>
-                                <td></td>
                                 <td><a href="{{ route('project.project.timeline', ['project' => $project, 'timesheetId' => $timesheet->id]) }}">{{ @$timesheet->starter->name }}</a></td>
                                 <td>{{ $timesheet->task->name }}</td>
                                 <td>{{ $timesheet->start_time }}</td>
@@ -82,6 +80,8 @@
             },
 
             dom: 'frtipl',
+
+            order: [[ 2, "desc" ]],
 
             columnDefs: [
                 {
