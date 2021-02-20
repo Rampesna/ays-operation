@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Project;
 use App\Models\TaskPriority;
+use App\Models\Timesheet;
 use Illuminate\Http\Request;
 use App\Services\ProjectService;
 
@@ -127,6 +128,15 @@ class ProjectController extends Controller
         } else {
             return abort(404);
         }
+    }
+
+    public function timeline(Project $project, $timesheetId)
+    {
+        return view('pages.project.project.show.timeline', [
+            'project' => $project,
+            'tab' => 'timeline',
+            'getTimesheet' => Timesheet::find($timesheetId)
+        ]);
     }
 
     public function create(Request $request)

@@ -25,7 +25,7 @@
                         @foreach($project->timesheets()->orderBy('created_at')->get() as $timesheet)
                             <tr>
                                 <td></td>
-                                <td>{{ @$timesheet->starter->name }}</td>
+                                <td><a href="{{ route('project.project.timeline', ['project' => $project, 'timesheetId' => $timesheet->id]) }}">{{ @$timesheet->starter->name }}</a></td>
                                 <td>{{ $timesheet->task->name }}</td>
                                 <td>{{ $timesheet->start_time }}</td>
                                 <td>{{ $timesheet->end_time }}</td>

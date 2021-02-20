@@ -88,6 +88,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             });
             Route::get('index', 'ProjectController@index')->name('project.project.index');
             Route::get('{project}/{tab}/{sub?}', 'ProjectController@show')->name('project.project.show');
+            Route::get('{project}/timeline/by/{timesheetId}', 'ProjectController@timeline')->name('project.project.timeline');
             Route::post('delete', 'ProjectController@delete')->name('project.project.delete');
 
             Route::post('employees/update', 'ProjectController@employeesUpdate')->name('project.project.employees.update');
