@@ -11,6 +11,15 @@
             </li>
             @endAuthority
 
+            @Authority(43)
+            <li class="nav-item">
+                <a class="nav-link @if($tab == 'dashboard') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'dashboard']) }}">
+                    <span class="nav-icon"><i class="fas fa-chart-pie"></i></span>
+                    <span class="nav-text">Kontrol Paneli</span>
+                </a>
+            </li>
+            @endAuthority
+
             @Authority(34)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'tasks') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}">

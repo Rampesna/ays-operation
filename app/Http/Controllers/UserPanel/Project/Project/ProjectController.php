@@ -38,6 +38,15 @@ class ProjectController extends Controller
                 'project' => $project,
                 'tab' => $tab
             ]);
+        } else if ($tab == 'dashboard') {
+            if (!auth()->user()->authority(33)) {
+                return abort(403);
+            }
+            return view('pages.project.project.show.dashboard', [
+                'project' => $project,
+                'tab' => $tab,
+                'taskPriorities' => TaskPriority::all()
+            ]);
         } else if ($tab == 'tasks') {
             if (!auth()->user()->authority(34)) {
                 return abort(403);

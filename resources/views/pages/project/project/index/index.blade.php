@@ -38,6 +38,7 @@
                                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                 <!--begin::Navigation-->
                                                 <ul class="navi navi-hover">
+                                                    @Authority(33)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'overview']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -46,6 +47,20 @@
                                                             <span class="navi-text">Genel Bakış</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
+                                                    @Authority(43)
+                                                    <li class="navi-item">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'dashboard', 'sub' => 'kanban']) }}" class="navi-link">
+                                                            <span class="navi-icon">
+                                                                <i class="fas fa-chart-pie"></i>
+                                                            </span>
+                                                            <span class="navi-text">Kontrol Paneli</span>
+                                                        </a>
+                                                    </li>
+                                                    @endAuthority
+
+                                                    @Authority(34)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -54,6 +69,20 @@
                                                             <span class="navi-text">Görevler</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
+                                                    @Authority(42)
+                                                    <li class="navi-item">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'calendar']) }}" class="navi-link">
+                                                            <span class="navi-icon">
+                                                                <i class="far fa-calendar-alt"></i>
+                                                            </span>
+                                                            <span class="navi-text">Takvim</span>
+                                                        </a>
+                                                    </li>
+                                                    @endAuthority
+
+                                                    @Authority(35)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'timesheets']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -62,6 +91,9 @@
                                                             <span class="navi-text">Hareketler</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
+                                                    @Authority(36)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'milestones']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -70,6 +102,9 @@
                                                             <span class="navi-text">Kilometre Taşları</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
+                                                    @Authority(37)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'files']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -78,6 +113,9 @@
                                                             <span class="navi-text">Dosyalar</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
+                                                    @Authority(38)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'comments']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -86,6 +124,9 @@
                                                             <span class="navi-text">Yorumlar</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
+                                                    @Authority(39)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tickets']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -94,6 +135,9 @@
                                                             <span class="navi-text">Destek Talepleri</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
+                                                    @Authority(40)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'notes']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -102,6 +146,8 @@
                                                             <span class="navi-text">Notlar</span>
                                                         </a>
                                                     </li>
+                                                    @endAuthority
+
                                                     @Authority(22)
                                                     <hr>
                                                     <li class="navi-item">
