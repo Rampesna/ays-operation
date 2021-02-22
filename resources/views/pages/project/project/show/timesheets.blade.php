@@ -27,7 +27,7 @@
                                 <td>{{ $timesheet->task->name }}</td>
                                 <td>{{ $timesheet->start_time }}</td>
                                 <td>{{ $timesheet->end_time }}</td>
-                                <td>{{ \Illuminate\Support\Carbon::createFromDate($timesheet->start_time)->diffInMinutes($timesheet->end_time) }} Dakika</td>
+                                <td>{{ \App\Helpers\General::getDurationByMinutes(\Illuminate\Support\Carbon::createFromDate($timesheet->start_time)->diffInMinutes($timesheet->end_time)) }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -81,13 +81,11 @@
 
             dom: 'frtipl',
 
-            order: [[ 2, "desc" ]],
-
-            columnDefs: [
-                {
-                    targets: 0,
-                    width: "3%"
-                }
+            order: [
+                [
+                    2,
+                    "desc"
+                ]
             ],
 
             responsive: true

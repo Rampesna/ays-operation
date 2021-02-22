@@ -52,7 +52,7 @@
                 {
                     "category": "",
                     "start": "{{ date('Y-m-d H:i', strtotime($timesheet->start_time)) }}",
-                    "end": "{{ date('Y-m-d H:i', strtotime($timesheet->end_time)) }}",
+                    "end": "{{ date('Y-m-d H:i', strtotime($timesheet->end_time ?? date('Y-m-d H:i:s'))) }}",
                     "color": colorSet.getIndex({{ $loop->iteration }}),
                     "text": "{{ $timesheet->starter->name }}",
                     "textDisabled": false,
@@ -71,8 +71,8 @@
             categoryAxis.renderer.minGridDistance = 10;
 
             var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
-            dateAxis.renderer.minGridDistance = 70;
-            dateAxis.baseInterval = {count: 30, timeUnit: "minute"};
+            dateAxis.renderer.minGridDistance = 200;
+            dateAxis.baseInterval = {count: 1, timeUnit: "minute"};
             dateAxis.renderer.tooltipLocation = 0;
             dateAxis.renderer.line.strokeDasharray = "1,4";
             dateAxis.renderer.line.strokeOpacity = 0.5;
@@ -80,8 +80,7 @@
             dateAxis.tooltip.background.cornerRadius = 5;
             dateAxis.tooltip.label.fill = new am4core.InterfaceColorSet().getFor("alternativeBackground");
             dateAxis.tooltip.label.paddingTop = 7;
-            dateAxis.endLocation = 0;
-            dateAxis.startLocation = -0.5;
+
 
             var labelTemplate = dateAxis.renderer.labels.template;
             labelTemplate.verticalCenter = "middle";
@@ -136,7 +135,7 @@
             cursor.lineX.strokeOpacity = 1;
 
             dateAxis.renderer.tooltipLocation2 = 0;
-            categoryAxis.cursorTooltipEnabled = false;
+            categoryAxis.cursorTooltipEnabled = true;
 
 
         });

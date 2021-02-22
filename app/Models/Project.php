@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use App\Helpers\General;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Carbon;
 
 /**
  * @method static find($primaryKey)
@@ -79,5 +81,17 @@ class Project extends Model
     public function getProgressAttribute()
     {
         return $this->checklistItems->count() > 0 ? number_format(($this->checklistItems()->where('checked', 1)->count() / $this->checklistItems->count()) * 100, 2, '.', ',') : 0;
+    }
+
+    public function totalWorkingTime($starterType = null, $starterId = null)
+    {
+        return
+            ($starterType && $starterId) ?
+                General::getDurationByMinutes($this->timesheets()->where('end_time', '<>', null)->where('starter_type', $starterType)->where('starter_id', $starterId)->get()->map(function ($timesheet) {
+                    return Carbon::createFromDate($timesheet->start_time)->diffInMinutes($timesheet->end_time);
+                })->sum()) :
+                General::getDurationByMinutes($this->timesheets()->where('end_time', '<>', null)->get()->map(function ($timesheet) {
+                    return Carbon::createFromDate($timesheet->start_time)->diffInMinutes($timesheet->end_time);
+                })->sum());
     }
 }

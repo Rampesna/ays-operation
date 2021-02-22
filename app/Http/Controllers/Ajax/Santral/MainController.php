@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax\Santral;
 
 use App\Http\Controllers\Controller;
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
@@ -11,6 +12,10 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
+
+        $project = Project::find(1);
+
+        return $project->totalWorkingTime();
 
 //        return Task::find(1)->append('timesheeters');
 

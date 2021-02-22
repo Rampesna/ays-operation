@@ -40,4 +40,16 @@ class General
         }
         return $returnObject;
     }
+
+    public static function getDurationByMinutes($minutes)
+    {
+        $durationOfPermitMinutes = $minutes - (intval($minutes / 60) * 60);
+        $durationOfPermitHours = intval($minutes / 60) - (intval(intval($minutes / 60) / 8) * 8);
+        $durationOfPermitDays = intval(intval($minutes / 60) / 8);
+
+        return
+            ($durationOfPermitDays != 0 ? $durationOfPermitDays . ' Gün' : '') .
+            ($durationOfPermitHours != 0 ? ' ' . $durationOfPermitHours . ' Saat' : '') .
+            ($durationOfPermitMinutes != 0 ? ' ' . $durationOfPermitMinutes . ' Dakika' : '');
+    }
 }
