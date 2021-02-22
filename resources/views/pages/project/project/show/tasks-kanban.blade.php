@@ -194,10 +194,9 @@
                         {{ !$loop->last ? ',' : null }}
                         @endforeach
                     ]
-                }
-                {{ !$loop->last ? ',' : null }}
+                },
                 @endforeach
-                ,{
+                {
                     'id': '0',
                     'order': 99999,
                     'title': '<div class="row"><div id="addNewBoard" class="col-xl-12 bg-dark-75-o-25 bg-hover-secondary text-center cursor-pointer" style="border-radius: 2rem"><span class="form-control mt-1 font-weight-bold text-dark-75 editBoardTitle" style="font-size: 12px; border: none; background: transparent"><i class="fa fa-plus fa-sm mr-2"></i>Yeni Pano</span></div></div>',
@@ -209,6 +208,8 @@
     </script>
 
     <script>
+        $(".taskSublist").hide();
+
         const monthNames = [
             "Ocak",
             "Şubat",
@@ -351,6 +352,40 @@
                     toastr.error('Görev Bilgileri Alınırken Bir Hata Oluştu! Sayfayı Yenilemeyi Deneyin');
                 }
             });
+        }
+
+        function timesheetExistControl(task_id, starter_id) {
+            var result = null;
+            $.ajax({
+                async: false,
+                type: 'get',
+                url: '{{ route('ajax.project.timesheet.exists') }}',
+                data: {
+                    task_id: task_id,
+                    starter_type: 'App\\Models\\User',
+                    starter_id: starter_id
+                },
+                success: function (response) {
+                    result = response;
+                }
+            });
+            return result;
+        }
+
+        function calculateTaskProgress(task_id) {
+            var progress = null;
+            $.ajax({
+                async: false,
+                type: 'get',
+                url: '{{ route('ajax.project.task.calculateTaskProgress') }}',
+                data: {
+                    task_id: task_id
+                },
+                success: function (response) {
+                    progress = response;
+                }
+            });
+            return progress;
         }
 
         createTaskButtonSelector.click(function () {
@@ -611,40 +646,6 @@
             });
         });
 
-        function timesheetExistControl(task_id, starter_id) {
-            var result = null;
-            $.ajax({
-                async: false,
-                type: 'get',
-                url: '{{ route('ajax.project.timesheet.exists') }}',
-                data: {
-                    task_id: task_id,
-                    starter_type: 'App\\Models\\User',
-                    starter_id: starter_id
-                },
-                success: function (response) {
-                    result = response;
-                }
-            });
-            return result;
-        }
-
-        function calculateTaskProgress(task_id) {
-            var progress = null;
-            $.ajax({
-                async: false,
-                type: 'get',
-                url: '{{ route('ajax.project.task.calculateTaskProgress') }}',
-                data: {
-                    task_id: task_id
-                },
-                success: function (response) {
-                    progress = response;
-                }
-            });
-            return progress;
-        }
-
         $(document).delegate(".taskAdder","click", function () {
             $("#CreateTask").modal('show');
             $("#status_id").val($(this).data('id'));
@@ -658,8 +659,6 @@
             showTask($(this).data('id'));
             // $("#ShowTask").modal('show');
         });
-
-        $(".taskSublist").hide();
 
         $(document).delegate('.editBoardTitle','focusout',function () {
             var task_id = $(this).data('id');
@@ -678,6 +677,7 @@
 
         $(document).delegate("#addNewBoard", "click", function (e) {
             var project_id = '{{ $project->id }}';
+            console.log(project_id);
             $.ajax({
                 type: 'post',
                 url: '{{ route('ajax.project.task-status.create') }}',
