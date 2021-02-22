@@ -12,35 +12,7 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
-
-        $project = Project::find(1);
-
-        return $project->totalWorkingTime();
-
-//        return Task::find(1)->append('timesheeters');
-
-//        return Project::with([
-//            'employees',
-//            'tasks' => function ($tasks) {
-//                $tasks->with([
-//                    'timesheets'
-//                ]);
-//            },
-//            'timesheets' => function ($timesheets) {
-//                $timesheets->with([
-//                    'starter',
-//                    'task'
-//                ]);
-//            },
-//            'milestones' => function ($milestones) {
-//                $milestones->with([
-//                    'tasks'
-//                ]);
-//            },
-//            'files',
-//            'comments',
-//            'notes'
-//        ])->find(1);
+        // Test
     }
 
     function get_server_load()

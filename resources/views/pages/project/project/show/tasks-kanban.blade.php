@@ -15,6 +15,7 @@
     <hr>
     <div id="tasks"></div>
 
+    @include('pages.project.project.show.modals.stop-timesheet')
     @include('pages.project.project.show.modals.delete-task')
     @include('pages.project.project.show.modals.create-task')
     @include('pages.project.project.show.components.task-rightbar')
@@ -143,13 +144,9 @@
                                 '</div>' +
                                 '<div class="col-xl-2 text-right">' +
                                 @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
-                                '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '   <a class="stopTimesheet" href="#" data-toggle="modal" data-target="#StopTimesheetModal" data-id="{{ $timesheet->id }}" onclick="$(\'#loaderControl\').val(1);">' +
                                 '       <i class="fa fa-stop text-danger"></i>' +
                                 '   </a>' +
-                                '<form style="visibility: hidden" id="stop_form_{{ $task->id }}" method="post" action="{{ route('project.project.timesheet.stop') }}">' +
-                                '@csrf' +
-                                '<input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">' +
-                                '</form>' +
                                 '</div>' +
                                 @else
                                 '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
@@ -174,7 +171,7 @@
                                 '<div class="row">' +
                                 @foreach($task->timesheets()->with(['starter'])->where('end_time', null)->get() as $timesheet)
                                 '<div class="col-xl-12 m-1">' +
-                                '<i class="fa fa-user text-success mr-3"></i><span>{{ $timesheet->starter->name }}</span>' +
+                                '<i class="fa fa-user text-success mr-3"></i><span>{{ $timesheet->starter->name }}</span><span style="font-size: 10px"> (Çalışıyor)</span>' +
                                 '</div>' +
                                 @endforeach
                                 '</div>' +
@@ -779,6 +776,11 @@
 
         $(document).delegate(".sublistToggleIcon", "click", function () {
             $("#sublist_" + $(this).data('id')).slideToggle();
+        });
+
+        $(document).delegate(".stopTimesheet", "click", function () {
+            var timesheet_id = $(this).data('id');
+            $("#stopped_timesheet_id").val(timesheet_id);
         });
 
         $(document).ready(function () {

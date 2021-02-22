@@ -17,6 +17,7 @@
                             <th>Görev</th>
                             <th>Başlangıç Zamanı</th>
                             <th>Bitiş Zamanı</th>
+                            <th>Açıklama</th>
                             <th>Toplam Süre</th>
                         </tr>
                         </thead>
@@ -27,6 +28,7 @@
                                 <td>{{ $timesheet->task->name }}</td>
                                 <td>{{ $timesheet->start_time }}</td>
                                 <td>{{ $timesheet->end_time }}</td>
+                                <td>{{ $timesheet->description }}</td>
                                 <td>{{ \App\Helpers\General::getDurationByMinutes(\Illuminate\Support\Carbon::createFromDate($timesheet->start_time)->diffInMinutes($timesheet->end_time)) }}</td>
                             </tr>
                         @endforeach

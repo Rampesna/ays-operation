@@ -20,6 +20,7 @@ class CreateTimesheetsTable extends Migration
             $table->bigInteger('starter_id')->unsigned();
             $table->dateTime('start_time');
             $table->dateTime('end_time')->nullable();
+            $table->text('description')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

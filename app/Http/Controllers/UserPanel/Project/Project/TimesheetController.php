@@ -24,6 +24,7 @@ class TimesheetController extends Controller
     {
         $timesheet = Timesheet::find($request->timesheet_id);
         $timesheet->end_time = date('Y-m-d H:i:s');
+        $timesheet->description = $request->description;
         $timesheet->save();
 
         return redirect()->back();
