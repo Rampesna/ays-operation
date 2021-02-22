@@ -93,4 +93,14 @@ class User extends Authenticatable
     {
         return $this->morphMany(Timesheet::class, 'starter');
     }
+
+    public function tickets()
+    {
+        return $this->morphMany(Ticket::class, 'creator');
+    }
+
+    public function ticketMessages()
+    {
+        return $this->morphMany(TicketMessage::class, 'creator');
+    }
 }

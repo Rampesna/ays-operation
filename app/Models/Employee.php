@@ -108,4 +108,14 @@ class Employee extends Authenticatable
     {
         return $this->hasMany(Assignment::class);
     }
+
+    public function tickets()
+    {
+        return $this->morphMany(Ticket::class, 'creator');
+    }
+
+    public function ticketMessages()
+    {
+        return $this->morphMany(TicketMessage::class, 'creator');
+    }
 }

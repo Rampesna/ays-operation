@@ -89,6 +89,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::get('index', 'ProjectController@index')->name('project.project.index');
             Route::get('{project}/{tab}/{sub?}', 'ProjectController@show')->name('project.project.show');
             Route::get('{project}/timeline/by/{timesheetId}', 'ProjectController@timeline')->name('project.project.timeline');
+            Route::get('{project}/tickets/ticket/{ticket}', 'ProjectController@ticket')->name('project.project.tickets.ticket');
             Route::post('delete', 'ProjectController@delete')->name('project.project.delete');
 
             Route::post('employees/update', 'ProjectController@employeesUpdate')->name('project.project.employees.update');
@@ -112,6 +113,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::prefix('file')->group(function () {
                 Route::post('create', 'FileController@create')->name('project.project.file.create');
                 Route::post('delete', 'FileController@delete')->name('project.project.file.delete');
+            });
+
+            Route::prefix('ticket-message')->group(function () {
+                Route::post('create', 'TicketMessageController@create')->name('project.project.ticket.ticket-message.create');
             });
         });
     });

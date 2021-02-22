@@ -126,6 +126,10 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::post('delete', 'NoteController@delete')->name('ajax.project.note.delete');
         });
 
+        Route::prefix('ticket')->group(function () {
+
+        });
+
     });
 
 });

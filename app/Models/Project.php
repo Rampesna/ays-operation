@@ -62,6 +62,11 @@ class Project extends Model
         return $this->hasMany(TaskStatus::class, 'project_id', 'id');
     }
 
+    public function tickets()
+    {
+        return $this->morphMany(Ticket::class, 'relation');
+    }
+
     public function getStatusAttribute()
     {
         return ProjectStatus::find($this->status_id)->name;

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Project;
 use App\Models\TaskPriority;
+use App\Models\Ticket;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
 use App\Services\ProjectService;
@@ -113,10 +114,23 @@ class ProjectController extends Controller
             if (!auth()->user()->authority(39)) {
                 return abort(403);
             }
-            return view('pages.project.project.show.tickets', [
-                'project' => $project,
-                'tab' => $tab
-            ]);
+            if ($sub) {
+                if ($sub == '1' || $sub == '2' || $sub == '3') {
+                    return view('pages.project.project.show.tickets', [
+                        'project' => $project,
+                        'tab' => $tab,
+                        'tickets' => $project->tickets()->where('status_id', $sub)->get()
+                    ]);
+                } else {
+                    return abort(404);
+                }
+            } else {
+                return view('pages.project.project.show.tickets', [
+                    'project' => $project,
+                    'tab' => $tab,
+                    'tickets' => $project->tickets
+                ]);
+            }
         } else if ($tab == 'notes') {
             if (!auth()->user()->authority(40)) {
                 return abort(403);
@@ -136,6 +150,15 @@ class ProjectController extends Controller
             'project' => $project,
             'tab' => 'timeline',
             'getTimesheet' => Timesheet::find($timesheetId)
+        ]);
+    }
+
+    public function ticket(Project $project, Ticket $ticket)
+    {
+        return view('pages.project.project.show.ticket', [
+            'project' => $project,
+            'tab' => 'tickets',
+            'ticket' => $ticket
         ]);
     }
 
