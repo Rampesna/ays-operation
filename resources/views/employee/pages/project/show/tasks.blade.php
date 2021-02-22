@@ -10,6 +10,7 @@
     <input type="hidden" id="sublistControl" value="0">
     <div class="mt-15" id="tasks"></div>
 
+    @include('employee.pages.project.show.modals.stop-timesheet')
     @include('employee.pages.project.show.components.task-rightbar')
 
 @endsection
@@ -171,16 +172,12 @@
                                 '</div>' +
                                 '<div class="col-xl-2 text-right">' +
                                 @if($timesheet = auth()->user()->timesheets()->where('task_id', $task->id)->where('end_time', null)->first())
-                                    '   <a href="#" onclick="document.getElementById(\'stop_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '   <a class="stopTimesheet" href="#" data-toggle="modal" data-target="#StopTimesheetModal" data-id="{{ $timesheet->id }}" onclick="$(\'#loaderControl\').val(1);">' +
                                 '       <i class="fa fa-stop text-danger"></i>' +
                                 '   </a>' +
-                                '<form style="visibility: hidden" id="stop_form_{{ $task->id }}" method="post" action="{{ route('employee-panel.project.timesheet.stop') }}">' +
-                                '@csrf' +
-                                '<input type="hidden" name="timesheet_id" value="{{ $timesheet->id }}">' +
-                                '</form>' +
                                 '</div>' +
                                 @else
-                                    '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '   <a href="#" onclick="document.getElementById(\'start_form_{{ $task->id }}\').submit(); $(\'#loaderControl\').val(1);">' +
                                 '       <i class="fa fa-play text-success"></i>' +
                                 '   </a>' +
                                 '<form style="visibility: hidden" id="start_form_{{ $task->id }}" method="post" action="{{ route('employee-panel.project.timesheet.start') }}">' +
@@ -450,5 +447,10 @@
         function runSublistChecker(id) {
             $("#sublist_" + id).slideToggle();
         }
+
+        $(document).delegate(".stopTimesheet", "click", function () {
+            var timesheet_id = $(this).data('id');
+            $("#stopped_timesheet_id").val(timesheet_id);
+        });
     </script>
 @stop
