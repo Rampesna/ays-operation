@@ -270,9 +270,9 @@
         var checklistItemsSelector = $("#checklistItemsSelector");
         var taskEmployeeSelector = $("#taskEmployeeSelector");
         var createTaskButtonSelector = $("#createTaskButton");
-
         var checklistItemCreateIcon = $("#checklistItemCreate");
         var taskProgressSelector = $("#task_progress");
+        var commentsSelector = $("#commentsSelector");
 
         function handleDate(dataD) {
             let data = new Date(dataD)
@@ -296,6 +296,7 @@
                     task_id: task_id
                 },
                 success: function (task) {
+                    console.log(task);
                     selectedTaskIdSelector.val(task.id);
                     checklistItemCreateIcon.data('id',task.id);
 
@@ -378,6 +379,28 @@
                                 '');
                         }
                     });
+
+                    commentsSelector.html('');
+                    if (task.comments.length > 0) {
+                        $.each(task.comments, function (comment) {
+                            commentsSelector.append('' +
+                                '<div class="mb-10">' +
+                                '	<div class="d-flex align-items-center">' +
+                                '		<div class="symbol symbol-45 symbol-light mr-5">' +
+                                '			<img src="{{ asset('assets/media/logos/avatar.jpg') }}" class="h-50 align-self-center" alt="" />' +
+                                '		</div>' +
+                                '		<div class="d-flex flex-column flex-grow-1">' +
+                                '			<a href="#" class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">' + task.comments[comment].creator.name + '</a>' +
+                                '			<span class="text-muted font-weight-bold">' + moment(new Date(task.comments[comment].created_at)).format('YYYY-MM-DD HH:mm') + '</span>' +
+                                '		</div>' +
+                                '	</div>' +
+                                '	<p class="text-dark-50 m-0 pt-5 font-weight-normal">' + task.comments[comment].comment + '</p>' +
+                                '</div>' +
+                                '');
+                        });
+                    }
+                    $("#comment_relation_id").val(task.id);
+
                     $("#kt_quick_cart").fadeIn();
                 },
                 error: function (error) {
@@ -970,6 +993,48 @@
                     });
                     kanban.removeBoard(task_status_id);
                     $("#DeleteBoardModal").modal('hide');
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        $(document).delegate("#submitComment", "click", function () {
+            var relation_id = $("#comment_relation_id").val();
+            var relation_type = 'App\\Models\\Task';
+            var creator_id = '{{ auth()->user()->getId() }}';
+            var creator_type = 'App\\Models\\User';
+            var comment = $("#comment").val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.comment.create') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    relation_id: relation_id,
+                    relation_type: relation_type,
+                    creator_id: creator_id,
+                    creator_type: creator_type,
+                    comment: comment
+                },
+                success: function (comment) {
+                    commentsSelector.append('' +
+                        '<div class="mb-10">' +
+                        '	<div class="d-flex align-items-center">' +
+                        '		<div class="symbol symbol-45 symbol-light mr-5">' +
+                        '			<img src="{{ asset('assets/media/logos/avatar.jpg') }}" class="h-50 align-self-center" alt="" />' +
+                        '		</div>' +
+                        '		<div class="d-flex flex-column flex-grow-1">' +
+                        '			<a href="#" class="font-weight-bold text-dark-75 text-hover-primary font-size-lg mb-1">' + comment.creator.name + '</a>' +
+                        '			<span class="text-muted font-weight-bold">' + moment(new Date(comment.created_at)).format('YYYY-MM-DD HH:mm') + '</span>' +
+                        '		</div>' +
+                        '	</div>' +
+                        '	<p class="text-dark-50 m-0 pt-5 font-weight-normal">' + comment.comment + '</p>' +
+                        '</div>' +
+                        '');
+                    $("#comment").val(null);
+                    toastr.success('Başarıyla Yorum Yapıldı');
                 },
                 error: function (error) {
                     console.log(error);

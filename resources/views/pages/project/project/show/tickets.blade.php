@@ -46,6 +46,7 @@
                         <tr>
                             <th>#</th>
                             <th>Başlık</th>
+                            <th>Bağlantı</th>
                             <th>Oluşturulma Tarihi</th>
                             <th>Öncelik</th>
                             <th>Son İşlem</th>
@@ -66,6 +67,9 @@
                                         {{ $ticket->title }}
                                     </a>
                                 </td>
+                                <td>
+                                    {{ $ticket->reference }}
+                                </td>
                                 <td data-sort="{{ date('Y-m-d H:i:s', strtotime($ticket->created_at)) }}">
                                     {{ strftime("%d %B %Y, %H:%M", strtotime($ticket->created_at)) }}
                                 </td>
@@ -85,6 +89,7 @@
                         <tr>
                             <th>#</th>
                             <th>Başlık</th>
+                            <th>Bağlantı</th>
                             <th>Oluşturulma Tarihi</th>
                             <th>Öncelik</th>
                             <th>Son İşlem</th>

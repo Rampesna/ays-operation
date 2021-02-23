@@ -13,6 +13,8 @@ class Ticket extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['reference'];
+
     public function priority()
     {
         return $this->belongsTo(TicketPriority::class, 'priority_id', 'id');
@@ -36,5 +38,12 @@ class Ticket extends Model
     public function creator()
     {
         return $this->morphTo();
+    }
+
+    public function getReferenceAttribute()
+    {
+        return $this->relation_type == 'App\Models\Project' ? 'Proje' :
+            ($this->relation_type == 'App\Models\Project' ? 'Görev' :
+                '');
     }
 }

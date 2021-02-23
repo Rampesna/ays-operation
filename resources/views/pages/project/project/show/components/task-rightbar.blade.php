@@ -98,6 +98,33 @@
             </div>
             <hr>
 
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="form-group">
+                        <label style="width: 100%">
+                            <textarea class="form-control form-control-lg form-control-solid" id="comment" name="comment" rows="3" placeholder="Yorumunuz..."></textarea>
+                        </label>
+                    </div>
+                    <input type="hidden" id="comment_relation_id">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xl-12 text-right mt-n5">
+                    <button type="button" id="submitComment" class="btn btn-light-success font-weight-bold">Yanıtla</button>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xl-12">
+                    <h6 class="font-size-h6-sm">Yorumlar</h6>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-xl-12" id="commentsSelector">
+
+                </div>
+            </div>
         </div>
 
         <div class="offcanvas-footer">
