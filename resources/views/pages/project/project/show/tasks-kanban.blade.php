@@ -18,6 +18,7 @@
     @include('pages.project.project.show.modals.stop-timesheet')
     @include('pages.project.project.show.modals.delete-task')
     @include('pages.project.project.show.modals.create-task')
+    @include('pages.project.project.show.modals.delete-board')
     @include('pages.project.project.show.components.task-rightbar')
 
 @endsection
@@ -133,7 +134,43 @@
                 @foreach($project->taskStatuses()->orderBy('order','asc')->get() as $status)
                 {
                     'id': '{{ $status->id }}',
-                    'title': '<div class="row"><div class="col-xl-1"><i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i></div><div class="col-xl-9"><input data-id="{{ $status->id }}" class="form-control font-weight-bold editBoardTitle" type="text" value="{{ $status->name }}" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-1 text-right"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="{{ $status->id }}"></i></div></div>',
+                    'title': '' +
+                        '<div class="row">' +
+                        '   <div class="col-xl-1">' +
+                        '       <i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i>' +
+                        '   </div>' +
+                        '   <div class="col-xl-9">' +
+                        '       <input data-id="{{ $status->id }}" class="form-control font-weight-bold editBoardTitle" type="text" value="{{ $status->name }}" style="color:gray; font-size: 15px; border: none; background: transparent">' +
+                        '   </div>' +
+                        '   <div class="col-xl-1 text-right">' +
+                        '       <div class="dropdown dropdown-inline">' +
+                        '       	<a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                        '       		<i class="ki ki-bold-more-hor"></i>' +
+                        '       	</a>' +
+                        '       	<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">' +
+                        '       		<ul class="navi navi-hover">' +
+                        '       			<li class="navi-item">' +
+                        '       				<a href="#" class="navi-link taskAdder" data-id="{{ $status->id }}">' +
+                        '       					<span class="navi-icon">' +
+                        '       						<i class="fas fa-plus"></i>' +
+                        '       					</span>' +
+                        '       					<span class="navi-text">Görev Ekle</span>' +
+                        '       				</a>' +
+                        '       			</li>' +
+                        '                   <hr>' +
+                        '       			<li class="navi-item">' +
+                        '       				<a href="#" class="navi-link boardDeleter" data-id="{{ $status->id }}">' +
+                        '       					<span class="navi-icon">' +
+                        '       						<i class="fas fa-trash text-danger"></i>' +
+                        '       					</span>' +
+                        '       					<span class="navi-text">Panoyu Sil</span>' +
+                        '       				</a>' +
+                        '       			</li>' +
+                        '       		</ul>' +
+                        '       	</div>' +
+                        '       </div>' +
+                        '   </div>' +
+                        '</div>',
                     'item': [
                             @foreach($status->tasks()->where('project_id', $project->id)->get() as $task)
                         {
@@ -687,7 +724,43 @@
                     kanban.addBoards([
                         {
                             id: '' + taskStatus.id + '',
-                            title: '<div class="row"><div class="col-xl-1"><i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i></div><div class="col-xl-9"><input data-id="' + taskStatus.id + '" class="form-control font-weight-bold editBoardTitle" type="text" value="" style="color:gray; font-size: 15px; border: none; background: transparent"></div><div class="col-xl-1 text-right"><i class="fa fa-plus mt-3 cursor-pointer taskAdder" data-id="' + taskStatus.id + '"></i></div></div>',
+                            title: '' +
+                                '<div class="row">' +
+                                '   <div class="col-xl-1">' +
+                                '       <i class="fas fa-arrows-alt mt-4 moveTaskIcon"></i>' +
+                                '   </div>' +
+                                '   <div class="col-xl-9">' +
+                                '       <input data-id="' + taskStatus.id + '" class="form-control font-weight-bold editBoardTitle" type="text" value="" style="color:gray; font-size: 15px; border: none; background: transparent">' +
+                                '   </div>' +
+                                '   <div class="col-xl-1 text-right">' +
+                                '       <div class="dropdown dropdown-inline">' +
+                                '       	<a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                '       		<i class="ki ki-bold-more-hor"></i>' +
+                                '       	</a>' +
+                                '       	<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">' +
+                                '       		<ul class="navi navi-hover">' +
+                                '       			<li class="navi-item">' +
+                                '       				<a href="#" class="navi-link taskAdder" data-id="' + taskStatus.id + '">' +
+                                '       					<span class="navi-icon">' +
+                                '       						<i class="fas fa-plus"></i>' +
+                                '       					</span>' +
+                                '       					<span class="navi-text">Görev Ekle</span>' +
+                                '       				</a>' +
+                                '       			</li>' +
+                                '                   <hr>' +
+                                '       			<li class="navi-item">' +
+                                '       				<a href="#" class="navi-link boardDeleter" data-id="' + taskStatus.id + '">' +
+                                '       					<span class="navi-icon">' +
+                                '       						<i class="fas fa-trash text-danger"></i>' +
+                                '       					</span>' +
+                                '       					<span class="navi-text">Panoyu Sil</span>' +
+                                '       				</a>' +
+                                '       			</li>' +
+                                '       		</ul>' +
+                                '       	</div>' +
+                                '       </div>' +
+                                '   </div>' +
+                                '</div>',
                             item: [],
                             order: taskStatus.order
                         }
@@ -781,6 +854,127 @@
         $(document).delegate(".stopTimesheet", "click", function () {
             var timesheet_id = $(this).data('id');
             $("#stopped_timesheet_id").val(timesheet_id);
+        });
+
+        $(document).delegate(".boardDeleter", "click", function (e) {
+            var project_id = '{{ $project->id }}';
+            var task_status_id = $(this).data('id');
+            $("#deleted_task_status_id").val(task_status_id);
+            var taskCount = 0;
+
+            $.ajax({
+                type: 'get',
+                async: false,
+                url: '{{ route('ajax.project.task-status.taskCount') }}',
+                data: {
+                    task_status_id: task_status_id
+                },
+                success: function (response) {
+                    taskCount = response;
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+
+            $.ajax({
+                type: 'get',
+                url: '{{ route('ajax.project.taskStatuses') }}',
+                data: {
+                    project_id: project_id,
+                    task_status_id: task_status_id
+                },
+                success: function (taskStatuses) {
+                    var newBoardIdSelector = $("#new_board_id_selector");
+                    var deletingBoardTasksCountSelector = $("#deletingBoardTasksCountSelector");
+
+                    if (taskCount > 0) {
+                        $("#deletingBoardTasksSelector").show();
+                        newBoardIdSelector.html('');
+                        newBoardIdSelector.append('<optgroup label=""><option value="0">Görevler Silinsin</option></optgroup>>');
+                        $.each(taskStatuses, function (status) {
+                            newBoardIdSelector.append('<option value="' + taskStatuses[status].id + '">' + taskStatuses[status].name + ' - Panosuna Aktarılsın</option>');
+                        });
+                        newBoardIdSelector.selectpicker('refresh');
+                        deletingBoardTasksCountSelector.html(`(${taskCount})`);
+                    } else {
+                        $("#deletingBoardTasksSelector").hide();
+                        newBoardIdSelector.html('');
+                        newBoardIdSelector.append('<optgroup label=""><option value="0">Görevler Silinsin</option></optgroup>>');
+                        newBoardIdSelector.selectpicker('refresh');
+                        deletingBoardTasksCountSelector.html(`(${taskCount})`);
+                    }
+                    $("#DeleteBoardModal").modal('show');
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        $(document).delegate("#deleteBoard", "click", function () {
+            var task_status_id = $("#deleted_task_status_id").val();
+            var new_board_id = $("#new_board_id_selector").val();
+
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.project.task-status.delete') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    task_status_id: task_status_id,
+                    new_board_id: new_board_id
+                },
+                success: function (tasks) {
+                    $.each(tasks, function (task) {
+                        var assigned = 'Yok';
+                        if (tasks[task].assigned != null) {
+                            assigned = tasks[task].assigned.name;
+                        }
+                        var checklistString = '';
+                        $.each(tasks[task].checklist_items, function (item) {
+                            checklistString = checklistString + '<div class="col-xl-12 m-1"><i class="far fa-check-circle mr-3"></i>' + tasks[task].checklist_items[item].name + '</div>';
+                        });
+                        kanban.addElement(new_board_id, {
+                            'id': tasks[task].id,
+                            'title': '<div class="row">' +
+                                '<div class="col-xl-10">' +
+                                '   <i class="far fa-check-circle mr-3"></i><span data-id="' + tasks[task].id + '" class="taskItemTitle cursor-pointer">' + tasks[task].name + '</span>' +
+                                '</div>' +
+                                '<div class="col-xl-2 text-right">' +
+                                '   <a href="#" onclick="document.getElementById(\'start_form_' + tasks[task].id + '\').submit(); $(\'#loaderControl\').val(1);">' +
+                                '       <i class="fa fa-play text-success"></i>' +
+                                '   </a>' +
+                                '<form style="visibility: hidden" id="start_form_' + tasks[task].id + '" method="post" action="{{ route('project.project.timesheet.start') }}">' +
+                                '@csrf' +
+                                '<input type="hidden" name="task_id" value="' + tasks[task].id + '">' +
+                                '</form>' +
+                                '</div>' +
+                                '</div>' +
+                                '<br><br>' +
+                                '<div class="row mt-n3">' +
+                                '<div class="col-xl-12">' +
+                                '<span id="task_priority_span_id_' + tasks[task].id + '" class="btn btn-pill btn-sm btn-' + tasks[task].priority.color + '" style="font-size: 11px; height: 20px; padding-top: 2px">' + tasks[task].priority.name + '</span>' +
+                                '</div>' +
+                                '</div>' +
+                                '<br>' +
+                                'Görevli: ' + assigned + '' +
+                                '<br><br>' +
+                                '<div class="row"><div class="col-xl-6"><span class="font-weight-bold" style="font-size: 10px;">' + tasks[task].end_date + '</span></div><div class="col-xl-6 text-right"><i class="fas fa-sort-amount-down cursor-pointer sublistToggleIcon" data-id="' + tasks[task].id + '"></i></div></div>' +
+                                '<div id="sublist_' + tasks[task].id + '" class="taskSublist" style="display: none">' +
+                                '<hr>' +
+                                '<div class="row">' +
+                                checklistString +
+                                '</div>' +
+                                '</div>'
+                        });
+                    });
+                    kanban.removeBoard(task_status_id);
+                    $("#DeleteBoardModal").modal('hide');
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
 
         $(document).ready(function () {
