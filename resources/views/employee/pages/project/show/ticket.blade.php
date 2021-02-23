@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @include('pages.project.project.show.components.subheader')
+    @include('employee.pages.project.show.components.subheader')
 
     <div class="row mt-15">
         <div class="col-xl-12">
@@ -28,20 +28,6 @@
 
                                             </div>
                                         </div>
-                                        @if($ticket->status_id != 3)
-                                            <div class="mb-10">
-                                                <div class="dropdown dropdown-inline">
-                                                    <form action="{{ route('project.project.ticket.setCompleted') }}" method="post">
-                                                        @csrf
-                                                        <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
-                                                        <input type="hidden" name="status_id" value="3">
-                                                        <button type="submit" class="btn btn-success btn-sm font-weight-bolder">
-                                                            Çözüldü Olarak İşaretle
-                                                        </button>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        @endif
                                     </div>
                                     <div class="d-flex align-items-center flex-wrap justify-content-between">
                                         <div class="flex-grow-1 font-weight-bold text-dark-50 py-2 py-lg-2 mr-5">{!! $ticket->description !!}</div>
@@ -101,29 +87,30 @@
                                 <div class="card-body">
                                     <div class="tab-pane active" id="kt_apps_contacts_view_tab_1" role="tabpanel">
                                         <div class="container">
-                                            <form action="{{ route('project.project.ticket.ticket-message.create') }}" method="post" class="form">
-                                                @csrf
-                                                <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
-                                                <input type="hidden" name="creator_id" value="{{ auth()->user()->getId() }}">
-                                                <input type="hidden" name="creator_type" value="App\Models\User">
-                                                <input type="hidden" name="status_id" value="2">
-                                                <div class="row">
-                                                    <div class="col-xl-12">
-                                                        <div class="form-group">
-                                                            <label style="width: 100%">
-                                                                <textarea class="form-control form-control-lg form-control-solid" id="message" name="message" rows="3" placeholder="Mesajınız..."></textarea>
-                                                            </label>
+                                            @if($ticket->status_id != 3)
+                                                <form action="{{ route('employee-panel.project.ticket.ticket-message.create') }}" method="post" class="form">
+                                                    @csrf
+                                                    <input type="hidden" name="ticket_id" value="{{ $ticket->id }}">
+                                                    <input type="hidden" name="creator_id" value="{{ auth()->user()->getId() }}">
+                                                    <input type="hidden" name="creator_type" value="App\Models\Employee">
+                                                    <input type="hidden" name="status_id" value="1">
+                                                    <div class="row">
+                                                        <div class="col-xl-12">
+                                                            <div class="form-group">
+                                                                <label style="width: 100%">
+                                                                    <textarea class="form-control form-control-lg form-control-solid" id="message" name="message" rows="3" placeholder="Mesajınız..."></textarea>
+                                                                </label>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-xl-12 text-right mt-n5">
-                                                        <button type="submit" class="btn btn-light-success font-weight-bold">Yanıtla</button>
+                                                    <div class="row">
+                                                        <div class="col-xl-12 text-right mt-n5">
+                                                            <button type="submit" class="btn btn-light-success font-weight-bold">Yanıtla</button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </form>
-                                            <div class="separator separator-dashed my-10"></div>
-                                            <!--begin::Timeline-->
+                                                </form>
+                                                <div class="separator separator-dashed my-10"></div>
+                                            @endif
                                             <div class="timeline timeline-3">
                                                 <div class="timeline-items">
                                                     @foreach($ticket->messages()->orderBy('created_at', 'desc')->get() as $message)

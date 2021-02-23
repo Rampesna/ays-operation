@@ -118,6 +118,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::prefix('ticket-message')->group(function () {
                 Route::post('create', 'TicketMessageController@create')->name('project.project.ticket.ticket-message.create');
             });
+
+            Route::prefix('ticket')->group(function () {
+                Route::post('setCompleted', 'TicketController@setCompleted')->name('project.project.ticket.setCompleted');
+            });
         });
     });
 
@@ -321,7 +325,8 @@ Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\
             return redirect()->route('employee-panel.project.index');
         });
         Route::get('index', 'ProjectController@index')->name('employee-panel.project.index');
-        Route::get('{project}/{tab}', 'ProjectController@show')->name('employee-panel.project.show');
+        Route::get('{project}/{tab}/{sub?}', 'ProjectController@show')->name('employee-panel.project.show');
+        Route::get('{project}/tickets/ticket/{ticket}', 'ProjectController@ticket')->name('employee-panel.project.tickets.ticket');
 
         Route::prefix('timesheet')->group(function () {
             Route::post('start', 'TimesheetController@start')->name('employee-panel.project.timesheet.start');
@@ -330,6 +335,14 @@ Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\
 
         Route::prefix('file')->group(function () {
             Route::post('create', 'FileController@create')->name('employee-panel.project.file.create');
+        });
+
+        Route::prefix('ticket')->group(function () {
+            Route::post('create', 'TicketController@create')->name('employee-panel.project.ticket.create');
+        });
+
+        Route::prefix('ticket-message')->group(function () {
+            Route::post('create', 'TicketMessageController@create')->name('employee-panel.project.ticket.ticket-message.create');
         });
     });
 });

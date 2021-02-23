@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Ticket;
 use App\Models\TicketMessage;
 use Illuminate\Http\Request;
 
@@ -21,6 +22,10 @@ class TicketMessageService
         $this->ticketMessage->creator_type = $request->creator_type;
         $this->ticketMessage->message = $request->message;
         $this->ticketMessage->save();
+
+        $ticket = Ticket::find($request->ticket_id);
+        $ticket->status_id = $request->status_id;
+        $ticket->save();
 
         return $this->ticketMessage;
     }
