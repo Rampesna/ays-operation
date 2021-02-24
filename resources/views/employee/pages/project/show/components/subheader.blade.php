@@ -47,11 +47,13 @@
                     </li>
                 </ul>
             </div>
+            @if($tab == 'tickets')
             <div class="col-xl-2 text-right">
                 <button type="button" class="btn btn-sm btn-success mt-1 mb-n2" data-toggle="modal" data-target="#CreateTicketModal">
                     <i class="fas fa-plus fa-sm text-white"></i> &nbsp;&nbsp; Yeni Destek Talebi
                 </button>
             </div>
+            @endif
         </div>
     </div>
 </div>

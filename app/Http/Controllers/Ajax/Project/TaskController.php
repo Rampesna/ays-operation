@@ -57,7 +57,7 @@ class TaskController extends Controller
                 'comments' => function ($comments) {
                     $comments->with([
                         'creator'
-                    ]);
+                    ])->orderBy('created_at', 'desc');
                 },
                 'checklistItems' => function ($checklistItems) {
                     $checklistItems->with([

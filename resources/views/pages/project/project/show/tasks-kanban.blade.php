@@ -1019,7 +1019,8 @@
                     comment: comment
                 },
                 success: function (comment) {
-                    commentsSelector.append('' +
+                    var oldComments = commentsSelector.html();
+                    var newComments = '' +
                         '<div class="mb-10">' +
                         '	<div class="d-flex align-items-center">' +
                         '		<div class="symbol symbol-45 symbol-light mr-5">' +
@@ -1031,8 +1032,8 @@
                         '		</div>' +
                         '	</div>' +
                         '	<p class="text-dark-50 m-0 pt-5 font-weight-normal">' + comment.comment + '</p>' +
-                        '</div>' +
-                        '');
+                        '</div>' + oldComments;
+                    commentsSelector.html(newComments);
                     $("#comment").val(null);
                     toastr.success('Başarıyla Yorum Yapıldı');
                 },
