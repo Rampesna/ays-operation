@@ -80,9 +80,19 @@ class Response
     public static function SuccessResponse($content = null, $message = null)
     {
         return [
-            "progress_code" => "000A",
+            "progress_code" => "A000",
             "progress_type" => "success",
             "progress_message" => "$message",
+            "content" => $content
+        ];
+    }
+
+    public static function FailedLoginResponse($content = null, $message = null)
+    {
+        return [
+            "progress_code" => "0007",
+            "progress_type" => "error",
+            "progress_message" => "Your email address and password do not match",
             "content" => $content
         ];
     }

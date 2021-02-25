@@ -3,16 +3,18 @@
 namespace App\Http\Controllers\Ajax\Santral;
 
 use App\Http\Controllers\Controller;
+use App\Models\ChatGroup;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\Timesheet;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
     public function index(Request $request)
     {
-        // Test
+        return ChatGroup::find(1)->messages;
     }
 
     function get_server_load()

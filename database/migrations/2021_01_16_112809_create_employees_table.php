@@ -22,6 +22,7 @@ class CreateEmployeesTable extends Migration
             $table->string('identification_number')->nullable();
             $table->string('extension_number')->nullable();
             $table->string('image')->nullable();
+            $table->string('api_token')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -27,6 +27,18 @@ Route::middleware(['TokenControl'])->namespace('App\\Http\\Controllers\\Api')->g
 
 });
 
-Route::prefix('organization')->namespace('App\\Http\\Controllers\\Api\\Organization')->group(function () {
-    Route::post('login','Auth\LoginController@login');
+Route::prefix('v1')->namespace('App\\Http\\Controllers\\Api\\v1')->group(function () {
+    Route::prefix('authentication')->namespace('Auth')->group(function () {
+        Route::any('login', 'LoginController@login');
+    });
+
+    Route::prefix('group')->namespace('Group')->group(function () {
+        Route::any('index', 'GroupController@index');
+        Route::any('messages', 'GroupController@messages');
+    });
+
+    Route::prefix('message')->namespace('Message')->group(function () {
+        Route::any('create', 'MessageController@create');
+    });
 });
+

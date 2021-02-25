@@ -118,4 +118,9 @@ class Employee extends Authenticatable
     {
         return $this->morphMany(TicketMessage::class, 'creator');
     }
+
+    public function messages()
+    {
+        return $this->morphMany(ChatMessage::class, 'sender');
+    }
 }

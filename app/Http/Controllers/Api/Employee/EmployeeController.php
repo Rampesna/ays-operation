@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api\Employee;
 
 use App\Http\Controllers\Api\Response;
-use App\Http\Controllers\Employee\EmployeeService;
+use App\Http\Controllers\UserPanel\Employee\EmployeeService;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
