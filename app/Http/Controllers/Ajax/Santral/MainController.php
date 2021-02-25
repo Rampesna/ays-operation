@@ -9,12 +9,20 @@ use App\Models\Task;
 use App\Models\Timesheet;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return ChatGroup::find(1)->messages;
+        return Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', [
+            'extensionName' => [
+                "3086"
+            ],
+            'startDate' => '2021-02-17',
+            'endDate' => '2021-02-17',
+            'timeName' => 'custom'
+        ]);
     }
 
     function get_server_load()

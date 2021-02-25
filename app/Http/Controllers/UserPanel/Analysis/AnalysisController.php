@@ -36,9 +36,14 @@ class AnalysisController extends Controller
                 'timeName' => 'custom'
             ];
 
+            return $params;
+
+            $incomingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
+            return $incomingService->incoming();
+
             try {
                 $incomingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
-                $incomingService->incoming();
+                return $incomingService->incoming();
 
                 $outgoingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
                 $outgoingService->outgoing();

@@ -24,6 +24,9 @@ class EmployeeQueueAnalysisService
         $clean3 = preg_replace('~{(.*?)}~', null, $clean2);
         $clean4 = preg_replace('~{(.*?)}~', null, $clean3);
         preg_match('~<table class="table table-striped table-bordered datatable" id="datatable">(.*?)<\/table>~', $clean4, $table);
+
+        return $clean;
+
         preg_match('~<tbody>(.*?)</tbody>~', $table[1], $tbody);
         preg_match_all('~<tr>(.*?)</tr>~', $tbody[1], $rows);
 
@@ -32,6 +35,9 @@ class EmployeeQueueAnalysisService
 
     public function incoming()
     {
+
+        return $this->table;
+
         $response = [];
         foreach ($this->table[1] as $key => $row) {
             preg_match_all('~<td .*?>(.*?)</td>~', $row, $columns);
@@ -69,6 +75,8 @@ class EmployeeQueueAnalysisService
                 $counter++;
             }
         }
+
+        return $response;
 
         foreach ($response as $data) {
             $employee = Employee::where('extension_number', $data["extension"])->first();

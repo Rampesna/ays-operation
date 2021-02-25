@@ -81,7 +81,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         });
     });
 
-    Route::middleware(['Authority:32'])->prefix('project-management')->namespace('Project')->group(function () {
+    Route::prefix('project-management')->namespace('Project')->middleware(['Authority:32'])->group(function () {
         Route::prefix('project')->namespace('Project')->group(function () {
             Route::get('/', function () {
                 return redirect()->route('');
@@ -123,6 +123,13 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 Route::post('setCompleted', 'TicketController@setCompleted')->name('project.project.ticket.setCompleted');
             });
         });
+    });
+
+    Route::prefix('inventory')->namespace('Inventory')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('inventory.index');
+        });
+        Route::get('/index', 'InventoryController@index')->name('inventory.index');
     });
 
     Route::prefix('exams')->namespace('Exam')->group(function () {
@@ -292,6 +299,28 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::post('/permissions/update', 'RoleController@permissionsUpdate')->name('setting.roles.permissions.update');
             Route::post('/update', 'RoleController@update')->name('setting.roles.update');
             Route::post('/delete', 'RoleController@delete')->name('setting.roles.delete');
+        });
+
+        Route::prefix('device-groups')->namespace('DeviceGroup')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.device-groups.index');
+            });
+            Route::get('/index', 'DeviceGroupController@index')->name('setting.device-groups.index');
+            Route::post('/store', 'DeviceGroupController@store')->name('setting.device-groups.store');
+            Route::get('/edit', 'DeviceGroupController@edit')->name('setting.device-groups.edit');
+            Route::post('/update', 'DeviceGroupController@update')->name('setting.device-groups.update');
+            Route::post('/delete', 'DeviceGroupController@delete')->name('setting.device-groups.delete');
+        });
+
+        Route::prefix('device-statuses')->namespace('DeviceStatus')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.device-statuses.index');
+            });
+            Route::get('/index', 'DeviceStatusController@index')->name('setting.device-statuses.index');
+            Route::post('/store', 'DeviceStatusController@store')->name('setting.device-statuses.store');
+            Route::get('/edit', 'DeviceStatusController@edit')->name('setting.device-statuses.edit');
+            Route::post('/update', 'DeviceStatusController@update')->name('setting.device-statuses.update');
+            Route::post('/delete', 'DeviceStatusController@delete')->name('setting.device-statuses.delete');
         });
 
     });

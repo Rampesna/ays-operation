@@ -123,4 +123,14 @@ class Employee extends Authenticatable
     {
         return $this->morphMany(ChatMessage::class, 'sender');
     }
+
+    public function devices()
+    {
+        return $this->hasMany(Device::class);
+    }
+
+    public function deviceActions()
+    {
+        return $this->morphMany(DeviceAction::class, 'relation');
+    }
 }

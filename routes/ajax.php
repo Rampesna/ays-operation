@@ -138,4 +138,10 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     });
 
+    Route::prefix('inventory')->namespace('Inventory')->group(function () {
+        Route::prefix('device')->group(function () {
+            Route::post('create', 'DeviceController@create')->name('ajax.inventory.device.create');
+        });
+    });
+
 });
