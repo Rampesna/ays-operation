@@ -167,6 +167,7 @@
                         </div>
                         @endAuthority
 
+                        @Authority(44)
                         <div class="col-xl-4">
                             <a href="{{ route('setting.device-groups.index') }}" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
@@ -183,7 +184,9 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
 
+                        @Authority(44)
                         <div class="col-xl-4">
                             <a href="{{ route('setting.device-statuses.index') }}" class="card card-custom card-stretch gutter-b">
                                 <div class="card-body">
@@ -200,6 +203,7 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
 
 
                     </div>

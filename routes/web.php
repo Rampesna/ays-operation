@@ -125,7 +125,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         });
     });
 
-    Route::prefix('inventory')->namespace('Inventory')->group(function () {
+    Route::prefix('inventory')->namespace('Inventory')->middleware(['Authority:44'])->group(function () {
         Route::get('/', function () {
             return redirect()->route('inventory.index');
         });

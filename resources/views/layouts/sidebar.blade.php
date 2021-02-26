@@ -254,11 +254,11 @@
                 </li>
                 @endAuthority
 
-                @Authority(32)
                 <li class="menu-section">
                     <h4 class="menu-text">YÖNETİM</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
+                @Authority(32)
                 <li class="menu-item {{ Request::segment(1) === 'project-management' && Request::segment(2) === 'project' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('project.project.index') }}" class="menu-link">
@@ -276,6 +276,8 @@
                     </a>
                 </li>
                 @endAuthority
+
+                @Authority(44)
                 <li class="menu-item"
                     aria-haspopup="true">
                     <a href="{{ route('inventory.index') }}" class="menu-link">
@@ -291,13 +293,12 @@
                         <span class="menu-text">Envanter Yönetimi</span>
                     </a>
                 </li>
-
+                @endAuthority
 
                 <li class="menu-section">
                     <h4 class="menu-text">DİĞER</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
-
                 @Authority(22)
                 <li class="menu-item {{ Request::segment(1) === 'exams' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
