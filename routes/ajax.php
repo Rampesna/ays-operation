@@ -140,7 +140,15 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('inventory')->namespace('Inventory')->group(function () {
         Route::prefix('device')->group(function () {
+            Route::get('show', 'DeviceController@show')->name('ajax.inventory.device.show');
             Route::post('create', 'DeviceController@create')->name('ajax.inventory.device.create');
+            Route::post('update', 'DeviceController@update')->name('ajax.inventory.device.update');
+            Route::post('updateEmployee', 'DeviceController@updateEmployee')->name('ajax.inventory.device.updateEmployee');
+            Route::post('removeEmployee', 'DeviceController@removeEmployee')->name('ajax.inventory.device.removeEmployee');
+        });
+
+        Route::prefix('device-action')->group(function () {
+
         });
     });
 

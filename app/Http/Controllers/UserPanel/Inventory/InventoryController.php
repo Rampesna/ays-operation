@@ -17,6 +17,16 @@ class InventoryController extends Controller
         return view('pages.inventory.index', [
             'companyId' => $companyId,
             'employees' => (new EmployeeService)->getEmployeesByCompany($companyId),
+            'groups' => DeviceGroup::where('company_id', $companyId)->get(),
+            'statuses' => DeviceStatus::where('company_id', $companyId)->get()
+        ]);
+    }
+    public function devices(Request $request)
+    {
+        $companyId = $request->company_id ?? auth()->user()->companies()->first()->id;
+        return view('pages.inventory.device-list', [
+            'companyId' => $companyId,
+            'employees' => (new EmployeeService)->getEmployeesByCompany($companyId),
             'devices' => Device::where('company_id', $companyId)->get(),
             'groups' => DeviceGroup::where('company_id', $companyId)->get(),
             'statuses' => DeviceStatus::where('company_id', $companyId)->get()

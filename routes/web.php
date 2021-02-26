@@ -130,6 +130,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             return redirect()->route('inventory.index');
         });
         Route::get('/index', 'InventoryController@index')->name('inventory.index');
+        Route::get('/devices', 'InventoryController@devices')->name('inventory.devices');
     });
 
     Route::prefix('exams')->namespace('Exam')->group(function () {

@@ -7,6 +7,19 @@
     var createDeviceSelector = $("#create_device");
     var createDeviceFormSelector = $("#create_device_form");
     var createDeviceModalSelector = $("#CreateDeviceModal");
+    var DeviceRemoveFromEmployeeModalSelector = $("#DeviceRemoveFromEmployeeModal");
+
+    var selectedDeviceSelector = $("#selectedDeviceSelector");
+    var deviceDeleteButton = $("#deviceDeleteButton");
+    var deviceUpdateButton = $("#deviceUpdateButton");
+    var deviceRemoveFromEmployeeButton = $("#deviceRemoveFromEmployeeButton");
+    var deviceNameSelector = $("#deviceNameSelector");
+    var deviceGroupSelector = $("#deviceGroupSelector");
+    var deviceStatusSelector = $("#deviceStatusSelector");
+    var deviceBrandSelector = $("#deviceBrandSelector");
+    var deviceModelSelector = $("#deviceModelSelector");
+    var deviceSerialSelector = $("#deviceSerialSelector");
+    var deviceIpSelector = $("#deviceIpSelector");
 
     var kanban = new jKanban({
         element: '#inventories',
@@ -17,7 +30,15 @@
 
         },
         dropEl: function (el, source) {
-
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.inventory.device.updateEmployee') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    device_id: el.dataset.eid,
+                    employee_id: el.parentNode.parentNode.dataset.id
+                }
+            });
         },
         dragendBoard: function (el) {
 
@@ -34,10 +55,10 @@
                         title:
                             '<div class="row" style="font-size: 11px">' +
                             '   <div class="col-xl-6">' +
-                            '       <i class="{{ $device->group->icon }}"></i><span class="ml-3 cursor-pointer">{{ $device->name }}</span>' +
+                            '       <i id="{{ $device->id }}_device_icon" class="{{ $device->group->icon }}"></i><span class="ml-3 cursor-pointer deviceTitle" id="{{ $device->id }}_device_title" data-id="{{ $device->id }}">{{ $device->name }}</span>' +
                             '   </div>' +
                             '   <div class="col-xl-6 text-right">' +
-                            '       <span class="btn btn-pill btn-sm btn-{{ $device->status->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $device->status->name }}</span>' +
+                            '       <span id="{{ $device->id }}_device_status" class="btn btn-pill btn-sm btn-{{ $device->status->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $device->status->name }}</span>' +
                             '   </div>' +
                             '</div>'
                     },
@@ -90,14 +111,14 @@
                     $("#device_create_status_id").selectpicker('refresh');
                     createDeviceModalSelector.modal('hide');
                     kanban.addElement(employee_id, {
-                        id: '{{ $device->id }}',
+                        id: device.id,
                         title:
                             '<div class="row" style="font-size: 11px">' +
                             '   <div class="col-xl-6">' +
-                            '       <i class="' + device.group.icon + '"></i><span class="ml-3 cursor-pointer">' + device.name + '</span>' +
+                            '       <i id="' + device.id + '_device_icon" class="' + device.group.icon + '"></i><span class="ml-3 cursor-pointer deviceTitle" id="' + device.id + '_device_title" data-id="' + device.id + '">' + device.name + '</span>' +
                             '   </div>' +
                             '   <div class="col-xl-6 text-right">' +
-                            '       <span class="btn btn-pill btn-sm btn-' + device.status.color + '" style="font-size: 11px; height: 20px; padding-top: 2px">' + device.status.name + '</span>' +
+                            '       <span id="' + device.id + '_device_status" class="btn btn-pill btn-sm btn-' + device.status.color + '" style="font-size: 11px; height: 20px; padding-top: 2px">' + device.status.name + '</span>' +
                             '   </div>' +
                             '</div>'
                     });
@@ -109,4 +130,91 @@
 
         }
     });
+
+    $(document).delegate(".deviceTitle", "click", function () {
+        $("#kt_quick_cart_toggle").click();
+        selectedDeviceSelector.val($(this).data('id'));
+        showDevice($(this).data('id'));
+    });
+
+    function showDevice(device_id)
+    {
+        $("#kt_quick_cart").hide();
+        console.log(device_id);
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.inventory.device.show') }}',
+            data: {
+                device_id: device_id
+            },
+            success: function (device) {
+                deviceNameSelector.val(device.name);
+                deviceGroupSelector.val(device.group_id).selectpicker('refresh');
+                deviceStatusSelector.val(device.status_id).selectpicker('refresh');
+                deviceBrandSelector.val(device.brand);
+                deviceModelSelector.val(device.model);
+                deviceSerialSelector.val(device.serial_number);
+                deviceIpSelector.val(device.ip_address);
+
+                $("#kt_quick_cart").fadeIn(250);
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    }
+
+    deviceUpdateButton.click(function () {
+        var device_id = selectedDeviceSelector.val();
+        var group_id = deviceGroupSelector.val();
+        var status_id = deviceStatusSelector.val();
+        var name = deviceNameSelector.val();
+        var brand = deviceBrandSelector.val();
+        var model = deviceModelSelector.val();
+        var serial_number = deviceSerialSelector.val();
+        var ip_address = deviceIpSelector.val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.inventory.device.update') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                device_id: device_id,
+                group_id: group_id,
+                status_id: status_id,
+                name: name,
+                brand: brand,
+                model: model,
+                serial_number: serial_number,
+                ip_address: ip_address
+            },
+            success: function (device) {
+                toastr.success('Cihaz Bilgileri Başarıyla Güncellendi');
+                $("#" + device.id + "_device_title").html(device.name);
+                $("#" + device.id + "_device_status").removeClass().addClass('btn btn-pill btn-sm btn-' + device.status.color).html(device.status.name);
+                $("#" + device.id + "_device_icon").removeClass().addClass(device.group.icon);
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    });
+
+    deviceRemoveFromEmployeeButton.click(function () {
+        var device_id = selectedDeviceSelector.val();
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.inventory.device.removeEmployee') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                device_id: device_id
+            },
+            success: function () {
+                kanban.removeElement(device_id);
+                DeviceRemoveFromEmployeeModalSelector.modal('hide');
+                $("#kt_quick_cart_toggle").click();
+            }
+        });
+    });
+
 </script>

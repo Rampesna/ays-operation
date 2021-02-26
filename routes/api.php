@@ -34,6 +34,7 @@ Route::prefix('v1')->namespace('App\\Http\\Controllers\\Api\\v1')->group(functio
 
     Route::prefix('group')->namespace('Group')->group(function () {
         Route::any('index', 'GroupController@index');
+        Route::any('create', 'GroupController@create');
         Route::any('messages', 'GroupController@messages');
     });
 

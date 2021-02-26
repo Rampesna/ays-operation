@@ -2,6 +2,15 @@
     <div class="container-fluid align-items-center justify-content-between flex-wrap flex-sm-nowrap">
         <div class="row">
             <div class="col-xl-10">
+                @if(Request::segment(1) === 'inventory' && Request::segment(2) === 'index')
+                    <a href="{{ route('inventory.devices') }}" class="btn btn-sm btn-primary mt-n2 mb-n2">
+                        <i class="fas fa-hdd fa-sm text-white"></i> &nbsp;&nbsp; Cihaz Listesi
+                    </a>
+                @else
+                    <a href="{{ route('inventory.index') }}" class="btn btn-sm btn-primary mt-n2 mb-n2">
+                        <i class="fa fa-user fa-sm text-white"></i> &nbsp;&nbsp; Personel Listesi
+                    </a>
+                @endif
 {{--                <ul class="nav nav-tabs nav-tabs-line mb-n4">--}}
 {{--                    --}}
 {{--                </ul>--}}
