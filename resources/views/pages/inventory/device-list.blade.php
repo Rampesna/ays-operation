@@ -197,8 +197,9 @@
                         $("#device_create_group_id").selectpicker('refresh');
                         $("#device_create_status_id").selectpicker('refresh');
                         createDeviceModalSelector.modal('hide');
+
                         allDevices.append(
-                            '<div id="' + device.id + '_device" class="col-xl-3 mt-5">' +
+                            '<div id="' + device.id + '_device" class="col-xl-4 mt-5">' +
                             '	<div class="card">' +
                             '		<div class="card-body">' +
                             '			<div class="row" style="font-size: 11px">' +
@@ -206,6 +207,7 @@
                             '					<i id="' + device.id + '_device_icon" class="' + device.group.icon + '"></i><span class="ml-3 cursor-pointer deviceTitle" id="' + device.id + '_device_title" data-id="' + device.id + '">' + device.name + '</span>' +
                             '				</div>' +
                             '				<div class="col-xl-6 text-right">' +
+                            `					<span id="${device.id}_device_employee" class="btn btn-pill btn-sm btn-${device.employee_id ? 'info' : 'dark-75'}" style="font-size: 11px; height: 20px; padding-top: 2px">${device.employee.name ?? 'Boşta'}</span>` +
                             '					<span id="' + device.id + '_device_status" class="btn btn-pill btn-sm btn-' + device.status.color + '" style="font-size: 11px; height: 20px; padding-top: 2px">' + device.status.name + '</span>' +
                             '				</div>' +
                             '			</div>' +
