@@ -19,7 +19,7 @@ class DeviceService
     {
         $controlStatus = !$this->device->status_id || $this->device->status_id != $request->status_id ? 1 : 0;
         $request->company_id ? $this->device->company_id = $request->company_id : null;
-        $request->employee_id && $request->employee_id != 0 ? $this->device->employee_id = $request->employee_id : null;
+        $this->device->employee_id = $request->employee_id && $request->employee_id != 0 ? $request->employee_id : null;
         $this->device->group_id = $request->group_id;
         $this->device->status_id = $request->status_id;
         $this->device->name = $request->name;

@@ -38,4 +38,9 @@ class Device extends Model
     {
         return $this->hasMany(DeviceAction::class);
     }
+
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

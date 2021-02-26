@@ -11,7 +11,7 @@
     <div class="row mt-15"></div>
     <div class="row" id="allDevices">
         @foreach($devices as $device)
-            <div id="{{ $device->id }}_device" class="col-xl-3 mt-5">
+            <div id="{{ $device->id }}_device" class="col-xl-4 mt-5">
                 <div class="card">
                     <div class="card-body">
                         <div class="row" style="font-size: 11px">
@@ -21,9 +21,19 @@
                                     data-id="{{ $device->id }}">{{ $device->name }}</span>
                             </div>
                             <div class="col-xl-6 text-right">
-                            <span id="{{ $device->id }}_device_status"
+                                @if(!$device->employee_id)
+                                    <span id="{{ $device->id }}_device_employee"
+                                          class="btn btn-pill btn-sm btn-dark-75"
+                                          style="font-size: 11px; height: 20px; padding-top: 2px">Boşta</span>
+                                @else
+                                    <span id="{{ $device->id }}_device_employee"
+                                          class="btn btn-pill btn-sm btn-info"
+                                          style="font-size: 11px; height: 20px; padding-top: 2px">{{ $device->employee->name }}</span>
+                                @endif
+                                    <span id="{{ $device->id }}_device_status"
                                   class="btn btn-pill btn-sm btn-{{ $device->status->color }}"
                                   style="font-size: 11px; height: 20px; padding-top: 2px">{{ $device->status->name }}</span>
+
                             </div>
                         </div>
                     </div>
@@ -133,6 +143,12 @@
                     $("#" + device.id + "_device_title").html(device.name);
                     $("#" + device.id + "_device_status").removeClass().addClass('btn btn-pill btn-sm btn-' + device.status.color).html(device.status.name);
                     $("#" + device.id + "_device_icon").removeClass().addClass(device.group.icon);
+
+                    if (device.employee_id == null) {
+                        $("#" + device.id + "_device_employee").removeClass().addClass('btn btn-pill btn-sm btn-dark-75').html('Boşta');
+                    } else {
+                        $("#" + device.id + "_device_employee").removeClass().addClass('btn btn-pill btn-sm btn-info').html(device.employee.name);
+                    }
                 },
                 error: function (error) {
                     console.log(error)
