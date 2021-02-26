@@ -18,6 +18,9 @@ class DeviceService
     public function store(Request $request)
     {
         $controlStatus = !$this->device->status_id || $this->device->status_id != $request->status_id ? 1 : 0;
+        $controlEmployee =
+            (!$this->device->employee_id && $request->employee_id) ||
+            $this->device->employee_id != $request->employee_id ? 1 : 0;
         $request->company_id ? $this->device->company_id = $request->company_id : null;
         $this->device->employee_id = $request->employee_id && $request->employee_id != 0 ? $request->employee_id : null;
         $this->device->group_id = $request->group_id;
@@ -29,7 +32,7 @@ class DeviceService
         $this->device->ip_address = $request->ip_address;
         $this->device->save();
 
-        if ($request->employee_id && $request->employee_id != 0) {
+        if ($controlEmployee == 1) {
             (new DeviceActionService(new DeviceAction))->store(
                 $this->device->id,
                 $request->employee_id,
