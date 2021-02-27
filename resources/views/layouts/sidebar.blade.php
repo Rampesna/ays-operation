@@ -278,8 +278,7 @@
                 @endAuthority
 
                 @Authority(44)
-                <li class="menu-item"
-                    aria-haspopup="true">
+                <li class="menu-item {{ Request::segment(1) === 'inventory' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('inventory.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

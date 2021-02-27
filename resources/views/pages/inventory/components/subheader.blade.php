@@ -10,6 +10,9 @@
                     <a href="{{ route('inventory.index') }}" class="btn btn-sm btn-primary mt-n2 mb-n2">
                         <i class="fa fa-user fa-sm text-white"></i> &nbsp;&nbsp; Personel Listesi
                     </a>
+                    <a href="{{ route('inventory.devices.report') }}" class="btn btn-sm btn-dark-75 mt-n2 mb-n2">
+                        <i class="fas fa-clipboard fa-sm text-white"></i> &nbsp;&nbsp; Rapor Oluştur
+                    </a>
                 @endif
 {{--                <ul class="nav nav-tabs nav-tabs-line mb-n4">--}}
 {{--                    --}}

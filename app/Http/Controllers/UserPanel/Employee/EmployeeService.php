@@ -22,7 +22,7 @@ class EmployeeService
             return abort(403);
         }
 
-        return Company::find($companyId)->employees()->with(['queues', 'competences'])->get();
+        return Company::find($companyId)->employees()->with(['queues', 'competences'])->orderBy('name','asc')->get();
     }
 
     public function getEmployeesWithReportsByCompany($companyId, $startDate, $endDate)

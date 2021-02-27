@@ -21,6 +21,7 @@ class InventoryController extends Controller
             'statuses' => DeviceStatus::where('company_id', $companyId)->get()
         ]);
     }
+
     public function devices(Request $request)
     {
         $companyId = $request->company_id ?? auth()->user()->companies()->first()->id;
@@ -30,6 +31,29 @@ class InventoryController extends Controller
             'devices' => Device::where('company_id', $companyId)->get(),
             'groups' => DeviceGroup::where('company_id', $companyId)->get(),
             'statuses' => DeviceStatus::where('company_id', $companyId)->get()
+        ]);
+    }
+
+    public function report()
+    {
+        return view('pages.inventory.report');
+    }
+
+    public function reportShow(Request $request)
+    {
+        return view('pages.inventory.report-show', [
+            'devices' => Device::with(['group', 'status', 'employee'])->where('company_id', $request->company_id)->get()
+        ]);
+    }
+
+    public function showDetail($id)
+    {
+        return view('pages.inventory.report-show-detail', [
+            'device' => Device::with([
+                'actions' => function ($actions) {
+                    $actions->with(['relation'])->orderBy('date','desc');
+                }
+            ])->find($id)
         ]);
     }
 }

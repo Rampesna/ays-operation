@@ -131,6 +131,9 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         });
         Route::get('/index', 'InventoryController@index')->name('inventory.index');
         Route::get('/devices', 'InventoryController@devices')->name('inventory.devices');
+        Route::get('/devices/report', 'InventoryController@report')->name('inventory.devices.report');
+        Route::post('/devices/report/show', 'InventoryController@reportShow')->name('inventory.devices.report.show');
+        Route::get('/devices/report/show/{id}/detail', 'InventoryController@showDetail')->name('inventory.devices.report.show.detail');
     });
 
     Route::prefix('exams')->namespace('Exam')->group(function () {
