@@ -136,6 +136,13 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         Route::get('/devices/report/show/{id}/detail', 'InventoryController@showDetail')->name('inventory.devices.report.show.detail');
     });
 
+    Route::prefix('calendar')->namespace('Calendar')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('calendar.index');
+        });
+        Route::get('index', 'CalendarController@index')->name('calendar.index');
+    });
+
     Route::prefix('exams')->namespace('Exam')->group(function () {
         Route::get('/', function () {
             return redirect()->route('exams.index');

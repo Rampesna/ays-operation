@@ -133,4 +133,19 @@ class Employee extends Authenticatable
     {
         return $this->morphMany(DeviceAction::class, 'relation');
     }
+
+    public function meetings()
+    {
+        return $this->morphToMany(Meeting::class, 'relation', 'meeting_relations');
+    }
+
+    public function calendarNotes()
+    {
+        return $this->morphMany(CalendarNote::class, 'creator');
+    }
+
+    public function calendarInformations()
+    {
+        return $this->morphMany(CalendarInformation::class, 'creator');
+    }
 }

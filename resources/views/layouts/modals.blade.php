@@ -210,7 +210,7 @@
                 </div>
                 <div class="text-center">
                     <a href="#" class="text-center">
-                        <i class="fas fa-times-circle fa-4x text-secondary" data-dismiss="modal"></i>
+                        <i class="fas fa-times-circle fa-3x text-secondary" data-dismiss="modal"></i>
                     </a>
                 </div>
             </div>

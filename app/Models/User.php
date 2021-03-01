@@ -20,17 +20,6 @@ class User extends Authenticatable
     use HasFactory, Notifiable, SoftDeletes;
 
     /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-//    protected $fillable = [
-//        'name',
-//        'email',
-//        'password',
-//    ];
-
-    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -107,5 +96,25 @@ class User extends Authenticatable
     public function messages()
     {
         return $this->morphMany(ChatMessage::class, 'sender');
+    }
+
+    public function meetings()
+    {
+        return $this->morphToMany(Meeting::class, 'relation', 'meeting_relations');
+    }
+
+    public function calendarNotes()
+    {
+        return $this->morphMany(CalendarNote::class, 'creator');
+    }
+
+    public function calendarInformations()
+    {
+        return $this->morphMany(CalendarInformation::class, 'creator');
+    }
+
+    public function createdMeetings()
+    {
+        return $this->hasMany(Meeting::class, 'creator_id', 'id');
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Ajax\Santral;
 
 use App\Http\Controllers\Controller;
+use App\Models\CalendarNote;
 use App\Models\ChatGroup;
+use App\Models\Meeting;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\Timesheet;
@@ -15,14 +17,7 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', [
-            'extensionName' => [
-                "3086"
-            ],
-            'startDate' => '2021-02-17',
-            'endDate' => '2021-02-17',
-            'timeName' => 'custom'
-        ]);
+        return User::with(['calendarNotes'])->find(1);
     }
 
     function get_server_load()
