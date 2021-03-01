@@ -172,7 +172,7 @@
                     }
 
                     $("#" + device.id + "_device").data('active', device.active);
-                    
+
                     toggleActivePassive();
                 },
                 error: function (error) {

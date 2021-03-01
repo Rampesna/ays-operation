@@ -25,7 +25,9 @@
 
 .kanban-board.is-moving.gu-mirror {
   -webkit-transform: rotate(3deg);
-  transform: rotate(3deg); }
+  transform: rotate(3deg);
+    background: transparent;
+}
 
 .kanban-board.is-moving.gu-mirror .kanban-drag {
   overflow: hidden;
