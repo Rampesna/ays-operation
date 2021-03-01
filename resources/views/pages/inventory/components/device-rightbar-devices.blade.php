@@ -64,6 +64,18 @@
             </div>
             <div class="row mt-6">
                 <div class="col-xl-3">
+                    <span class="font-weight-bold">Aktif / Pasif: </span>
+                </div>
+                <div class="col-xl-9">
+                    <select class="selectpicker form-control" id="deviceActiveSelector">
+                        <option value="1">Aktif</option>
+                        <option value="0">Pasif</option>
+                    </select>
+                    <label for="deviceActiveSelector"></label>
+                </div>
+            </div>
+            <div class="row mt-6">
+                <div class="col-xl-3">
                     <span class="font-weight-bold">Cihaz Markası: </span>
                 </div>
                 <div class="col-xl-9">
@@ -99,7 +111,14 @@
                 </div>
             </div>
             <hr>
-            <div class="row">
+            <div class="row mt-6">
+                <div class="col-xl-3">
+                    <span class="font-weight-bold">Açıklama: </span>
+                </div>
+                <div class="col-xl-9">
+                    <textarea id="deviceActionDescription" class="form-control" rows="3"></textarea>
+                    <label for="deviceActionDescription"></label>
+                </div>
                 <div class="col-xl-12 text-right">
                     <button type="button" id="deviceUpdateButton" class="btn btn-success">Güncelle</button>
                 </div>

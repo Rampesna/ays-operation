@@ -46,16 +46,26 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="device_create_name">Cihaz Adı</label>
                             <input type="text" class="form-control" id="device_create_name" name="device_create_name">
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="device_create_brand">Cihaz Markası</label>
                             <input type="text" class="form-control" id="device_create_brand" name="device_create_brand">
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
+                            <label for="device_create_active">Aktif / Pasif</label>
+                            <select id="device_create_active" name="device_create_active" class="form-control selectpicker">
+                                <option selected hidden disabled></option>
+                                <option value="1">Aktif</option>
+                                <option value="0">Pasif</option>
+                            </select>
                         </div>
                     </div>
                 </div>

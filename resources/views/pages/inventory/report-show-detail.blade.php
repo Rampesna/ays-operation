@@ -14,6 +14,7 @@
                             <th>Tarih</th>
                             <th>İşlem</th>
                             <th>Durum</th>
+                            <th>Açıklamalar</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -28,7 +29,10 @@
                                     @endif
                                 </td>
                                 <td>
-                                    {{ $action->relation->name }}
+                                    {{ $action->relation->name ?? '' }}
+                                </td>
+                                <td>
+                                    <textarea class="form-control" rows="2" disabled>{!! $action->description !!}</textarea>
                                 </td>
                             </tr>
                         @endforeach
@@ -38,6 +42,7 @@
                             <th>Tarih</th>
                             <th>İşlem</th>
                             <th>Durum</th>
+                            <th>Açıklamalar</th>
                         </tr>
                         </tfoot>
                     </table>

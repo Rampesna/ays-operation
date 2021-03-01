@@ -16,10 +16,13 @@
     var deviceNameSelector = $("#deviceNameSelector");
     var deviceGroupSelector = $("#deviceGroupSelector");
     var deviceStatusSelector = $("#deviceStatusSelector");
+    var deviceActiveSelector = $("#deviceActiveSelector");
     var deviceBrandSelector = $("#deviceBrandSelector");
     var deviceModelSelector = $("#deviceModelSelector");
     var deviceSerialSelector = $("#deviceSerialSelector");
     var deviceIpSelector = $("#deviceIpSelector");
+
+    var deviceActionDescription = $("#deviceActionDescription");
 
     var kanban = new jKanban({
         element: '#inventories',
@@ -74,6 +77,7 @@
         var employee_id = $("#device_create_employee_id").val();
         var group_id = $("#device_create_group_id").val();
         var status_id = $("#device_create_status_id").val();
+        var active = $("#device_create_active").val();
         var name = $("#device_create_name").val();
         var brand = $("#device_create_brand").val();
         var model = $("#device_create_model").val();
@@ -102,7 +106,8 @@
                     brand: brand,
                     model: model,
                     serial_number: serial_number,
-                    ip_address: ip_address
+                    ip_address: ip_address,
+                    active: active
                 },
                 success: function (device) {
                     createDeviceFormSelector.trigger("reset");
@@ -155,6 +160,7 @@
                 deviceModelSelector.val(device.model);
                 deviceSerialSelector.val(device.serial_number);
                 deviceIpSelector.val(device.ip_address);
+                deviceActiveSelector.val(device.active).selectpicker('refresh');
 
                 $("#kt_quick_cart").fadeIn(250);
             },
@@ -173,6 +179,8 @@
         var model = deviceModelSelector.val();
         var serial_number = deviceSerialSelector.val();
         var ip_address = deviceIpSelector.val();
+        var active = deviceActiveSelector.val();
+        var description = deviceActionDescription.val();
 
         $.ajax({
             type: 'post',
@@ -186,7 +194,9 @@
                 brand: brand,
                 model: model,
                 serial_number: serial_number,
-                ip_address: ip_address
+                ip_address: ip_address,
+                active: active,
+                description: description
             },
             success: function (device) {
                 toastr.success('Cihaz Bilgileri Başarıyla Güncellendi');

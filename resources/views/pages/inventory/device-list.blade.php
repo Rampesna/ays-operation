@@ -8,19 +8,30 @@
 
     <input type="hidden" name="company_id" id="company_id" value="{{ $companyId }}">
     <input type="hidden" id="kt_quick_cart_toggle">
-    <div class="row mt-15"></div>
+    <div class="row mt-15">
+        <div class="col-xl-2">
+            <select id="deviceActiveFilterer" class="form-control selectpicker">
+                <optgroup label="">
+                    <option value="2">Tümünü Göster</option>
+                </optgroup>
+                <option value="1">Aktif</option>
+                <option value="0">Pasif</option>
+            </select>
+        </div>
+    </div>
+    <hr>
     <div class="row" id="allDevices">
         @foreach($devices as $device)
-            <div id="{{ $device->id }}_device" class="col-xl-4 mt-5">
+            <div id="{{ $device->id }}_device" class="col-xl-4 mt-5 deviceSelectorClass" data-active="{{ $device->active }}">
                 <div class="card">
                     <div class="card-body">
                         <div class="row" style="font-size: 11px">
-                            <div class="col-xl-6">
+                            <div class="col-xl-5">
                                 <i id="{{ $device->id }}_device_icon" class="{{ $device->group->icon }}"></i><span
                                     class="ml-3 cursor-pointer deviceTitle" id="{{ $device->id }}_device_title"
                                     data-id="{{ $device->id }}">{{ $device->name }}</span>
                             </div>
-                            <div class="col-xl-6 text-right">
+                            <div class="col-xl-7 text-right">
                                 @if(!$device->employee_id)
                                     <span id="{{ $device->id }}_device_employee"
                                           class="btn btn-pill btn-sm btn-dark-75"
@@ -66,12 +77,17 @@
         var deviceNameSelector = $("#deviceNameSelector");
         var deviceGroupSelector = $("#deviceGroupSelector");
         var deviceStatusSelector = $("#deviceStatusSelector");
+        var deviceActiveSelector = $("#deviceActiveSelector");
         var deviceEmployeeSelector = $("#deviceEmployeeSelector");
         var deviceBrandSelector = $("#deviceBrandSelector");
         var deviceModelSelector = $("#deviceModelSelector");
         var deviceSerialSelector = $("#deviceSerialSelector");
         var deviceIpSelector = $("#deviceIpSelector");
         var allDevices = $("#allDevices");
+
+        var deviceActiveFiltererSelector = $("#deviceActiveFilterer");
+
+        var deviceActionDescription = $("#deviceActionDescription");
 
         $(document).delegate(".deviceTitle", "click", function () {
             $("#kt_quick_cart_toggle").click();
@@ -97,6 +113,7 @@
                     deviceModelSelector.val(device.model);
                     deviceSerialSelector.val(device.serial_number);
                     deviceIpSelector.val(device.ip_address);
+                    deviceActiveSelector.val(device.active).selectpicker('refresh');
 
                     if (device.employee_id == null) {
                         deviceEmployeeSelector.val(0).selectpicker('refresh');
@@ -122,6 +139,8 @@
             var model = deviceModelSelector.val();
             var serial_number = deviceSerialSelector.val();
             var ip_address = deviceIpSelector.val();
+            var active = deviceActiveSelector.val();
+            var description = deviceActionDescription.val();
 
             $.ajax({
                 type: 'post',
@@ -136,7 +155,9 @@
                     brand: brand,
                     model: model,
                     serial_number: serial_number,
-                    ip_address: ip_address
+                    ip_address: ip_address,
+                    active: active,
+                    description: description
                 },
                 success: function (device) {
                     toastr.success('Cihaz Bilgileri Başarıyla Güncellendi');
@@ -149,6 +170,10 @@
                     } else {
                         $("#" + device.id + "_device_employee").removeClass().addClass('btn btn-pill btn-sm btn-info').html(device.employee.name);
                     }
+
+                    $("#" + device.id + "_device").data('active', device.active);
+                    
+                    toggleActivePassive();
                 },
                 error: function (error) {
                     console.log(error)
@@ -161,6 +186,7 @@
             var employee_id = $("#device_create_employee_id").val();
             var group_id = $("#device_create_group_id").val();
             var status_id = $("#device_create_status_id").val();
+            var active = $("#device_create_active").val();
             var name = $("#device_create_name").val();
             var brand = $("#device_create_brand").val();
             var model = $("#device_create_model").val();
@@ -175,6 +201,8 @@
                 toastr.warning('Durum Seçilmesi Zorunludur!');
             } else if (name == null || name === '') {
                 toastr.warning('Cihaz Adı Girilmesi Zorunludur!');
+            } else if (active == null || active === '') {
+                toastr.warning('Cihazın Aktif/Pasif Durumunu Seçmediniz!');
             } else {
                 $.ajax({
                     type: 'post',
@@ -189,7 +217,8 @@
                         brand: brand,
                         model: model,
                         serial_number: serial_number,
-                        ip_address: ip_address
+                        ip_address: ip_address,
+                        active: active
                     },
                     success: function (device) {
                         createDeviceFormSelector.trigger("reset");
@@ -199,22 +228,23 @@
                         createDeviceModalSelector.modal('hide');
 
                         allDevices.append(
-                            '<div id="' + device.id + '_device" class="col-xl-4 mt-5">' +
+                            '<div id="' + device.id + '_device" class="col-xl-4 mt-5 deviceSelectorClass" data-active="' + device.active + '">' +
                             '	<div class="card">' +
                             '		<div class="card-body">' +
                             '			<div class="row" style="font-size: 11px">' +
-                            '				<div class="col-xl-6">' +
+                            '				<div class="col-xl-5">' +
                             '					<i id="' + device.id + '_device_icon" class="' + device.group.icon + '"></i><span class="ml-3 cursor-pointer deviceTitle" id="' + device.id + '_device_title" data-id="' + device.id + '">' + device.name + '</span>' +
                             '				</div>' +
-                            '				<div class="col-xl-6 text-right">' +
-                            `					<span id="${device.id}_device_employee" class="btn btn-pill btn-sm btn-${device.employee_id ? 'info' : 'dark-75'}" style="font-size: 11px; height: 20px; padding-top: 2px">${device.employee.name ?? 'Boşta'}</span>` +
+                            '				<div class="col-xl-7 text-right">' +
+                            `					<span id="${device.id}_device_employee" class="btn btn-pill btn-sm btn-${device.employee_id ? 'info' : 'dark-75'}" style="font-size: 11px; height: 20px; padding-top: 2px">${device.employee_id ? device.employee.name : 'Boşta'}</span>` +
                             '					<span id="' + device.id + '_device_status" class="btn btn-pill btn-sm btn-' + device.status.color + '" style="font-size: 11px; height: 20px; padding-top: 2px">' + device.status.name + '</span>' +
                             '				</div>' +
                             '			</div>' +
                             '		</div>' +
                             '	</div>' +
                             '</div>'
-                        )
+                        );
+                        toggleActivePassive();
                     },
                     error: function (error) {
                         console.log(error)
@@ -222,6 +252,26 @@
                 });
 
             }
+        });
+
+        function toggleActivePassive() {
+            var id = deviceActiveFiltererSelector.val();
+
+            if (id == 2) {
+                $(".deviceSelectorClass").show();
+            } else {
+                $(".deviceSelectorClass").filter(function() {
+                    return $(this).data("active") != id
+                }).hide();
+
+                $(".deviceSelectorClass").filter(function() {
+                    return $(this).data("active") == id
+                }).show();
+            }
+        }
+
+        deviceActiveFiltererSelector.change(function () {
+            toggleActivePassive();
         });
 
     </script>
