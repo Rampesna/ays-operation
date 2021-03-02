@@ -23,6 +23,7 @@ class MeetingService
         $this->meeting->start_date = $request->start_date;
         $this->meeting->end_date = $request->end_date;
         $this->meeting->type = $request->type;
+        $this->meeting->visibility = $request->visibility;
         $this->meeting->link = $request->link;
         $this->meeting->save();
 

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method static find($primaryKey)
+ * @method static where($column, $parameter)
+ */
 class Meeting extends Model
 {
     use HasFactory, SoftDeletes;

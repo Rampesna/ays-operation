@@ -4,6 +4,9 @@
 
 @section('content')
 
+    <button style="display: none" id="show_meeting_toggle">Toplantı</button>
+    <button style="display: none" id="show_note_toggle">Not</button>
+    <button style="display: none" id="show_information_toggle">Bilgilendirme</button>
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
@@ -18,6 +21,11 @@
     @include('pages.calendar.modals.create-meeting')
     @include('pages.calendar.modals.create-note')
     @include('pages.calendar.modals.create-information')
+    @include('pages.calendar.modals.delete-meeting')
+
+    @include('pages.calendar.components.show-meeting')
+    @include('pages.calendar.components.show-note')
+    @include('pages.calendar.components.show-information')
 
 @endsection
 

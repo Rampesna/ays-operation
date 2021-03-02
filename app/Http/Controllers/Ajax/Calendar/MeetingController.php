@@ -14,4 +14,20 @@ class MeetingController extends Controller
         $meeting = (new MeetingService(new Meeting))->store($request);
         return response()->json($meeting, 200);
     }
+
+    public function show(Request $request)
+    {
+        return response()->json(Meeting::with(['users', 'employees'])->find($request->meeting_id), 200);
+    }
+
+    public function update(Request $request)
+    {
+        $meeting = (new MeetingService(Meeting::find($request->meeting_id)))->store($request);
+        return response()->json($meeting, 200);
+    }
+
+    public function delete(Request $request)
+    {
+        Meeting::find($request->meeting_id)->delete();
+    }
 }

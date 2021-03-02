@@ -13,7 +13,7 @@ class CalendarController extends Controller
     public function index()
     {
         return view('pages.calendar.index', [
-            'meetings' => Meeting::all(),
+            'meetings' => Meeting::where('creator_id', auth()->user()->getId())->orWhere('visibility', 1)->get(),
             'calendarNotes' => auth()->user()->calendarNotes()->get(),
             'calendarInformations' => auth()->user()->calendarInformations()->get()
         ]);

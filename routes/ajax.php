@@ -155,6 +155,17 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
     Route::prefix('calendar')->namespace('Calendar')->group(function () {
         Route::prefix('meeting')->group(function () {
             Route::post('create', 'MeetingController@create')->name('ajax.calendar.meeting.create');
+            Route::get('show', 'MeetingController@show')->name('ajax.calendar.meeting.show');
+            Route::post('update', 'MeetingController@update')->name('ajax.calendar.meeting.update');
+            Route::delete('delete', 'MeetingController@delete')->name('ajax.calendar.meeting.delete');
+        });
+
+        Route::prefix('calendarNote')->group(function () {
+            Route::post('create', 'CalendarNoteController@create')->name('ajax.calendar.calendarNote.create');
+        });
+
+        Route::prefix('calendarInformation')->group(function () {
+            Route::post('create', 'CalendarInformationController@create')->name('ajax.calendar.calendarInformation.create');
         });
     });
 

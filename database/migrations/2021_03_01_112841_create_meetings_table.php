@@ -22,6 +22,7 @@ class CreateMeetingsTable extends Migration
             $table->dateTime('start_date');
             $table->dateTime('end_date');
             $table->boolean('type');
+            $table->boolean('visibility');
             $table->string('link')->nullable();
             $table->timestamps();
             $table->softDeletes();

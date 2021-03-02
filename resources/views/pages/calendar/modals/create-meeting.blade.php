@@ -33,24 +33,33 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-4">
+                    <div class="col-xl-3">
                         <div class="form-group">
                             <label for="create_meeting_start_date">Başlangıç Tarihi</label>
                             <input type="datetime-local" class="form-control" id="create_meeting_start_date">
                         </div>
                     </div>
-                    <div class="col-xl-4">
+                    <div class="col-xl-3">
                         <div class="form-group">
                             <label for="create_meeting_end_date">Bitiş Tarihi</label>
                             <input type="datetime-local" class="form-control" id="create_meeting_end_date">
                         </div>
                     </div>
-                    <div class="col-xl-4">
+                    <div class="col-xl-3">
                         <div class="form-group">
                             <label for="create_meeting_type">Görüşme Türü</label>
                             <select id="create_meeting_type" class="form-control">
                                 <option value="0">Yüzyüze</option>
                                 <option value="1">Online</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="form-group">
+                            <label for="create_meeting_visibility">Erişim Türü</label>
+                            <select id="create_meeting_visibility" class="form-control">
+                                <option value="0">Dahil Olanlar Görebilsin</option>
+                                <option value="1">Herkes Görebilsin</option>
                             </select>
                         </div>
                     </div>
