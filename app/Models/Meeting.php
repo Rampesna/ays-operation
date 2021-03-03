@@ -26,6 +26,6 @@ class Meeting extends Model
 
     public function employees()
     {
-        return $this->morphedByMany(User::class, 'relation', 'meeting_relations');
+        return $this->morphedByMany(Employee::class, 'relation', 'meeting_relations');
     }
 }

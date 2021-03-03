@@ -14,6 +14,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static where(string $column, string $data)
  * @method static whereBetween($column, array $array)
  * @method static whereIn(string $column, string $operator, array $array)
+ * @method static whereNotIn($column, array $excepts)
  */
 class User extends Authenticatable
 {

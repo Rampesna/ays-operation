@@ -51,7 +51,7 @@ class MainController extends Controller
 
     public function getAllEmployeesByCompanyId(Request $request)
     {
-        return response()->json(Company::find($request->company_id)->employees()->get(), 200);
+        return response()->json(Company::find($request->company_id)->employees()->orderBy('name', 'asc')->get(), 200);
     }
 
     public function createCustomPercent(Request $request)

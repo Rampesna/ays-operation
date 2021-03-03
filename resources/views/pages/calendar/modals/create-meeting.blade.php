@@ -79,6 +79,25 @@
                         </div>
                     </div>
                 </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="create_meeting_employees">Toplantıya Katılacak Personeller</label>
+                            <select id="create_meeting_employees" class="form-control selectpicker" data-live-search="true" multiple>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="create_meeting_users">Toplantıya Katılacak Yöneticiler</label>
+                            <select id="create_meeting_users" class="form-control selectpicker" data-live-search="true" multiple>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="createMeetingButton">Oluştur</button>

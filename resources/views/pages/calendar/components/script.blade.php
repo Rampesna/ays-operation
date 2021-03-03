@@ -7,7 +7,16 @@
     var onlineMeetingSelector = $("#onlineMeeting");
     var createMeetingButton = $("#createMeetingButton");
     var createNoteButton = $("#createNoteButton");
-    var createInformationButton = $("#createInformationButton");
+    var createInformationButton = $("#createInformationButton")
+
+    var employeesAndUsersEdit = $("#employeesAndUsersEdit");
+    var employeesAndUsersShow = $("#employeesAndUsersShow");
+
+    var employeesAndUsersShowUsers = $("#employeesAndUsersShowUsers");
+    var employeesAndUsersShowEmployees = $("#employeesAndUsersShowEmployees");
+
+    var createMeetingEmployees = $("#create_meeting_employees");
+    var createMeetingUsers = $("#create_meeting_users");
 
     var showMeeting = $("#showMeeting");
     var showMeetingCompany = $("#showMeetingCompany");
@@ -20,6 +29,8 @@
     var showMeetingType = $("#showMeetingType");
     var showMeetingLinkControl = $("#showMeetingLinkControl");
     var showMeetingLink = $("#showMeetingLink");
+    var showMeetingEmployees = $("#showMeetingEmployees");
+    var showMeetingUsers = $("#showMeetingUsers");
     var showMeetingDeleteButton = $("#showMeetingDeleteButton");
     var updateMeeting = $("#updateMeeting");
     var deleteMeeting = $("#deleteMeeting");
@@ -28,10 +39,69 @@
         ModalSelector.modal('hide');
     });
 
+    function checkIfObjectExist(meetingEmployees, employee_id) {
+        for (var i = 0; i < meetingEmployees.length; i++) {
+            if (meetingEmployees[i].id === employee_id) {
+                return true;
+            }
+        }
+    }
+
+    function getEmployeesByCompany() {
+        var company_id = $('#create_meeting_company_id').val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.all-employees-by-company-id') }}',
+            data: {
+                company_id: company_id
+            },
+            success: function (employees) {
+                createMeetingEmployees.empty();
+                $.each(employees, function (index) {
+                    createMeetingEmployees.append(`<option value="${employees[index].id}">${employees[index].name}</option>`);
+                });
+                createMeetingEmployees.selectpicker('refresh');
+            },
+            error: function (error) {
+                console.log('ajax.all-employees-by-company-id => ' + error)
+            }
+        });
+    }
+
+    function getUsersByCompany() {
+        var company_id = $('#create_meeting_company_id').val();
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.user.usersByCompany') }}',
+            data: {
+                company_id: company_id,
+                excepts: ['{{ auth()->user()->getId() }}']
+            },
+            success: function (users) {
+                createMeetingUsers.empty();
+                $.each(users, function (index) {
+                    createMeetingUsers.append(`<option value="${users[index].id}">${users[index].name}</option>`);
+                });
+                createMeetingUsers.selectpicker('refresh');
+            },
+            error: function (error) {
+                console.log('ajax.user.usersByCompany => ' + error)
+            }
+        });
+    }
+
+    getEmployeesByCompany();
+    getUsersByCompany();
+
+    $("#create_meeting_company_id").change(function () {
+        getEmployeesByCompany();
+        getUsersByCompany();
+    });
+
     var calendar = $('#calendar').fullCalendar({
         defaultView: 'month',
         lang: {
-            month : 'Ay'
+            month: 'Ay'
         },
         header: {
             left: 'month, agendaWeek, listMonth, _prev, _next, today',
@@ -47,19 +117,19 @@
         customButtons: {
             _next: {
                 text: 'İleri',
-                click: function() {
+                click: function () {
                     $('#calendar').fullCalendar('next');
                 }
             },
             _prev: {
                 text: 'Geri',
-                click: function() {
+                click: function () {
                     $('#calendar').fullCalendar('prev');
                 }
             }
         },
 
-        dayClick: function(date, jsEvent, view) {
+        dayClick: function (date, jsEvent, view) {
             ModalSelector.modal('show');
             $("#create_meeting_start_date").val(date.format('YYYY-MM-DD') + 'T12:00');
             $("#create_meeting_end_date").val(date.format('YYYY-MM-DD') + 'T13:00');
@@ -79,6 +149,55 @@
                         meeting_id: calEvent.meeting_id
                     },
                     success: function (meeting) {
+
+                        var employees = [];
+                        var users = [];
+
+                        $.ajax({
+                            async: false,
+                            type: 'get',
+                            url: '{{ route('ajax.all-employees-by-company-id') }}',
+                            data: {
+                                company_id: meeting.company_id
+                            },
+                            success: function (response) {
+                                employees = response;
+                            },
+                            error: function (error) {
+                                console.log('ajax.all-employees-by-company-id => ' + error)
+                            }
+                        });
+
+                        $.ajax({
+                            async: false,
+                            type: 'get',
+                            url: '{{ route('ajax.user.usersByCompany') }}',
+                            data: {
+                                company_id: meeting.company_id,
+                                excepts: [
+                                    '{{ auth()->user()->getId() }}'
+                                ]
+                            },
+                            success: function (response) {
+                                users = response;
+                            },
+                            error: function (error) {
+                                console.log('ajax.all-employees-by-company-id => ' + error)
+                            }
+                        });
+
+                        showMeetingEmployees.empty();
+                        $.each(employees, function (index) {
+                            showMeetingEmployees.append(`<option ${checkIfObjectExist(meeting.employees, employees[index].id) ? 'selected' : null} value="${employees[index].id}">${employees[index].name}</option>`);
+                        });
+                        showMeetingEmployees.selectpicker('refresh');
+
+                        showMeetingUsers.empty();
+                        $.each(users, function (index) {
+                            showMeetingUsers.append(`<option ${checkIfObjectExist(meeting.users, users[index].id) ? 'selected' : null} value="${users[index].id}">${users[index].name}</option>`);
+                        });
+                        showMeetingUsers.selectpicker('refresh');
+
                         var startDate = new Date(meeting.start_date);
                         var start_date =
                             startDate.getFullYear() + '-' +
@@ -108,20 +227,49 @@
                             showMeetingLink.val(meeting.link).prop('disabled', true);
                             meeting.type ? showMeetingLinkControl.show().prop('disabled', true) : showMeetingLinkControl.hide().prop('disabled', true);
                             updateMeeting.hide();
+                            showMeetingEmployees.prop('disabled', true).selectpicker('refresh');
+                            showMeetingUsers.prop('disabled', true).selectpicker('refresh');
                             showMeetingDeleteButton.hide();
+                            employeesAndUsersEdit.hide();
+                            employeesAndUsersShow.show();
+
+                            employeesAndUsersShowEmployees.html('');
+                            $.each(meeting.employees, function (index) {
+                                employeesAndUsersShowEmployees.append(`
+                                <a class="symbol symbol-30 symbol-circle setTooltip" data-toggle="tooltip" title="${meeting.employees[index].name}">
+                                    <img alt="Pic" src="${meeting.employees[index].image ? '{{ asset('') }}' + meeting.employees[index].image : '{{ asset('assets/media/logos/avatar.jpg') }}'}" />
+                                </a>
+                                `);
+                            });
+
+                            employeesAndUsersShowUsers.html('');
+                            $.each(meeting.users, function (index) {
+                                employeesAndUsersShowUsers.append(`
+                                <a class="symbol symbol-30 symbol-circle setTooltip" data-toggle="tooltip" title="${meeting.users[index].name}">
+                                    <img alt="Pic" src="${meeting.users[index].image ? '{{ asset('') }}' + meeting.users[index].image : '{{ asset('assets/media/logos/avatar.jpg') }}'}" />
+                                </a>
+                                `);
+                            });
+
+                            $('.setTooltip').tooltip();
                         } else {
-                            showMeeting.val(meeting.id);
-                            showMeetingCompany.val(meeting.company_id);
-                            showMeetingName.val(meeting.name);
-                            showMeetingStartDate.val(start_date);
-                            showMeetingEndDate.val(end_date);
-                            showMeetingDescription.val(meeting.description);
-                            showMeetingVisibility.val(meeting.visibility).selectpicker('refresh');
-                            showMeetingType.val(meeting.type).selectpicker('refresh');
-                            showMeetingLink.val(meeting.link);
+                            showMeeting.val(meeting.id).prop('disabled', false);
+                            showMeetingCompany.val(meeting.company_id).prop('disabled', false);
+                            showMeetingName.val(meeting.name).prop('disabled', false);
+                            showMeetingStartDate.val(start_date).prop('disabled', false);
+                            showMeetingEndDate.val(end_date).prop('disabled', false);
+                            showMeetingDescription.val(meeting.description).prop('disabled', false);
+                            showMeetingVisibilityControl.show();
+                            showMeetingVisibility.val(meeting.visibility).prop('disabled', false).selectpicker('refresh');
+                            showMeetingType.val(meeting.type).prop('disabled', false).selectpicker('refresh');
+                            showMeetingLink.val(meeting.link).prop('disabled', false);
                             meeting.type ? showMeetingLinkControl.show() : showMeetingLinkControl.hide();
                             updateMeeting.show();
+                            showMeetingEmployees.prop('disabled', false).selectpicker('refresh');
+                            showMeetingUsers.prop('disabled', false).selectpicker('refresh');
                             showMeetingDeleteButton.show();
+                            employeesAndUsersEdit.show();
+                            employeesAndUsersShow.hide();
                         }
                         $("#show_meeting").fadeIn(250);
                     },
@@ -143,7 +291,7 @@
         },
 
         events: [
-            @foreach($meetings as $meeting)
+                @foreach($meetings as $meeting)
             {
                 _id: 'm_{{ $meeting->id }}',
                 id: 'm_{{ $meeting->id }}',
@@ -155,9 +303,9 @@
                 className: 'fc-event-light fc-event-solid-danger',
                 meeting_id: '{{ $meeting->id }}'
             },
-            @endforeach
+                @endforeach
 
-            @foreach($calendarNotes as $calendarNote)
+                @foreach($calendarNotes as $calendarNote)
             {
                 _id: 'n_{{ $calendarNote->id }}',
                 id: 'n_{{ $calendarNote->id }}',
@@ -169,9 +317,9 @@
                 className: 'fc-event-light fc-event-solid-warning',
                 note_id: '{{ $calendarNote->id }}'
             },
-            @endforeach
+                @endforeach
 
-            @foreach($calendarInformations as $calendarInformation)
+                @foreach($calendarInformations as $calendarInformation)
             {
                 _id: 'i_{{ $calendarInformation->id }}',
                 id: 'i_{{ $calendarInformation->id }}',
@@ -185,8 +333,6 @@
             },
             @endforeach
         ]
-
-
     });
 
     $("#create_meeting_type").change(function () {
@@ -213,6 +359,8 @@
         var type = $("#create_meeting_type").val();
         var visibility = $("#create_meeting_visibility").val();
         var link = $("#create_meeting_link").val();
+        var employees = $("#create_meeting_employees").val();
+        var users = $("#create_meeting_users").val();
 
         if (company_id == null || company_id === '') {
             toastr.warning('Firma Seçilmesi Zorunludur!');
@@ -238,7 +386,9 @@
                     end_date: end_date,
                     type: type,
                     visibility: visibility,
-                    link: type == 0 ? null : link
+                    link: type == 0 ? null : link,
+                    employees: employees,
+                    users: users
                 },
                 success: function (meeting) {
                     $('#calendar').fullCalendar('renderEvent', {
@@ -363,6 +513,8 @@
         var type = showMeetingType.val();
         var visibility = showMeetingVisibility.val();
         var link = showMeetingLink.val();
+        var employees = $("#showMeetingEmployees").val();
+        var users = $("#showMeetingUsers").val();
 
         $.ajax({
             type: 'post',
@@ -378,10 +530,12 @@
                 description: description,
                 type: type,
                 visibility: visibility,
-                link: link
+                link: link,
+                employees: employees,
+                users: users
             },
             success: function (meeting) {
-                var event = calendar.fullCalendar('clientEvents',['m_' + meeting_id])[0]
+                var event = calendar.fullCalendar('clientEvents', ['m_' + meeting_id])[0]
                 event.title = meeting.name;
                 event.start = meeting.start_date;
                 event.end = meeting.end_date;
@@ -415,13 +569,13 @@
         console.log(meeting_id)
     });
 
-    var ShowMeetingRightBar = function() {
+    var ShowMeetingRightBar = function () {
         // Private properties
         var _element;
         var _offcanvasObject;
 
         // Private functions
-        var _init = function() {
+        var _init = function () {
             var header = KTUtil.find(_element, '.offcanvas-header');
             var content = KTUtil.find(_element, '.offcanvas-content');
 
@@ -437,7 +591,7 @@
                 disableForMobile: true,
                 resetHeightOnDestroy: true,
                 handleWindowResize: true,
-                height: function() {
+                height: function () {
                     var height = parseInt(KTUtil.getViewPort().height);
 
                     if (header) {
@@ -463,7 +617,7 @@
 
         // Public methods
         return {
-            init: function() {
+            init: function () {
                 _element = KTUtil.getById('show_meeting');
 
                 if (!_element) {
@@ -474,20 +628,20 @@
                 _init();
             },
 
-            getElement: function() {
+            getElement: function () {
                 return _element;
             }
         };
     }();
     ShowMeetingRightBar.init();
 
-    var ShowNoteRightBar = function() {
+    var ShowNoteRightBar = function () {
         // Private properties
         var _element;
         var _offcanvasObject;
 
         // Private functions
-        var _init = function() {
+        var _init = function () {
             var header = KTUtil.find(_element, '.offcanvas-header');
             var content = KTUtil.find(_element, '.offcanvas-content');
 
@@ -503,7 +657,7 @@
                 disableForMobile: true,
                 resetHeightOnDestroy: true,
                 handleWindowResize: true,
-                height: function() {
+                height: function () {
                     var height = parseInt(KTUtil.getViewPort().height);
 
                     if (header) {
@@ -529,7 +683,7 @@
 
         // Public methods
         return {
-            init: function() {
+            init: function () {
                 _element = KTUtil.getById('show_note');
 
                 if (!_element) {
@@ -540,20 +694,20 @@
                 _init();
             },
 
-            getElement: function() {
+            getElement: function () {
                 return _element;
             }
         };
     }();
     ShowNoteRightBar.init();
 
-    var ShowInformationRightBar = function() {
+    var ShowInformationRightBar = function () {
         // Private properties
         var _element;
         var _offcanvasObject;
 
         // Private functions
-        var _init = function() {
+        var _init = function () {
             var header = KTUtil.find(_element, '.offcanvas-header');
             var content = KTUtil.find(_element, '.offcanvas-content');
 
@@ -569,7 +723,7 @@
                 disableForMobile: true,
                 resetHeightOnDestroy: true,
                 handleWindowResize: true,
-                height: function() {
+                height: function () {
                     var height = parseInt(KTUtil.getViewPort().height);
 
                     if (header) {
@@ -595,7 +749,7 @@
 
         // Public methods
         return {
-            init: function() {
+            init: function () {
                 _element = KTUtil.getById('show_information');
 
                 if (!_element) {
@@ -606,7 +760,7 @@
                 _init();
             },
 
-            getElement: function() {
+            getElement: function () {
                 return _element;
             }
         };

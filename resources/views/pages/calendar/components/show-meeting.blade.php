@@ -60,6 +60,70 @@
                     </select>
                 </div>
             </div>
+            <div id="employeesAndUsersEdit">
+                <div class="row mt-8" id="showMeetingVisibilityControl">
+                    <div class="col-xl-3 mt-8">
+                        <span class="font-weight-bold">Katılacak Personeller: </span>
+                    </div>
+                    <div class="col-xl-9">
+                        <label for="showMeetingEmployees"></label>
+                        <select class="selectpicker form-control" id="showMeetingEmployees" data-live-search="true" multiple>
+
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-8" id="showMeetingVisibilityControl">
+                    <div class="col-xl-3 mt-8">
+                        <span class="font-weight-bold">Katılacak Yöneticiler: </span>
+                    </div>
+                    <div class="col-xl-9">
+                        <label for="showMeetingUsers"></label>
+                        <select class="selectpicker form-control" id="showMeetingUsers" data-live-search="true" multiple>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="employeesAndUsersShow">
+                <div class="row mt-8">
+                    <div class="col-xl-3 mt-2">
+                        <span class="font-weight-bold">Katılacak Personeller: </span>
+                    </div>
+                    <div class="col-xl-9">
+                        <div class="d-flex flex-column flex-lg-fill float-left mb-7">
+                            <div class="symbol-group symbol-hover" id="employeesAndUsersShowEmployees">
+                                <a href="#" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Test"><img alt="Pic" src="{{ asset('assets/media/logos/avatar.jpg') }}" /></a>
+                                <a href="#" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Test">
+                                    <img alt="Pic" src="{{ asset('assets/media/logos/avatar.jpg') }}" />
+                                </a>
+                                <a href="#" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Test">
+                                    <img alt="Pic" src="{{ asset('assets/media/logos/avatar.jpg') }}" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-8">
+                    <div class="col-xl-3 mt-2">
+                        <span class="font-weight-bold">Katılacak Yöneticiler: </span>
+                    </div>
+                    <div class="col-xl-9">
+                        <div class="d-flex flex-column flex-lg-fill float-left mb-7">
+                            <div class="symbol-group symbol-hover" id="employeesAndUsersShowUsers">
+                                <a href="#" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Test">
+                                    <img alt="Pic" src="{{ asset('assets/media/logos/avatar.jpg') }}" />
+                                </a>
+                                <a href="#" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Test">
+                                    <img alt="Pic" src="{{ asset('assets/media/logos/avatar.jpg') }}" />
+                                </a>
+                                <a href="#" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="Test">
+                                    <img alt="Pic" src="{{ asset('assets/media/logos/avatar.jpg') }}" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="row mt-8">
                 <div class="col-xl-3 mt-8">
                     <span class="font-weight-bold">Toplantı Türü: </span>

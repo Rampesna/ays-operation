@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Ajax\Santral;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\UserPanel\Analysis\Employee\Queue\EmployeeQueueAnalysisService;
 use App\Models\CalendarNote;
 use App\Models\ChatGroup;
+use App\Models\Company;
 use App\Models\Meeting;
 use App\Models\Project;
 use App\Models\Task;
@@ -17,7 +19,7 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return User::with(['calendarNotes'])->find(1);
+        return bcrypt('123456');
     }
 
     function get_server_load()

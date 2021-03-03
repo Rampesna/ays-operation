@@ -44,6 +44,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('user')->namespace('User')->group(function () {
         Route::post('emailControl', 'MainController@emailControl')->name('ajax.emailControl');
+        Route::get('usersByCompany', 'MainController@usersByCompany')->name('ajax.user.usersByCompany');
     });
 
     Route::prefix('role')->namespace('Role')->group(function () {

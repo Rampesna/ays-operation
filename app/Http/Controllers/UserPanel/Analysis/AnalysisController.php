@@ -36,16 +36,15 @@ class AnalysisController extends Controller
                 'timeName' => 'custom'
             ];
 
-            return $params;
-
-            $incomingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
-            return $incomingService->incoming();
-
             try {
-                $incomingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
-                return $incomingService->incoming();
+                $incomingService = new EmployeeQueueAnalysisService(Http::withHeaders([
+                    'Cookie' => '19afde4f620acb9fea873c1c804171a8_backup=263a5aef62d408fe70d01db5ebb053d8fb2d7a78879161af3e088375093b581ca85f87ebdb1d5d5b3ad746724cf2e49d7d0f10e0ae87edcfc44b3566c8d6e78a8bb1014265d1c01309b6a3a418a8e1fc2ede4650181ae30b97086f455ea6cfb90465326079188d313343484893f24c18cd64eaf9316c379af952cfc8487dfce31ea7b8292a2130b47710ef672faccafc21b995dcfbcba72110de03831890ac4a67b4e3b2b856a20b0cfa761731e5c204242432; PHPSESSID=6046bf9bb47139cdb461ed4a647cc70e'
+                ])->asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazli/adetpro', $params));
+                $incomingService->incoming();
 
-                $outgoingService = new EmployeeQueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
+                $outgoingService = new EmployeeQueueAnalysisService(Http::withHeaders([
+                    'Cookie' => '19afde4f620acb9fea873c1c804171a8_backup=263a5aef62d408fe70d01db5ebb053d8fb2d7a78879161af3e088375093b581ca85f87ebdb1d5d5b3ad746724cf2e49d7d0f10e0ae87edcfc44b3566c8d6e78a8bb1014265d1c01309b6a3a418a8e1fc2ede4650181ae30b97086f455ea6cfb90465326079188d313343484893f24c18cd64eaf9316c379af952cfc8487dfce31ea7b8292a2130b47710ef672faccafc21b995dcfbcba72110de03831890ac4a67b4e3b2b856a20b0cfa761731e5c204242432; PHPSESSID=6046bf9bb47139cdb461ed4a647cc70e'
+                ])->asForm()->post('http://uyumsoft.netasistan.com/istatistik/dahilibazligiden/adet', $params));
                 $outgoingService->outgoing();
             } catch (\Exception $exception) {
                 return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu!']);
@@ -93,10 +92,14 @@ class AnalysisController extends Controller
         ];
 
         try {
-            $incomingService = new QueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazli/adet', $params), $request);
+            $incomingService = new QueueAnalysisService(Http::withHeaders([
+                'Cookie' => '19afde4f620acb9fea873c1c804171a8_backup=263a5aef62d408fe70d01db5ebb053d8fb2d7a78879161af3e088375093b581ca85f87ebdb1d5d5b3ad746724cf2e49d7d0f10e0ae87edcfc44b3566c8d6e78a8bb1014265d1c01309b6a3a418a8e1fc2ede4650181ae30b97086f455ea6cfb90465326079188d313343484893f24c18cd64eaf9316c379af952cfc8487dfce31ea7b8292a2130b47710ef672faccafc21b995dcfbcba72110de03831890ac4a67b4e3b2b856a20b0cfa761731e5c204242432; PHPSESSID=6046bf9bb47139cdb461ed4a647cc70e'
+            ])->asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazli/adet', $params), $request);
             $incomingService->incoming();
 
-            $outgoingService = new QueueAnalysisService(Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazligiden/adet', $params), $request);
+            $outgoingService = new QueueAnalysisService(Http::withHeaders([
+                'Cookie' => '19afde4f620acb9fea873c1c804171a8_backup=263a5aef62d408fe70d01db5ebb053d8fb2d7a78879161af3e088375093b581ca85f87ebdb1d5d5b3ad746724cf2e49d7d0f10e0ae87edcfc44b3566c8d6e78a8bb1014265d1c01309b6a3a418a8e1fc2ede4650181ae30b97086f455ea6cfb90465326079188d313343484893f24c18cd64eaf9316c379af952cfc8487dfce31ea7b8292a2130b47710ef672faccafc21b995dcfbcba72110de03831890ac4a67b4e3b2b856a20b0cfa761731e5c204242432; PHPSESSID=6046bf9bb47139cdb461ed4a647cc70e'
+            ])->asForm()->post('http://uyumsoft.netasistan.com/istatistik/departmanbazligiden/adet', $params), $request);
             $outgoingService->outgoing();
 
             return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);

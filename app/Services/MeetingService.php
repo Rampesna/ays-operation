@@ -27,6 +27,9 @@ class MeetingService
         $this->meeting->link = $request->link;
         $this->meeting->save();
 
+        $this->meeting->employees()->sync($request->employees);
+        $this->meeting->users()->sync($request->users);
+
         return $this->meeting;
     }
 }
