@@ -18,10 +18,14 @@
     </div>
 
     @include('pages.calendar.modals.modal-selector')
+    
     @include('pages.calendar.modals.create-meeting')
     @include('pages.calendar.modals.create-note')
     @include('pages.calendar.modals.create-information')
+
     @include('pages.calendar.modals.delete-meeting')
+    @include('pages.calendar.modals.delete-note')
+    @include('pages.calendar.modals.delete-information')
 
     @include('pages.calendar.components.show-meeting')
     @include('pages.calendar.components.show-note')

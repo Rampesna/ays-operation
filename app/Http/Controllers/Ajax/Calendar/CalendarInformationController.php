@@ -14,4 +14,20 @@ class CalendarInformationController extends Controller
         $calendarInformation = (new CalendarInformationService(new CalendarInformation))->store($request);
         return response()->json($calendarInformation, 200);
     }
+
+    public function show(Request $request)
+    {
+        return response()->json(CalendarInformation::find($request->information_id), 200);
+    }
+
+    public function update(Request $request)
+    {
+        $calendarNote = (new CalendarInformationService(CalendarInformation::find($request->information_id)))->store($request);
+        return response()->json($calendarNote, 200);
+    }
+
+    public function delete(Request $request)
+    {
+        CalendarInformation::find($request->information_id)->delete();
+    }
 }

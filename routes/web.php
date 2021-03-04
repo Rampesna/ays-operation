@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/email', function () {
+    return new \App\Mail\CalendarReminderMail(\App\Models\CalendarReminder::find(1));
+});
+
 Route::get('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLoginForm'])->name('employee-panel.login.form');
 Route::post('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLogin'])->name('employee-panel.login');
 

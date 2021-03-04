@@ -29,6 +29,11 @@ class Employee extends Authenticatable
         return $this->id;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function authority($authorization): bool
     {
         return $this->authorizations()->where('authorization_id', $authorization)->exists() ? true : false;
@@ -147,5 +152,10 @@ class Employee extends Authenticatable
     public function calendarInformations()
     {
         return $this->morphMany(CalendarInformation::class, 'creator');
+    }
+
+    public function calendarReminders()
+    {
+        return $this->morphMany(CalendarReminder::class, 'relation');
     }
 }

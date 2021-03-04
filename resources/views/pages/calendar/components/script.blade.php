@@ -35,6 +35,20 @@
     var updateMeeting = $("#updateMeeting");
     var deleteMeeting = $("#deleteMeeting");
 
+    var showNote = $("#showNote");
+    var showNoteDate = $("#showNoteDate");
+    var showNoteTitle = $("#showNoteTitle");
+    var showNoteNote = $("#showNoteNote");
+    var updateNote = $("#updateNote");
+    var deleteNote = $("#deleteNote");
+
+    var showInformation = $("#showInformation");
+    var showInformationDate = $("#showInformationDate");
+    var showInformationTitle = $("#showInformationTitle");
+    var showInformationInformation = $("#showInformationInformation");
+    var updateInformation = $("#updateInformation");
+    var deleteInformation = $("#deleteInformation");
+
     $('.modalSelector').click(function () {
         ModalSelector.modal('hide');
     });
@@ -141,7 +155,6 @@
             if (calEvent.type === 'meeting') {
                 $("#show_meeting_toggle").click()
                 $("#show_meeting").hide();
-                $("#selectedMeeting").val(calEvent.id)
                 $.ajax({
                     type: 'get',
                     url: '{{ route('ajax.calendar.meeting.show') }}',
@@ -280,13 +293,63 @@
             }
 
             if (calEvent.type === 'note') {
-                console.log(calEvent.type + ' - ' + calEvent.id)
-                $("#show_note_toggle").click()
+                $("#show_note_toggle").click();
+                $("#show_note").hide();
+                showNote.val(calEvent.note_id);
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('ajax.calendar.calendarNote.show') }}',
+                    data: {
+                        note_id: calEvent.note_id
+                    },
+                    success: function (note) {
+                        var getDate = new Date(note.date);
+                        var date =
+                            getDate.getFullYear() + '-' +
+                            (String(getDate.getMonth() + 1).padStart(2, '0')) + '-' +
+                            (String(getDate.getDate()).padStart(2, '0')) + 'T' +
+                            String(getDate.getHours()).padStart(2, '0') + ':' +
+                            String(getDate.getMinutes()).padStart(2, '0');
+
+                        showNoteDate.val(date);
+                        showNoteTitle.val(note.title);
+                        showNoteNote.val(note.note);
+                        $("#show_note").fadeIn(250);
+                    },
+                    error: function (error) {
+                        console.log('ajax.calendar.calendarNote.show => ' + error)
+                    }
+                });
             }
 
             if (calEvent.type === 'information') {
-                console.log(calEvent.type + ' - ' + calEvent.id)
-                $("#show_information_toggle").click()
+                $("#show_information_toggle").click();
+                $("#show_information").hide();
+                showInformation.val(calEvent.information_id);
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('ajax.calendar.calendarInformation.show') }}',
+                    data: {
+                        information_id: calEvent.information_id
+                    },
+                    success: function (information) {
+                        var getDate = new Date(information.date);
+                        var date =
+                            getDate.getFullYear() + '-' +
+                            (String(getDate.getMonth() + 1).padStart(2, '0')) + '-' +
+                            (String(getDate.getDate()).padStart(2, '0')) + 'T' +
+                            String(getDate.getHours()).padStart(2, '0') + ':' +
+                            String(getDate.getMinutes()).padStart(2, '0');
+
+                        showInformationDate.val(date);
+                        showInformationTitle.val(information.title);
+                        showInformationInformation.val(information.information);
+                        $("#show_information").fadeIn(250);
+                    },
+                    error: function (error) {
+                        console.log('ajax.calendar.calendarNote.show => ' + error)
+                    }
+                });
             }
         },
 
@@ -440,13 +503,15 @@
                 },
                 success: function (calendarNote) {
                     $('#calendar').fullCalendar('renderEvent', {
-                        id: calendarNote.id,
+                        _id: 'n_' + calendarNote.id,
+                        id: 'n_' + calendarNote.id,
                         type: 'note',
                         title: calendarNote.title,
                         start: calendarNote.date,
                         end: calendarNote.date,
                         url: 'javascript:void(0);',
-                        className: 'fc-event-light fc-event-solid-warning'
+                        className: 'fc-event-light fc-event-solid-warning',
+                        note_id: calendarNote.id
                     });
                     $("#CreateNoteModal").modal('hide');
                     $("#create_note_form").trigger('reset');
@@ -485,13 +550,15 @@
                 },
                 success: function (calendarInformation) {
                     $('#calendar').fullCalendar('renderEvent', {
-                        id: calendarInformation.id,
+                        _id: 'i_' + calendarInformation.id,
+                        id: 'i_' + calendarInformation.id,
                         type: 'information',
                         title: calendarInformation.title,
                         start: calendarInformation.date,
                         end: calendarInformation.date,
                         url: 'javascript:void(0);',
-                        className: 'fc-event-light fc-event-solid-info'
+                        className: 'fc-event-light fc-event-solid-info',
+                        information_id: calendarInformation.id
                     });
                     $("#CreateInformationModal").modal('hide');
                     $("#create_information_form").trigger('reset');
@@ -548,6 +615,90 @@
         });
     });
 
+    updateNote.click(function () {
+        var note_id = showNote.val();
+        var creator_id = '{{ auth()->user()->getId() }}';
+        var creator_type = 'App\\Models\\User';
+        var title = showNoteTitle.val();
+        var note = showNoteNote.val();
+        var date = showNoteDate.val();
+
+        if (creator_id === '') {
+            toastr.error('Sistemsel Bir Hata Oluştu! Sayfayı Yenilemeyi Deneyin.');
+        } else if (title == null || title === '') {
+            toastr.warning('Not Başlığı Boş Olamaz!');
+        } else if (date == null || date === '') {
+            toastr.warning('Tarih Boş Olamaz!');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.calendar.calendarNote.update') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    note_id: note_id,
+                    creator_id: creator_id,
+                    creator_type: creator_type,
+                    title: title,
+                    note: note,
+                    date: date
+                },
+                success: function (calendarNote) {
+                    var event = calendar.fullCalendar('clientEvents', ['n_' + note_id])[0]
+                    event.title = calendarNote.title;
+                    event.start = calendarNote.date;
+                    event.end = calendarNote.date;
+                    calendar.fullCalendar('updateEvent', event)
+                    toastr.success('Not Güncellendi');
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+
+    updateInformation.click(function () {
+        var information_id = showInformation.val();
+        var creator_id = '{{ auth()->user()->getId() }}';
+        var creator_type = 'App\\Models\\User';
+        var title = showInformationTitle.val();
+        var information = showInformationInformation.val();
+        var date = showInformationDate.val();
+
+        if (creator_id === '') {
+            toastr.error('Sistemsel Bir Hata Oluştu! Sayfayı Yenilemeyi Deneyin.');
+        } else if (title == null || title === '') {
+            toastr.warning('Bilgilendirme Başlığı Boş Olamaz!');
+        } else if (date == null || date === '') {
+            toastr.warning('Tarih Boş Olamaz!');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.calendar.calendarInformation.update') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    information_id: information_id,
+                    creator_id: creator_id,
+                    creator_type: creator_type,
+                    title: title,
+                    information: information,
+                    date: date
+                },
+                success: function (calendarInformation) {
+                    var event = calendar.fullCalendar('clientEvents', ['i_' + information_id])[0]
+                    event.title = calendarInformation.title;
+                    event.start = calendarInformation.date;
+                    event.end = calendarInformation.date;
+                    calendar.fullCalendar('updateEvent', event)
+                    toastr.success('Bilgilendirme Güncellendi');
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+
     deleteMeeting.click(function () {
         var meeting_id = showMeeting.val();
         $.ajax({
@@ -561,6 +712,48 @@
                 calendar.fullCalendar('removeEvents', ['m_' + meeting_id]);
                 toastr.success('Toplantı Silindi');
                 $("#DeleteMeetingModal").modal('hide');
+            },
+            error: function () {
+
+            }
+        });
+        console.log(meeting_id)
+    });
+
+    deleteNote.click(function () {
+        var note_id = showNote.val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('ajax.calendar.calendarNote.delete') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                note_id: note_id
+            },
+            success: function () {
+                calendar.fullCalendar('removeEvents', ['n_' + note_id]);
+                toastr.success('Not Silindi');
+                $("#DeleteNoteModal").modal('hide');
+            },
+            error: function () {
+
+            }
+        });
+        console.log(meeting_id)
+    });
+
+    deleteInformation.click(function () {
+        var information_id = showInformation.val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('ajax.calendar.calendarInformation.delete') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                information_id: information_id
+            },
+            success: function () {
+                calendar.fullCalendar('removeEvents', ['i_' + information_id]);
+                toastr.success('Bilgilendirme Silindi');
+                $("#DeleteInformationModal").modal('hide');
             },
             error: function () {
 

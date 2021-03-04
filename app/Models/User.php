@@ -35,6 +35,11 @@ class User extends Authenticatable
         return $this->id;
     }
 
+    public function getName()
+    {
+        return $this->name;
+    }
+
     public function role()
     {
         return $this->belongsTo(Role::class);
@@ -117,5 +122,10 @@ class User extends Authenticatable
     public function createdMeetings()
     {
         return $this->hasMany(Meeting::class, 'creator_id', 'id');
+    }
+
+    public function calendarReminders()
+    {
+        return $this->morphMany(CalendarReminder::class, 'relation');
     }
 }

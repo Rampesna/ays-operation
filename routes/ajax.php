@@ -163,10 +163,16 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
         Route::prefix('calendarNote')->group(function () {
             Route::post('create', 'CalendarNoteController@create')->name('ajax.calendar.calendarNote.create');
+            Route::get('show', 'CalendarNoteController@show')->name('ajax.calendar.calendarNote.show');
+            Route::post('update', 'CalendarNoteController@update')->name('ajax.calendar.calendarNote.update');
+            Route::delete('delete', 'CalendarNoteController@delete')->name('ajax.calendar.calendarNote.delete');
         });
 
         Route::prefix('calendarInformation')->group(function () {
             Route::post('create', 'CalendarInformationController@create')->name('ajax.calendar.calendarInformation.create');
+            Route::get('show', 'CalendarInformationController@show')->name('ajax.calendar.calendarInformation.show');
+            Route::post('update', 'CalendarInformationController@update')->name('ajax.calendar.calendarInformation.update');
+            Route::delete('delete', 'CalendarInformationController@delete')->name('ajax.calendar.calendarInformation.delete');
         });
     });
 

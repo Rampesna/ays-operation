@@ -8,12 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static find(int $primaryKey)
+ * @method static where($column, $operator, $parameter)
+ * @method static whereBetween($column, array $dates)
  */
-class CalendarNote extends Model
+class CalendarReminder extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function creator()
+    public function relation()
     {
         return $this->morphTo();
     }

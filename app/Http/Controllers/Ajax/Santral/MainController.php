@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ajax\Santral;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UserPanel\Analysis\Employee\Queue\EmployeeQueueAnalysisService;
 use App\Models\CalendarNote;
+use App\Models\CalendarReminder;
 use App\Models\ChatGroup;
 use App\Models\Company;
 use App\Models\Meeting;
@@ -19,7 +20,10 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return bcrypt('123456');
+        return CalendarReminder::with(['relation'])->whereBetween('date', [
+            date('Y-m-d H:i:s', strtotime('+3 hours')),
+            date('Y-m-d H:i:s', strtotime('+3 hours +1 minutes'))
+        ])->get();
     }
 
     function get_server_load()

@@ -1,6 +1,6 @@
 <div id="show_meeting" style="width: 700px" class="offcanvas offcanvas-right p-10">
     <div class="offcanvas-header d-flex align-items-center justify-content-between pb-7">
-        <input type="hidden" id="selectedTaskIdSelector">
+
     </div>
     <div class="offcanvas-content">
         <input type="hidden" id="showMeeting">
