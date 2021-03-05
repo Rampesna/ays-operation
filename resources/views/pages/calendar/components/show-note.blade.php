@@ -39,6 +39,7 @@
                     </div>
                 </div>
             </div>
+            <hr>
         </div>
         <div class="offcanvas-footer">
             <div class="row">

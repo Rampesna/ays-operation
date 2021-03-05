@@ -8,6 +8,7 @@
     var createMeetingButton = $("#createMeetingButton");
     var createNoteButton = $("#createNoteButton");
     var createInformationButton = $("#createInformationButton")
+    var createReminderButton = $("#createReminderButton")
 
     var employeesAndUsersEdit = $("#employeesAndUsersEdit");
     var employeesAndUsersShow = $("#employeesAndUsersShow");
@@ -48,6 +49,16 @@
     var showInformationInformation = $("#showInformationInformation");
     var updateInformation = $("#updateInformation");
     var deleteInformation = $("#deleteInformation");
+
+    var showReminder = $("#showReminder");
+    var showReminderDate = $("#showReminderDate");
+    var showReminderTitle = $("#showReminderTitle");
+    var showReminderNote = $("#showReminderNote");
+    var showReminderNotification = $("#showReminderNotification");
+    var showReminderMail = $("#showReminderMail");
+    var showReminderSms = $("#showReminderSms");
+    var updateReminder = $("#updateReminder");
+    var deleteReminder = $("#deleteReminder");
 
     $('.modalSelector').click(function () {
         ModalSelector.modal('hide');
@@ -149,6 +160,7 @@
             $("#create_meeting_end_date").val(date.format('YYYY-MM-DD') + 'T13:00');
             $("#create_note_date").val(date.format('YYYY-MM-DD') + 'T12:00');
             $("#create_information_date").val(date.format('YYYY-MM-DD') + 'T12:00');
+            $("#create_reminder_date").val(date.format('YYYY-MM-DD') + 'T12:00');
         },
 
         eventClick: function (calEvent, jsEvent, view) {
@@ -351,6 +363,39 @@
                     }
                 });
             }
+
+            if (calEvent.type === 'reminder') {
+                $("#show_reminder_toggle").click();
+                $("#show_reminder").hide();
+                showReminder.val(calEvent.reminder_id);
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('ajax.calendar.calendarReminder.show') }}',
+                    data: {
+                        reminder_id: calEvent.reminder_id
+                    },
+                    success: function (reminder) {
+                        var getDate = new Date(reminder.date);
+                        var date =
+                            getDate.getFullYear() + '-' +
+                            (String(getDate.getMonth() + 1).padStart(2, '0')) + '-' +
+                            (String(getDate.getDate()).padStart(2, '0')) + 'T' +
+                            String(getDate.getHours()).padStart(2, '0') + ':' +
+                            String(getDate.getMinutes()).padStart(2, '0');
+
+                        showReminderDate.val(date);
+                        showReminderTitle.val(reminder.title);
+                        showReminderNote.val(reminder.note);
+                        showReminderNotification.prop('checked', reminder.notification);
+                        showReminderMail.prop('checked', reminder.mail);
+                        showReminderSms.prop('checked', reminder.sms);
+                        $("#show_reminder").fadeIn(250);
+                    },
+                    error: function (error) {
+                        console.log('ajax.calendar.calendarNote.show => ' + error)
+                    }
+                });
+            }
         },
 
         events: [
@@ -394,7 +439,21 @@
                 className: 'fc-event-light fc-event-solid-info',
                 information_id: '{{ $calendarInformation->id }}'
             },
-            @endforeach
+                @endforeach
+
+                @foreach($calendarReminders as $calendarReminder)
+            {
+                _id: 'r_{{ $calendarReminder->id }}',
+                id: 'r_{{ $calendarReminder->id }}',
+                type: 'reminder',
+                title: '{{ $calendarReminder->title }}',
+                start: '{{ strftime("%Y-%m-%dT%H:%M:%S",strtotime($calendarReminder->date)) }}',
+                end: '{{ strftime("%Y-%m-%dT%H:%M:%S",strtotime($calendarReminder->date)) }}',
+                url: 'javascript:void(0);',
+                className: 'fc-event-light fc-event-solid-dark-75',
+                reminder_id: '{{ $calendarReminder->id }}'
+            },
+                @endforeach
         ]
     });
 
@@ -570,6 +629,59 @@
         }
     });
 
+    createReminderButton.click(function () {
+        var relation_id = '{{ auth()->user()->getId() }}';
+        var relation_type = 'App\\Models\\User';
+        var date = $('#create_reminder_date').val();
+        var title = $('#create_reminder_title').val();
+        var note = $('#create_reminder_note').val();
+        var notification = $('#create_reminder_notification').is(':checked') ? 1 : 0;
+        var mail = $('#create_reminder_mail').is(':checked') ? 1 : 0;
+        var sms = $('#create_reminder_sms').is(':checked') ? 1 : 0;
+
+        if (date == null || date === '') {
+            toastr.warning('Hatırlatıcı Zamanı Boş Olamaz!');
+        } else if (title == null || title === '') {
+            toastr.warning('Başlık Boş Olamaz!');
+        } else if (notification === 0 && mail === 0 && sms === 0) {
+            toastr.warning('En Az Bir Hatırlatma Türü Seçilmelidir!');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.calendar.calendarReminder.create') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    relation_id: relation_id,
+                    relation_type: relation_type,
+                    date: date,
+                    title: title,
+                    note: note,
+                    notification: notification,
+                    mail: mail,
+                    sms: sms
+                },
+                success: function (reminder) {
+                    $('#calendar').fullCalendar('renderEvent', {
+                        _id: 'r_' + reminder.id,
+                        id: 'r_' + reminder.id,
+                        type: 'reminder',
+                        title: reminder.title,
+                        start: reminder.date,
+                        end: reminder.date,
+                        url: 'javascript:void(0);',
+                        className: 'fc-event-light fc-event-solid-dark-75',
+                        reminder_id: reminder.id
+                    });
+                    $("#CreateReminderModal").modal('hide');
+                    $("#create_reminder_form").trigger('reset');
+                },
+                error: function () {
+
+                }
+            });
+        }
+    });
+
     updateMeeting.click(function () {
         var meeting_id = showMeeting.val();
         var company_id = showMeetingCompany.val();
@@ -699,6 +811,54 @@
         }
     });
 
+    updateReminder.click(function () {
+        var reminder_id = showReminder.val();
+        var relation_id = '{{ auth()->user()->getId() }}';
+        var relation_type = 'App\\Models\\User';
+        var date = showReminderDate.val();
+        var title = showReminderTitle.val();
+        var note = showReminderNote.val();
+        var notification = showReminderNotification.is(':checked') ? 1 : 0;
+        var mail = showReminderMail.is(':checked') ? 1 : 0;
+        var sms = showReminderSms.is(':checked') ? 1 : 0;
+
+        if (date == null || date === '') {
+            toastr.warning('Hatırlatıcı Zamanı Boş Olamaz!');
+        } else if (title == null || title === '') {
+            toastr.warning('Başlık Boş Olamaz!');
+        } else if (notification === 0 && mail === 0 && sms === 0) {
+            toastr.warning('En Az Bir Hatırlatma Türü Seçilmelidir!');
+        } else {
+            $.ajax({
+                type: 'post',
+                url: '{{ route('ajax.calendar.calendarReminder.update') }}',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    reminder_id: reminder_id,
+                    relation_id: relation_id,
+                    relation_type: relation_type,
+                    date: date,
+                    title: title,
+                    note: note,
+                    notification: notification,
+                    mail: mail,
+                    sms: sms
+                },
+                success: function (reminder) {
+                    var event = calendar.fullCalendar('clientEvents', ['r_' + reminder.id])[0]
+                    event.title = reminder.title;
+                    event.start = reminder.date;
+                    event.end = reminder.date;
+                    calendar.fullCalendar('updateEvent', event)
+                    toastr.success('Hatırlatıcı Güncellendi');
+                },
+                error: function () {
+
+                }
+            });
+        }
+    });
+
     deleteMeeting.click(function () {
         var meeting_id = showMeeting.val();
         $.ajax({
@@ -717,7 +877,6 @@
 
             }
         });
-        console.log(meeting_id)
     });
 
     deleteNote.click(function () {
@@ -738,7 +897,6 @@
 
             }
         });
-        console.log(meeting_id)
     });
 
     deleteInformation.click(function () {
@@ -759,7 +917,26 @@
 
             }
         });
-        console.log(meeting_id)
+    });
+
+    deleteReminder.click(function () {
+        var reminder_id = showReminder.val();
+        $.ajax({
+            type: 'delete',
+            url: '{{ route('ajax.calendar.calendarReminder.delete') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                reminder_id: reminder_id
+            },
+            success: function () {
+                calendar.fullCalendar('removeEvents', ['r_' + reminder_id]);
+                toastr.success('Hatırlatıcı Silindi');
+                $("#DeleteReminderModal").modal('hide');
+            },
+            error: function () {
+
+            }
+        });
     });
 
     var ShowMeetingRightBar = function () {
@@ -959,5 +1136,71 @@
         };
     }();
     ShowInformationRightBar.init();
+
+    var ShowReminderRightBar = function () {
+        // Private properties
+        var _element;
+        var _offcanvasObject;
+
+        // Private functions
+        var _init = function () {
+            var header = KTUtil.find(_element, '.offcanvas-header');
+            var content = KTUtil.find(_element, '.offcanvas-content');
+
+            _offcanvasObject = new KTOffcanvas(_element, {
+                overlay: true,
+                baseClass: 'offcanvas',
+                placement: 'right',
+                closeBy: 'show_reminder_close',
+                toggleBy: 'show_reminder_toggle'
+            });
+
+            KTUtil.scrollInit(content, {
+                disableForMobile: true,
+                resetHeightOnDestroy: true,
+                handleWindowResize: true,
+                height: function () {
+                    var height = parseInt(KTUtil.getViewPort().height);
+
+                    if (header) {
+                        height = height - parseInt(KTUtil.actualHeight(header));
+                        height = height - parseInt(KTUtil.css(header, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(header, 'marginBottom'));
+                    }
+
+                    if (content) {
+                        height = height - parseInt(KTUtil.css(content, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(content, 'marginBottom'));
+                    }
+
+                    height = height - parseInt(KTUtil.css(_element, 'paddingTop'));
+                    height = height - parseInt(KTUtil.css(_element, 'paddingBottom'));
+
+                    height = height - 2;
+
+                    return height;
+                }
+            });
+        }
+
+        // Public methods
+        return {
+            init: function () {
+                _element = KTUtil.getById('show_reminder');
+
+                if (!_element) {
+                    return;
+                }
+
+                // Initialize
+                _init();
+            },
+
+            getElement: function () {
+                return _element;
+            }
+        };
+    }();
+    ShowReminderRightBar.init();
 
 </script>

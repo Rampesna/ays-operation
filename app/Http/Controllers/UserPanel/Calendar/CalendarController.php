@@ -20,7 +20,8 @@ class CalendarController extends Controller
                 orWhere('visibility', 1)->
                 get()->merge(auth()->user()->meetings()->get())->unique('id')->all(),
             'calendarNotes' => auth()->user()->calendarNotes()->get(),
-            'calendarInformations' => auth()->user()->calendarInformations()->get()
+            'calendarInformations' => auth()->user()->calendarInformations()->get(),
+            'calendarReminders' => auth()->user()->calendarReminders()->get(),
         ]);
     }
 }

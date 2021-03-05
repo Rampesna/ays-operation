@@ -174,6 +174,13 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::post('update', 'CalendarInformationController@update')->name('ajax.calendar.calendarInformation.update');
             Route::delete('delete', 'CalendarInformationController@delete')->name('ajax.calendar.calendarInformation.delete');
         });
+
+        Route::prefix('calendarReminder')->group(function () {
+            Route::post('create', 'CalendarReminderController@create')->name('ajax.calendar.calendarReminder.create');
+            Route::get('show', 'CalendarReminderController@show')->name('ajax.calendar.calendarReminder.show');
+            Route::post('update', 'CalendarReminderController@update')->name('ajax.calendar.calendarReminder.update');
+            Route::delete('delete', 'CalendarReminderController@delete')->name('ajax.calendar.calendarReminder.delete');
+        });
     });
 
 });

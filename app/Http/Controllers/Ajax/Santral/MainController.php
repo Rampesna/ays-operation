@@ -20,10 +20,10 @@ class MainController extends Controller
 {
     public function index(Request $request)
     {
-        return CalendarReminder::with(['relation'])->whereBetween('date', [
-            date('Y-m-d H:i:s', strtotime('+3 hours')),
-            date('Y-m-d H:i:s', strtotime('+3 hours +1 minutes'))
-        ])->get();
+
+        print_r('Sistem Saati => ' . date('Y-m-d H:i:s'));
+        print_r('<br><br>');
+        print_r('Hatırlatıcı Zamanı => ' . date('Y-m-d H:i:s', strtotime(auth()->user()->calendarReminders()->first()->date)));
     }
 
     function get_server_load()
