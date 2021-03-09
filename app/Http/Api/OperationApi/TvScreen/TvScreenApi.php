@@ -1,44 +1,13 @@
 <?php
 
 
-namespace App\Http\Api;
+namespace App\Http\Api\OperationApi\TvScreen;
 
-use Illuminate\Support\Facades\Cookie;
+use App\Http\Api\OperationApi\OperationApi;
 
-class AyssoftTakipLoginApi extends ApiBase
+class TvScreenApi extends OperationApi
 {
-    public function __construct()
-    {
-        $this->baseUrl = env('AYSSOFTTAKIP_API_BASE_URL', '192.168.2.200:5051/api/');
-        if (!isset($_SESSION['accessTokenExpireTime']) && !isset($_SESSION['accessToken'])) {
-            $this->_token = $this->Login();
-            $_SESSION['accessTokenExpireTime'] = time() + 10800;
-            $_SESSION['accessToken'] = $this->_token;
-        } else {
-            if (time() > $_SESSION['accessTokenExpireTime']) {
-                $this->_token = $this->Login();
-                $_SESSION['accessTokenExpireTime'] = time() + 10800;
-                $_SESSION['accessToken'] = $this->_token;
-            } else {
-                $this->_token = $_SESSION['accessToken'];
-            }
-        }
-    }
-
-    public function Login()
-    {
-        $endpoint = 'Account/Login';
-        $headers = [
-            'Content-Type: application/json'
-        ];
-        $params = [
-            'Email' => env('AYSSOFTTAKIP_API_USER'),
-            'Password' => env('AYSSOFTTAKIP_API_PASSWORD')
-        ];
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']['accessToken'];
-    }
-
-    public function TvScreenGetJobList()
+    public function GetJobList()
     {
         $endpoint = "TvScreen/GetJobList";
         $headers = [
@@ -47,7 +16,7 @@ class AyssoftTakipLoginApi extends ApiBase
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
     }
 
-    public function TvScreenGetStaffStatusList()
+    public function GetStaffStatusList()
     {
         $endpoint = "TvScreen/GetStaffStatusList";
         $headers = [
@@ -56,7 +25,7 @@ class AyssoftTakipLoginApi extends ApiBase
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
     }
 
-    public function TvScreenGetStaffStarList()
+    public function GetStaffStarList()
     {
         $endpoint = "TvScreen/GetStaffStarList";
         $headers = [
@@ -91,5 +60,4 @@ class AyssoftTakipLoginApi extends ApiBase
         ];
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
     }
-
 }

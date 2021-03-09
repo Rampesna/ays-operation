@@ -135,7 +135,6 @@
 <script src="{{ asset('assets/js/custom.js') }}"></script>
 @include('layouts.custom-scripts')
 
-
 </body>
 <!--end::Body-->
 </html>

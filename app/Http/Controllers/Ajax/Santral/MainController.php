@@ -2,28 +2,19 @@
 
 namespace App\Http\Controllers\Ajax\Santral;
 
+
+use App\Http\Api\OperationApi\Operation\OperationApi;
+use App\Http\Api\OperationApi\PersonReport\PersonReportApi;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\UserPanel\Analysis\Employee\Queue\EmployeeQueueAnalysisService;
-use App\Models\CalendarNote;
-use App\Models\CalendarReminder;
-use App\Models\ChatGroup;
-use App\Models\Company;
-use App\Models\Meeting;
-use App\Models\Project;
-use App\Models\Task;
-use App\Models\Timesheet;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
+
 
 class MainController extends Controller
 {
     public function index(Request $request)
     {
-
-        print_r('Sistem Saati => ' . date('Y-m-d H:i:s'));
-        print_r('<br><br>');
-        print_r('Hatırlatıcı Zamanı => ' . date('Y-m-d H:i:s', strtotime(auth()->user()->calendarReminders()->first()->date)));
+        $api = new PersonReportApi();
+        return $api->GetPersonReport();
     }
 
     function get_server_load()

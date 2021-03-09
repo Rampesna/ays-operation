@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 
 abstract class ApiBase
 {
-    public $baseUrl;
+    protected $baseUrl;
     public $_token;
 
     public function callApi($url, $method, $headers = [], $params = [])
