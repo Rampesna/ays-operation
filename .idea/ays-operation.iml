@@ -132,6 +132,8 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables-editor" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/yajra/laravel-datatables" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/laravelcollective/html" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/cyber-duck/laravel-excel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/box/spout" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

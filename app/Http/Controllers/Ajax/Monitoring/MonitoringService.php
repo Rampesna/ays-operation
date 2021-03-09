@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Ajax\Monitoring;
 
 use App\Http\Api\AyssoftIkApi;
 use App\Http\Api\AyssoftTakipLoginApi;
+use App\Http\Api\OperationApi\OperationApi;
+use App\Http\Api\OperationApi\TvScreen\TvScreenApi;
 use Illuminate\Support\Facades\Http;
 
 class MonitoringService
@@ -33,9 +35,9 @@ class MonitoringService
 
     public static function EmployeeAndJobTrackingService()
     {
-        $ayssoftTakipApi = new AyssoftTakipLoginApi();
-        $tvScreenGetStaffStatusList = $ayssoftTakipApi->TvScreenGetStaffStatusList();
-        $tvScreenGetStaffStarList = $ayssoftTakipApi->TvScreenGetStaffStarList();
+        $ayssoftTakipApi = new TvScreenApi();
+        $tvScreenGetStaffStatusList = $ayssoftTakipApi->GetStaffStatusList();
+        $tvScreenGetStaffStarList = $ayssoftTakipApi->GetStaffStarList();
 
         $ayssoftIkApi = new AyssoftIkApi();
         $todayShiftEmployees = $ayssoftIkApi->ShiftEmployeesToday()['content'];

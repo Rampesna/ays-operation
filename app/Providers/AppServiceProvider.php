@@ -47,6 +47,7 @@ class AppServiceProvider extends ServiceProvider
             'pages.calendar.*',
             'pages.report.employee.*',
             'pages.report.queue.*',
+            'pages.report.job.*',
             'pages.report.general.*',
             'pages.report.performance.*',
             'pages.setting.queue.*',

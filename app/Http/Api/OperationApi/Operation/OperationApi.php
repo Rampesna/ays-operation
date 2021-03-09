@@ -237,4 +237,19 @@ class OperationApi extends OperationApiBase
         ];
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
     }
+
+    public function GetDataScreening($startDate, $endDate)
+    {
+        $endpoint = "Operation/GetDataScreening";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'BaslangicTarihi' => $startDate,
+            'BitisTarihi' => $endDate
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+    }
 }

@@ -936,7 +936,7 @@
 
         setInterval(function () {
             callApi();
-        }, 30000);
+        }, 60000);
 
     </script>
 

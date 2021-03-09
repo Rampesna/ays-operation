@@ -125,6 +125,8 @@
       <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables-editor" />
       <path value="$PROJECT_DIR$/vendor/yajra/laravel-datatables" />
       <path value="$PROJECT_DIR$/vendor/laravelcollective/html" />
+      <path value="$PROJECT_DIR$/vendor/cyber-duck/laravel-excel" />
+      <path value="$PROJECT_DIR$/vendor/box/spout" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

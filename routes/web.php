@@ -65,6 +65,32 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         Route::get('performance', 'Performance\\ReportController@create')->name('report.performance.create');
         Route::post('performance/report', 'Performance\\ReportController@report')->name('report.performance.report');
 
+        Route::prefix('job')->namespace('Job')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('report.job.index');
+            });
+            Route::get('/index', 'JobReportController@index')->name('report.job.index');
+            Route::post('/show', 'JobReportController@show')->name('report.job.show');
+        });
+
+    });
+
+    Route::prefix('integration')->namespace('Integration')->group(function () {
+
+        Route::prefix('excel')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('integration.excel.index');
+            });
+            Route::get('/index', 'ExcelController@index')->name('integration.excel.index');
+            Route::post('/store', 'ExcelController@store')->name('integration.excel.store');
+        });
+
+        Route::prefix('with-id')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('integration.with-id.index');
+            });
+            Route::get('/index', 'WithIdController@index')->name('integration.with-id.index');
+        });
     });
 
     Route::prefix('tv')->namespace('Monitoring')->middleware('Authority:21')->group(function () {

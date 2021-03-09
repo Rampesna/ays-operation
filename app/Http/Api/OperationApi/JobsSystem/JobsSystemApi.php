@@ -7,18 +7,14 @@ use App\Http\Api\OperationApi\OperationApi;
 
 class JobsSystemApi extends OperationApi
 {
-    public function SetJobsExcel($body)
+    public function SetJobsExcel($jobList)
     {
         $endpoint = "JobsSystem/SetJobsExcel";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        $parameters = [
-            'body' => $body
-        ];
-
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
     }
 
     public function SetJobsUyumIsId($jobId, $priority, $type)
