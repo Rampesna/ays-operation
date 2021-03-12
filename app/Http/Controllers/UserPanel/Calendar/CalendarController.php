@@ -3,11 +3,7 @@
 namespace App\Http\Controllers\UserPanel\Calendar;
 
 use App\Http\Controllers\Controller;
-use App\Models\CalendarInformation;
-use App\Models\CalendarNote;
 use App\Models\Meeting;
-use App\Models\User;
-use Illuminate\Http\Request;
 
 class CalendarController extends Controller
 {

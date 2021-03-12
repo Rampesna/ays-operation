@@ -17,7 +17,7 @@ class JobsSystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
     }
 
-    public function SetJobsUyumIsId($jobId, $priority, $type)
+    public function SetJobsUyumIsId($id, $priority, $type)
     {
         $endpoint = "JobsSystem/SetJobsExcel";
         $headers = [
@@ -25,7 +25,7 @@ class JobsSystemApi extends OperationApi
         ];
 
         $parameters = [
-            'UyumIsId' => $jobId,
+            'UyumIsId' => $id,
             'Oncelik' => $priority,
             'Turu' => $type
         ];

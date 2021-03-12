@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\UserPanel;
 
-use App\Http\Controllers\UserPanel\Employee\EmployeeService;
+use App\Services\EmployeeService;
 use App\Models\CallAnalysis;
 use App\Models\JobAnalysis;
 use App\Http\Controllers\Controller;

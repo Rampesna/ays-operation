@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 
 class GeneralService
 {
-
     public $startDate;
     public $endDate;
     public $companyId;

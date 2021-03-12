@@ -20,11 +20,20 @@
                                 <thead>
                                 <tr>
                                     <th>Sınav Adı</th>
+                                    <th>Sınav Açıklaması</th>
+                                    <th>Sınav Süresi</th>
                                     <th class="text-right"></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-
+                                @foreach($exams as $exam)
+                                    <tr>
+                                        <td><a href="{{ route('exams.questions', ['exam' => $exam['id']]) }}">{{ $exam['sinavAdi'] }}</a></td>
+                                        <td><label style="width: 100%"><textarea class="form-control" rows="2" disabled>{{ $exam['sinavAciklama'] }}</textarea></label></td>
+                                        <td>{{ \App\Helpers\General::getDurationBySeconds($exam['sinavSuresi']) }}</td>
+                                        <td class="text-right"></td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -46,7 +55,7 @@
     <script src="{{ asset('assets/js/pages/crud/datatables/extensions/buttons.js?v=7.0.3') }}"></script>
 
     <script>
-        var table = $('#list').DataTable({
+        let table = $('#list').DataTable({
             language: {
                 info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
                 infoEmpty: "Gösterilecek Hiç Kayıt Yok.",

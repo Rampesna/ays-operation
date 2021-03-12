@@ -3,16 +3,12 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-Auth::routes();
+Route::get('/test', [\App\Http\Controllers\HomeController::class, 'index'])->name('test');
 
-Route::get('/email', function () {
-    return new \App\Mail\CalendarReminderMail(\App\Models\CalendarReminder::find(1));
-});
+Auth::routes();
 
 Route::get('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLoginForm'])->name('employee-panel.login.form');
 Route::post('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLogin'])->name('employee-panel.login');
-
-Route::get('/example', [\App\Http\Controllers\Ajax\Santral\MainController::class, 'index'])->name('example');
 
 Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->group(function () {
     Route::get('/', function () {
@@ -90,6 +86,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 return redirect()->route('integration.with-id.index');
             });
             Route::get('/index', 'WithIdController@index')->name('integration.with-id.index');
+            Route::post('/store', 'WithIdController@store')->name('integration.with-id.store');
         });
     });
 
@@ -185,7 +182,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         Route::post('/delete', 'ExamController@Delete')->name('exams.delete');
 
         Route::prefix('questions')->group(function () {
-            Route::get('/index', 'ExamQuestionController@Index')->name('exams.questions');
+            Route::get('/exam/{exam}', 'ExamQuestionController@Index')->name('exams.questions');
             Route::get('/create', 'ExamQuestionController@Create')->name('exams.questions.create');
             Route::post('/store', 'ExamQuestionController@Create')->name('exams.questions.store');
             Route::get('/{id}/edit', 'ExamQuestionController@Edit')->name('exams.questions.edit');

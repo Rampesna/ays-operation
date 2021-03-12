@@ -4,15 +4,22 @@
 
 @section('content')
 
-    <form action="#" method="post" enctype="multipart/form-data" class="row">
+    <form action="{{ route('integration.with-id.store') }}" method="post" class="row">
+        @csrf
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-xl-12">
+                        <div class="col-xl-6">
                             <div class="form-group">
-                                <label for="file">Dosyayı Seçin</label>
-                                <input type="file" id="file" name="file" required>
+                                <label for="id">İŞ ID'si</label>
+                                <input type="text" id="id" name="id" class="form-control" required>
+                            </div>
+                        </div>
+                        <div class="col-xl-6">
+                            <div class="form-group">
+                                <label for="priority">Öncelik</label>
+                                <input type="text" id="priority" class="form-control" name="priority" required>
                             </div>
                         </div>
                     </div>

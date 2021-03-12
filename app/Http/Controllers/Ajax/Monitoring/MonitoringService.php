@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Ajax\Monitoring;
 
 use App\Http\Api\AyssoftIkApi;
-use App\Http\Api\AyssoftTakipLoginApi;
-use App\Http\Api\OperationApi\OperationApi;
+use App\Http\Api\NetsantralApi;
 use App\Http\Api\OperationApi\TvScreen\TvScreenApi;
 use Illuminate\Support\Facades\Http;
 
@@ -12,13 +11,15 @@ class MonitoringService
 {
     public static function CallQueuesService()
     {
-        return Http::get('http://uyumsoft.netasistan.com/home/dashboard/datarefresh/all', []);
+        $api = new NetsantralApi();
+        return $api->CallQueues();
     }
 
     public static function GetJobListService()
     {
-        $api = new AyssoftTakipLoginApi();
-        $tvScreenJobList = $api->TvScreenGetJobList();
+        $api = new TvScreenApi();
+        $tvScreenJobList = $api->GetJobList();
+
         if (is_null($tvScreenJobList['response'])) {
             return response()->json($tvScreenJobList, 200);
         } else {
@@ -35,9 +36,9 @@ class MonitoringService
 
     public static function EmployeeAndJobTrackingService()
     {
-        $ayssoftTakipApi = new TvScreenApi();
-        $tvScreenGetStaffStatusList = $ayssoftTakipApi->GetStaffStatusList();
-        $tvScreenGetStaffStarList = $ayssoftTakipApi->GetStaffStarList();
+        $api = new TvScreenApi();
+        $tvScreenGetStaffStatusList = $api->GetStaffStatusList();
+        $tvScreenGetStaffStarList = $api->GetStaffStarList();
 
         $ayssoftIkApi = new AyssoftIkApi();
         $todayShiftEmployees = $ayssoftIkApi->ShiftEmployeesToday()['content'];
@@ -183,22 +184,22 @@ class MonitoringService
 
     public static function GetPointDayService()
     {
-        $aystakipapi = new AyssoftTakipLoginApi;
-        $result = $aystakipapi->GetPointDay();
+        $api = new TvScreenApi();
+        $result = $api->GetPointDay();
         return $result['response'];
     }
 
     public static function GetPointWeekService()
     {
-        $aystakipapi = new AyssoftTakipLoginApi;
-        $result = $aystakipapi->GetPointWeek();
+        $api = new TvScreenApi();
+        $result = $api->GetPointWeek();
         return $result['response'];
     }
 
     public static function GetMonthJobRankingService()
     {
-        $aystakipapi = new AyssoftTakipLoginApi;
-        $result = $aystakipapi->GetMonthJobRanking();
+        $api = new TvScreenApi();
+        $result = $api->GetMonthJobRanking();
         return $result['response'];
     }
 }

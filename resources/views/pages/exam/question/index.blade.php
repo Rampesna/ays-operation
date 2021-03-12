@@ -24,7 +24,12 @@
                                 </tr>
                                 </thead>
                                 <tbody>
-
+                                @foreach($questions as $question)
+                                    <tr>
+                                        <td>{{ $question['soru'] }}</td>
+                                        <td></td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -46,7 +51,7 @@
     <script src="{{ asset('assets/js/pages/crud/datatables/extensions/buttons.js?v=7.0.3') }}"></script>
 
     <script>
-        var table = $('#list').DataTable({
+        let table = $('#list').DataTable({
             language: {
                 info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
                 infoEmpty: "Gösterilecek Hiç Kayıt Yok.",

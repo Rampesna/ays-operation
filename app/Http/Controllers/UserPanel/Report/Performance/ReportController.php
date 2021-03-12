@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\UserPanel\Report\Performance;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\UserPanel\Employee\EmployeeService;
+use App\Services\EmployeeService;
 use App\Models\Company;
 use Illuminate\Http\Request;
 

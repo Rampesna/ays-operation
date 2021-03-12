@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\UserPanel\Employee;
+namespace App\Services;
 
 use App\Http\Api\AyssoftIkApi;
-use App\Http\Api\AyssoftTakipApi;
+use App\Http\Api\OperationApi\TvScreen\TvScreenApi;
 use App\Models\CallAnalysis;
 use App\Models\Company;
 use App\Models\CustomPercent;
@@ -57,8 +57,8 @@ class EmployeeService
             ])->
             orderBy('date', 'asc')->
             get(),
-            'permit' => (new AyssoftIkApi)->GetEmployeePermit($employee->email, $startDate, $endDate)['content'],
-            'overtime' => (new AyssoftIkApi)->GetEmployeeOvertime($employee->email, $startDate, $endDate)['content'],
+            'permit' => (new AyssoftIkApi)->GetEmployeePermit($employee->email, $startDate, $endDate)['content'] ?? '',
+            'overtime' => (new AyssoftIkApi)->GetEmployeeOvertime($employee->email, $startDate, $endDate)['content'] ?? '',
             'customPercents' => CustomPercent::
             where('employee_id', $employee->id)->
             where('year', date('Y', strtotime($startDate)))->
@@ -90,8 +90,8 @@ class EmployeeService
 
     public function sync($request)
     {
-        $api = new AyssoftTakipApi();
-        $response = $api->TvScreenGetStaffStatusList();
+        $api = new TvScreenApi();
+        $response = $api->GetStaffStatusList();
         $employeesFromApi = $response['response'];
         foreach ($employeesFromApi as $employeeFromApi) {
             $employee = Employee::where('extension_number', $employeeFromApi['dahili'])->first();

@@ -52,4 +52,18 @@ class General
             ($durationOfPermitHours != 0 ? ' ' . $durationOfPermitHours . ' Saat' : '') .
             ($durationOfPermitMinutes != 0 ? ' ' . $durationOfPermitMinutes . ' Dakika' : '');
     }
+
+    public static function getDurationBySeconds($second)
+    {
+        $seconds = $second % 60;
+        $minutes = floor(($second % 3600) / 60);
+        $hours = floor(($second % 86400) / 3600);
+        $days = floor(($second % 2592000) / 86400);
+
+        return
+            ($days != 0 ? $days . ' Gün' : '') .
+            ($hours != 0 ? ' ' . $hours . ' Saat' : '') .
+            ($minutes != 0 ? ' ' . $minutes . ' Dakika' : '') .
+            ($seconds != 0 ? ' ' . $seconds . ' Saniye' : '');
+    }
 }

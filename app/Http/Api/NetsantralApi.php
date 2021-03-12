@@ -8,8 +8,7 @@ class NetsantralApi extends ApiBase
 {
     public function __construct()
     {
-        $this->baseUrl = env('NETSANTRAL_API_BASE', 'ik.ayssoft.com/api/');
-        $this->_token = env('AYSSOFT_IK_API_TOKEN', '');
+        $this->baseUrl = env('NETSANTRAL_API_BASE');
     }
 
     public function CallQueues()

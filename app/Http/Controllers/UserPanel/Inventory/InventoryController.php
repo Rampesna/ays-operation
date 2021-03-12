@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\UserPanel\Inventory;
 
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\UserPanel\Employee\EmployeeService;
+use App\Services\EmployeeService;
 use App\Models\Device;
 use App\Models\DeviceGroup;
 use App\Models\DeviceStatus;

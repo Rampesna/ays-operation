@@ -8,6 +8,7 @@ use App\Models\Queue;
 use App\Models\Competence;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Services\EmployeeService;
 
 class EmployeeController extends Controller
 {

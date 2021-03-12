@@ -2,8 +2,7 @@
 
 namespace App\Http\Controllers\UserPanel\Exam;
 
-use App\Http\Requests\Exam\ExamStoreRequest;
-use App\Http\Requests\Exam\ExamUpdateRequest;
+use App\Http\Api\OperationApi\ExamSystem\ExamSystemApi;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -11,7 +10,9 @@ class ExamController extends Controller
 {
     public function Index()
     {
-        return view('pages.exam.index');
+        return view('pages.exam.index', [
+            'exams' => (new ExamSystemApi)->GetExamList()['response']
+        ]);
     }
 
     public function Create()
@@ -19,7 +20,7 @@ class ExamController extends Controller
         return view('pages.exam.create');
     }
 
-    public function Store(ExamStoreRequest $request)
+    public function Store(Request $request)
     {
 
     }
@@ -29,7 +30,7 @@ class ExamController extends Controller
         return view('pages.exam.edit');
     }
 
-    public function Update(ExamUpdateRequest $request)
+    public function Update(Request $request)
     {
 
     }

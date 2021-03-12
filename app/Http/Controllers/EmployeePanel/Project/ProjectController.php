@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Project;
 use App\Models\Ticket;
 use App\Models\TicketPriority;
-use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
