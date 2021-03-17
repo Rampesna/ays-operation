@@ -208,6 +208,15 @@
                                     <span class="menu-text">İş Raporları</span>
                                 </a>
                             </li>
+
+                            <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'custom' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('report.custom.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Özel Raporlar</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -246,6 +255,33 @@
                                         <span></span>
                                     </i>
                                     <span class="menu-text">ID İle İş Aktarım</span>
+                                </a>
+                            </li>
+
+                            <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'excel-data' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('integration.excel-data.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Excel İle Data İş Aktarım</span>
+                                </a>
+                            </li>
+
+                            <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'with-id' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('integration.re-activate-suspended-jobs') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Askıdaki İşleri Aktif Et</span>
+                                </a>
+                            </li>
+
+                            <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'delete-activity' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('integration.activity-delete') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Faaliyet Sil</span>
                                 </a>
                             </li>
 

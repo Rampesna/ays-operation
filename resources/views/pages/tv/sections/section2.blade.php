@@ -593,11 +593,11 @@
                 },
                 success: function (result) {
                     $.ajax({
-                        type: "get",
-                        url: "{{ route('ajax.monitoring.CallQueues') }}",
+                        type: "post",
+                        url: "http://otscagriapi.ayssoft.com:4444/api/CallQueues",
                         dataType: 'json',
                         data: {
-                            _token: '{{ csrf_token() }}'
+                            appToken: '{{ env('NETSANTRAL_API_TOKEN') }}'
                         },
                         success: function (quees) {
                             var sundayShiftUserList = null;

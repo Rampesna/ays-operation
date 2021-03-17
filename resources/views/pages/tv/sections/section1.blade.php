@@ -198,6 +198,7 @@
 
         function callApi() {
             $.ajax({
+                async: true,
                 type: 'get',
                 url: '{{ route('ajax.queue.getQueuesByCompany') }}',
                 data: {
@@ -205,11 +206,12 @@
                 },
                 success: function (queues) {
                     $.ajax({
+                        async: true,
                         type: "post",
-                        url: "{{ route('ajax.monitoring.CallQueues') }}",
+                        url: "http://otscagriapi.ayssoft.com:4444/api/CallQueues",
                         dataType: 'json',
                         data: {
-                            _token: '{{ csrf_token() }}'
+                            appToken: '{{ env('NETSANTRAL_API_TOKEN') }}'
                         },
                         success: function (result) {
 
@@ -354,7 +356,7 @@
 
         setInterval(function () {
             callApi();
-        }, 10000);
+        }, 15000);
 
     </script>
 

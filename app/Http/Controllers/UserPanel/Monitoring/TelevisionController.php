@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\UserPanel\Monitoring;
 
+use App\Http\Api\OperationApi\OperationApi;
 use App\Models\Queue;
 use App\Models\Section;
 use App\Models\Television;
@@ -39,7 +40,9 @@ class TelevisionController extends Controller
 
     public function Section2()
     {
-        return view('pages.tv.sections.section2');
+        return view('pages.tv.sections.section2', [
+            'token' => (new OperationApi)->Login()
+        ]);
     }
 
     public function Section3()

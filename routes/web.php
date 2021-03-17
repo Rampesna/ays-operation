@@ -69,6 +69,14 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::post('/show', 'JobReportController@show')->name('report.job.show');
         });
 
+        Route::prefix('custom')->namespace('Custom')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('report.custom.index');
+            });
+            Route::get('/index', 'CustomReportController@index')->name('report.custom.index');
+            Route::post('/show', 'CustomReportController@show')->name('report.custom.show');
+        });
+
     });
 
     Route::prefix('integration')->namespace('Integration')->group(function () {
@@ -87,6 +95,24 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             });
             Route::get('/index', 'WithIdController@index')->name('integration.with-id.index');
             Route::post('/store', 'WithIdController@store')->name('integration.with-id.store');
+        });
+
+        Route::get('re-activate-suspended-jobs', 'IntegrationController@reActivateSuspendedJobs')->name('integration.re-activate-suspended-jobs');
+
+        Route::prefix('activity')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('integration.activity-delete');
+            });
+            Route::get('/index', 'ActivityController@deleteActivity')->name('integration.activity-delete');
+            Route::post('/delete', 'ActivityController@delete')->name('integration.activity.delete');
+        });
+
+        Route::prefix('excel-data')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('integration.excel-data.index');
+            });
+            Route::get('/index', 'ExcelDataController@index')->name('integration.excel-data.index');
+            Route::post('/store', 'ExcelDataController@store')->name('integration.excel-data.store');
         });
     });
 
@@ -376,6 +402,17 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::get('/index', 'MainController@index')->name('applications.shift.index')->middleware('Authority:29');
             Route::get('/robot', 'MainController@robot')->name('applications.shift.robot')->middleware('Authority:30');
             Route::post('/robot/store', 'MainController@robotStore')->name('applications.shift.robot.store')->middleware('Authority:30');
+        });
+
+        Route::prefix('batch-actions')->namespace('BatchActions')->group(function () {
+            Route::get('index', 'MainController@index')->name('applications.batch-actions.index');
+        });
+
+        Route::prefix('custom-report')->namespace('CustomReport')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('applications.custom-report.index');
+            });
+            Route::get('index', 'CustomReportController@index')->name('applications.custom-report.index');
         });
     });
 

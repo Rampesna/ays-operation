@@ -76,6 +76,19 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::get('getShiftGroupsByCompanyId', 'MainController@getShiftGroupsByCompanyId')->name('ajax.application.shift.getShiftGroupsByCompanyId');
         });
 
+        Route::prefix('batch-actions')->namespace('BatchActions')->group(function () {
+            Route::any('changeEducationPermission', 'MainController@changeEducationPermission')->name('ajax.application.batch-actions.changeEducationPermission');
+            Route::any('changeAssignmentPermission', 'MainController@changeAssignmentPermission')->name('ajax.application.batch-actions.changeAssignmentPermission');
+            Route::any('changeTeamSupportPermission', 'MainController@changeTeamSupportPermission')->name('ajax.application.batch-actions.changeTeamSupportPermission');
+            Route::any('changeTeamSupportAssistantPermission', 'MainController@changeTeamSupportAssistantPermission')->name('ajax.application.batch-actions.changeTeamSupportAssistantPermission');
+        });
+
+        Route::prefix('custom-report')->namespace('CustomReport')->group(function () {
+            Route::any('create', 'CustomReportController@create')->name('ajax.application.custom-report.create');
+            Route::get('edit', 'CustomReportController@edit')->name('ajax.application.custom-report.edit');
+            Route::post('update', 'CustomReportController@update')->name('ajax.application.custom-report.update');
+            Route::post('delete', 'CustomReportController@delete')->name('ajax.application.custom-report.delete');
+        });
     });
 
     Route::prefix('project')->namespace('Project')->group(function () {

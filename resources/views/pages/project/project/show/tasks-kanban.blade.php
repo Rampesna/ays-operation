@@ -150,7 +150,7 @@
                         '       	<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">' +
                         '       		<ul class="navi navi-hover">' +
                         '       			<li class="navi-item">' +
-                        '       				<a href="#" class="navi-link taskAdder" data-id="{{ $status->id }}">' +
+                        '       				<a class="navi-link cursor-pointer taskAdder" data-id="{{ $status->id }}">' +
                         '       					<span class="navi-icon">' +
                         '       						<i class="fas fa-plus"></i>' +
                         '       					</span>' +
@@ -706,9 +706,6 @@
         $(document).delegate(".taskAdder","click", function () {
             $("#CreateTask").modal('show');
             $("#status_id").val($(this).data('id'));
-            // kanban.addElement($(this).data('id'), {
-            //     title: "Test Add"
-            // });
         });
 
         $(document).delegate(".taskItemTitle", "click", function () {
@@ -763,7 +760,7 @@
                                 '       	<div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">' +
                                 '       		<ul class="navi navi-hover">' +
                                 '       			<li class="navi-item">' +
-                                '       				<a href="#" class="navi-link taskAdder" data-id="' + taskStatus.id + '">' +
+                                '       				<a class="navi-link cursor-pointer taskAdder" data-id="' + taskStatus.id + '">' +
                                 '       					<span class="navi-icon">' +
                                 '       						<i class="fas fa-plus"></i>' +
                                 '       					</span>' +
