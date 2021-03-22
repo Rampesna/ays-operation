@@ -30,7 +30,11 @@ class AnalysisController extends Controller
 
             $netsantralApi = new NetsantralApi();
             $response = $netsantralApi->EmployeeCallAnalysis($extensions, $request->start_date, $request->end_date);
+        } catch (\Exception $exception) {
+            return redirect()->back()->with(['type' => 'error', 'data' => 'API Bağlantısında Bir Sorun Oluştu']);
+        }
 
+        try {
             foreach ($response['incoming'] as $incoming) {
                 $employee = Employee::where('extension_number', $incoming["extension"])->first();
 
@@ -80,7 +84,7 @@ class AnalysisController extends Controller
 
             return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Tamamlandı']);
         } catch (\Exception $exception) {
-            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Sorun Oluştu!']);
+            return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Sorun Oluştu']);
         }
     }
 
