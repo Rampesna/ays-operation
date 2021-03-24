@@ -55,7 +55,7 @@
                                         <a @if(!is_null($employee->extension_number) && $employee->extension_number != '') href="{{ route('employee.report', $employee) }}" @endif class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
                                             <i class="fas fa-chart-line"></i>
                                         </a>
-                                        <a href="#" data-id="{{ $employee->id }}" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon manage">
+                                        <a data-id="{{ $employee->id }}" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon cursor-pointer manage">
                                             <i class="ki ki-solid-plus" id="{{ $employee->id }}_plus"></i>
                                             <i class="ki ki-solid-minus" id="{{ $employee->id }}_minus"></i>
                                         </a>

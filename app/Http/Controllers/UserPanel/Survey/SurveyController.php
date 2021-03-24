@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\UserPanel\Survey;
 
+use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Survey\SurveyStoreRequest;
-use App\Http\Requests\Survey\SurveyUpdateRequest;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
 {
     public function Index()
     {
-        return view('pages.survey.index');
+        return view('pages.survey.script.index', [
+            'surveyList' => (new SurveySystemApi)->GetSurveyList()['response']
+        ]);
     }
 
     public function Create()
@@ -19,7 +20,7 @@ class SurveyController extends Controller
         return view('pages.survey.create');
     }
 
-    public function Store(SurveyStoreRequest $request)
+    public function Store(Request $request)
     {
 
     }
@@ -29,7 +30,7 @@ class SurveyController extends Controller
         return view('pages.survey.edit');
     }
 
-    public function Update(SurveyUpdateRequest $request)
+    public function Update(Request $request)
     {
 
     }

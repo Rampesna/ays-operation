@@ -232,28 +232,13 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             return redirect()->route('surveys.index');
         });
         Route::get('/index', 'SurveyController@Index')->name('surveys.index');
-        Route::get('/create', 'SurveyController@Create')->name('surveys.create');
-        Route::post('/store', 'SurveyController@Create')->name('surveys.store');
-        Route::get('/{id}/edit', 'SurveyController@Edit')->name('surveys.edit');
-        Route::post('/update', 'SurveyController@Update')->name('surveys.edit');
-        Route::post('/delete', 'SurveyController@Delete')->name('surveys.delete');
 
         Route::prefix('questions')->group(function () {
-            Route::get('/index', 'SurveyQuestionController@Index')->name('surveys.questions');
-            Route::get('/create', 'SurveyQuestionController@Create')->name('surveys.questions.create');
-            Route::post('/store', 'SurveyQuestionController@Create')->name('surveys.questions.store');
-            Route::get('/{id}/edit', 'SurveyQuestionController@Edit')->name('surveys.questions.edit');
-            Route::post('/update', 'SurveyQuestionController@Update')->name('surveys.questions.edit');
-            Route::post('/delete', 'SurveyQuestionController@Delete')->name('surveys.questions.delete');
+            Route::get('/{code?}/index', 'SurveyQuestionController@Index')->name('surveys.questions');
         });
 
         Route::prefix('answers')->group(function () {
-            Route::get('/index', 'SurveyAnswerController@Index')->name('surveys.answers');
-            Route::get('/create', 'SurveyAnswerController@Create')->name('surveys.answers.create');
-            Route::post('/store', 'SurveyAnswerController@Create')->name('surveys.answers.store');
-            Route::get('/{id}/edit', 'SurveyAnswerController@Edit')->name('surveys.answers.edit');
-            Route::post('/update', 'SurveyAnswerController@Update')->name('surveys.answers.edit');
-            Route::post('/delete', 'SurveyAnswerController@Delete')->name('surveys.answers.delete');
+            Route::get('/{id?}/{surveyCode?}/index', 'SurveyAnswerController@Index')->name('surveys.answers');
         });
 
         Route::prefix('job-groups')->group(function () {

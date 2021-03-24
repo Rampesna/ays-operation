@@ -196,4 +196,32 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         });
     });
 
+    Route::prefix('survey')->namespace('Survey')->group(function () {
+
+        Route::prefix('survey')->group(function () {
+            Route::get('getSurveyList', 'SurveyController@getSurveyList')->name('ajax.survey.getSurveyList');
+            Route::post('create', 'SurveyController@create')->name('ajax.survey.create');
+            Route::get('edit', 'SurveyController@edit')->name('ajax.survey.edit');
+            Route::post('update', 'SurveyController@update')->name('ajax.survey.update');
+            Route::post('delete', 'SurveyController@delete')->name('ajax.survey.delete');
+            Route::post('setSurveyGroupConnect', 'SurveyController@setSurveyGroupConnect')->name('ajax.survey.setSurveyGroupConnect');
+        });
+
+        Route::prefix('question')->group(function () {
+            Route::get('questionList', 'SurveyQuestionController@questionList')->name('ajax.survey.question.questionList');
+            Route::post('create', 'SurveyQuestionController@create')->name('ajax.survey.question.create');
+            Route::get('edit', 'SurveyQuestionController@edit')->name('ajax.survey.question.edit');
+            Route::post('update', 'SurveyQuestionController@update')->name('ajax.survey.question.update');
+            Route::post('delete', 'SurveyQuestionController@delete')->name('ajax.survey.question.delete');
+        });
+
+        Route::prefix('answer')->group(function () {
+            Route::post('create', 'SurveyAnswerController@create')->name('ajax.survey.answer.create');
+            Route::get('edit', 'SurveyAnswerController@edit')->name('ajax.survey.answer.edit');
+            Route::post('update', 'SurveyAnswerController@update')->name('ajax.survey.answer.update');
+            Route::post('delete', 'SurveyAnswerController@delete')->name('ajax.survey.answer.delete');
+        });
+
+    });
+
 });
