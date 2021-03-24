@@ -20,8 +20,10 @@
                         <div class="form-group">
                             <label for="question_type_id_create">Soru Türü</label>
                             <select id="question_type_id_create" class="form-control">
-                                <option value="1">1</option>
-                                <option value="3">3</option>
+                                <option value="1">Metin</option>
+                                <option value="2">Tarih</option>
+                                <option value="3">Tekli Seçim</option>
+                                <option value="4">Çoklu Seçim</option>
                             </select>
                         </div>
                     </div>

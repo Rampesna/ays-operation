@@ -42,7 +42,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="form-group">
-                            <label for="description_create">Açıklama</label>
+                            <label for="description_create">Bilgi Notu (Müşteri Ek Bilgi İsterse)</label>
                             <textarea id="description_create" class="form-control" rows="4"></textarea>
                         </div>
                     </div>
@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="ays-col-5">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="opportunity_create">Fırsat</label>
                             <select id="opportunity_create" class="form-control">
@@ -71,7 +71,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="ays-col-5">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="call_create">Çağrı</label>
                             <select id="call_create" class="form-control">
@@ -80,7 +80,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="ays-col-5">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="dial_plan_create">Arama Planı</label>
                             <select id="dial_plan_create" class="form-control">
@@ -89,7 +89,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="ays-col-5">
+                    <div class="col-xl-6">
                         <div class="form-group">
                             <label for="opportunity_redirect_to_seller_create">Fırsat Satıcıya Yönlendir</label>
                             <select id="opportunity_redirect_to_seller_create" class="form-control">
@@ -98,7 +98,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="ays-col-5">
+                    <div class="col-xl-6">
                         <div class="form-group">
                             <label for="dial_plan_redirect_to_seller_create">Arama Planı Satıcıya Yönlendir</label>
                             <select id="dial_plan_redirect_to_seller_create" class="form-control">

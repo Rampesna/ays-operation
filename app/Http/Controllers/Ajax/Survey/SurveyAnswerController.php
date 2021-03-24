@@ -79,7 +79,7 @@ class SurveyAnswerController extends Controller
             $oldQuestions = (new SurveySystemApi)->GetSurveyAnswersConnectList($request->id)['response'] ?? [];
 
             foreach ($oldQuestions as $oldQuestion) {
-                (new SurveySystemApi)->SetSurveyAnswersConnectDelete($oldQuestion['id']);
+                (new SurveySystemApi)->SetSurveyAnswersConnectDelete($oldQuestion['id'], $request->code);
             }
 
             if ($request->questions) {

@@ -180,16 +180,12 @@
                 order_number: order_number,
                 question_id: question_id,
                 groups: groups,
-                questions: questions
+                questions: questions,
+                code: '{{ $surveyCode }}'
             },
             success: function (response) {
-                if (response.status === 'Tamamlandı') {
-                    toastr.success('Başarıyla Güncellendi');
-                    location.reload();
-                } else {
-                    toastr.error('Bir Hata Oluştu');
-                    console.log(response)
-                }
+                toastr.success('Başarıyla Güncellendi');
+                location.reload();
             },
             error: function (error) {
                 console.log(error)

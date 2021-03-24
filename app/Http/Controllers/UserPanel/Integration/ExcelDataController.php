@@ -40,9 +40,14 @@ class ExcelDataController extends Controller
                 }
 
                 $api = new DataScanningApi();
-                $api->SetDataScanning($jobList);
+                $response = $api->SetDataScanning($jobList);
 
-                return redirect()->back()->with(['type' => 'success', 'data' => 'Başarıyla İçe Aktarıldı']);
+                if ($response->status() == 200) {
+                    return redirect()->back()->with(['type' => 'success', 'data' => 'Başarıyla İçe Aktarıldı']);
+                } else {
+                    return $response;
+                }
+
             } catch (\Exception $exception) {
                 return redirect()->back()->with(['type' => 'error', 'data' => 'API Bağlantısında Bir Sorun Meydana Geldi!']);
             }

@@ -234,7 +234,7 @@ class SurveySystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
     }
 
-    public function SetSurveyAnswersConnectDelete($id)
+    public function SetSurveyAnswersConnectDelete($id, $code)
     {
         $endpoint = "SurveySystem/SetSurveyAnswersConnectDelete";
         $headers = [
@@ -242,7 +242,8 @@ class SurveySystemApi extends OperationApi
         ];
 
         $params = [
-            'SurveyAnswersConnectId' => $id
+            'SurveyAnswersConnectId' => $id,
+            'SurveyCode' => $code
         ];
 
         return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);

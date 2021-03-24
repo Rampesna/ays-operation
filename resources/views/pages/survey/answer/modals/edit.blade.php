@@ -27,7 +27,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="form-group">
-                            <label for="groups_edit">Gruplar</label>
+                            <label for="groups_edit">Kategoriler</label>
                             <input type="text" class="form-control tagify" name="groups_create" id="groups_edit">
                         </div>
                     </div>

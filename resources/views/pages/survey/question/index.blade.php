@@ -42,7 +42,7 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                     <ul class="navi navi-hover">
-                                                        @if($question['soruTurKodu'] == 3)
+                                                        @if($question['soruTurKodu'] == 3 || $question['soruTurKodu'] == 4)
                                                             <li class="navi-item">
                                                                 <a href="{{ route('surveys.answers', ['id' => $question['id'], 'surveyCode' => $question['grupKodu']]) }}"
                                                                    target="_blank"
@@ -84,7 +84,7 @@
                                         </td>
                                         <td>{{ $question['id'] }}</td>
                                         <td>{{ $question['soru'] }}</td>
-                                        <td>{{ $question['soruTurKodu'] }}</td>
+                                        <td>{{ $question['soruTurKodu'] == 1 ? 'Metin' : ($question['soruTurKodu'] == 2 ? 'Tarih' : ($question['soruTurKodu'] == 3 ? 'Tekli Seçim' : ($question['soruTurKodu'] == 4 ? 'Çoklu Seçim' : 'Diğer'))) }}</td>
                                         <td>{{ $question['ekCevapString'] }}</td>
                                         <td>{{ $question['siraNo'] }}</td>
                                         <td>{{ $question['grupKodu'] }}</td>
