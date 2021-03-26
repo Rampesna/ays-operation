@@ -17,9 +17,13 @@ class ActivityController extends Controller
     {
         try {
             $api = new JobsSystemApi();
-            $api->SetJobCaseWorkDelete($request->id);
+            $response = $api->SetJobCaseWorkDelete($request->id);
 
-            return redirect()->back()->with(['type' => 'success', 'data' => 'Faaliyet Başarıyla Silindi']);
+            if ($response->status() == 200) {
+                return redirect()->back()->with(['type' => 'success', 'data' => 'Faaliyet Başarıyla Silindi']);
+            } else {
+                return $response;
+            }
         } catch (\Exception $exception) {
             return redirect()->back()->with(['type' => 'error', 'data' => 'API\'ye Bağlanılırken Bir Hata Oluştu!']);
         }
