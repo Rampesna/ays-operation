@@ -169,7 +169,8 @@ class SurveySystemApi extends OperationApi
             'soruTurKodu' => $request->question_type_id,
             'ekCevapString' => $request->additional_question,
             'siraNo' => $request->order_number,
-            'grupKodu' => $request->group_code
+            'grupKodu' => $request->group_code,
+            'soruAciklama' => $request->description
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);

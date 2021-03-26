@@ -57,6 +57,7 @@
         var question = $("#question_create").val();
         var question_type_id = $("#question_type_id_create").val();
         var order_number = $("#order_number_create").val();
+        var description = $("#description_create").val();
         var group_code = '{{ $surveyCode }}';
 
         $.ajax({
@@ -68,7 +69,8 @@
                 question_type_id: question_type_id,
                 additional_question: 1,
                 order_number: order_number,
-                group_code: group_code
+                group_code: group_code,
+                description: description
             },
             success: function (response) {
                 if (response.status === 'Tamamlandı') {
@@ -100,6 +102,7 @@
                 $("#question_type_id_edit").val(question.soruTurKodu);
                 $("#order_number_edit").val(question.siraNo);
                 $("#group_code_edit").val(question.grupKodu);
+                $("#description_edit").val(question.soruAciklama);
             },
             error: function () {
 
@@ -113,6 +116,7 @@
         var question_type_id = $("#question_type_id_edit").val();
         var order_number = $("#order_number_edit").val();
         var group_code = $("#group_code_edit").val();
+        var description = $("#description_edit").val();
 
         $.ajax({
             type: 'post',
@@ -124,7 +128,8 @@
                 question_type_id: question_type_id,
                 additional_question: 1,
                 order_number: order_number,
-                group_code: group_code
+                group_code: group_code,
+                description: description
             },
             success: function (response) {
                 if (response.status === 'Tamamlandı') {

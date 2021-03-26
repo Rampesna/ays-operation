@@ -184,8 +184,13 @@
                 code: '{{ $surveyCode }}'
             },
             success: function (response) {
-                toastr.success('Başarıyla Güncellendi');
-                location.reload();
+                if (response.status == 'Tamamlandı') {
+                    toastr.success('Başarıyla Güncellendi');
+                    location.reload();
+                } else {
+                    toastr.error('Bir Hata Oluştu');
+                    console.log(response)
+                }
             },
             error: function (error) {
                 console.log(error)

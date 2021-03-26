@@ -12,41 +12,39 @@ class SurveyAnswerController extends Controller
 {
     public function create(Request $request)
     {
-        try {
-            $response = (new SurveySystemApi)->SetSurveyAnswers($request);
+        $response = (new SurveySystemApi)->SetSurveyAnswers($request);
 
-            $answerId = $response['response'];
-            $list = explode(',', General::clearTagifyTags($request->groups));
-            $groupsList = [];
-            $questionsList = [];
+        $answerId = $response['response'];
+        $list = !is_null($request->groups) ? explode(',', General::clearTagifyTags($request->groups)) : [];
+        $groupsList = [];
+        $questionsList = [];
 
-            foreach ($list as $item) {
-                $groupsList[] = [
-                    'anketCevaplarId' => $answerId,
-                    'kategori' => $item
-                ];
-            }
+        foreach ($list as $item) {
+            $groupsList[] = [
+                'anketCevaplarId' => $answerId,
+                'kategori' => $item
+            ];
+        }
 
-            $groupResponse = (new SurveySystemApi)->SetSurveyAnswersCategoryConnect($groupsList);
+        $groupResponse = (new SurveySystemApi)->SetSurveyAnswersCategoryConnect($groupsList);
 
+        if ($request->questions) {
             foreach ($request->questions as $question) {
                 $questionsList[] = [
                     'sorularId' => $question,
                     'cevaplarId' => $answerId
                 ];
             }
-
-            $questionsResponse = (new SurveySystemApi)->SetSurveyAnswersConnect($questionsList);
-
-            return response()->json([
-                'status' => 'Tamamlandı',
-                'response' => $response->body(),
-                'groupResponse' => $groupResponse->body(),
-                'questionsResponse' => $questionsResponse->body()
-            ], 200);
-        } catch (\Exception $exception) {
-            return response()->json($exception, 401);
         }
+
+        $questionsResponse = (new SurveySystemApi)->SetSurveyAnswersConnect($questionsList);
+
+        return response()->json([
+            'status' => 'Tamamlandı',
+            'response' => $response->body(),
+            'groupResponse' => $groupResponse->body(),
+            'questionsResponse' => $questionsResponse->body()
+        ], 200);
     }
 
     public function edit(Request $request)
@@ -63,7 +61,7 @@ class SurveyAnswerController extends Controller
         try {
             $response = (new SurveySystemApi)->SetSurveyAnswers($request);
 
-            $list = explode(',', General::clearTagifyTags($request->groups));
+            $list = !is_null($request->groups) ? explode(',', General::clearTagifyTags($request->groups)) : [];
             $groupsList = [];
             $questionsList = [];
 
@@ -96,7 +94,7 @@ class SurveyAnswerController extends Controller
             return response()->json([
                 'status' => 'Tamamlandı',
                 'response' => $response->body(),
-                'groupResponse' => $groupResponse,
+                'groupResponse' => $groupResponse->body(),
                 'questionsResponse' => $questionsResponse->body()
             ], 200);
         } catch (\Exception $exception) {

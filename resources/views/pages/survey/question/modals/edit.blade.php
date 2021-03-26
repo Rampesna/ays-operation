@@ -36,6 +36,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="description_edit">Soru Açıklaması</label>
+                            <textarea id="description_edit" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="updateQuestionButton">Güncelle</button>

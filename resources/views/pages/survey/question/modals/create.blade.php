@@ -34,6 +34,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="description_create">Soru Açıklaması</label>
+                            <textarea id="description_create" class="form-control" rows="4"></textarea>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="createQuestionButton">Oluştur</button>
