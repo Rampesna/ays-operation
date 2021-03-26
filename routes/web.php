@@ -282,6 +282,14 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
 
     Route::prefix('setting')->namespace('Setting')->group(function () {
 
+        Route::prefix('company')->namespace('Company')->middleware('Authority:14')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('setting.company.index');
+            });
+            Route::get('/index', 'CompanyController@index')->name('setting.company.index');
+            Route::get('/sync-employees', 'CompanyController@syncEmployees')->name('setting.company.sync-employees');
+        });
+
         Route::prefix('queues')->namespace('Queue')->middleware('Authority:14')->group(function () {
             Route::get('/', function () {
                 return redirect()->route('setting.queues.index');
