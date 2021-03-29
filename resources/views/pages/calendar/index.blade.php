@@ -2,6 +2,7 @@
 @section('title', 'Takvim')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <button style="display: none" id="show_meeting_toggle"></button>

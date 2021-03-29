@@ -25,6 +25,15 @@ Route::middleware(['TokenControl'])->namespace('App\\Http\\Controllers\\Api')->g
         Route::any('Report', 'EmployeeController@report');
     });
 
+    Route::prefix('FoodList')->namespace('FoodList')->group(function () {
+
+        Route::get('FoodList','FoodListController@FoodList');
+
+        Route::prefix('FoodListCheck')->namespace('FoodListCheck')->group(function () {
+            Route::get('Edit', 'FoodListCheckController@Edit');
+        });
+    });
+
 });
 
 Route::prefix('v1')->namespace('App\\Http\\Controllers\\Api\\v1')->group(function () {

@@ -2,6 +2,7 @@
 @section('title', 'İş sıralaması')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
     <div class="row text-center mt-n12">
         <div class="col-xl-12">

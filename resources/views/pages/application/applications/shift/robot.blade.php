@@ -2,6 +2,7 @@
 @section('title', 'Vardiya Robotu')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('applications.shift.robot.store') }}" method="post">

@@ -2,6 +2,7 @@
 @section('title', 'Anket Soruları')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     @include('pages.survey.question.modals.create')

@@ -2,6 +2,7 @@
 @section('title', 'Genel İş Raporu')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('report.general') }}" method="post">

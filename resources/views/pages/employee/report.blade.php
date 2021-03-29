@@ -2,6 +2,7 @@
 @section('title', ucwords($employee->name) . ' İstatistik')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('employee.report.by-date') }}" method="post" class="row">

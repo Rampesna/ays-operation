@@ -2,6 +2,7 @@
 @section('title', 'Personel Raporu')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form id="comparison_form" action="{{ route('report.employees.by-company') }}" method="post">

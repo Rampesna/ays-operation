@@ -59,6 +59,49 @@ class ExamSystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
     }
 
+    public function GetExamResultReadingList($examId)
+    {
+        $endpoint = "ExamSystem/GetExamResultReadingList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'ExamId' => $examId
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+    }
+
+    public function GetExamResultReadingReplyList($id, $examId)
+    {
+        $endpoint = "ExamSystem/GetExamResultReadingReplyList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'ExamId' => $examId,
+            'PersonId' => $id
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+    }
+
+    public function GetExamResultList($examId)
+    {
+        $endpoint = "ExamSystem/GetExamResultList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'ExamId' => $examId
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
+    }
+
     public function SetExams($name, $description, $time, $date)
     {
         $endpoint = "ExamSystem/SetExams";
@@ -133,5 +176,15 @@ class ExamSystemApi extends OperationApi
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+    }
+
+    public function SetExamResultReadingReply($list)
+    {
+        $endpoint = "ExamSystem/SetExamResultReadingReply";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
 }

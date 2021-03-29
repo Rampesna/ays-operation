@@ -2,6 +2,7 @@
 @section('title', 'Cevaplar')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     @include('pages.survey.answer.modals.create')

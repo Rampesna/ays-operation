@@ -21,7 +21,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             return redirect()->route('employee.index');
         });
         Route::get('/index/{company_id?}', 'EmployeeController@index')->name('employee.index')->middleware('Authority:2');
-        Route::get('/edit/{employee}', 'EmployeeController@edit')->name('employee.edit')->middleware('Authority:28');
+        Route::get('/show/{employee}/{tab?}', 'EmployeeController@show')->name('employee.show')->middleware('Authority:28');
         Route::post('/update', 'EmployeeController@update')->name('employee.update')->middleware('Authority:28');
         Route::get('/index/by-priority/{priority}', 'EmployeeController@byPriority')->name('employee.index.by-priority')->middleware('Authority:2');
         Route::get('/report/{employee}/this-month', 'EmployeeController@report')->name('employee.report')->middleware('Authority:12');
@@ -201,6 +201,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             return redirect()->route('exams.index');
         });
         Route::get('/index', 'ExamController@Index')->name('exams.index');
+        Route::get('/{id?}/employees', 'ExamController@getExamEmployees')->name('exams.getExamEmployees');
+        Route::get('/{id?}/{exam?}/{name?}/results', 'ExamController@getExamResults')->name('exams.getExamResults');
+        Route::get('exam/{id}/results', 'ExamController@getResults')->name('exams.getResults');
+        Route::post('setExamResults', 'ExamController@setExamResults')->name('exams.setExamResults');
         Route::get('/create', 'ExamController@Create')->name('exams.create');
         Route::post('/store', 'ExamController@Create')->name('exams.store');
         Route::get('/{id}/edit', 'ExamController@Edit')->name('exams.edit');
@@ -406,6 +410,49 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 return redirect()->route('applications.custom-report.index');
             });
             Route::get('index', 'CustomReportController@index')->name('applications.custom-report.index');
+        });
+
+        Route::prefix('food-list')->namespace('FoodList')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('applications.food-list.index');
+            });
+            Route::get('index', 'FoodListController@index')->name('applications.food-list.index');
+            Route::post('create', 'FoodListController@create')->name('applications.food-list.create');
+            Route::get('edit', 'FoodListController@edit')->name('applications.food-list.edit');
+            Route::post('update', 'FoodListController@update')->name('applications.food-list.update');
+            Route::post('delete', 'FoodListController@delete')->name('applications.food-list.delete');
+            Route::post('report', 'FoodListController@report')->name('applications.food-list.report');
+            Route::get('{date?}/report-detail', 'FoodListController@reportDetail')->name('applications.food-list.report-detail');
+        });
+    });
+
+    Route::prefix('ik')->namespace('IK')->group(function () {
+
+        Route::get('/', function () {
+            return redirect()->route('ik.dashboard.index');
+        });
+
+        Route::prefix('dashboard')->namespace('Dashboard')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('ik.dashboard.index');
+            });
+            Route::get('index', 'DashboardController@index')->name('ik.dashboard.index');
+        });
+
+        Route::prefix('employee')->namespace('Employee')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('ik.employee.index');
+            });
+            Route::get('index', 'EmployeeController@index')->name('ik.employee.index');
+            Route::get('leavers', 'EmployeeController@leavers')->name('ik.employee.leavers');
+            Route::get('/{id}/show/{tab?}', 'EmployeeController@show')->name('ik.employee.show');
+        });
+
+        Route::prefix('applications')->namespace('Application')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('ik.application.index');
+            });
+            Route::get('index', 'ApplicationController@index')->name('ik.application.index');
         });
     });
 

@@ -2,6 +2,7 @@
 @section('title', 'İş Aktarımı')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('integration.with-id.store') }}" method="post" class="row">

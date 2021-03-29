@@ -2,6 +2,7 @@
 @section('title', 'Kuyruk Raporu')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('report.queue-call-report') }}" method="post">

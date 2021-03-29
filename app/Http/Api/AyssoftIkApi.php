@@ -21,6 +21,20 @@ class AyssoftIkApi extends ApiBase
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
     }
 
+    public function TodayShiftEmployee($date)
+    {
+        $endpoint = "Shift/TodayShiftEmployee";
+        $headers = [
+            '_token' => $this->_token,
+        ];
+
+        $params = [
+            'date' => $date
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
     public function ShiftEmployeesLastSunday()
     {
         $endpoint = "Shift/ShiftEmployeesLastSunday";

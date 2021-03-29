@@ -2,6 +2,7 @@
 @section('title', 'İş Takibi')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <div class="row" style="margin-top: -23px; margin-bottom: -5px">

@@ -2,6 +2,7 @@
 @section('title', 'Proje Yorumları')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     @include('pages.project.project.show.components.subheader')

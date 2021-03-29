@@ -2,6 +2,7 @@
 @section('title', 'Excel İş Aktarımı')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('integration.excel.store') }}" method="post" enctype="multipart/form-data" class="row">

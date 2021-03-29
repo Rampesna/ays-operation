@@ -158,4 +158,69 @@ class Employee extends Authenticatable
     {
         return $this->morphMany(CalendarReminder::class, 'relation');
     }
+
+    public function personalInformations()
+    {
+        return $this->hasOne(EmployeePersonalInformation::class, 'employee_id', 'id');
+    }
+
+    public function positions()
+    {
+        return $this->hasMany(Position::class);
+    }
+
+    public function permits()
+    {
+        return $this->hasMany(Permit::class);
+    }
+
+    public function overtimes()
+    {
+        return $this->hasMany(Overtime::class);
+    }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function payrolls()
+    {
+        return $this->hasMany(Payroll::class);
+    }
+
+    public function employeeDevices()
+    {
+        return $this->hasMany(EmployeeDevice::class);
+    }
+
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
+
+    public function punishments()
+    {
+        return $this->hasMany(Punishment::class);
+    }
+
+    public function ik_company()
+    {
+        return $this->hasOneThrough(IkCompany::class, Position::class, 'employee_id', 'id');
+    }
+
+    public function ik_branch()
+    {
+        return $this->hasOneThrough(IkBranch::class, Position::class, 'employee_id', 'id');
+    }
+
+    public function ik_department()
+    {
+        return $this->hasOneThrough(IkDepartment::class, Position::class, 'employee_id', 'id');
+    }
+
+    public function ik_title()
+    {
+        return $this->hasOneThrough(IkTitle::class, Position::class, 'employee_id', 'id');
+    }
 }

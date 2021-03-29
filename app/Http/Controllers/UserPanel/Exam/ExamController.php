@@ -15,28 +15,69 @@ class ExamController extends Controller
         ]);
     }
 
-    public function Create()
+    public function getExamEmployees($examId)
     {
-        return view('pages.exam.create');
+        return view('pages.exam.employees.index', [
+            'employees' => (new ExamSystemApi)->GetExamResultReadingList($examId)['response'],
+            'examId' => $examId
+        ]);
     }
 
-    public function Store(Request $request)
+    public function getExamResults($id, $examId, $name)
     {
-
+//        return (new ExamSystemApi)->GetExamResultReadingReplyList($id, $examId)['response'];
+        return view('pages.exam.results.index', [
+            'results' => (new ExamSystemApi)->GetExamResultReadingReplyList($id, $examId)['response'],
+            'employeeId' => $id,
+            'examId' => $examId,
+            'name' => $name
+        ]);
     }
 
-    public function Edit($id)
+    public function setExamResults(Request $request)
     {
-        return view('pages.exam.edit');
+//        return $request->all();
+
+        $answerList = [];
+
+        $true = 0;
+        $false = 0;
+
+        foreach ($request->all() as $key => $value) {
+            if (strpos($key, 'answer_') !== false) {
+                $id = str_replace('answer_', '', $key);
+                if ($value == "1") {
+                    $true += 1;
+                } else {
+                    $false += 1;
+                }
+                $answerList[] = [
+                    'cevapId' => $id,
+                    'durum' => $value == "1" ? 1 : 0,
+                    'sinavId' => $request->exam_id,
+                    'kullaniciId' => $request->employee_id
+                ];
+            }
+        }
+
+        foreach ($answerList as $key => $value) {
+            $answerList[$key]['puan'] = (100 / count($answerList)) * $true;
+        }
+
+        $api = new ExamSystemApi;
+        $response = $api->SetExamResultReadingReply($answerList);
+
+        if ($response->status() == 200) {
+            return redirect()->back()->with(['type' => 'success', 'data' => 'Başarıyla Kaydedildi']);
+        } else {
+            return $response->body();
+        }
     }
 
-    public function Update(Request $request)
+    public function getResults($id)
     {
-
-    }
-
-    public function Delete(Request $request)
-    {
-
+        return view('pages.exam.result', [
+            'results' => (new ExamSystemApi)->GetExamResultList($id)['response']
+        ]);
     }
 }

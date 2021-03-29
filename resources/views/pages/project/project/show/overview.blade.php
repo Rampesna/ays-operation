@@ -2,6 +2,7 @@
 @section('title', 'Proje Detayı')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     @include('pages.project.project.show.components.subheader')
@@ -83,7 +84,7 @@
                                                 <div class="symbol-label" style="background-image: url({{ asset($employee->image ?? 'assets/media/logos/avatar.jpg') }})"></div>
                                             </div>
                                             <div>
-                                                <a href="{{ route('employee.edit', $employee) }}" target="_blank" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $employee->name }}</a>
+                                                <a href="{{ route('employee.show', $employee) }}" target="_blank" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ $employee->name }}</a>
                                                 <span class="text-muted font-weight-bold d-block">{{ $employee->title }}</span>
                                             </div>
                                         </div>

@@ -2,6 +2,7 @@
 @section('title', 'Personel İş Analizi')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('analysis.employee-job-analysis-store') }}" method="post">

@@ -2,6 +2,8 @@
 @section('title', 'Personel Çağrı Analizi')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+@php(setlocale(LC_TIME, 'Turkish'))
+
 @section('content')
 
     <form action="{{ route('analysis.employee-call-analysis-store') }}" method="post">

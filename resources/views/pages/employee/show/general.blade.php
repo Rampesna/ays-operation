@@ -2,9 +2,12 @@
 @section('title', $employee->name . ' - Düzenle')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
-    <div class="row">
+    @include('pages.employee.components.subheader')
+
+    <div class="row mt-15">
         <div class="col-xl-5 col-12">
             <div class="card">
                 <div class="card-body">

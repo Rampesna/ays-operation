@@ -2,6 +2,7 @@
 @section('title', 'TV Ekranları')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <div class="modal fade" id="AddTvModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">

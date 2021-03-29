@@ -38,7 +38,7 @@
                 @endAuthority
 
                 <li class="menu-section">
-                    <h4 class="menu-text">İŞ TAKİBİ</h4>
+                    <h4 class="menu-text">OPERASYON İŞ TAKİBİ</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
                 @Authority(2)
@@ -200,6 +200,7 @@
                             </li>
                             @endAuthority
 
+                            @Authority(45)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'job' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.job.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -208,7 +209,9 @@
                                     <span class="menu-text">İş Raporları</span>
                                 </a>
                             </li>
+                            @endAuthority
 
+                            @Authority(45)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'custom' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.custom.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -217,10 +220,12 @@
                                     <span class="menu-text">Özel Raporlar</span>
                                 </a>
                             </li>
+                            @endAuthority
                         </ul>
                     </div>
                 </li>
                 @endAuthority
+
                 <li class="menu-item {{ request()->segment(1) === 'integration' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -240,6 +245,7 @@
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
 
+                            @Authority(47)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'excel' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.excel.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -248,7 +254,9 @@
                                     <span class="menu-text">Excel İle İş Aktarım</span>
                                 </a>
                             </li>
+                            @endAuthority
 
+                            @Authority(48)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'with-id' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.with-id.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -257,7 +265,9 @@
                                     <span class="menu-text">ID İle İş Aktarım</span>
                                 </a>
                             </li>
+                            @endAuthority
 
+                            @Authority(49)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'excel-data' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.excel-data.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -266,7 +276,9 @@
                                     <span class="menu-text">Excel İle Data İş Aktarım</span>
                                 </a>
                             </li>
+                            @endAuthority
 
+                            @Authority(50)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'with-id' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.re-activate-suspended-jobs') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -275,7 +287,9 @@
                                     <span class="menu-text">Askıdaki İşleri Aktif Et</span>
                                 </a>
                             </li>
+                            @endAuthority
 
+                            @Authority(51)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'delete-activity' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.activity-delete') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -284,6 +298,7 @@
                                     <span class="menu-text">Faaliyet Sil</span>
                                 </a>
                             </li>
+                            @endAuthority
 
                         </ul>
                     </div>
@@ -400,6 +415,8 @@
                     </a>
                 </li>
                 @endAuthority
+
+                @Authority(52)
                 <li class="menu-item {{ request()->segment(1) === 'calendar' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('calendar.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -418,6 +435,121 @@
                         <span class="menu-text">Takvim</span>
                     </a>
                 </li>
+                @endAuthority
+
+                @Authority(53)
+                <li class="menu-section">
+                    <h4 class="menu-text">İNSAN KAYNAKLARI</h4>
+                    <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
+                </li>
+                <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'dashboard' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
+                    <a href="{{ route('ik.dashboard.index') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24"/>
+                                    <path d="M2.56066017,10.6819805 L4.68198052,8.56066017 C5.26776695,7.97487373 6.21751442,7.97487373 6.80330086,8.56066017 L8.9246212,10.6819805 C9.51040764,11.267767 9.51040764,12.2175144 8.9246212,12.8033009 L6.80330086,14.9246212 C6.21751442,15.5104076 5.26776695,15.5104076 4.68198052,14.9246212 L2.56066017,12.8033009 C1.97487373,12.2175144 1.97487373,11.267767 2.56066017,10.6819805 Z M14.5606602,10.6819805 L16.6819805,8.56066017 C17.267767,7.97487373 18.2175144,7.97487373 18.8033009,8.56066017 L20.9246212,10.6819805 C21.5104076,11.267767 21.5104076,12.2175144 20.9246212,12.8033009 L18.8033009,14.9246212 C18.2175144,15.5104076 17.267767,15.5104076 16.6819805,14.9246212 L14.5606602,12.8033009 C13.9748737,12.2175144 13.9748737,11.267767 14.5606602,10.6819805 Z" fill="#000000" opacity="0.3"/>
+                                    <path d="M8.56066017,16.6819805 L10.6819805,14.5606602 C11.267767,13.9748737 12.2175144,13.9748737 12.8033009,14.5606602 L14.9246212,16.6819805 C15.5104076,17.267767 15.5104076,18.2175144 14.9246212,18.8033009 L12.8033009,20.9246212 C12.2175144,21.5104076 11.267767,21.5104076 10.6819805,20.9246212 L8.56066017,18.8033009 C7.97487373,18.2175144 7.97487373,17.267767 8.56066017,16.6819805 Z M8.56066017,4.68198052 L10.6819805,2.56066017 C11.267767,1.97487373 12.2175144,1.97487373 12.8033009,2.56066017 L14.9246212,4.68198052 C15.5104076,5.26776695 15.5104076,6.21751442 14.9246212,6.80330086 L12.8033009,8.9246212 C12.2175144,9.51040764 11.267767,9.51040764 10.6819805,8.9246212 L8.56066017,6.80330086 C7.97487373,6.21751442 7.97487373,5.26776695 8.56066017,4.68198052 Z" fill="#000000"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Genel Bakış</span>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'employee' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="#" class="menu-link menu-toggle">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <polygon points="0 0 24 0 24 24 0 24"/>
+                                    <path d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
+                                    <path d="M17.6011961,15.0006174 C21.0077043,15.0378534 23.7891749,16.7601418 23.9984937,20.4 C24.0069246,20.5466056 23.9984937,21 23.4559499,21 L19.6,21 C19.6,18.7490654 18.8562935,16.6718327 17.6011961,15.0006174 Z M0.00065168429,20.1992055 C0.388258525,15.4265159 4.26191235,13 8.98334134,13 C13.7712164,13 17.7048837,15.2931929 17.9979143,20.2 C18.0095879,20.3954741 17.9979143,21 17.2466999,21 C13.541124,21 8.03472472,21 0.727502227,21 C0.476712155,21 -0.0204617505,20.45918 0.00065168429,20.1992055 Z" fill="#000000" fill-rule="nonzero"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Personeller</span>
+                        <i class="menu-arrow"></i>
+                    </a>
+                    <div class="menu-submenu">
+                        <i class="menu-arrow"></i>
+                        <ul class="menu-subnav">
+
+                            <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'employee' && request()->segment(3) === 'index' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('ik.employee.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Aktif Çalışan</span>
+                                </a>
+                            </li>
+
+                            <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'employee' && request()->segment(3) === 'leavers' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('ik.employee.leavers') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">İşten Ayrılanlar</span>
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </li>
+                <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'calendar' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
+                    <a class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <polygon points="0 0 24 0 24 24 0 24"/>
+                                    <path d="M18.5,8 C17.1192881,8 16,6.88071187 16,5.5 C16,4.11928813 17.1192881,3 18.5,3 C19.8807119,3 21,4.11928813 21,5.5 C21,6.88071187 19.8807119,8 18.5,8 Z M18.5,21 C17.1192881,21 16,19.8807119 16,18.5 C16,17.1192881 17.1192881,16 18.5,16 C19.8807119,16 21,17.1192881 21,18.5 C21,19.8807119 19.8807119,21 18.5,21 Z M5.5,21 C4.11928813,21 3,19.8807119 3,18.5 C3,17.1192881 4.11928813,16 5.5,16 C6.88071187,16 8,17.1192881 8,18.5 C8,19.8807119 6.88071187,21 5.5,21 Z" fill="#000000" opacity="0.3"/>
+                                    <path d="M5.5,8 C4.11928813,8 3,6.88071187 3,5.5 C3,4.11928813 4.11928813,3 5.5,3 C6.88071187,3 8,4.11928813 8,5.5 C8,6.88071187 6.88071187,8 5.5,8 Z M11,4 L13,4 C13.5522847,4 14,4.44771525 14,5 C14,5.55228475 13.5522847,6 13,6 L11,6 C10.4477153,6 10,5.55228475 10,5 C10,4.44771525 10.4477153,4 11,4 Z M11,18 L13,18 C13.5522847,18 14,18.4477153 14,19 C14,19.5522847 13.5522847,20 13,20 L11,20 C10.4477153,20 10,19.5522847 10,19 C10,18.4477153 10.4477153,18 11,18 Z M5,10 C5.55228475,10 6,10.4477153 6,11 L6,13 C6,13.5522847 5.55228475,14 5,14 C4.44771525,14 4,13.5522847 4,13 L4,11 C4,10.4477153 4.44771525,10 5,10 Z M19,10 C19.5522847,10 20,10.4477153 20,11 L20,13 C20,13.5522847 19.5522847,14 19,14 C18.4477153,14 18,13.5522847 18,13 L18,11 C18,10.4477153 18.4477153,10 19,10 Z" fill="#000000"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Takvim</span>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'reports' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
+                    <a class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <polygon points="0 0 24 0 24 24 0 24"/>
+                                    <path d="M4.00246329,12.2004927 L13,14 L13,4.06189375 C16.9463116,4.55399184 20,7.92038235 20,12 C20,16.418278 16.418278,20 12,20 C7.64874861,20 4.10886412,16.5261253 4.00246329,12.2004927 Z" fill="#000000" opacity="0.3"/>
+                                    <path d="M3.0603968,10.0120794 C3.54712466,6.05992157 6.91622084,3 11,3 L11,11.6 L3.0603968,10.0120794 Z" fill="#000000"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Raporlar</span>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'applications' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
+                    <a href="{{ route('ik.application.index') }}" class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5"/>
+                                    <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Uygulamalar</span>
+                    </a>
+                </li>
+                <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'settings' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
+                    <a class="menu-link">
+                        <span class="svg-icon menu-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24"/>
+                                    <path d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z" fill="#000000"/>
+                                </g>
+                            </svg>
+                        </span>
+                        <span class="menu-text">Ayarlar</span>
+                    </a>
+                </li>
+                @endAuthority
 
                 <li class="menu-section">
                     <h4 class="menu-text">DİĞER</h4>

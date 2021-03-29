@@ -2,6 +2,7 @@
 @section('title', 'Çalışanlar')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <div class="row mt-n5">
@@ -46,7 +47,7 @@
                                 <!--begin::Title-->
                                 <div class="d-flex justify-content-between flex-wrap mt-1">
                                     <div class="d-flex mr-3">
-                                        <a href="{{ route('employee.edit', $employee) }}" class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
+                                        <a href="{{ route('employee.show', ['employee' => $employee, 'tab' => 'general']) }}" class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
                                         <a>
                                             <i class="flaticon2-correct text-success font-size-h5"></i>
                                         </a>

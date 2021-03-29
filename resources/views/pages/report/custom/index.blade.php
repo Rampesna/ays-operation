@@ -2,6 +2,7 @@
 @section('title', 'Özel Raporlar')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form id="comparison_form" action="{{ route('report.custom.show') }}" method="post">

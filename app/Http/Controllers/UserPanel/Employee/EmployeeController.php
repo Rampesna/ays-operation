@@ -70,11 +70,16 @@ class EmployeeController extends Controller
         }
     }
 
-    public function edit(Employee $employee)
+    public function show(Employee $employee, $tab)
     {
-        return view('pages.employee.edit', [
-            'employee' => $employee
-        ]);
+        try {
+            return view('pages.employee.show.' . $tab, [
+                'employee' => $employee,
+                'tab' => $tab
+            ]);
+        } catch (\Exception $exception) {
+            return abort(404);
+        }
     }
 
     public function update(Request $request)

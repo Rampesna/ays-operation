@@ -2,6 +2,7 @@
 @section('title', 'Faaliyet Sil')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     <form action="{{ route('integration.activity.delete') }}" method="post" class="row">

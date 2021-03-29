@@ -2,6 +2,7 @@
 @section('title', 'Projeler')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
+
 @section('content')
 
     @include('pages.project.project.index.components.subheader')
@@ -205,7 +206,7 @@
                                         <div class="symbol-group symbol-hover">
                                             @foreach($project->employees as $employee)
                                                 @if($loop->iteration <= 5)
-                                                    <a href="{{ route('employee.edit', $employee) }}" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{ $employee->name }}">
+                                                    <a href="{{ route('employee.show', $employee) }}" target="_blank" class="symbol symbol-30 symbol-circle" data-toggle="tooltip" title="{{ $employee->name }}">
                                                         <img alt="Pic" src="{{ $employee->image ? asset($employee->image) : asset('assets/media/logos/avatar.jpg') }}" />
                                                     </a>
                                                 @else
