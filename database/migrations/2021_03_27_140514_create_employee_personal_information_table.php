@@ -20,12 +20,12 @@ class CreateEmployeePersonalInformationTable extends Migration
             $table->boolean('civil_status')->nullable();
             $table->boolean('gender')->nullable();
             $table->string('nationality')->nullable();
-            $table->string('blood_group')->nullable();
+            $table->tinyInteger('blood_group_id')->unsigned();
             $table->string('education')->nullable();
             $table->string('identification_number', 11)->nullable();
             $table->boolean('wife_working_status')->nullable();
             $table->tinyInteger('degree_of_obstacle')->unsigned();
-            $table->tinyInteger('number_of_child')->unsigned();
+            $table->tinyInteger('number_of_child')->unsigned()->nullable();
             $table->boolean('education_status')->unsigned();
             $table->string('last_completed_school')->nullable();
             $table->text('address')->nullable();

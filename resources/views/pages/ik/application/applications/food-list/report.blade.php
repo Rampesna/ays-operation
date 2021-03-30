@@ -25,7 +25,7 @@
                         <tbody>
                         @foreach($foodList as $food)
                             <tr>
-                                <td><a href="{{ route('applications.food-list.report-detail', ['date' => $food->date]) }}" target="_blank">{{ $food->date }}</a></td>
+                                <td><a href="{{ route('ik.applications.food-list.report-detail', ['date' => $food->date]) }}" target="_blank">{{ $food->date }}</a></td>
                                 <td>{{ $food->name }}</td>
                                 <td><textarea class="form-control" rows="2" disabled>{{ $food->description }}</textarea></td>
                                 <td>{{ $food->foodListChecks()->where('checked', 1)->count() }}</td>

@@ -97,11 +97,16 @@ class AnalysisController extends Controller
     {
         try {
             $api = new PersonReportApi();
-            $response = $api->GetPersonReport('2021-03-11', '2021-03-11');
+            $response = $api->GetPersonReport($request->start_date, $request->end_date);
 
-            return $response;
-
-//            return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+            if ($response->status() == 200) {
+                return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+            } else {
+                return [
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ];
+            }
         } catch (\Exception $exception) {
             return redirect()->back()->with(['type' => 'error', 'data' => 'Sistemsel Bir Hata Oluştu! Sistem Yöneticisi İle İletişime Geçin.', 'exception' => $exception]);
         }

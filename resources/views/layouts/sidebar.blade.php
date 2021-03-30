@@ -278,6 +278,15 @@
                             </li>
                             @endAuthority
 
+                            <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'excel-data' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('integration.call-data-scanning.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Cağrı Tarama Aktarımı</span>
+                                </a>
+                            </li>
+
                             @Authority(50)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'with-id' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.re-activate-suspended-jobs') }}" class="menu-link">

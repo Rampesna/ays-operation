@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static where(string $column, $parameter)
+ * @method static find($primaryKey)
  */
 class FoodListCheck extends Model
 {
@@ -15,7 +16,7 @@ class FoodListCheck extends Model
 
     public function food()
     {
-        return $this->belongsTo(FoodList::class);
+        return $this->belongsTo(FoodList::class, 'food_list_id', 'id');
     }
 
     public function employee()

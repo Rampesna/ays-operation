@@ -5,10 +5,10 @@
 
 @section('content')
 
-    @include('pages.application.applications.food-list.modals.create')
-    @include('pages.application.applications.food-list.modals.edit')
+    @include('pages.ik.application.applications.food-list.modals.create')
+    @include('pages.ik.application.applications.food-list.modals.edit')
 
-    <form action="{{ route('applications.food-list.report') }}" method="post" class="row text-right">
+    <form action="{{ route('ik.applications.food-list.report') }}" method="post" class="row text-right">
         @csrf
         <div class="col-xl-6"></div>
         <div class="col-xl-2 text-right">
@@ -41,6 +41,8 @@
 @endsection
 
 @section('page-styles')
+    <link href="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
+
     <style>
         .fc-day:hover{
             background: lightgrey;
@@ -125,7 +127,7 @@
                 var food_list_id = calEvent.foodID;
                 $.ajax({
                     type: 'get',
-                    url: '{{ route('applications.food-list.edit') }}',
+                    url: '{{ route('ik.applications.food-list.edit') }}',
                     data: {
                         food_list_id: food_list_id
                     },

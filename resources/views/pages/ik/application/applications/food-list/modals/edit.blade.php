@@ -1,6 +1,6 @@
 <div class="modal fade" id="EditFoodList" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document" style="max-width:900px;">
-        <form action="{{ route('applications.food-list.update') }}" method="post" class="modal-content">
+        <form action="{{ route('ik.applications.food-list.update') }}" method="post" class="modal-content">
             @csrf
             <input type="hidden" name="food_list_id" id="updated_food_list_id" required>
             <div class="modal-header">

@@ -18,11 +18,9 @@ class CreatePermitsTable extends Migration
             $table->bigInteger('employee_id')->unsigned();
             $table->dateTime('start_date');
             $table->dateTime('end_date');
-            $table->dateTime('return_date');
             $table->text('description')->nullable();
             $table->tinyInteger('type_id')->unsigned();
             $table->tinyInteger('status_id')->unsigned();
-            $table->bigInteger('replacement_id')->unsigned()->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

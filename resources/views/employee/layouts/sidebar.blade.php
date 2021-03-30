@@ -9,7 +9,7 @@
             <span class="svg-icon svg-icon svg-icon-xl">
                 <!--begin::Svg Icon | path:assets/panel/media/svg/icons/Navigation/Angle-double-left.svg-->
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                     width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                     width="24px" height="24px" viewBox="0 0 24 24">
                     <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <polygon points="0 0 24 0 24 24 0 24"/>
                         <path d="M5.29288961,6.70710318 C4.90236532,6.31657888 4.90236532,5.68341391 5.29288961,5.29288961 C5.68341391,4.90236532 6.31657888,4.90236532 6.70710318,5.29288961 L12.7071032,11.2928896 C13.0856821,11.6714686 13.0989277,12.281055 12.7371505,12.675721 L7.23715054,18.675721 C6.86395813,19.08284 6.23139076,19.1103429 5.82427177,18.7371505 C5.41715278,18.3639581 5.38964985,17.7313908 5.76284226,17.3242718 L10.6158586,12.0300721 L5.29288961,6.70710318 Z" fill="#000000" fill-rule="nonzero" transform="translate(8.999997, 11.999999) scale(-1, 1) translate(-8.999997, -11.999999)"/>
@@ -30,7 +30,7 @@
             <!--begin::Menu Nav-->
             <ul class="menu-nav">
 
-                <li class="menu-item {{ Request::segment(1) === 'employees' && Request::segment(2) === 'index' ? 'menu-item-active' : null }}"
+                <li class="menu-item {{ request()->segment(1) === 'employees' && request()->segment(2) === 'index' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('employee-panel.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -47,7 +47,7 @@
                 </li>
 
                 @EmployeeAuthority(2)
-                <li class="menu-item {{ Request::segment(1) === 'employees' && Request::segment(2) === 'project' ? 'menu-item-active' : null }}"
+                <li class="menu-item {{ request()->segment(1) === 'employees' && request()->segment(2) === 'project' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('employee-panel.project.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">

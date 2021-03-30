@@ -16,4 +16,14 @@ class DataScanningApi extends OperationApi
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $jobList);
     }
+
+    public function SetCallDataScanning($list)
+    {
+        $endpoint = "DataScanning/SetCallDataScanning";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
 }

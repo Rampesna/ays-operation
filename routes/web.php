@@ -89,6 +89,14 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::post('/store', 'ExcelController@store')->name('integration.excel.store');
         });
 
+        Route::prefix('call-data-scanning')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('integration.call-data-scanning.index');
+            });
+            Route::get('/index', 'ExcelDataScanningController@index')->name('integration.call-data-scanning.index');
+            Route::post('/store', 'ExcelDataScanningController@store')->name('integration.call-data-scanning.store');
+        });
+
         Route::prefix('with-id')->group(function () {
             Route::get('/', function () {
                 return redirect()->route('integration.with-id.index');
@@ -412,18 +420,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::get('index', 'CustomReportController@index')->name('applications.custom-report.index');
         });
 
-        Route::prefix('food-list')->namespace('FoodList')->group(function () {
-            Route::get('/', function () {
-                return redirect()->route('applications.food-list.index');
-            });
-            Route::get('index', 'FoodListController@index')->name('applications.food-list.index');
-            Route::post('create', 'FoodListController@create')->name('applications.food-list.create');
-            Route::get('edit', 'FoodListController@edit')->name('applications.food-list.edit');
-            Route::post('update', 'FoodListController@update')->name('applications.food-list.update');
-            Route::post('delete', 'FoodListController@delete')->name('applications.food-list.delete');
-            Route::post('report', 'FoodListController@report')->name('applications.food-list.report');
-            Route::get('{date?}/report-detail', 'FoodListController@reportDetail')->name('applications.food-list.report-detail');
-        });
+
     });
 
     Route::prefix('ik')->namespace('IK')->group(function () {
@@ -446,6 +443,8 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::get('index', 'EmployeeController@index')->name('ik.employee.index');
             Route::get('leavers', 'EmployeeController@leavers')->name('ik.employee.leavers');
             Route::get('/{id}/show/{tab?}', 'EmployeeController@show')->name('ik.employee.show');
+
+            Route::post('update/personal', 'EmployeeController@updatePersonal')->name('ik.employee.update.personal');
         });
 
         Route::prefix('applications')->namespace('Application')->group(function () {
@@ -453,6 +452,25 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 return redirect()->route('ik.application.index');
             });
             Route::get('index', 'ApplicationController@index')->name('ik.application.index');
+
+            Route::prefix('permit')->namespace('Permit')->group(function () {
+                Route::get('/', function () {
+                    return redirect()->route('');
+                });
+                Route::get('index', 'PermitController@index')->name('ik.application.permit.index');
+            });
+
+            Route::prefix('food-list')->namespace('FoodList')->group(function () {
+                Route::get('/', function () {
+                    return redirect()->route('ik.applications.food-list.index');
+                });
+                Route::get('index', 'FoodListController@index')->name('ik.applications.food-list.index');
+                Route::post('create', 'FoodListController@create')->name('ik.applications.food-list.create');
+                Route::get('edit', 'FoodListController@edit')->name('ik.applications.food-list.edit');
+                Route::post('update', 'FoodListController@update')->name('ik.applications.food-list.update');
+                Route::post('report', 'FoodListController@report')->name('ik.applications.food-list.report');
+                Route::get('{date?}/report-detail', 'FoodListController@reportDetail')->name('ik.applications.food-list.report-detail');
+            });
         });
     });
 
@@ -463,6 +481,14 @@ Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\
         return redirect()->route('employee-panel.index');
     });
     Route::get('index', 'MainController@index')->name('employee-panel.index');
+
+    Route::prefix('permit')->namespace('Permit')->group(function () {
+        Route::post('create', 'PermitController@create')->name('employee-panel.permit.create');
+    });
+
+    Route::prefix('overtime')->namespace('Overtime')->group(function () {
+        Route::post('create', 'OvertimeController@create')->name('employee-panel.overtime.create');
+    });
 
     Route::prefix('project')->namespace('Project')->group(function () {
         Route::get('/', function () {

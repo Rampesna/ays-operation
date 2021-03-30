@@ -16,7 +16,7 @@ class FoodListController extends Controller
 {
     public function index()
     {
-        return view('pages.application.applications.food-list.index', [
+        return view('pages.ik.application.applications.food-list.index', [
             'foodList' => FoodList::all()
         ]);
     }
@@ -78,7 +78,7 @@ class FoodListController extends Controller
             $request->end_date
         ])->get();
 
-        return view('pages.application.applications.food-list.report', [
+        return view('pages.ik.application.applications.food-list.report', [
             'foodList' => $foodList
         ]);
     }
@@ -86,7 +86,7 @@ class FoodListController extends Controller
     public function reportDetail(Request $request)
     {
         $foodListChecks = FoodList::where('date', $request->date)->first()->foodListChecks()->with(['employee'])->get();
-        return view('pages.application.applications.food-list.report-detail', [
+        return view('pages.ik.application.applications.food-list.report-detail', [
             'foodListChecks' => $foodListChecks
         ]);
     }

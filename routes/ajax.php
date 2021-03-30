@@ -224,4 +224,14 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     });
 
+    Route::prefix('ik')->namespace('IK')->group(function () {
+        Route::prefix('application')->group(function () {
+
+            Route::prefix('food')->group(function () {
+                Route::get('getFoodListCheck', 'FoodListCheckController@getFoodListCheck')->name('ajax.ik.food-list-check.getFoodListCheck');
+                Route::any('setFoodCheck','FoodListCheckController@setFoodCheck')->name('ajax.ik.food-list-check.setFoodCheck');
+            });
+        });
+    });
+
 });

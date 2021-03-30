@@ -1,5 +1,5 @@
 <div class="modal fade" id="CreateFoodListModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-hidden="true">
-    <form action="{{ route('applications.food-list.create') }}" method="post" class="modal-dialog" style="max-width:900px;">
+    <form action="{{ route('ik.applications.food-list.create') }}" method="post" class="modal-dialog" style="max-width:900px;">
         @csrf
         <div class="modal-content">
             <div class="modal-header">

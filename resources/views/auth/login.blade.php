@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <div class="d-flex">
                                 <label class="checkbox checkbox-dark">
-                                    <input type="checkbox" checked="checked" name="remember" /> Beni Hatırla
+                                    <input type="checkbox" name="remember" value="1" checked /> Beni Hatırla
                                     <span></span>
                                 </label>
                                 <i class="fa fa-info-circle ml-3 mt-1" data-toggle="tooltip" data-placement="right" title="Aktif Ederseniz Oturumunuz Otomatik Olarak Sonlandırılmaz."></i>
@@ -46,7 +46,7 @@
                                     <button type="submit" onclick="loginControl()" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Giriş Yap</button>
                                 </div>
                                 <div class="col-xl-8">
-                                    <a href="{{ route('employee-panel.login.form') }}" type="submit" class="btn btn-secondary btn-block font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Personel Girişi</a>
+                                    <a href="{{ route('employee-panel.login.form') }}" class="btn btn-secondary btn-block font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">Personel Girişi</a>
                                 </div>
                             </div>
                         </div>
