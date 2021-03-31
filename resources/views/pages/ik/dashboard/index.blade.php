@@ -1,15 +1,20 @@
 @extends('layouts.master')
 @section('title', 'İnsan Kaynakları - Genel Bakış')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
-
+@php(setlocale(LC_TIME, 'Turkish'))
 
 @section('content')
+
+    @include('pages.ik.dashboard.modals.today-permitted-employees')
+    @include('pages.ik.dashboard.modals.employees-group-by-company')
+
+    @include('pages.ik.dashboard.modals.edit-permit')
 
     <div class="row">
 
         <div class="col-lg-2">
             <div class="card card-custom bg-dark-75 card-stretch gutter-b">
-                <div class="card-body cursor-pointer" data-toggle="modal" data-target="#ShowEmployeesModal">
+                <div class="card-body cursor-pointer" data-toggle="modal" data-target="#EmployeesGroupByCompanyModal">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -82,7 +87,7 @@
 
         <div class="col-lg-2">
             <div class="card card-custom card-stretch gutter-b" style="background-color: saddlebrown">
-                <div class="card-body cursor-pointer" data-toggle="modal" data-target="#ShowPermittedEmployeesModal">
+                <div class="card-body cursor-pointer" data-toggle="modal" data-target="#TodayPermittedEmployeesModal">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -91,7 +96,7 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">--</span>
+                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">{{ count($todayPermittedEmployees) }}</span>
                     <span class="font-weight-bold text-white font-size-sm">Bugün İzinliler</span>
                 </div>
             </div>
@@ -131,43 +136,58 @@
                                 <hr>
                                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                                     <li class="nav-item">
-                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#WaitingPanel">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#WaitingPermitsPanel">
                                             <span class="nav-text"><i class="fa fa-plane"></i> &nbsp;&nbsp;İzin</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#AcceptedPanel" aria-controls="profile">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#WaitingOvertimesPanel" aria-controls="profile">
                                             <span class="nav-text"><i class="fa fa-clock"></i> &nbsp;&nbsp;Fazla Mesai</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#DeniedPanel" aria-controls="contact">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#WaitingPaymentsPanel" aria-controls="contact">
                                             <span class="nav-text"><i class="fa fa-credit-card"></i> &nbsp;&nbsp;Ödeme</span>
                                         </a>
                                     </li>
                                 </ul>
                                 <div class="tab-content mt-5" id="myTabContent">
-                                    <div class="tab-pane fade show active" id="WaitingPanel" role="tabpanel" aria-labelledby="WaitingPanel-tab">
-                                        <div class="col-xl-12">
-                                            <a href="#" data-toggle="modal" data-target="#AddEducationModal" class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
-                                                <div class="card-body">
-                                                    <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                                <rect x="0" y="0" width="24" height="24"/>
-                                                                <path d="M14,13.381038 L14,3.47213595 L7.99460483,15.4829263 L14,13.381038 Z M4.88230018,17.2353996 L13.2844582,0.431083506 C13.4820496,0.0359007077 13.9625881,-0.12427877 14.3577709,0.0733126292 C14.5125928,0.15072359 14.6381308,0.276261584 14.7155418,0.431083506 L23.1176998,17.2353996 C23.3152912,17.6305824 23.1551117,18.1111209 22.7599289,18.3087123 C22.5664522,18.4054506 22.3420471,18.4197165 22.1378777,18.3482572 L14,15.5 L5.86212227,18.3482572 C5.44509941,18.4942152 4.98871325,18.2744737 4.84275525,17.8574509 C4.77129597,17.6532815 4.78556182,17.4288764 4.88230018,17.2353996 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.000087, 9.191034) rotate(-315.000000) translate(-14.000087, -9.191034) "/>
-                                                            </g>
-                                                        </svg>
-                                                    </span>
-                                                    <div class="text-inverse-primary font-weight-bolder font-size-h5 mb-2 mt-5">Bekleyen İzin Talebi Bulunmuyor</div>
+                                    <div class="tab-pane fade show active" id="WaitingPermitsPanel" role="tabpanel" aria-labelledby="WaitingPermitsPanel-tab">
+                                        @if(count($waitingPermits) == 0)
+                                            <div class="col-xl-12">
+                                                <a class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
+                                                    <div class="card-body">
+                                                        <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24"/>
+                                                                    <path d="M14,13.381038 L14,3.47213595 L7.99460483,15.4829263 L14,13.381038 Z M4.88230018,17.2353996 L13.2844582,0.431083506 C13.4820496,0.0359007077 13.9625881,-0.12427877 14.3577709,0.0733126292 C14.5125928,0.15072359 14.6381308,0.276261584 14.7155418,0.431083506 L23.1176998,17.2353996 C23.3152912,17.6305824 23.1551117,18.1111209 22.7599289,18.3087123 C22.5664522,18.4054506 22.3420471,18.4197165 22.1378777,18.3482572 L14,15.5 L5.86212227,18.3482572 C5.44509941,18.4942152 4.98871325,18.2744737 4.84275525,17.8574509 C4.77129597,17.6532815 4.78556182,17.4288764 4.88230018,17.2353996 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.000087, 9.191034) rotate(-315.000000) translate(-14.000087, -9.191034) "/>
+                                                                </g>
+                                                            </svg>
+
+                                                        </span>
+                                                        <div class="text-inverse-primary font-weight-bolder font-size-h5 mb-2 mt-5">Bekleyen İzin Talebi Bulunmuyor</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @else
+                                            <div class="mt-10"></div>
+                                            @foreach($waitingPermits as $permit)
+                                                <div class="d-flex align-items-center mt-4">
+                                                    <span class="bullet bullet-bar bg-warning align-self-stretch"></span>
+                                                    <div class="div ml-5"></div>
+                                                    <a data-id="{{ $permit->id }}" class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1 cursor-pointer edit-permit">
+                                                        {{  ucwords($permit->employee->name) }} - ({{ strftime("%d %B, %H:%M", strtotime($permit->start_date)) }} - {{ strftime("%d %B, %H:%M", strtotime($permit->end_date)) }})
+                                                    </a>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            @endforeach
+                                        @endif
                                     </div>
-                                    <div class="tab-pane fade" id="AcceptedPanel" role="tabpanel" aria-labelledby="AcceptedPanel-tab">
-                                        <div class="col-xl-12">
-                                            <a data-toggle="modal" data-target="#AddEducationModal" class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
-                                                <div class="card-body">
+                                    <div class="tab-pane fade" id="WaitingOvertimesPanel" role="tabpanel" aria-labelledby="WaitingOvertimesPanel-tab">
+                                        @if(count($waitingOvertimes) == 0)
+                                            <div class="col-xl-12">
+                                                <a class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
+                                                    <div class="card-body">
                                                         <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -178,15 +198,28 @@
                                                                 </g>
                                                             </svg>
                                                         </span>
-                                                    <div class="text-inverse-primary font-weight-bolder font-size-h5 mb-2 mt-5">Bekleyen Fazla Mesai Talebi Bulunmuyor</div>
+                                                        <div class="text-inverse-primary font-weight-bolder font-size-h5 mb-2 mt-5">Bekleyen Fazla Mesai Talebi Bulunmuyor</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @else
+                                            <div class="mt-10"></div>
+                                            @foreach($waitingOvertimes as $overtime)
+                                                <div class="d-flex align-items-center mt-4">
+                                                    <span class="bullet bullet-bar bg-warning align-self-stretch"></span>
+                                                    <div class="div ml-5"></div>
+                                                    <a class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1 cursor-pointer">
+                                                        {{ ucwords($overtime->employee->name) }} - ({{ strftime('%d %B', strtotime($overtime->start_date)) }} - {{ strftime('%d %B', strtotime($overtime->end_date)) }})
+                                                    </a>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            @endforeach
+                                        @endif
                                     </div>
-                                    <div class="tab-pane fade" id="DeniedPanel" role="tabpanel" aria-labelledby="DeniedPanel-tab">
-                                        <div class="col-xl-12">
-                                            <a href="#" data-toggle="modal" data-target="#AddEducationModal" class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
-                                                <div class="card-body">
+                                    <div class="tab-pane fade" id="WaitingPaymentsPanel" role="tabpanel" aria-labelledby="WaitingPaymentsPanel-tab">
+                                        @if(count($waitingPayments) == 0)
+                                            <div class="col-xl-12">
+                                                <a class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
+                                                    <div class="card-body">
                                                         <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
                                                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -196,10 +229,22 @@
                                                                 </g>
                                                             </svg>
                                                         </span>
-                                                    <div class="text-inverse-primary font-weight-bolder font-size-h5 mb-2 mt-5">Bekleyen Ödeme Talebi Bulunmuyor</div>
+                                                        <div class="text-inverse-primary font-weight-bolder font-size-h5 mb-2 mt-5">Bekleyen Ödeme Talebi Bulunmuyor</div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        @else
+                                            <div class="mt-10"></div>
+                                            @foreach($waitingPayments as $payment)
+                                                <div class="d-flex align-items-center mt-4">
+                                                    <span class="bullet bullet-bar bg-warning align-self-stretch"></span>
+                                                    <div class="div ml-5"></div>
+                                                    <a class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1">
+                                                        {{ $payment->employee->name }} - {{ $payment->amount }} TL {{ $payment->type->name }} - {{ strftime("%d %B %Y", strtotime($payment->date)) }}
+                                                    </a>
                                                 </div>
-                                            </a>
-                                        </div>
+                                            @endforeach
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -221,14 +266,14 @@
                                 <a href="#" data-toggle="modal" data-target="#AddEducationModal"
                                    class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
                                     <div class="card-body">
-                                            <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                                        <rect x="0" y="0" width="24" height="24"/>
-                                                        <path d="M12,21 C7.02943725,21 3,16.9705627 3,12 C3,7.02943725 7.02943725,3 12,3 C16.9705627,3 21,7.02943725 21,12 C21,16.9705627 16.9705627,21 12,21 Z M14.1654881,7.35483745 L9.61055177,10.3622525 C9.47921741,10.4489666 9.39637436,10.592455 9.38694497,10.7495509 L9.05991526,16.197949 C9.04337012,16.4735952 9.25341309,16.7104632 9.52905936,16.7270083 C9.63705011,16.7334903 9.74423017,16.7047714 9.83451193,16.6451626 L14.3894482,13.6377475 C14.5207826,13.5510334 14.6036256,13.407545 14.613055,13.2504491 L14.9400847,7.80205104 C14.9566299,7.52640477 14.7465869,7.28953682 14.4709406,7.27299168 C14.3629499,7.26650974 14.2557698,7.29522855 14.1654881,7.35483745 Z" fill="#000000"/>
-                                                    </g>
-                                                </svg>
-                                            </span>
+                                        <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                    <rect x="0" y="0" width="24" height="24"/>
+                                                    <path d="M12,21 C7.02943725,21 3,16.9705627 3,12 C3,7.02943725 7.02943725,3 12,3 C16.9705627,3 21,7.02943725 21,12 C21,16.9705627 16.9705627,21 12,21 Z M14.1654881,7.35483745 L9.61055177,10.3622525 C9.47921741,10.4489666 9.39637436,10.592455 9.38694497,10.7495509 L9.05991526,16.197949 C9.04337012,16.4735952 9.25341309,16.7104632 9.52905936,16.7270083 C9.63705011,16.7334903 9.74423017,16.7047714 9.83451193,16.6451626 L14.3894482,13.6377475 C14.5207826,13.5510334 14.6036256,13.407545 14.613055,13.2504491 L14.9400847,7.80205104 C14.9566299,7.52640477 14.7465869,7.28953682 14.4709406,7.27299168 C14.3629499,7.26650974 14.2557698,7.29522855 14.1654881,7.35483745 Z" fill="#000000"/>
+                                                </g>
+                                            </svg>
+                                        </span>
                                         <div class="text-inverse-primary font-weight-bolder font-size-h5 mb-2 mt-5">Yaklaşan Resmi Tatil Yok</div>
                                     </div>
                                 </a>
@@ -244,9 +289,9 @@
 @endsection
 
 @section('page-styles')
-
+    @include('pages.ik.dashboard.components.style')
 @stop
 
 @section('page-script')
-
+    @include('pages.ik.dashboard.components.script')
 @stop

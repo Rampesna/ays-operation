@@ -143,7 +143,7 @@
                                         <div class="form-group">
                                             <div class="checkbox-inline">
                                                 <label class="checkbox checkbox-success">
-                                                    <input name="after_sunday" id="after_sunday" type="checkbox" checked="checked" /> Pazar Vardiyası Olan Personele, Pazartesi Günü Vardiya Eklenmesin
+                                                    <input name="after_sunday" id="after_sunday" type="checkbox" checked="checked" /> Pazar Vardiyası Olan Personele, Cumartesi Günü Vardiya Eklenmesin
                                                     <span></span>
                                                 </label>
                                             </div>

@@ -45,4 +45,39 @@
 
         responsive: true
     });
+
+    function dateReCreator(getDate) {
+        var date = new Date(getDate);
+        return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}T${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+    }
+
+    $(document).delegate('.edit', 'click', function () {
+        var id = $(this).data('id');
+        $("#permit_id_edit").val(id);
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.ik.permit.getPermit') }}',
+            data: {
+                id: id
+            },
+            success: function (permit) {
+                $("#employee_id_edit").val(permit.employee_id);
+                $("#type_id_edit").val(permit.type_id).selectpicker('refresh');
+                $("#status_id_edit").val(permit.status_id).selectpicker('refresh');
+                $("#start_date_edit").val(dateReCreator(permit.start_date));
+                $("#end_date_edit").val(dateReCreator(permit.end_date));
+                $("#description_edit").val(permit.description);
+                $("#EditPermitModal").modal('show');
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    });
+
+    $(document).delegate('.delete', 'click', function () {
+        $("#deleted_permit_id").val($(this).data('id'));
+        $("#DeletePermitModal").modal('show');
+    });
 </script>

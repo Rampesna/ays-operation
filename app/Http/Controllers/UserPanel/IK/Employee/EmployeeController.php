@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\BloodGroup;
 use App\Models\Employee;
 use App\Models\EmployeePersonalInformation;
+use App\Models\Permit;
+use App\Models\PermitStatus;
+use App\Models\PermitType;
 use App\Models\Position;
+use App\Models\Salary;
 use App\Services\EmployeePersonalInformationService;
 use Illuminate\Http\Request;
 
@@ -42,13 +46,6 @@ class EmployeeController extends Controller
 
     public function show($id, $tab)
     {
-//        return Employee::with([
-//            'ik_company',
-//            'ik_branch',
-//            'ik_department',
-//            'ik_title',
-//            'personalInformations'
-//        ])->find($id);
         if ($tab == 'general') {
             return view('pages.ik.employee.show.general/index', [
                 'employee' => Employee::with([
@@ -63,6 +60,31 @@ class EmployeeController extends Controller
         } else if ($tab == 'personal') {
             return view('pages.ik.employee.show.personal/index', [
                 'bloodGroups' => BloodGroup::all(),
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'career') {
+            return view('pages.ik.employee.show.career/index', [
+                'positions' => Position::where('employee_id', $id)->get(),
+                'salaries' => Salary::where('employee_id', $id)->get(),
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'permit') {
+            return view('pages.ik.employee.show.permit/index', [
+                'permits' => Permit::with([
+                    'employee',
+                    'type',
+                    'status'
+                ])->
+                where('employee_id', $id)->
+                orderBy('created_at', 'desc')->get(),
+                'permitStatuses' => PermitStatus::all(),
+                'permitTypes' => PermitType::all(),
                 'employee' => Employee::with([
                     'personalInformations'
                 ])->find($id),

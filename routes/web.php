@@ -455,9 +455,12 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
 
             Route::prefix('permit')->namespace('Permit')->group(function () {
                 Route::get('/', function () {
-                    return redirect()->route('');
+                    return redirect()->route('ik.application.permit.index');
                 });
                 Route::get('index', 'PermitController@index')->name('ik.application.permit.index');
+                Route::post('create', 'PermitController@create')->name('ik.application.permit.create');
+                Route::post('update', 'PermitController@update')->name('ik.application.permit.update');
+                Route::post('delete', 'PermitController@delete')->name('ik.application.permit.delete');
             });
 
             Route::prefix('food-list')->namespace('FoodList')->group(function () {

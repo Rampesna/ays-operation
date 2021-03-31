@@ -5,6 +5,16 @@
 
 @section('content')
 
+    @include('pages.ik.application.applications.permit.modals.create')
+    @include('pages.ik.application.applications.permit.modals.edit')
+    @include('pages.ik.application.applications.permit.modals.delete')
+
+    <div class="row">
+        <div class="col-xl-12 text-right">
+            <button class="btn btn-sm btn-primary" type="button" data-toggle="modal" data-target="#CreatePermitModal">Yeni İzin Oluştur</button>
+        </div>
+    </div>
+    <hr>
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
@@ -33,7 +43,7 @@
                                         <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                             <ul class="navi navi-hover">
                                                 <li class="navi-item">
-                                                    <a class="navi-link cursor-pointer">
+                                                    <a data-id="{{ $permit->id }}" class="navi-link cursor-pointer edit">
                                                         <span class="navi-icon">
                                                             <i class="fa fa-edit"></i>
                                                         </span>
@@ -41,7 +51,7 @@
                                                     </a>
                                                 </li>
                                                 <li class="navi-item">
-                                                    <a class="navi-link cursor-pointer">
+                                                    <a data-id="{{ $permit->id }}" class="navi-link cursor-pointer delete">
                                                         <span class="navi-icon">
                                                             <i class="fa fa-trash-alt text-danger"></i>
                                                         </span>

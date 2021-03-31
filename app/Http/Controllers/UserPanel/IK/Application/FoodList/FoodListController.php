@@ -9,6 +9,7 @@ use App\Models\FoodList;
 use App\Models\FoodListCheck;
 use App\Services\FoodListCheckService;
 use App\Services\FoodListService;
+use App\Services\ShiftService;
 use Illuminate\Http\Request;
 
 class FoodListController extends Controller
@@ -32,16 +33,15 @@ class FoodListController extends Controller
 
         $employees = Employee::all();
 
-        $api = new AyssoftIkApi();
-        $todayShiftEmployees = $api->TodayShiftEmployee($request->date)['content'];
+        $todayShifts = (new ShiftService)->shiftEmployeesByDate($request->date);
 
         foreach ($employees as $employee) {
             $foodListCheckService = new FoodListCheckService;
             $foodListCheckService->setFoodListCheck(new FoodListCheck);
-            foreach ($todayShiftEmployees as $todayShiftEmployee) {
-                $checked = $employee->email == $todayShiftEmployee['user']['email'] ? 0 : 0;
-                $locked = $employee->email == $todayShiftEmployee['user']['email'] ? 1 : 0;
-                $description = $employee->email == $todayShiftEmployee['user']['email'] ? 'Personel Nöbetçi Olduğu İçin Sistem Tarafından Yemeyecek Olarak Ayarlandı.' : null;
+            foreach ($todayShifts as $todayShift) {
+                $checked = $employee->id == $todayShift->employee->id ? 0 : 0;
+                $locked = $employee->id == $todayShift->employee->id ? 1 : 0;
+                $description = $employee->id == $todayShift->employee->id ? 'Personel Nöbetçi Olduğu İçin Sistem Tarafından Yemeyecek Olarak Ayarlandı.' : null;
             }
             $foodListCheckService->create($foodList->id, $employee->id, $checked, $locked, $description);
         }

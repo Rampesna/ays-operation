@@ -169,6 +169,11 @@ class Employee extends Authenticatable
         return $this->hasMany(Position::class);
     }
 
+    public function salaries()
+    {
+        return $this->hasMany(Salary::class);
+    }
+
     public function permits()
     {
         return $this->hasMany(Permit::class);

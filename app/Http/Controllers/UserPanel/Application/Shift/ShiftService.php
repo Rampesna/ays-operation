@@ -52,6 +52,17 @@ class ShiftService
             first() ?? null;
     }
 
+    public function controlSaturdayShift($date, $employee)
+    {
+        return Shift::
+            where('employee_id', $employee->id)->
+            whereBetween('start_date', [
+                date('Y-m-d', strtotime($date . ' - 1 days')) . ' ' . '00:00:00',
+                date('Y-m-d', strtotime($date . ' - 1 days')) . ' ' . '23:59:59'
+            ])->
+            first() ?? null;
+    }
+
     public function controlShift($date, $employee)
     {
         return Shift::
@@ -78,8 +89,8 @@ class ShiftService
                     }
                 } else if ($dayControlVariable == "day0") {
                     if (!is_null($dayControlVariable)) {
-                        if ($this->controlMondayShift($date, $employee)) {
-                            $this->deleteShift($this->controlMondayShift($date, $employee));
+                        if ($shiftController = $this->controlSaturdayShift($date, $employee)) {
+                            $this->deleteShift($shiftController);
                         }
                     }
                 }

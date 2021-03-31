@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 /**
- * @method static where($column, $parameter)
+ * @method static find($primaryKey)
  */
 class Permit extends Model
 {
