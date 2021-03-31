@@ -71,6 +71,17 @@
                 className: 'fc-event-light fc-event-solid-primary'
             },
                 @endforeach
+                @foreach($shifts as $shift)
+            {
+                myEventType: 'shift',
+                shiftId: '{{ $shift->id }}',
+                title: '{{ $shift->description }}',
+                start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
+                end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
+                url: 'javascript:void(0);',
+                className: 'fc-event-light fc-event-solid-{{ intval(date('H', strtotime($shift->start_date))) != 9 || intval(date('H', strtotime($shift->end_date))) != 18 ? 'danger' : 'secondary' }}'
+            },
+            @endforeach
         ],
 
         eventClick: function (calEvent, jsEvent, view) {

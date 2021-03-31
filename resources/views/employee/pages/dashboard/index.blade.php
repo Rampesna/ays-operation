@@ -14,10 +14,10 @@
     @include('employee.pages.dashboard.modals.show-food')
 
     <div class="row">
-        <div class="col-xl-4 col-lg-4 col-md-12">
+        <div class="col-xl-3 col-lg-6 col-md-12">
 
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-12">
                     <a data-toggle="modal" data-target="#CreatePermitModal" class="card card-custom card-stretch gutter-b cursor-pointer">
                         <div class="card-body">
                             <span class="svg-icon svg-icon-primary svg-icon-3x ml-n1">
@@ -33,7 +33,7 @@
                     </a>
                 </div>
 
-                <div class="col-xl-6">
+                <div class="col-xl-12">
                     <a data-toggle="modal" data-target="#CreateOvertimeModal" class="card card-custom card-stretch gutter-b cursor-pointer">
                         <div class="card-body">
                             <span class="svg-icon svg-icon-warning svg-icon-3x ml-n1">
@@ -49,7 +49,7 @@
                     </a>
                 </div>
 
-                <div class="col-xl-6">
+                <div class="col-xl-12">
                     <a data-toggle="modal" data-target="#CreatePaymentModal" class="card card-custom card-stretch gutter-b cursor-pointer">
                         <div class="card-body">
                         <span class="svg-icon svg-icon-success svg-icon-3x ml-n1">
@@ -69,7 +69,7 @@
             </div>
 
         </div>
-        <div class="col-xl-8 col-lg-8 col-md-12">
+        <div class="col-xl-9 col-lg-8 col-md-12">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card card-custom">

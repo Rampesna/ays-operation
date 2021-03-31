@@ -8,6 +8,7 @@ use App\Models\Overtime;
 use App\Models\OvertimeReason;
 use App\Models\Permit;
 use App\Models\PermitType;
+use App\Models\Shift;
 
 class MainController extends Controller
 {
@@ -18,14 +19,15 @@ class MainController extends Controller
                 'employee',
                 'type',
                 'status'
-            ])->where('employee_id', auth()->user()->getId())->get(),
+            ])->where('employee_id', auth()->user()->getId())->where('status_id', '<>', 3)->get(),
             'overtimes' => Overtime::with([
                 'employee',
                 'reason'
             ])->where('employee_id', auth()->user()->getId())->get(),
             'foodList' => FoodList::all(),
             'permitTypes' => PermitType::all(),
-            'reasons' => OvertimeReason::all()
+            'reasons' => OvertimeReason::all(),
+            'shifts' => Shift::where('employee_id', auth()->user()->getId())->get()
         ]);
     }
 }
