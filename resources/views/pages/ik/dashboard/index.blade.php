@@ -9,6 +9,8 @@
     @include('pages.ik.dashboard.modals.employees-group-by-company')
 
     @include('pages.ik.dashboard.modals.edit-permit')
+    @include('pages.ik.dashboard.modals.edit-overtime')
+    @include('pages.ik.dashboard.modals.edit-payment')
 
     <div class="row">
 
@@ -16,7 +18,7 @@
             <div class="card card-custom bg-dark-75 card-stretch gutter-b">
                 <div class="card-body cursor-pointer" data-toggle="modal" data-target="#EmployeesGroupByCompanyModal">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <polygon points="0 0 24 0 24 24 0 24" />
                                 <path d="M18,14 C16.3431458,14 15,12.6568542 15,11 C15,9.34314575 16.3431458,8 18,8 C19.6568542,8 21,9.34314575 21,11 C21,12.6568542 19.6568542,14 18,14 Z M9,11 C6.790861,11 5,9.209139 5,7 C5,4.790861 6.790861,3 9,3 C11.209139,3 13,4.790861 13,7 C13,9.209139 11.209139,11 9,11 Z" fill="#000000" fill-rule="nonzero" opacity="0.3" />
@@ -34,7 +36,7 @@
             <div class="card card-custom bg-success card-stretch gutter-b">
                 <div class="card-body">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
                                 <rect fill="#000000" opacity="0.3" transform="translate(9.000000, 12.000000) rotate(-270.000000) translate(-9.000000, -12.000000) " x="8" y="6" width="2" height="12" rx="1"/>
@@ -53,7 +55,7 @@
             <div class="card card-custom bg-warning card-stretch gutter-b">
                 <div class="card-body">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
                                 <path d="M7.14319965,19.3575259 C7.67122143,19.7615175 8.25104409,20.1012165 8.87097532,20.3649307 L7.89205065,22.0604779 C7.61590828,22.5387706 7.00431787,22.7026457 6.52602525,22.4265033 C6.04773263,22.150361 5.88385747,21.5387706 6.15999985,21.0604779 L7.14319965,19.3575259 Z M15.1367085,20.3616573 C15.756345,20.0972995 16.3358198,19.7569961 16.8634386,19.3524415 L17.8320512,21.0301278 C18.1081936,21.5084204 17.9443184,22.1200108 17.4660258,22.3961532 C16.9877332,22.6722956 16.3761428,22.5084204 16.1000004,22.0301278 L15.1367085,20.3616573 Z" fill="#000000"/>
@@ -72,7 +74,7 @@
             <div class="card card-custom bg-danger card-stretch gutter-b">
                 <div class="card-body">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
                                 <path d="M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z M12,20 C16.418278,20 20,16.418278 20,12 C20,7.581722 16.418278,4 12,4 C7.581722,4 4,7.581722 4,12 C4,16.418278 7.581722,20 12,20 Z M19.0710678,4.92893219 L19.0710678,4.92893219 C19.4615921,5.31945648 19.4615921,5.95262146 19.0710678,6.34314575 L6.34314575,19.0710678 C5.95262146,19.4615921 5.31945648,19.4615921 4.92893219,19.0710678 L4.92893219,19.0710678 C4.5384079,18.6805435 4.5384079,18.0473785 4.92893219,17.6568542 L17.6568542,4.92893219 C18.0473785,4.5384079 18.6805435,4.5384079 19.0710678,4.92893219 Z" fill="#000000" fill-rule="nonzero" opacity="0.3"/>
@@ -89,7 +91,7 @@
             <div class="card card-custom card-stretch gutter-b" style="background-color: saddlebrown">
                 <div class="card-body cursor-pointer" data-toggle="modal" data-target="#TodayPermittedEmployeesModal">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
                                 <path d="M14,13.381038 L14,3.47213595 L7.99460483,15.4829263 L14,13.381038 Z M4.88230018,17.2353996 L13.2844582,0.431083506 C13.4820496,0.0359007077 13.9625881,-0.12427877 14.3577709,0.0733126292 C14.5125928,0.15072359 14.6381308,0.276261584 14.7155418,0.431083506 L23.1176998,17.2353996 C23.3152912,17.6305824 23.1551117,18.1111209 22.7599289,18.3087123 C22.5664522,18.4054506 22.3420471,18.4197165 22.1378777,18.3482572 L14,15.5 L5.86212227,18.3482572 C5.44509941,18.4942152 4.98871325,18.2744737 4.84275525,17.8574509 C4.77129597,17.6532815 4.78556182,17.4288764 4.88230018,17.2353996 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.000087, 9.191034) rotate(-315.000000) translate(-14.000087, -9.191034) "/>
@@ -106,7 +108,7 @@
             <div class="card card-custom bg-primary card-stretch gutter-b">
                 <div class="card-body">
                     <span class="svg-icon svg-icon-2x svg-icon-white">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
                                 <path d="M21.9969433,12.1933592 C21.8948657,15.4175796 19.2490111,18 16,18 L12.0583175,18 L12.0583175,18.9825492 C12.0583175,19.2586916 11.8344599,19.4825492 11.5583175,19.4825492 C11.4509855,19.4825492 11.3465023,19.4480108 11.2603165,19.3840407 L8.40328311,17.263451 C8.18154548,17.0988696 8.13521119,16.7856962 8.29979258,16.5639585 C8.32872576,16.5249774 8.36318164,16.4904176 8.40207551,16.4613672 L11.2591089,14.3274051 C11.48035,14.1621567 11.7936615,14.2075478 11.9589099,14.4287888 C12.0234473,14.5151942 12.0583175,14.6201505 12.0583175,14.7279974 L12.0583175,16 L16,16 C17.6264832,16 19.0262317,15.0292331 19.6514501,13.6354945 C20.5364094,13.3251939 21.3338787,12.8288439 21.9969433,12.1933592 Z" fill="#000000" opacity="0.3"/>
@@ -158,7 +160,7 @@
                                                 <a class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
                                                     <div class="card-body">
                                                         <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                     <rect x="0" y="0" width="24" height="24"/>
                                                                     <path d="M14,13.381038 L14,3.47213595 L7.99460483,15.4829263 L14,13.381038 Z M4.88230018,17.2353996 L13.2844582,0.431083506 C13.4820496,0.0359007077 13.9625881,-0.12427877 14.3577709,0.0733126292 C14.5125928,0.15072359 14.6381308,0.276261584 14.7155418,0.431083506 L23.1176998,17.2353996 C23.3152912,17.6305824 23.1551117,18.1111209 22.7599289,18.3087123 C22.5664522,18.4054506 22.3420471,18.4197165 22.1378777,18.3482572 L14,15.5 L5.86212227,18.3482572 C5.44509941,18.4942152 4.98871325,18.2744737 4.84275525,17.8574509 C4.77129597,17.6532815 4.78556182,17.4288764 4.88230018,17.2353996 Z" fill="#000000" fill-rule="nonzero" transform="translate(14.000087, 9.191034) rotate(-315.000000) translate(-14.000087, -9.191034) "/>
@@ -176,7 +178,7 @@
                                                     <span class="bullet bullet-bar bg-warning align-self-stretch"></span>
                                                     <div class="div ml-5"></div>
                                                     <a data-id="{{ $permit->id }}" class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1 cursor-pointer edit-permit">
-                                                        {{  ucwords($permit->employee->name) }} - ({{ strftime("%d %B, %H:%M", strtotime($permit->start_date)) }} - {{ strftime("%d %B, %H:%M", strtotime($permit->end_date)) }})
+                                                        {{  ucwords($permit->employee->name) }} - ({{ strftime("%d %B, %H:%M", strtotime($permit->start_date)) }} - {{ strftime("%d %B, %H:%M", strtotime($permit->end_date)) }}) - ({{ $permit->duration }})
                                                     </a>
                                                 </div>
                                             @endforeach
@@ -188,7 +190,7 @@
                                                 <a class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
                                                     <div class="card-body">
                                                         <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                     <rect x="0" y="0" width="24" height="24"/>
                                                                     <path d="M7.14319965,19.3575259 C7.67122143,19.7615175 8.25104409,20.1012165 8.87097532,20.3649307 L7.89205065,22.0604779 C7.61590828,22.5387706 7.00431787,22.7026457 6.52602525,22.4265033 C6.04773263,22.150361 5.88385747,21.5387706 6.15999985,21.0604779 L7.14319965,19.3575259 Z M15.1367085,20.3616573 C15.756345,20.0972995 16.3358198,19.7569961 16.8634386,19.3524415 L17.8320512,21.0301278 C18.1081936,21.5084204 17.9443184,22.1200108 17.4660258,22.3961532 C16.9877332,22.6722956 16.3761428,22.5084204 16.1000004,22.0301278 L15.1367085,20.3616573 Z" fill="#000000"/>
@@ -207,8 +209,8 @@
                                                 <div class="d-flex align-items-center mt-4">
                                                     <span class="bullet bullet-bar bg-warning align-self-stretch"></span>
                                                     <div class="div ml-5"></div>
-                                                    <a class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1 cursor-pointer">
-                                                        {{ ucwords($overtime->employee->name) }} - ({{ strftime('%d %B', strtotime($overtime->start_date)) }} - {{ strftime('%d %B', strtotime($overtime->end_date)) }})
+                                                    <a data-id="{{ $overtime->id }}" class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1 cursor-pointer edit-overtime">
+                                                        {{ ucwords($overtime->employee->name) }} - ({{ strftime('%d %B %Y, %H:%M', strtotime($overtime->start_date)) }} - {{ strftime('%d %B %Y, %H:%M', strtotime($overtime->end_date)) }}) - ({{ $overtime->duration }})
                                                     </a>
                                                 </div>
                                             @endforeach
@@ -220,7 +222,7 @@
                                                 <a class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
                                                     <div class="card-body">
                                                         <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                                     <rect x="0" y="0" width="24" height="24"/>
                                                                     <path d="M2,6 L21,6 C21.5522847,6 22,6.44771525 22,7 L22,17 C22,17.5522847 21.5522847,18 21,18 L2,18 C1.44771525,18 1,17.5522847 1,17 L1,7 C1,6.44771525 1.44771525,6 2,6 Z M11.5,16 C13.709139,16 15.5,14.209139 15.5,12 C15.5,9.790861 13.709139,8 11.5,8 C9.290861,8 7.5,9.790861 7.5,12 C7.5,14.209139 9.290861,16 11.5,16 Z" fill="#000000" opacity="0.3" transform="translate(11.500000, 12.000000) rotate(-345.000000) translate(-11.500000, -12.000000) "/>
@@ -238,7 +240,7 @@
                                                 <div class="d-flex align-items-center mt-4">
                                                     <span class="bullet bullet-bar bg-warning align-self-stretch"></span>
                                                     <div class="div ml-5"></div>
-                                                    <a class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1">
+                                                    <a data-id="{{ $payment->id }}" class="ml-3 text-hover-primary font-weight-bold font-size-lg mb-1 cursor-pointer edit-payment">
                                                         {{ $payment->employee->name }} - {{ $payment->amount }} TL {{ $payment->type->name }} - {{ strftime("%d %B %Y", strtotime($payment->date)) }}
                                                     </a>
                                                 </div>
@@ -266,7 +268,7 @@
                                    class="card card-custom bg-primary bg-hover-state-info card-stretch gutter-b">
                                     <div class="card-body">
                                         <span class="svg-icon svg-icon-white svg-icon-3x ml-n1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
                                                 <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                                     <rect x="0" y="0" width="24" height="24"/>
                                                     <path d="M12,21 C7.02943725,21 3,16.9705627 3,12 C3,7.02943725 7.02943725,3 12,3 C16.9705627,3 21,7.02943725 21,12 C21,16.9705627 16.9705627,21 12,21 Z M14.1654881,7.35483745 L9.61055177,10.3622525 C9.47921741,10.4489666 9.39637436,10.592455 9.38694497,10.7495509 L9.05991526,16.197949 C9.04337012,16.4735952 9.25341309,16.7104632 9.52905936,16.7270083 C9.63705011,16.7334903 9.74423017,16.7047714 9.83451193,16.6451626 L14.3894482,13.6377475 C14.5207826,13.5510334 14.6036256,13.407545 14.613055,13.2504491 L14.9400847,7.80205104 C14.9566299,7.52640477 14.7465869,7.28953682 14.4709406,7.27299168 C14.3629499,7.26650974 14.2557698,7.29522855 14.1654881,7.35483745 Z" fill="#000000"/>

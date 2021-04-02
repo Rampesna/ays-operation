@@ -99,6 +99,11 @@ class Employee extends Authenticatable
         return $this->morphMany(File::class, 'uploader');
     }
 
+    public function employeeFiles()
+    {
+        return $this->morphMany(File::class, 'relation');
+    }
+
     public function projects()
     {
         return $this->belongsToMany(Project::class);

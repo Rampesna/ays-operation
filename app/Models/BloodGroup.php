@@ -14,4 +14,9 @@ class BloodGroup extends Model
     {
         return $this->hasManyThrough(Employee::class, EmployeePersonalInformation::class);
     }
+
+    public function personalInformations()
+    {
+        return $this->hasMany(EmployeePersonalInformation::class);
+    }
 }

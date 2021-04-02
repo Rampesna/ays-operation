@@ -236,6 +236,18 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
                 Route::get('getPermit', 'PermitController@getPermit')->name('ajax.ik.permit.getPermit');
             });
 
+            Route::prefix('overtime')->group(function () {
+                Route::get('getOvertime', 'OvertimeController@getOvertime')->name('ajax.ik.overtime.getOvertime');
+            });
+
+            Route::prefix('payment')->group(function () {
+                Route::get('getPayment', 'PaymentController@getPayment')->name('ajax.ik.payment.getPayment');
+            });
+
+            Route::prefix('employee-device')->group(function () {
+                Route::get('getEmployeeDevice', 'EmployeeDeviceController@getEmployeeDevice')->name('ajax.ik.employee-device.getEmployeeDevice');
+            });
+
         });
     });
 

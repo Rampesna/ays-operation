@@ -39,44 +39,25 @@ class PermitService
         return $this->permit;
     }
 
-    public function calculateMinutesByMonth($year, $month)
+    private function minutesToHours($minutes)
     {
-        $minutes = 0;
+        return intval($minutes / 60);
+    }
 
-        if (date('Y-m-d', strtotime($this->permit->start_date)) == date('Y-m-d', strtotime($this->permit->end_date))) {
-            $minutes =
-                Carbon::createFromDate($this->permit->start_date)->diffInMinutes($this->permit->end_date) >= 480 ?
-                    480 :
-                    Carbon::createFromDate($this->permit->start_date)->diffInMinutes($this->permit->end_date);
-        } else {
-            if (date('m', strtotime($this->permit->start_date)) != date('m', strtotime($this->permit->end_date))) {
-                if ($this->permit->start_date <= date('Y-m-01', strtotime($year . '-' . $month))) {
-                    $period = Carbon::createFromDate(date('Y-m-01'))->diffInDays($this->permit->end_date);
-                } else if ($this->permit->end_date > date('Y-m-01', strtotime($year . '-' . $month))) {
-                    $period = Carbon::createFromDate($this->permit->start_date)->diffInDays(date('Y-m-01', strtotime($year . '-' . ($month + 1))));
-                } else {
-                    $period = Carbon::createFromDate($this->permit->start_date)->diffInDays($this->permit->end_date);
-                }
-            } else {
-                $period = Carbon::createFromDate($this->permit->start_date)->diffInDays($this->permit->end_date);
-            }
-            for ($counter = 0; $counter <= $period; $counter++) {
-                if ($counter == 0) {
-                    $minutes +=
-                        Carbon::createFromDate($this->permit->start_date)->diffInMinutes(date('Y-m-d 18:00:00', strtotime($this->permit->start_date))) >= 480 ?
-                            480 :
-                            Carbon::createFromDate($this->permit->start_date)->diffInMinutes(date('Y-m-d 18:00:00', strtotime($this->permit->start_date)));
-                } else if ($counter == $period) {
-                    $minutes +=
-                        Carbon::createFromDate(date('Y-m-d 09:00:00', strtotime($this->permit->end_date)))->diffInMinutes($this->permit->end_date) >= 480 ?
-                            480 :
-                            Carbon::createFromDate(date('Y-m-d 09:00:00', strtotime($this->permit->end_date)))->diffInMinutes($this->permit->end_date);
-                } else {
-                    $minutes += 480;
-                }
-            }
-        }
+    private function hoursToDays($hours)
+    {
+        return intval($hours / 8);
+    }
 
-        return $minutes;
+    public function getDurationByMinutes($minutes)
+    {
+        $durationOfPermitMinutes = $minutes - ($this->minutesToHours($minutes) * 60);
+        $durationOfPermitHours = $this->minutesToHours($minutes) - ($this->hoursToDays($this->minutesToHours($minutes)) * 8);
+        $durationOfPermitDays = $this->hoursToDays($this->minutesToHours($minutes));
+
+        return
+            ($durationOfPermitDays != 0 ? $durationOfPermitDays . ' Gün' : '') .
+            ($durationOfPermitHours != 0 ? ' ' . $durationOfPermitHours . ' Saat' : '') .
+            ($durationOfPermitMinutes != 0 ? ' ' . $durationOfPermitMinutes . ' Dakika' : '');
     }
 }

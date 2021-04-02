@@ -60,6 +60,11 @@ class Permit extends Model
         return $minutes;
     }
 
+    public function getMinutesAttribute()
+    {
+        return $this->calculateMinutes();
+    }
+
     public function getDurationAttribute()
     {
         $minutes = $this->calculateMinutes();

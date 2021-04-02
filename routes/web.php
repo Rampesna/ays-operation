@@ -445,6 +445,29 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::get('/{id}/show/{tab?}', 'EmployeeController@show')->name('ik.employee.show');
 
             Route::post('update/personal', 'EmployeeController@updatePersonal')->name('ik.employee.update.personal');
+
+            Route::prefix('employee-device')->namespace('EmployeeDevice')->group(function () {
+                Route::post('create', 'EmployeeDeviceController@create')->name('ik.employee.employee-device.create');
+                Route::post('update', 'EmployeeDeviceController@update')->name('ik.employee.employee-device.update');
+                Route::post('delete', 'EmployeeDeviceController@delete')->name('ik.employee.employee-device.delete');
+                Route::get('downloadEmployeeDevicesDocument', 'EmployeeDeviceController@downloadEmployeeDevicesDocument')->name('ik.employee.employee-device.downloadEmployeeDevicesDocument');
+            });
+        });
+
+        Route::prefix('calendar')->namespace('Calendar')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('ik.calendar.index');
+            });
+            Route::get('index', 'CalendarController@index')->name('ik.calendar.index');
+        });
+
+        Route::prefix('report')->namespace('Report')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('ik.report.index');
+            });
+            Route::get('index', 'ReportController@index')->name('ik.report.index');
+            Route::post('employeeReport', 'ReportController@employeeReport')->name('ik.report.employeeReport');
+            Route::post('managerialReport', 'ReportController@managerialReport')->name('ik.report.managerialReport');
         });
 
         Route::prefix('applications')->namespace('Application')->group(function () {
@@ -461,6 +484,43 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 Route::post('create', 'PermitController@create')->name('ik.application.permit.create');
                 Route::post('update', 'PermitController@update')->name('ik.application.permit.update');
                 Route::post('delete', 'PermitController@delete')->name('ik.application.permit.delete');
+            });
+
+            Route::prefix('overtime')->namespace('Overtime')->group(function () {
+                Route::get('/', function () {
+                    return redirect()->route('ik.application.permit.index');
+                });
+                Route::get('index', 'OvertimeController@index')->name('ik.application.overtime.index');
+                Route::post('create', 'OvertimeController@create')->name('ik.application.overtime.create');
+                Route::post('update', 'OvertimeController@update')->name('ik.application.overtime.update');
+                Route::post('delete', 'OvertimeController@delete')->name('ik.application.overtime.delete');
+            });
+
+            Route::prefix('payment')->namespace('Payment')->group(function () {
+                Route::get('/', function () {
+                    return redirect()->route('ik.application.permit.index');
+                });
+                Route::get('index', 'PaymentController@index')->name('ik.application.payment.index');
+                Route::post('create', 'PaymentController@create')->name('ik.application.payment.create');
+                Route::post('update', 'PaymentController@update')->name('ik.application.payment.update');
+                Route::post('delete', 'PaymentController@delete')->name('ik.application.payment.delete');
+            });
+
+            Route::prefix('scoring')->namespace('Scoring')->group(function () {
+                Route::get('scoring', 'ScoringController@index')->name('ik.application.scoring.index');
+            });
+
+            Route::prefix('covid-document')->namespace('CovidDocument')->group(function () {
+                Route::get('index', 'CovidDocumentController@index')->name('ik.application.covid-document.index');
+                Route::post('create', 'CovidDocumentController@create')->name('ik.application.covid-document.create');
+            });
+
+            Route::prefix('batch-actions')->namespace('BatchActions')->group(function () {
+                Route::get('/', function () {
+                    return redirect()->route('ik.application.batch-actions.index');
+                });
+                Route::get('index', 'BatchActionsController@index')->name('ik.application.batch-actions.index');
+                Route::post('createOvertime', 'BatchActionsController@createOvertime')->name('ik.application.batch-actions.createOvertime');
             });
 
             Route::prefix('food-list')->namespace('FoodList')->group(function () {

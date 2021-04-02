@@ -5,7 +5,15 @@ namespace App\Http\Controllers\UserPanel\IK\Employee;
 use App\Http\Controllers\Controller;
 use App\Models\BloodGroup;
 use App\Models\Employee;
+use App\Models\EmployeeDevice;
+use App\Models\EmployeeDeviceCategory;
 use App\Models\EmployeePersonalInformation;
+use App\Models\Overtime;
+use App\Models\OvertimeReason;
+use App\Models\OvertimeStatus;
+use App\Models\Payment;
+use App\Models\PaymentStatus;
+use App\Models\PaymentType;
 use App\Models\Permit;
 use App\Models\PermitStatus;
 use App\Models\PermitType;
@@ -47,7 +55,7 @@ class EmployeeController extends Controller
     public function show($id, $tab)
     {
         if ($tab == 'general') {
-            return view('pages.ik.employee.show.general/index', [
+            return view('pages.ik.employee.show.general.index', [
                 'employee' => Employee::with([
                     'ik_company',
                     'ik_branch',
@@ -58,7 +66,7 @@ class EmployeeController extends Controller
                 'tab' => $tab
             ]);
         } else if ($tab == 'personal') {
-            return view('pages.ik.employee.show.personal/index', [
+            return view('pages.ik.employee.show.personal.index', [
                 'bloodGroups' => BloodGroup::all(),
                 'employee' => Employee::with([
                     'personalInformations'
@@ -66,7 +74,7 @@ class EmployeeController extends Controller
                 'tab' => $tab
             ]);
         } else if ($tab == 'career') {
-            return view('pages.ik.employee.show.career/index', [
+            return view('pages.ik.employee.show.career.index', [
                 'positions' => Position::where('employee_id', $id)->get(),
                 'salaries' => Salary::where('employee_id', $id)->get(),
                 'employee' => Employee::with([
@@ -75,7 +83,7 @@ class EmployeeController extends Controller
                 'tab' => $tab
             ]);
         } else if ($tab == 'permit') {
-            return view('pages.ik.employee.show.permit/index', [
+            return view('pages.ik.employee.show.permit.index', [
                 'permits' => Permit::with([
                     'employee',
                     'type',
@@ -85,6 +93,60 @@ class EmployeeController extends Controller
                 orderBy('created_at', 'desc')->get(),
                 'permitStatuses' => PermitStatus::all(),
                 'permitTypes' => PermitType::all(),
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'overtime') {
+            return view('pages.ik.employee.show.overtime.index', [
+                'overtimes' => Overtime::with([
+                    'employee',
+                    'reason',
+                    'status'
+                ])->
+                where('employee_id', $id)->
+                orderBy('created_at', 'desc')->get(),
+                'overtimeStatuses' => OvertimeStatus::all(),
+                'overtimeReasons' => OvertimeReason::all(),
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'payment') {
+            return view('pages.ik.employee.show.payment.index', [
+                'payments' => Payment::with([
+                    'employee',
+                    'type',
+                    'status'
+                ])->
+                where('employee_id', $id)->
+                orderBy('created_at', 'desc')->get(),
+                'paymentStatuses' => PaymentStatus::all(),
+                'paymentTypes' => PaymentType::all(),
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'device') {
+            return view('pages.ik.employee.show.device.index', [
+                'employeeDevices' => EmployeeDevice::with([
+                    'employee',
+                    'category'
+                ])->
+                where('employee_id', $id)->
+                orderBy('created_at', 'desc')->get(),
+                'employeeDeviceCategories' => EmployeeDeviceCategory::all(),
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'file') {
+            return view('pages.ik.employee.show.file.index', [
+                'files' => Employee::find($id)->employeeFiles,
                 'employee' => Employee::with([
                     'personalInformations'
                 ])->find($id),

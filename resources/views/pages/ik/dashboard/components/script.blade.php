@@ -97,4 +97,55 @@
         });
     });
 
+    $(document).delegate('.edit-overtime', 'click', function () {
+        var id = $(this).data('id');
+        $("#overtime_id_edit_overtime").val(id);
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.ik.overtime.getOvertime') }}',
+            data: {
+                id: id
+            },
+            success: function (overtime) {
+                $("#employee_id_edit_overtime").val(overtime.employee_id);
+                $("#reason_id_edit_overtime").val(overtime.reason_id).selectpicker('refresh');
+                $("#status_id_edit_overtime").val(overtime.status_id).selectpicker('refresh');
+                $("#start_date_edit_overtime").val(dateReCreator(overtime.start_date));
+                $("#end_date_edit_overtime").val(dateReCreator(overtime.end_date));
+                $("#description_edit_overtime").val(overtime.description);
+                $("#EditOvertimeModal").modal('show');
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    });
+
+    $(document).delegate('.edit-payment', 'click', function () {
+        var id = $(this).data('id');
+        $("#payment_id_edit_payment").val(id);
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.ik.payment.getPayment') }}',
+            data: {
+                id: id
+            },
+            success: function (payment) {
+                $("#employee_id_edit_payment").val(payment.employee_id);
+                $("#type_id_edit_payment").val(payment.type_id).selectpicker('refresh');
+                $("#status_id_edit_payment").val(payment.status_id).selectpicker('refresh');
+                $("#date_edit_payment").val(payment.date);
+                $("#amount_edit_payment").val(payment.amount);
+                $("#payroll_edit_payment").val(payment.payroll).selectpicker('refresh');
+                $("#description_edit_payment").val(payment.description);
+                $("#EditPaymentModal").modal('show');
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    });
+
 </script>

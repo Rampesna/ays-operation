@@ -4,7 +4,11 @@ namespace App\Http\Controllers\UserPanel\IK\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Overtime;
+use App\Models\OvertimeReason;
+use App\Models\OvertimeStatus;
 use App\Models\Payment;
+use App\Models\PaymentStatus;
+use App\Models\PaymentType;
 use App\Models\Permit;
 use App\Models\PermitStatus;
 use App\Models\PermitType;
@@ -30,7 +34,11 @@ class DashboardController extends Controller
             'waitingOvertimes' => Overtime::where('status_id', 1)->get(),
             'waitingPayments' => Payment::where('status_id', 1)->get(),
             'permitTypes' => PermitType::all(),
-            'permitStatuses' => PermitStatus::all()
+            'permitStatuses' => PermitStatus::all(),
+            'overtimeReasons' => OvertimeReason::all(),
+            'overtimeStatuses' => OvertimeStatus::all(),
+            'paymentTypes' => PaymentType::all(),
+            'paymentStatuses' => PaymentStatus::all(),
         ]);
     }
 }

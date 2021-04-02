@@ -1,6 +1,5 @@
 <script src="{{ asset('assets/bundles/fullcalendarscripts.bundle.js') }}"></script>
 <script src="{{ asset('assets/vendor/fullcalendar/locale/tr.js') }}"></script>
-<script src="{{ asset('assets/plugins/custom/fullcalendar/fullcalendar.bundle.js') }}"></script>
 
 <script>
     var ModalSelector = $("#ModalSelector");
