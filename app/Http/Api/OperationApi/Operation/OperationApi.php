@@ -149,7 +149,6 @@ class OperationApi extends OperationApiBase
     }
 
     public function SetUser(
-        $id,
         $username,
         $password,
         $nameSurname,
@@ -175,26 +174,23 @@ class OperationApi extends OperationApiBase
         ];
 
         $parameters = [
-            'body' => [
-                'id' => $id,
-                'kullaniciAdi' => $username,
-                'kullaniciSifre' => $password,
-                'kullaniciAdSoyad' => $nameSurname,
-                'yetkiGorevlendirme' => $assignmentAuth,
-                'yetkiEgitim' => $educationAuth,
-                'uyumCrmUserName' => $uyumCrmUsername,
-                'uyumCrmPassword' => $uyumCrmPassword,
-                'uyumCrmUserId' => $uyumCrmUserId,
-                'aktifGorevTanimi' => $activeJobDescription,
-                'rol' => $role,
-                'grupKodu' => $groupCode,
-                'takimKodu' => $teamCode,
-                'takipLideri' => $followerLeader,
-                'takipLiderYardimcisi' => $followerLeaderAssistant,
-                'cagriTaramaKodu' => $callScanCode,
-                'kullaniciMail' => $email,
-                'dahili' => $internal
-            ]
+            'kullaniciAdi' => $username,
+            'kullaniciSifre' => $password,
+            'kullaniciAdSoyad' => $nameSurname,
+            'yetkiGorevlendirme' => $assignmentAuth,
+            'yetkiEgitim' => $educationAuth,
+            'uyumCrmUserName' => $uyumCrmUsername,
+            'uyumCrmPassword' => $uyumCrmPassword,
+            'uyumCrmUserId' => $uyumCrmUserId,
+            'aktifGorevTanimi' => $activeJobDescription,
+            'rol' => $role,
+            'grupKodu' => $groupCode,
+            'takimKodu' => $teamCode,
+            'takipLideri' => $followerLeader,
+            'takipLiderYardimcisi' => $followerLeaderAssistant,
+            'cagriTaramaKodu' => $callScanCode,
+            'kullaniciMail' => $email,
+            'dahili' => $internal
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);

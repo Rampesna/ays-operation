@@ -16,6 +16,14 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
     });
     Route::get('/index/{company_id?}', 'MainController@index')->name('index')->middleware('Authority:1');
 
+    Route::prefix('profile')->namespace('Profile')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('profile.index');
+        });
+        Route::get('index', 'ProfileController@index')->name('profile.index');
+        Route::post('changePassword', 'ProfileController@changePassword')->name('profile.changePassword');
+    });
+
     Route::prefix('employee')->namespace('Employee')->group(function () {
         Route::get('/', function () {
             return redirect()->route('employee.index');
@@ -441,6 +449,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 return redirect()->route('ik.employee.index');
             });
             Route::get('index', 'EmployeeController@index')->name('ik.employee.index');
+            Route::post('create', 'EmployeeController@create')->name('ik.employee.create');
             Route::get('leavers', 'EmployeeController@leavers')->name('ik.employee.leavers');
             Route::get('/{id}/show/{tab?}', 'EmployeeController@show')->name('ik.employee.show');
 
@@ -544,6 +553,15 @@ Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\
         return redirect()->route('employee-panel.index');
     });
     Route::get('index', 'MainController@index')->name('employee-panel.index');
+
+    Route::prefix('profile')->namespace('Profile')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('employee-panel.profile.index');
+        });
+        Route::get('index', 'ProfileController@index')->name('employee-panel.profile.index');
+        Route::post('update', 'ProfileController@update')->name('employee-panel.profile.update');
+        Route::post('changePassword', 'ProfileController@changePassword')->name('employee-panel.profile.changePassword');
+    });
 
     Route::prefix('permit')->namespace('Permit')->group(function () {
         Route::post('create', 'PermitController@create')->name('employee-panel.permit.create');

@@ -37,7 +37,7 @@
                         </span>
                     </span>
 
-                    <a href="#" data-toggle="modal" data-target="#LogoutModal" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5">
+                    <a data-toggle="modal" data-target="#LogoutModal" class="btn btn-sm btn-light-primary font-weight-bolder py-2 px-5 cursor-pointer">
                         Çıkış Yap
                     </a>
 
@@ -50,8 +50,11 @@
         <!--end::Separator-->
         <!--begin::Nav-->
         <div class="navi navi-spacer-x-0 p-0">
-            <!--begin::Item-->
-
+            <div class="row">
+                <div class="col-xl-12">
+                    <a href="{{ route('profile.index') }}" class="btn btn-block btn-primary">Profili Düzenle</a>
+                </div>
+            </div>
         </div>
 
         <div class="separator separator-dashed my-7"></div>

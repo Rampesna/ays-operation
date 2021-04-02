@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\UserPanel\IK\Employee;
 
+use App\Http\Api\OperationApi\Operation\OperationApi;
 use App\Http\Controllers\Controller;
 use App\Models\BloodGroup;
 use App\Models\Employee;
 use App\Models\EmployeeDevice;
 use App\Models\EmployeeDeviceCategory;
 use App\Models\EmployeePersonalInformation;
+use App\Models\IkCompany;
 use App\Models\Overtime;
 use App\Models\OvertimeReason;
 use App\Models\OvertimeStatus;
@@ -20,6 +22,7 @@ use App\Models\PermitType;
 use App\Models\Position;
 use App\Models\Salary;
 use App\Services\EmployeePersonalInformationService;
+use App\Services\EmployeeService;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -33,8 +36,56 @@ class EmployeeController extends Controller
                 'branch',
                 'department',
                 'title'
-            ])->where('end_date', null)->get()
+            ])->where('end_date', null)->get(),
+            'companies' => IkCompany::all()
         ]);
+    }
+
+    public function create(Request $request)
+    {
+        $username = explode('@', $request->email)[0];
+        $password = '123';
+        $nameSurname = $request->name;
+        $assignmentAuth = 0;
+        $educationAuth = 0;
+        $uyumCrmUsername = "";
+        $uyumCrmPassword = "";
+        $uyumCrmUserId = "";
+        $activeJobDescription = "";
+        $role = "";
+        $groupCode = "";
+        $teamCode = "";
+        $followerLeader = "";
+        $followerLeaderAssistant = "";
+        $callScanCode = "";
+        $email = $request->email;
+        $internal = "";
+
+        $api = new OperationApi;
+        $response = $api->SetUser(
+            $username,
+            $password,
+            $nameSurname,
+            $assignmentAuth,
+            $educationAuth,
+            $uyumCrmUsername,
+            $uyumCrmPassword,
+            $uyumCrmUserId,
+            $activeJobDescription,
+            $role,
+            $groupCode,
+            $teamCode,
+            $followerLeader,
+            $followerLeaderAssistant,
+            $callScanCode,
+            $email,
+            $internal
+        );
+
+        return [
+            'status' => $response->status(),
+            'body' => $response->body()
+        ];
     }
 
     public function leavers()

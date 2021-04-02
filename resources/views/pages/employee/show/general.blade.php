@@ -5,9 +5,7 @@
 
 @section('content')
 
-    @include('pages.employee.components.subheader')
-
-    <div class="row mt-15">
+    <div class="row">
         <div class="col-xl-5 col-12">
             <div class="card">
                 <div class="card-body">

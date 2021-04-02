@@ -120,8 +120,6 @@ class EmployeeService
         $employee->identification_number = $request->identification_number;
         $employee->extension_number = $request->extension_number;
 
-        $employee->image = $request->image;
-
         if (!is_null($request->file('image'))) {
             $imageName = strtotime(date("YmdHis")) . '.' . $request->file('image')->getClientOriginalExtension();
             request()->image->move(public_path('employee/images/'), $imageName);

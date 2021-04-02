@@ -225,6 +225,11 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
     });
 
     Route::prefix('ik')->namespace('IK')->group(function () {
+
+        Route::get('getTitlesByDepartment','IKController@getTitlesByDepartment')->name('ajax.ik.getTitlesByDepartment');
+        Route::get('getDepartmentsByBranch','IKController@getDepartmentsByBranch')->name('ajax.ik.getDepartmentsByBranch');
+        Route::get('getBranchesByCompany','IKController@getBranchesByCompany')->name('ajax.ik.getBranchesByCompany');
+
         Route::prefix('application')->group(function () {
 
             Route::prefix('food')->group(function () {

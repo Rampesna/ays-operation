@@ -50,8 +50,11 @@
         <!--end::Separator-->
         <!--begin::Nav-->
         <div class="navi navi-spacer-x-0 p-0">
-            <!--begin::Item-->
-
+            <div class="row">
+                <div class="col-xl-12">
+                    <a href="{{ route('employee-panel.profile.index') }}" class="btn btn-block btn-primary">Profili Düzenle</a>
+                </div>
+            </div>
         </div>
 
         <div class="separator separator-dashed my-7"></div>
