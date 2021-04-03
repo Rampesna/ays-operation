@@ -43,7 +43,7 @@ class ExcelDataController extends Controller
                 $response = $api->SetDataScanning($jobList);
 
                 if ($response->status() == 200) {
-                    return redirect()->back()->with(['type' => 'success', 'data' => 'Başarıyla İçe Aktarıldı']);
+                    return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
                 } else {
                     return $response;
                 }

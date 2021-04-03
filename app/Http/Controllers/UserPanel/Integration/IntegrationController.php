@@ -12,9 +12,9 @@ class IntegrationController extends Controller
     {
         try {
             $api = new JobsSystemApi();
-            $api->SetJobSuspend();
+            $response = $api->SetJobSuspend();
 
-            return redirect()->back()->with(['type' => 'success', 'data' => 'Askıdaki İşler Tekrar Aktif Edildi']);
+            return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
         } catch (\Exception $exception) {
             return redirect()->back()->with(['type' => 'error', 'data' => 'API\'ye Bağlanılırken Bir Hata Oluştu!']);
         }

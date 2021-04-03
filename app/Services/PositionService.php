@@ -26,9 +26,9 @@ class PositionService
         $this->position = $position;
     }
 
-    public function save(Request $request)
+    public function save(Request $request, $employeeId = null)
     {
-        $this->position->employee_id = $request->employee_id;
+        $this->position->employee_id = $employeeId ?? $request->employee_id;
         $this->position->ik_company_id = $request->ik_company_id;
         $this->position->ik_branch_id = $request->ik_branch_id;
         $this->position->ik_department_id = $request->ik_department_id;

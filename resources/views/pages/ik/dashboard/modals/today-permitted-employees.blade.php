@@ -23,11 +23,11 @@
                                             </div>
                                         </td>
                                         <td class="pl-0">
-                                            <a class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ ucwords($employeePermits->first()->employee->name) }}</a>
+                                            <a class="text-dark font-weight-bolder text-hover-primary mb-1 font-size-lg">{{ @ucwords($employeePermits->first()->employee->name) }}</a>
                                             @foreach($employeePermits as $employeePermit)
                                                 <span class="text-muted font-weight-bold d-block">
-                                                    {{ $employeePermit->description }} <br>
-                                                    {{ strftime("%d %B, %H:%M", strtotime($employeePermit->start_date)) . ' - ' . strftime("%d %B, %H:%M", strtotime($employeePermit->end_date)) }}
+                                                    {{ @$employeePermit->description }} <br>
+                                                    {{ @strftime("%d %B, %H:%M", strtotime($employeePermit->start_date)) . ' - ' . @strftime("%d %B, %H:%M", strtotime($employeePermit->end_date)) }}
                                                 </span>
                                             @endforeach
                                         </td>

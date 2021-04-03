@@ -24,6 +24,7 @@ use App\Models\Position;
 use App\Models\Salary;
 use App\Services\EmployeePersonalInformationService;
 use App\Services\EmployeeService;
+use App\Services\PositionService;
 use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
@@ -44,49 +45,56 @@ class EmployeeController extends Controller
 
     public function create(Request $request)
     {
-        $username = explode('@', $request->email)[0];
-        $password = '123';
-        $nameSurname = $request->name;
-        $assignmentAuth = 0;
-        $educationAuth = 0;
-        $uyumCrmUsername = "";
-        $uyumCrmPassword = "";
-        $uyumCrmUserId = "";
-        $activeJobDescription = "";
-        $role = "";
-        $groupCode = "";
-        $teamCode = "";
-        $followerLeader = "";
-        $followerLeaderAssistant = "";
-        $callScanCode = "";
-        $email = $request->email;
-        $internal = "";
+        try {
+            $username = explode('@', $request->email)[0];
+            $password = '123';
+            $nameSurname = $request->name;
+            $assignmentAuth = 0;
+            $educationAuth = 0;
+            $uyumCrmUsername = "";
+            $uyumCrmPassword = "";
+            $uyumCrmUserId = 0;
+            $activeJobDescription = 0;
+            $role = 1;
+            $groupCode = 0;
+            $teamCode = 0;
+            $followerLeader = 0;
+            $followerLeaderAssistant = 0;
+            $callScanCode = 0;
+            $email = $request->email;
+            $internal = "";
 
-        $api = new OperationApi;
-        $response = $api->SetUser(
-            $username,
-            $password,
-            $nameSurname,
-            $assignmentAuth,
-            $educationAuth,
-            $uyumCrmUsername,
-            $uyumCrmPassword,
-            $uyumCrmUserId,
-            $activeJobDescription,
-            $role,
-            $groupCode,
-            $teamCode,
-            $followerLeader,
-            $followerLeaderAssistant,
-            $callScanCode,
-            $email,
-            $internal
-        );
+            $api = new OperationApi;
+            $guid = $api->SetUser(
+                $username,
+                $password,
+                $nameSurname,
+                $assignmentAuth,
+                $educationAuth,
+                $uyumCrmUsername,
+                $uyumCrmPassword,
+                $uyumCrmUserId,
+                $activeJobDescription,
+                $role,
+                $groupCode,
+                $teamCode,
+                $followerLeader,
+                $followerLeaderAssistant,
+                $callScanCode,
+                $email,
+                $internal
+            )['response'];
 
-        return [
-            'status' => $response->status(),
-            'body' => $response->body()
-        ];
+            $employee = (new EmployeeService)->store(new Employee, $request, $guid);
+
+            $positionService = new PositionService;
+            $positionService->setPosition(new Position);
+            $positionService->save($request, $employee->id);
+
+            return redirect()->back()->with(['type' => 'success', 'data' => 'Personel Başarıyla Oluşturuldu']);
+        } catch (\Exception $exception) {
+            return $exception;
+        }
     }
 
     public function leavers()

@@ -40,9 +40,9 @@ class ExcelController extends Controller
                 }
 
                 $jobSystemApi = new JobsSystemApi();
-                $jobSystemApi->SetJobsExcel($jobList);
+                $response = $jobSystemApi->SetJobsExcel($jobList);
 
-                return redirect()->back()->with(['type' => 'success', 'data' => 'Başarıyla İçe Aktarıldı']);
+                return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
             } catch (\Exception $exception) {
                 return redirect()->back()->with(['type' => 'error', 'data' => 'API Bağlantısında Bir Sorun Meydana Geldi!']);
             }

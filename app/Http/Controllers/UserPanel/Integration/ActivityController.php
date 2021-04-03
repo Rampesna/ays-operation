@@ -20,7 +20,7 @@ class ActivityController extends Controller
             $response = $api->SetJobCaseWorkDelete($request->id);
 
             if ($response->status() == 200) {
-                return redirect()->back()->with(['type' => 'success', 'data' => 'Faaliyet Başarıyla Silindi']);
+                return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
             } else {
                 return $response;
             }

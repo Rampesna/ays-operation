@@ -111,8 +111,9 @@ class EmployeeService
         return response()->json('success', 200);
     }
 
-    public function store(Employee $employee, $request)
+    public function store(Employee $employee, $request, $guid = 0)
     {
+        $employee->guid = $guid;
         $employee->company_id = $request->company_id;
         $employee->name = $request->name;
         $employee->email = $request->email;

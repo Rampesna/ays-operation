@@ -26,7 +26,7 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">{{ count($employees) }}</span>
+                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">{{ @count($employees) }}</span>
                     <span class="font-weight-bold text-white font-size-sm">Toplam Personel</span>
                 </div>
             </div>
@@ -98,7 +98,7 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">{{ count($todayPermittedEmployees) }}</span>
+                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">{{ @count($todayPermittedEmployees) }}</span>
                     <span class="font-weight-bold text-white font-size-sm">Bugün İzinliler</span>
                 </div>
             </div>
@@ -116,7 +116,7 @@
                             </g>
                         </svg>
                     </span>
-                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">{{ count($waitingPermits) + count($waitingOvertimes) + count($waitingPayments) }}</span>
+                    <span class="card-title font-weight-bolder text-white font-size-h2 mb-0 mt-6 d-block">{{ @count($waitingPermits) + @count($waitingOvertimes) + count($waitingPayments) }}</span>
                     <span class="font-weight-bold text-white font-size-sm">Onay Bekleyen İşlemler</span>
                 </div>
             </div>
