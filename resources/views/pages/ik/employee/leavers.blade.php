@@ -16,20 +16,20 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($leavers as $leaver)
+                @foreach(collect($leavers)->groupBy('employee_id') as $positions)
                     <tr>
                         <td>
                             <div class="font-15">
                                 <strong>
                                     <a class="cursor-pointer">
-                                        {{ $leaver->employee->name }}
+                                        {{ $positions->sortByDesc('end_date')->first()->employee->name }}
                                     </a>
                                 </strong>
                             </div>
                         </td>
-                        <td><span>{{ $leaver->company->name }}</span></td>
-                        <td data-sort="{{ $leaver->start_date }}">{{ date('d/m/Y', strtotime($leaver->start_date)) }}</td>
-                        <td data-sort="{{ $leaver->end_date }}">{{ date('d/m/Y', strtotime($leaver->end_date)) }}</td>
+                        <td><span>{{ $positions->sortByDesc('end_date')->first()->company->name }}</span></td>
+                        <td data-sort="{{ $positions->sortBy('start_date')->first()->start_date }}">{{ date('d/m/Y', strtotime($positions->sortBy('start_date')->first()->start_date)) }}</td>
+                        <td data-sort="{{ $positions->sortByDesc('end_date')->first()->end_date }}">{{ date('d/m/Y', strtotime($positions->sortByDesc('end_date')->first()->end_date)) }}</td>
                     </tr>
                 @endforeach
                 </tbody>

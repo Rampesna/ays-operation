@@ -180,8 +180,8 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             });
 
             Route::prefix('file')->group(function () {
-                Route::post('create', 'FileController@create')->name('project.project.file.create');
-                Route::post('delete', 'FileController@delete')->name('project.project.file.delete');
+                Route::post('create', 'FileController@create')->name('project.project.file.create')->withoutMiddleware('Authority:32');
+                Route::post('delete', 'FileController@delete')->name('project.project.file.delete')->withoutMiddleware('Authority:32');
             });
 
             Route::prefix('ticket-message')->group(function () {
@@ -454,12 +454,19 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             Route::get('/{id}/show/{tab?}', 'EmployeeController@show')->name('ik.employee.show');
 
             Route::post('update/personal', 'EmployeeController@updatePersonal')->name('ik.employee.update.personal');
+            Route::post('leave', 'EmployeeController@leave')->name('ik.employee.leave');
 
             Route::prefix('employee-device')->namespace('EmployeeDevice')->group(function () {
                 Route::post('create', 'EmployeeDeviceController@create')->name('ik.employee.employee-device.create');
                 Route::post('update', 'EmployeeDeviceController@update')->name('ik.employee.employee-device.update');
                 Route::post('delete', 'EmployeeDeviceController@delete')->name('ik.employee.employee-device.delete');
                 Route::get('downloadEmployeeDevicesDocument', 'EmployeeDeviceController@downloadEmployeeDevicesDocument')->name('ik.employee.employee-device.downloadEmployeeDevicesDocument');
+            });
+
+            Route::prefix('career')->namespace('Career')->group(function () {
+                Route::prefix('position')->group(function () {
+                    Route::post('create', 'PositionController@create')->name('ik.employee.career.position.create');
+                });
             });
         });
 

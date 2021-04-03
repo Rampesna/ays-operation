@@ -23,7 +23,7 @@
                     <tbody>
                     @foreach($positions as $position)
                         <tr>
-                            <td>{{ ucwords($position->employee->name) }}</td>
+                            <td>{{ @ucwords($position->employee->name) }}</td>
                             <td>{{ @$position->employee->personalInformations->identification_number }}</td>
                             <td data-sort="{{ $position->start_date }}">{{ date('d/m/Y', strtotime($position->start_date)) }}</td>
                             <td>{{ $position->company->name }}</td>

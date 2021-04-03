@@ -62,11 +62,11 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $overtime->employee->name }}</td>
+                                <td>{{ @$overtime->employee->name }}</td>
                                 <td><span class="btn btn-pill btn-sm btn-{{ $overtime->status->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $overtime->status->name }}</span></td>
                                 <td>{{ $overtime->reason->name }}</td>
-                                <td>{{ strftime("%d %B %Y, %H:%M", strtotime($overtime->start_date)) }}</td>
-                                <td>{{ strftime("%d %B %Y, %H:%M", strtotime($overtime->end_date)) }}</td>
+                                <td data-sort="{{ $overtime->start_date }}">{{ date("d.m.Y", strtotime($overtime->start_date)) }}</td>
+                                <td data-sort="{{ $overtime->end_date }}">{{ date("d.m.Y", strtotime($overtime->end_date)) }}</td>
                                 <td>{{ @$overtime->duration }}</td>
                                 <td><label style="width: 100%"><textarea class="form-control" rows="2" disabled>{{ $overtime->description }}</textarea></label></td>
                             </tr>

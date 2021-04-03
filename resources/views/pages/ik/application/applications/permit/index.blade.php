@@ -62,11 +62,11 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>{{ $permit->employee->name }}</td>
+                                <td>{{ @$permit->employee->name }}</td>
                                 <td><span class="btn btn-pill btn-sm btn-{{ $permit->status->color }}" style="font-size: 11px; height: 20px; padding-top: 2px">{{ $permit->status->name }}</span></td>
                                 <td>{{ $permit->type->name }}</td>
-                                <td>{{ strftime("%d %B %Y, %H:%M", strtotime($permit->start_date)) }}</td>
-                                <td>{{ strftime("%d %B %Y, %H:%M", strtotime($permit->end_date)) }}</td>
+                                <td data-sort="{{ $permit->start_date }}">{{ date("d.m.Y", strtotime($permit->start_date)) }}</td>
+                                <td data-sort="{{ $permit->end_date }}">{{ date("d.m.Y", strtotime($permit->end_date)) }}</td>
                                 <td>{{ @$permit->duration }}</td>
                                 <td><label style="width: 100%"><textarea class="form-control" rows="2" disabled>{{ $permit->description }}</textarea></label></td>
                             </tr>

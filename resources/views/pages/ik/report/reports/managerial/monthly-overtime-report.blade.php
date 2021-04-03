@@ -21,7 +21,7 @@
                     <tbody>
                     @foreach($overtimes as $overtime)
                         <tr>
-                            <td>{{ ucwords($overtime->employee->name) }}</td>
+                            <td>{{ @ucwords($overtime->employee->name) }}</td>
                             <td>{{ ucwords($overtime->reason->name) }}</td>
                             <td>{{ strftime("%d %B %Y, %H:%M",strtotime($overtime->start_date)) }}</td>
                             <td>{{ strftime("%d %B %Y, %H:%M",strtotime($overtime->end_date)) }}</td>

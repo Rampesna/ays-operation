@@ -5,10 +5,13 @@
 @section('content')
 
     @include('pages.ik.employee.components.subheader')
+
+    @include('pages.ik.employee.show.general.modals.leave-employee')
+
     <div class="col-xl-5 col-12 mt-15">
         <div class="card">
             <div class="card-body">
-                <a class="float-right cursor-pointer">Personeli Sil
+                <a data-toggle="modal" data-target="#LeaveEmployeeModal" class="float-right cursor-pointer">Personeli İşten Çıkar
                     <span class="svg-icon svg-icon-primary svg-icon-2x">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">

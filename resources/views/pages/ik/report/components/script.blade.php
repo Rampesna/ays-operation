@@ -1,5 +1,5 @@
 <script>
-    $("#report_type").change(function () {
+    $("#report_type_selector").change(function () {
         if ($(this).val() === "1" || $(this).val() === "3") {
             $("#permitTypesRow").show();
             $("#permitTypes").prop('required', true);

@@ -6,11 +6,18 @@
 @section('content')
 
     @include('pages.ik.employee.components.subheader')
+
+    @include('pages.ik.employee.show.career.modals.create-position-warning')
+    @include('pages.ik.employee.show.career.modals.create-position')
+    @include('pages.ik.employee.show.career.modals.edit-position')
+    @include('pages.ik.employee.show.career.modals.create-salary')
+    @include('pages.ik.employee.show.career.modals.edit-salary')
+
     <div class="row mt-15">
         <div class="col-xl-12">
             <div class="row">
                 <div class="col-xl-12 text-right">
-                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#CreatePositionModal">Yeni Pozisyon Ekle</button>
+                    <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#CreatePositionModalWarning">Yeni Pozisyon Ekle</button>
                 </div>
             </div>
             <hr>
@@ -34,9 +41,9 @@
                                 @foreach($positions as $position)
                                     <tr>
                                         <td></td>
-                                        <td data-sort="{{ $position->start_date }}">{{ strftime("%d %B %Y", strtotime($position->start_date)) }}</td>
+                                        <td data-sort="{{ $position->start_date }}">{{ date('d.m.Y', strtotime($position->start_date)) }}</td>
                                         @if($position->end_date)
-                                            <td data-sort="{{ $position->end_date }}">{{ strftime("%d %B %Y", strtotime($position->end_date)) }}</td>
+                                            <td data-sort="{{ $position->end_date }}">{{ date('d.m.Y', strtotime($position->end_date)) }}</td>
                                         @else
                                             <td>--</td>
                                         @endif

@@ -34,6 +34,10 @@
 
         dom: 'frtipl',
 
+        order: [
+            [ 4, "desc" ]
+        ],
+
         columnDefs: [
             {
                 targets: 0,

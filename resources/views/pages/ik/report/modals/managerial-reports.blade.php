@@ -12,8 +12,8 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="form-group">
-                            <label for="report_type">Rapor Seçin</label>
-                            <select id="report_type" name="report_type" class="form-control" required>
+                            <label for="report_type_selector">Rapor Seçin</label>
+                            <select id="report_type_selector" name="report_type" class="form-control" required>
                                 <option selected hidden disabled></option>
                                 <option value="1">Aylık İzin Raporu</option>
                                 <option value="2">Aylık Fazla Mesai Raporu</option>

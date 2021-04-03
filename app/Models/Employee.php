@@ -216,21 +216,21 @@ class Employee extends Authenticatable
 
     public function ik_company()
     {
-        return $this->hasOneThrough(IkCompany::class, Position::class, 'employee_id', 'id');
+        return $this->hasOneThrough(IkCompany::class, Position::class, 'employee_id', 'id', 'id', 'ik_company_id')->where('end_date', null);
     }
 
     public function ik_branch()
     {
-        return $this->hasOneThrough(IkBranch::class, Position::class, 'employee_id', 'id');
+        return $this->hasOneThrough(IkBranch::class, Position::class, 'employee_id', 'id', 'id', 'ik_branch_id')->where('end_date', null);
     }
 
     public function ik_department()
     {
-        return $this->hasOneThrough(IkDepartment::class, Position::class, 'employee_id', 'id');
+        return $this->hasOneThrough(IkDepartment::class, Position::class, 'employee_id', 'id', 'id', 'ik_department_id')->where('end_date', null);
     }
 
     public function ik_title()
     {
-        return $this->hasOneThrough(IkTitle::class, Position::class, 'employee_id', 'id');
+        return $this->hasOneThrough(IkTitle::class, Position::class, 'employee_id', 'id', 'id', 'ik_title_id')->where('end_date', null);
     }
 }

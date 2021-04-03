@@ -18,7 +18,7 @@
                     <tbody>
                     @foreach($positions as $position)
                         <tr>
-                            <td>{{ ucwords($position->employee->name) }}</td>
+                            <td>{{ @ucwords($position->employee->name) }}</td>
                             <td>{{ $position->duration }}</td>
                         </tr>
                     @endforeach

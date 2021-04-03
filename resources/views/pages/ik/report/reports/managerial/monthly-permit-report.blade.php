@@ -21,7 +21,7 @@
                     <tbody>
                     @foreach($permits as $permit)
                         <tr>
-                            <td>{{ ucwords($permit->employee->name) }}</td>
+                            <td>{{ @ucwords($permit->employee->name) }}</td>
                             <td>{{ ucwords($permit->type->name) }}</td>
                             <td>{{ strftime("%d %B %Y, %H:%M",strtotime($permit->start_date)) }}</td>
                             <td>{{ strftime("%d %B %Y, %H:%M",strtotime($permit->end_date)) }}</td>

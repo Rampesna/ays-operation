@@ -37,4 +37,9 @@ class Position extends Model
     {
         return $this->belongsTo(IkTitle::class, 'ik_title_id', 'id');
     }
+
+    public function leaveReason()
+    {
+        return $this->belongsTo(LeavingReason::class);
+    }
 }

@@ -10,6 +10,7 @@ use App\Models\EmployeeDevice;
 use App\Models\EmployeeDeviceCategory;
 use App\Models\EmployeePersonalInformation;
 use App\Models\IkCompany;
+use App\Models\LeavingReason;
 use App\Models\Overtime;
 use App\Models\OvertimeReason;
 use App\Models\OvertimeStatus;
@@ -90,23 +91,47 @@ class EmployeeController extends Controller
 
     public function leavers()
     {
+        $leaverPositions = Position::with([
+            'employee' => function ($employee) {
+                $employee->withTrashed()->get();
+            },
+            'company',
+            'branch',
+            'department',
+            'title'
+        ])->where('end_date', '<>', null)->get();
+
+        foreach ($leaverPositions as $key => $leaverPosition) {
+            if (Position::where('employee_id', $leaverPosition->employee_id)->where('end_date', null)->first()) {
+                unset($leaverPositions[$key]);
+            }
+        }
         return view('pages.ik.employee.leavers', [
-            'leavers' => Position::with([
-                'employee' => function ($employee) {
-                    $employee->withTrashed()->get();
-                },
-                'company',
-                'branch',
-                'department',
-                'title'
-            ])->where('end_date', '<>', null)->get()
+            'leavers' => $leaverPositions
         ]);
+    }
+
+    public function leave(Request $request)
+    {
+        $position = Position::where('employee_id', $request->employee_id)->where('end_date', null)->first();
+        $position->end_date = $request->end_date;
+        $position->save();
+
+        $employee = Employee::find($request->employee_id);
+        $employee->password = null;
+        $employee->leave = 1;
+        $employee->suspend = 1;
+        $employee->save();
+        $employee->delete();
+
+        return redirect()->route('ik.employee.leavers')->with(['type' => 'success', 'data' => 'Personel Başarıyla İşten Çıkarıldı']);
     }
 
     public function show($id, $tab)
     {
         if ($tab == 'general') {
             return view('pages.ik.employee.show.general.index', [
+                'leavingReasons' => LeavingReason::all(),
                 'employee' => Employee::with([
                     'ik_company',
                     'ik_branch',
@@ -128,6 +153,8 @@ class EmployeeController extends Controller
             return view('pages.ik.employee.show.career.index', [
                 'positions' => Position::where('employee_id', $id)->get(),
                 'salaries' => Salary::where('employee_id', $id)->get(),
+                'companies' => IkCompany::all(),
+                'leavingReasons' => LeavingReason::all(),
                 'employee' => Employee::with([
                     'personalInformations'
                 ])->find($id),

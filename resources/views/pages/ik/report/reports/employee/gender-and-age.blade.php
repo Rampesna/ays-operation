@@ -20,7 +20,7 @@
                     <tbody>
                     @foreach($positions as $position)
                         <tr>
-                            <td>{{ ucwords($position->employee->name) }}</td>
+                            <td>{{ @ucwords($position->employee->name) }}</td>
                             <td>{{ @$position->employee->personalInformations->identification_number }}</td>
                             <td>
                                 @if($position->employee->personalInformations)
