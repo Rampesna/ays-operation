@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\CustomPercent;
 use App\Models\Employee;
+use App\Models\Position;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
@@ -52,6 +53,11 @@ class MainController extends Controller
     public function getAllEmployeesByCompanyId(Request $request)
     {
         return response()->json(Company::find($request->company_id)->employees()->orderBy('name', 'asc')->get(), 200);
+    }
+
+    public function getEmployeesFromPositions()
+    {
+        return response()->json(Position::with(['employee'])->where('end_date', null)->get(), 200);
     }
 
     public function createCustomPercent(Request $request)

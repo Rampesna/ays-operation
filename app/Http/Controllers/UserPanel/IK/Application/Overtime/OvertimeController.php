@@ -16,7 +16,9 @@ class OvertimeController extends Controller
     {
         return view('pages.ik.application.applications.overtime.index', [
             'overtimes' => Overtime::with([
-                'employee',
+                'employee' => function ($employee) {
+                    $employee->withTrashed();
+                },
                 'reason',
                 'status'
             ])->orderBy('created_at', 'desc')->get(),

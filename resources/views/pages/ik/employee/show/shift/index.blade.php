@@ -5,9 +5,14 @@
 @section('content')
 
     @include('pages.ik.employee.components.subheader')
+
     <div class="row mt-15">
         <div class="col-xl-12">
-            {{ $employee->name }} - Vardiyalar
+            <div class="card">
+                <div class="card-body">
+                    <div id="calendar"></div>
+                </div>
+            </div>
         </div>
     </div>
 

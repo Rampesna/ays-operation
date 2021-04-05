@@ -17,18 +17,17 @@ class WithIdController extends Controller
     {
         try {
             $jobSystemApi = new JobsSystemApi();
-            $jobSystemApi->SetJobsExcel([
+            $response = $jobSystemApi->SetJobsExcel([
                 [
                     'id' => $request->id,
                     'oncelik' => $request->priority,
-                    'Turu' => $request->type
+                    'turu' => $request->type
                 ]
             ]);
-            $response = $jobSystemApi->SetJobsUyumIsId($request->id, $request->priority, $request->type);
 
             return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
-        } catch (\Exception $exception) {
-            return redirect()->back()->with(['type' => 'error', 'data' => 'API Bağlantısında Bir Sorun Meydana Geldi!']);
+        } catch (\Exception $exception){
+            return $exception;
         }
     }
 }

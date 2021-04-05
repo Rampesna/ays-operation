@@ -76,7 +76,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-round btn-default" data-dismiss="modal">İptal Et</button>
-                <button type="submit" class="btn btn-round btn-info">Onaylıyorum</button>
+                <button type="submit" class="btn btn-round btn-info">Oluştur</button>
             </div>
         </form>
     </div>

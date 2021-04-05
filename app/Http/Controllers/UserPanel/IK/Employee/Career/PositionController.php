@@ -26,4 +26,13 @@ class PositionController extends Controller
             return $exception;
         }
     }
+
+    public function update(Request $request)
+    {
+        $positionService = new PositionService;
+        $positionService->setPosition(Position::find($request->position_id));
+        $positionService->save($request);
+
+        return redirect()->back()->with(['type' => 'success', 'data' => 'Başarıyla Güncellendi']);
+    }
 }

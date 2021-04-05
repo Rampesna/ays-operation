@@ -23,6 +23,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
     Route::prefix('employee')->namespace('Employee')->group(function () {
         Route::get('getEmployeesByCompanyId', 'MainController@getEmployeesByCompanyId')->name('ajax.employees-by-company-id');
         Route::get('getAllEmployeesByCompanyId', 'MainController@getAllEmployeesByCompanyId')->name('ajax.all-employees-by-company-id');
+        Route::get('getEmployeesFromPositions', 'MainController@getEmployeesFromPositions')->name('ajax.getEmployeesFromPositions');
 
         Route::post('updateQueues', 'MainController@updateQueues')->name('ajax.employee.updateQueues');
         Route::post('updateCompetences', 'MainController@updateCompetences')->name('ajax.employee.updateCompetences');
@@ -226,9 +227,9 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('ik')->namespace('IK')->group(function () {
 
-        Route::get('getTitlesByDepartment','IKController@getTitlesByDepartment')->name('ajax.ik.getTitlesByDepartment');
-        Route::get('getDepartmentsByBranch','IKController@getDepartmentsByBranch')->name('ajax.ik.getDepartmentsByBranch');
-        Route::get('getBranchesByCompany','IKController@getBranchesByCompany')->name('ajax.ik.getBranchesByCompany');
+        Route::get('getTitlesByDepartment', 'IKController@getTitlesByDepartment')->name('ajax.ik.getTitlesByDepartment');
+        Route::get('getDepartmentsByBranch', 'IKController@getDepartmentsByBranch')->name('ajax.ik.getDepartmentsByBranch');
+        Route::get('getBranchesByCompany', 'IKController@getBranchesByCompany')->name('ajax.ik.getBranchesByCompany');
 
         Route::prefix('application')->group(function () {
 
@@ -252,6 +253,24 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::prefix('employee-device')->group(function () {
                 Route::get('getEmployeeDevice', 'EmployeeDeviceController@getEmployeeDevice')->name('ajax.ik.employee-device.getEmployeeDevice');
             });
+
+        });
+
+        Route::prefix('career')->group(function () {
+
+            Route::prefix('position')->group(function () {
+                Route::get('getPosition', 'PositionController@getPosition')->name('ajax.ik.career.position.getPosition');
+            });
+
+            Route::prefix('salary')->group(function () {
+                Route::get('getSalary', 'SalaryController@getSalary')->name('ajax.ik.career.salary.getSalary');
+            });
+
+        });
+
+        Route::prefix('punishment')->group(function () {
+
+            Route::get('getPunishment', 'PunishmentController@getPunishment')->name('ajax.ik.punishment.getPunishment');
 
         });
     });

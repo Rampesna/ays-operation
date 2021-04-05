@@ -21,7 +21,10 @@ use App\Models\Permit;
 use App\Models\PermitStatus;
 use App\Models\PermitType;
 use App\Models\Position;
+use App\Models\Punishment;
+use App\Models\PunishmentCategory;
 use App\Models\Salary;
+use App\Models\Shift;
 use App\Services\EmployeePersonalInformationService;
 use App\Services\EmployeeService;
 use App\Services\PositionService;
@@ -233,6 +236,23 @@ class EmployeeController extends Controller
         } else if ($tab == 'file') {
             return view('pages.ik.employee.show.file.index', [
                 'files' => Employee::find($id)->employeeFiles,
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'shift') {
+            return view('pages.ik.employee.show.shift.index', [
+                'shifts' => Shift::where('employee_id', $id)->get(),
+                'employee' => Employee::with([
+                    'personalInformations'
+                ])->find($id),
+                'tab' => $tab
+            ]);
+        } else if ($tab == 'punishment') {
+            return view('pages.ik.employee.show.punishment.index', [
+                'punishments' => Punishment::where('employee_id', $id)->get(),
+                'punishmentCategories' => PunishmentCategory::all(),
                 'employee' => Employee::with([
                     'personalInformations'
                 ])->find($id),

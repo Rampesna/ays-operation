@@ -20,6 +20,7 @@ class CreatePunishmentsTable extends Migration
             $table->date('date');
             $table->text('description')->nullable();
             $table->double('amount')->nullable();
+            $table->string('file')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

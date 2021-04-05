@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @method static where($column, $parameter)
+ * @method static find($primaryKey)
  */
 class Position extends Model
 {

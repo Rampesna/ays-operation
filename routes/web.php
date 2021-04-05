@@ -408,15 +408,6 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         });
         Route::get('/index', 'MainController@index')->name('applications.index');
 
-        Route::prefix('shift')->namespace('Shift')->group(function () {
-            Route::get('/', function () {
-                return redirect()->route('applications.shift.index');
-            });
-            Route::get('/index', 'MainController@index')->name('applications.shift.index')->middleware('Authority:29');
-            Route::get('/robot', 'MainController@robot')->name('applications.shift.robot')->middleware('Authority:30');
-            Route::post('/robot/store', 'MainController@robotStore')->name('applications.shift.robot.store')->middleware('Authority:30');
-        });
-
         Route::prefix('batch-actions')->namespace('BatchActions')->group(function () {
             Route::get('index', 'MainController@index')->name('applications.batch-actions.index');
         });
@@ -464,9 +455,26 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             });
 
             Route::prefix('career')->namespace('Career')->group(function () {
+
                 Route::prefix('position')->group(function () {
                     Route::post('create', 'PositionController@create')->name('ik.employee.career.position.create');
+                    Route::post('update', 'PositionController@update')->name('ik.employee.career.position.update');
                 });
+
+                Route::prefix('salary')->group(function () {
+                    Route::post('create', 'SalaryController@create')->name('ik.employee.career.salary.create');
+                    Route::post('update', 'SalaryController@update')->name('ik.employee.career.salary.update');
+                });
+            });
+
+            Route::prefix('punishment')->namespace('Punishment')->group(function () {
+                Route::post('create', 'PunishmentController@create')->name('ik.employee.punishment.create');
+                Route::post('update', 'PunishmentController@update')->name('ik.employee.punishment.update');
+                Route::post('delete', 'PunishmentController@delete')->name('ik.employee.punishment.delete');
+
+                Route::get('{id?}/document/create', 'PunishmentController@documentCreate')->name('ik.employee.punishment.document.create');
+                Route::post('document/upload', 'PunishmentController@documentUpload')->name('ik.employee.punishment.document.upload');
+                Route::post('document/delete', 'PunishmentController@documentDelete')->name('ik.employee.punishment.document.delete');
             });
         });
 
@@ -550,6 +558,15 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 Route::post('report', 'FoodListController@report')->name('ik.applications.food-list.report');
                 Route::get('{date?}/report-detail', 'FoodListController@reportDetail')->name('ik.applications.food-list.report-detail');
             });
+
+            Route::prefix('shift')->namespace('Shift')->group(function () {
+                Route::get('/', function () {
+                    return redirect()->route('ik.applications.shift.index');
+                });
+                Route::get('/index', 'ShiftController@index')->name('ik.applications.shift.index')->middleware('Authority:29');
+                Route::get('/robot', 'ShiftController@robot')->name('ik.applications.shift.robot')->middleware('Authority:30');
+                Route::post('/robot/store', 'ShiftController@robotStore')->name('ik.applications.shift.robot.store')->middleware('Authority:30');
+            });
         });
     });
 
@@ -604,3 +621,4 @@ Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\
         });
     });
 });
+

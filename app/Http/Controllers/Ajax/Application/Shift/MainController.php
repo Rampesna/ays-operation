@@ -15,7 +15,6 @@ class MainController extends Controller
             $response = [];
             foreach ($request->employees as $employee) {
                 $shift = new Shift;
-                $shift->company_id = $request->company_id;
                 $shift->employee_id = $employee;
                 $shift->start_date = $request->start_date;
                 $shift->end_date = $request->end_date;

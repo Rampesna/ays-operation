@@ -20,7 +20,9 @@ class PaymentController extends Controller
     {
         return view('pages.ik.application.applications.payment.index', [
             'payments' => Payment::with([
-                'employee',
+                'employee' => function ($employee) {
+                    $employee->withTrashed();
+                },
                 'type',
                 'status'
             ])->orderBy('created_at', 'desc')->get(),

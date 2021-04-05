@@ -16,7 +16,9 @@ class PermitController extends Controller
     {
         return view('pages.ik.application.applications.permit.index', [
             'permits' => Permit::with([
-                'employee',
+                'employee' => function ($employee) {
+                    $employee->withTrashed();
+                },
                 'type',
                 'status'
             ])->orderBy('created_at', 'desc')->get(),

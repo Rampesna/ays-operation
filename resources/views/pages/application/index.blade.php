@@ -8,7 +8,7 @@
     <div class="row">
         @Authority(29)
         <div class="col-xl-3">
-            <a href="{{ route('applications.shift.index') }}" class="card card-custom card-stretch gutter-b">
+            <a href="{{ route('ik.applications.shift.index') }}" class="card card-custom card-stretch gutter-b">
                 <div class="card-body">
                     <span class="svg-icon svg-icon-success svg-icon-3x ml-n1">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
