@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Api\OperationApi\ExamSystem\ExamSystemApi;
+use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
 use App\Models\Employee;
 use App\Models\Permit;
 use App\Models\Punishment;
@@ -15,7 +16,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        return 1;
+        return (new SurveySystemApi)->GetSurveyProductEdit(4);
     }
 
     public function backdoor()

@@ -12,6 +12,7 @@ class SurveyAnswerController extends Controller
     {
         return view('pages.survey.answer.index', [
             'answers' => (new SurveySystemApi)->GetSurveyAnswersList($id)['response'] ?? [],
+            'products' => (new SurveySystemApi)->GetSurveyProductList()['response'] ?? [],
             'questionId' => $id,
             'surveyCode' => $surveyCode
         ]);

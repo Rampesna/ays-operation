@@ -67,6 +67,8 @@
     var deletedSurvey = $("#deleted_survey_id");
     var editedSurvey = $("#id_edit");
 
+    var surveySellerConnectionSellerCodeSelector = $("#survey_seller_connection_seller_code");
+
     createSurveyButton.click(function () {
         var code = $("#code_create").val();
         var name = $("#name_create").val();

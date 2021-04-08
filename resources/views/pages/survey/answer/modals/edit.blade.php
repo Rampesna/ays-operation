@@ -42,6 +42,16 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="products_edit">Ürünler</label>
+                            <select id="products_edit" class="form-control selectpicker" data-live-search="true" multiple>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" id="updateAnswerButton">Güncelle</button>

@@ -216,6 +216,21 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::post('delete', 'SurveyQuestionController@delete')->name('ajax.survey.question.delete');
         });
 
+        Route::prefix('product')->group(function () {
+            Route::get('productList', 'SurveyProductController@productList')->name('ajax.survey.product.productList');
+            Route::post('create', 'SurveyProductController@create')->name('ajax.survey.product.create');
+            Route::get('edit', 'SurveyProductController@edit')->name('ajax.survey.product.edit');
+            Route::post('update', 'SurveyProductController@update')->name('ajax.survey.product.update');
+            Route::post('delete', 'SurveyProductController@delete')->name('ajax.survey.product.delete');
+        });
+
+        Route::prefix('seller')->group(function () {
+            Route::get('sellerList', 'SurveySellerController@sellerList')->name('ajax.survey.seller.sellerList');
+            Route::post('save', 'SurveySellerController@save')->name('ajax.survey.seller.save');
+            Route::get('edit', 'SurveySellerController@edit')->name('ajax.survey.seller.edit');
+            Route::post('delete', 'SurveySellerController@delete')->name('ajax.survey.seller.delete');
+        });
+
         Route::prefix('answer')->group(function () {
             Route::post('create', 'SurveyAnswerController@create')->name('ajax.survey.answer.create');
             Route::get('edit', 'SurveyAnswerController@edit')->name('ajax.survey.answer.edit');

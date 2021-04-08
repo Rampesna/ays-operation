@@ -64,6 +64,17 @@
                                                             </a>
                                                         </li>
                                                         <li class="navi-item">
+                                                            <a data-code="{{ $survey['kodu'] }}"
+                                                               data-toggle="modal"
+                                                               data-target="#ConnectSeller"
+                                                               class="navi-link cursor-pointer connect-seller">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fa fa-user-alt text-primary"></i>
+                                                                    </span>
+                                                                <span class="navi-text">Satıcı Bağla</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="navi-item">
                                                             <a href="{{ route('surveys.questions', ['code' => $survey['kodu']]) }}"
                                                                target="_blank"
                                                                class="navi-link cursor-pointer">

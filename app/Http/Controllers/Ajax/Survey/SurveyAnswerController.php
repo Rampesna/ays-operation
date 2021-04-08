@@ -18,6 +18,7 @@ class SurveyAnswerController extends Controller
         $list = !is_null($request->groups) ? explode(',', General::clearTagifyTags($request->groups)) : [];
         $groupsList = [];
         $questionsList = [];
+        $productsList = [];
 
         foreach ($list as $item) {
             $groupsList[] = [
@@ -39,11 +40,23 @@ class SurveyAnswerController extends Controller
 
         $questionsResponse = (new SurveySystemApi)->SetSurveyAnswersConnect($questionsList);
 
+        if ($request->products) {
+            foreach ($request->products as $product) {
+                $productsList[] = [
+                    'urunKodu' => $product,
+                    'anketCevaplarId' => $answerId
+                ];
+            }
+        }
+
+        $productsResponse = (new SurveySystemApi)->SetSurveyAnswersProductConnect($productsList);
+
         return response()->json([
             'status' => 'Tamamlandı',
             'response' => $response->body(),
             'groupResponse' => $groupResponse->body(),
-            'questionsResponse' => $questionsResponse->body()
+            'questionsResponse' => $questionsResponse->body(),
+            'productsResponse' => $productsResponse->body()
         ], 200);
     }
 
@@ -52,7 +65,8 @@ class SurveyAnswerController extends Controller
         return response()->json([
             'answer' => (new SurveySystemApi)->GetSurveyAnswerEdit($request->id)['response'][0],
             'groups' => (new SurveySystemApi)->GetSurveyAnswersCategoryConnectList($request->id)['response'],
-            'questions' => (new SurveySystemApi)->GetSurveyAnswersConnectList($request->id)['response']
+            'questions' => (new SurveySystemApi)->GetSurveyAnswersConnectList($request->id)['response'],
+            'products' => (new SurveySystemApi)->GetSurveyAnswersProductConnectList($request->id)['response']
         ], 200);
     }
 
@@ -90,6 +104,20 @@ class SurveyAnswerController extends Controller
             }
 
             $questionsResponse = (new SurveySystemApi)->SetSurveyAnswersConnect($questionsList);
+
+            ///////////////////////////////////////////////////
+
+            if ($request->products) {
+                foreach ($request->products as $product) {
+                    $productsList[] = [
+                        'urunKodu' => $product,
+                        'anketCevaplarId' => $request->id
+                    ];
+                }
+            }
+
+            $productsResponse = (new SurveySystemApi)->SetSurveyAnswersProductConnect($productsList);
+            ///////////////////////////////////////////////////////
 
             return response()->json([
                 'status' => 'Tamamlandı',

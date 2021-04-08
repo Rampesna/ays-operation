@@ -252,6 +252,8 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             return redirect()->route('surveys.index');
         });
         Route::get('/index', 'SurveyController@Index')->name('surveys.index');
+        Route::get('/products', 'SurveyController@products')->name('surveys.products');
+        Route::get('/sellers', 'SurveyController@sellers')->name('surveys.sellers');
 
         Route::prefix('questions')->group(function () {
             Route::get('/{code?}/index', 'SurveyQuestionController@Index')->name('surveys.questions');

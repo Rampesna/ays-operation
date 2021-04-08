@@ -380,6 +380,22 @@
                                     <span class="menu-text">Scriptler</span>
                                 </a>
                             </li>
+                            <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'products' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('surveys.products') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Ürünler</span>
+                                </a>
+                            </li>
+                            <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'sellers' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('surveys.sellers') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Satıcılar</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

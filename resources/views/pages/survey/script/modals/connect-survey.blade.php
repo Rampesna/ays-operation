@@ -3,7 +3,7 @@
         <div class="modal-content">
             @csrf
             <div class="modal-header">
-                <h5 class="modal-title">Sil</h5>
+                <h5 class="modal-title">Ek Anket Bağla</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <i aria-hidden="true" class="ki ki-close"></i>
                 </button>

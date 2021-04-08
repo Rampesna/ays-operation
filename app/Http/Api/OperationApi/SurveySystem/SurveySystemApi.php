@@ -130,6 +130,82 @@ class SurveySystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
     }
 
+    public function GetSurveyProductList()
+    {
+        $endpoint = "SurveySystem/GetSurveyProductList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+    }
+
+    public function GetSurveySellerList()
+    {
+        $endpoint = "SurveySystem/GetSurveySellerList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+    }
+
+    public function GetSurveyAnswersProductConnectList($answerId)
+    {
+        $endpoint = "SurveySystem/GetSurveyAnswersProductConnectList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'AnswersId' => $answerId
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
+    public function GetSurveySellerEdit($sellerId)
+    {
+        $endpoint = "SurveySystem/GetSurveySellerEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SellerId' => $sellerId
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
+    public function GetSurveySellerCodeEdit($sellerCode)
+    {
+        $endpoint = "SurveySystem/GetSurveySellerCodeEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SellerCode' => $sellerCode
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
+    public function GetSurveyProductEdit($productId)
+    {
+        $endpoint = "SurveySystem/GetSurveyProductEdit";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'ProductId' => $productId
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
     public function SetSurvey(Request $request)
     {
         $endpoint = "SurveySystem/SetSurvey";
@@ -151,6 +227,9 @@ class SurveySystemApi extends OperationApi
             'uyumCrmAramaPlani' => $request->dial_plan,
             'uyumCrmFirsatSaticiyaYonlendir' => $request->opportunity_redirect_to_seller,
             'uyumCrmAramaPlaniSaticiyaYonlendir' => $request->dial_plan_redirect_to_seller,
+            'uyumCrmSaticiKoduTurKodu' => $request->seller_redirection_type,
+            'epostaBaslik' => $request->dial_plan_redirect_to_seller,
+            'epostaIcerik' => $request->dial_plan_redirect_to_seller,
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
@@ -278,6 +357,50 @@ class SurveySystemApi extends OperationApi
     public function SetSurveyAnswersConnect($list)
     {
         $endpoint = "SurveySystem/SetSurveyAnswersConnect";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
+
+    public function SetSurveyAnswersProductConnect($list)
+    {
+        $endpoint = "SurveySystem/SetSurveyAnswersProductConnect";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
+
+    public function SetSurveySellerConnect($list)
+    {
+        $endpoint = "SurveySystem/SetSurveySellerConnect";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
+
+    public function SetSurveySellerDelete($sellerCode)
+    {
+        $endpoint = "SurveySystem/SetSurveySellerDelete";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SellerCode' => $sellerCode
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
+    }
+
+    public function SetSurveyProduct($list)
+    {
+        $endpoint = "SurveySystem/SetSurveyProduct";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];

@@ -72,6 +72,8 @@
     var deletedAnswer = $("#deleted_answer_id");
     var questionsSelector = $("#questions_create");
     var questionsSelectorEdit = $("#questions_edit");
+    var productsSelector = $("#products_create");
+    var productsSelectorEdit = $("#products_edit");
 
     function getQuestionsList()
     {
@@ -97,11 +99,36 @@
 
     getQuestionsList();
 
+    function getProductsList()
+    {
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.survey.product.productList') }}',
+            data: {
+                code: '{{ $surveyCode }}'
+            },
+            success: function (products) {
+                $.each(products, function (index) {
+                    productsSelector.append(`<option value="${products[index].kodu}">${products[index].adi}</option>`);
+                    productsSelectorEdit.append(`<option value="${products[index].kodu}">${products[index].adi}</option>`);
+                });
+                productsSelector.selectpicker('refresh');
+                productsSelectorEdit.selectpicker('refresh');
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    }
+
+    getProductsList();
+
     createAnswerButton.click(function () {
         var answer = $("#answer_create").val();
         var order_number = $("#order_number_create").val();
         var groups = $("#groups_create").val();
         var questions = $("#questions_create").val();
+        var products = $("#products_create").val();
         var question_id = '{{ $questionId }}';
 
         $.ajax({
@@ -113,7 +140,8 @@
                 order_number: order_number,
                 question_id: question_id,
                 groups: groups,
-                questions: questions
+                questions: questions,
+                products: products
             },
             success: function (response) {
                 if (response.status === 'Tamamlandı') {
@@ -149,12 +177,19 @@
                 });
 
                 var questionsList = [];
+                var productsList = [];
 
                 $.each(response.questions, function (index) {
                     questionsList.push(response.questions[index].sorularId);
                 });
                 questionsSelectorEdit.selectpicker('val', []).selectpicker('refresh');
                 questionsSelectorEdit.selectpicker('val', questionsList).selectpicker('refresh');
+
+                $.each(response.products, function (index) {
+                    productsList.push(response.products[index].urunKodu);
+                });
+                productsSelector.selectpicker('val', []).selectpicker('refresh');
+                productsSelectorEdit.selectpicker('val', productsList).selectpicker('refresh');
             },
             error: function (error) {
                 console.log(error)

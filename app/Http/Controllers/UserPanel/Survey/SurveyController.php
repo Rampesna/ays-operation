@@ -15,6 +15,22 @@ class SurveyController extends Controller
         ]);
     }
 
+    public function products()
+    {
+        return view('pages.survey.product.index', [
+            'products' => (new SurveySystemApi)->GetSurveyProductList()['response']
+        ]);
+    }
+
+    public function sellers()
+    {
+        return view('pages.survey.seller.index', [
+            'sellers' => (new SurveySystemApi)->GetSurveySellerList()['response'],
+            'surveys' => (new SurveySystemApi)->GetSurveyList()['response'],
+            'products' => (new SurveySystemApi)->GetSurveyProductList()['response']
+        ]);
+    }
+
     public function Create()
     {
         return view('pages.survey.create');
