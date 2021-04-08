@@ -19,6 +19,15 @@
                         </div>
                     </div>
                     <hr>
+                    <div class="for">
+                        <div class="col-xl-12">
+                            <div class="form-group">
+                                <label for="process_name">İşlem Adı</label>
+                                <input type="text" id="process_name" name="process_name" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="row">
                         <div class="col-xl-12 text-right">
                             <button type="submit" class="btn btn-primary">İşleri Aktar</button>

@@ -20,8 +20,9 @@ class CustomReportController extends Controller
     public function show(Request $request)
     {
         $api = new SpecialReportApi();
+        $response = $api->GetSpecialReport($request->start_date, $request->end_date, CustomReport::find($request->report_id)->query)['response'] ?? [];
         return view('pages.report.custom.show', [
-            'response' => $api->GetSpecialReport($request->start_date, $request->end_date, CustomReport::find($request->report_id)->query)['response']
+            'response' => $response
         ]);
     }
 }

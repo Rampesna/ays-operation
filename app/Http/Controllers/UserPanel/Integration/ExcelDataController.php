@@ -34,7 +34,10 @@ class ExcelDataController extends Controller
                         $jobList[] = [
                             'grupKodu' => $data[0],
                             'vknTckn' => $data[1],
-                            'unvan' => $data[2]
+                            'unvan' => $data[2],
+                            'sehir' => $data[3],
+                            'ilce' => $data[4],
+                            'islemAdi' => $request->process_name
                         ];
                     }
                 }
