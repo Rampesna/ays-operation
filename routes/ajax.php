@@ -231,6 +231,10 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::post('delete', 'SurveySellerController@delete')->name('ajax.survey.seller.delete');
         });
 
+        Route::prefix('employee')->group(function () {
+            Route::post('update', 'SurveyEmployeeController@update')->name('ajax.survey.employee.update');
+        });
+
         Route::prefix('answer')->group(function () {
             Route::post('create', 'SurveyAnswerController@create')->name('ajax.survey.answer.create');
             Route::get('edit', 'SurveyAnswerController@edit')->name('ajax.survey.answer.edit');

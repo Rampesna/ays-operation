@@ -395,12 +395,22 @@ class SurveySystemApi extends OperationApi
             'SellerCode' => $sellerCode
         ];
 
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
+        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
     }
 
     public function SetSurveyProduct($list)
     {
         $endpoint = "SurveySystem/SetSurveyProduct";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
+
+    public function SetSurveyPersonConnect($list)
+    {
+        $endpoint = "SurveySystem/SetSurveyPersonConnect";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];

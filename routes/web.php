@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
+
 Route::get('/test', [\App\Http\Controllers\HomeController::class, 'index'])->name('test');
 
 Auth::routes();
@@ -254,6 +256,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         Route::get('/index', 'SurveyController@Index')->name('surveys.index');
         Route::get('/products', 'SurveyController@products')->name('surveys.products');
         Route::get('/sellers', 'SurveyController@sellers')->name('surveys.sellers');
+        Route::get('/employees', 'SurveyController@employees')->name('surveys.employees');
 
         Route::prefix('questions')->group(function () {
             Route::get('/{code?}/index', 'SurveyQuestionController@Index')->name('surveys.questions');

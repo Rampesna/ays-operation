@@ -4,6 +4,7 @@ namespace App\Http\Controllers\UserPanel\Survey;
 
 use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
 use App\Http\Controllers\Controller;
+use App\Http\Api\OperationApi\Operation\OperationApi;
 use Illuminate\Http\Request;
 
 class SurveyController extends Controller
@@ -28,6 +29,14 @@ class SurveyController extends Controller
             'sellers' => (new SurveySystemApi)->GetSurveySellerList()['response'],
             'surveys' => (new SurveySystemApi)->GetSurveyList()['response'],
             'products' => (new SurveySystemApi)->GetSurveyProductList()['response']
+        ]);
+    }
+
+    public function employees()
+    {
+        return view('pages.survey.employee.index', [
+            'employees' => (new OperationApi)->GetUserList()['response'],
+            'surveys' => (new SurveySystemApi)->GetSurveyList()['response']
         ]);
     }
 
