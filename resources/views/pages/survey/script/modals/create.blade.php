@@ -109,8 +109,8 @@
                     </div>
                     <div class="col-xl-4">
                         <div class="form-group">
-                            <label for="seller_redirection_type">Satıcı Yönlendirme Tipi</label>
-                            <select id="seller_redirection_type" class="form-control">
+                            <label for="seller_redirection_type_create">Satıcı Yönlendirme Tipi</label>
+                            <select id="seller_redirection_type_create" class="form-control">
                                 <option value="1">Şehire Göre Satıcı Yönlendirme</option>
                                 <option value="2">Özelden Satıcı Yönlendirme</option>
                             </select>
@@ -118,23 +118,16 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-12">
-                        <div class="form-group">
-                            <label for=""></label>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
                     <div class="col-xl-6">
                         <div class="form-group">
-                            <label for="email_title">E-posta Başlığı</label>
-                            <input type="text" class="form-control">
+                            <label for="email_title_create">E-posta Başlığı</label>
+                            <input id="email_title_create" type="text" class="form-control">
                         </div>
                     </div>
                     <div class="col-xl-6">
                         <div class="form-group">
-                            <label for="file_selector">Dosya Seçimi</label>
-                            <input id="file_selector" type="file" class="form-control">
+                            <label for="file_selector_create">Dosya Seçimi</label>
+                            <input id="file_selector_create" type="file" class="form-control">
                         </div>
                     </div>
                 </div>

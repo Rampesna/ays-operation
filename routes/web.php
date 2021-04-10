@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-
 Route::get('/test', [\App\Http\Controllers\HomeController::class, 'index'])->name('test');
 
 Auth::routes();
@@ -572,6 +571,14 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 Route::get('/robot', 'ShiftController@robot')->name('ik.applications.shift.robot')->middleware('Authority:30');
                 Route::post('/robot/store', 'ShiftController@robotStore')->name('ik.applications.shift.robot.store')->middleware('Authority:30');
             });
+        });
+
+        Route::prefix('setting')->namespace('Setting')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('ik.setting.index');
+            });
+            Route::get('index', 'SettingController@index')->name('ik.setting.index');
+            Route::get('/show/{tab?}', 'SettingController@show')->name('ik.setting.show');
         });
     });
 

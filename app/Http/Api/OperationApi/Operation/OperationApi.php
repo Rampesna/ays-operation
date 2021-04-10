@@ -248,4 +248,18 @@ class OperationApi extends OperationApiBase
 
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $parameters);
     }
+
+    public function SetUserInterest($guid)
+    {
+        $endpoint = "Operation/SetUserInterest";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $parameters = [
+            'UserId' => $guid
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($parameters), 'post', $headers, $parameters);
+    }
 }

@@ -90,7 +90,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="opportunity_redirect_to_seller_edit">Fırsat Satıcıya Yönlendir</label>
                             <select id="opportunity_redirect_to_seller_edit" class="form-control">
@@ -99,13 +99,36 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="dial_plan_redirect_to_seller_edit">Arama Planı Satıcıya Yönlendir</label>
                             <select id="dial_plan_redirect_to_seller_edit" class="form-control">
                                 <option value="0">Hayır</option>
                                 <option value="1">Evet</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
+                            <label for="seller_redirection_type_edit">Satıcı Yönlendirme Tipi</label>
+                            <select id="seller_redirection_type_edit" class="form-control">
+                                <option value="1">Şehire Göre Satıcı Yönlendirme</option>
+                                <option value="2">Özelden Satıcı Yönlendirme</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="email_title_edit">E-posta Başlığı</label>
+                            <input id="email_title_edit" type="text" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="file_selector_edit">Dosya Seçimi</label>
+                            <input id="file_selector_edit" type="file" class="form-control">
                         </div>
                     </div>
                 </div>

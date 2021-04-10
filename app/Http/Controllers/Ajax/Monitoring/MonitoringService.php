@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Ajax\Monitoring;
 use App\Http\Api\AyssoftIkApi;
 use App\Http\Api\NetsantralApi;
 use App\Http\Api\OperationApi\TvScreen\TvScreenApi;
+use App\Models\Permit;
+use App\Models\Shift;
 use Illuminate\Support\Facades\Http;
 
 class MonitoringService
@@ -40,10 +42,43 @@ class MonitoringService
         $tvScreenGetStaffStatusList = $api->GetStaffStatusList();
         $tvScreenGetStaffStarList = $api->GetStaffStarList();
 
-        $ayssoftIkApi = new AyssoftIkApi();
-        $todayShiftEmployees = $ayssoftIkApi->ShiftEmployeesToday()['content'];
-        $todayPermittedEmployees = $ayssoftIkApi->TodayPermittedEmployees()['content'];
-        $todayOvertimePermittedEmployees = @$ayssoftIkApi->TodayOvertimePermittedEmployees()['content'];
+        $todayShiftEmployees = Shift::with([
+            'employee'
+        ])->whereBetween('start_date', [
+            date('Y-m-d 00:00:00'),
+            date('Y-m-d 23:59:59')
+        ])->
+        where(function ($shifts) {
+            $shifts->
+            where('start_date', '<>', date('Y-m-d 09:00:00'))->
+            orWhere('end_date', '<>', date('Y-m-d 18:00:00'));
+        })->
+        get();
+
+        $todayPermittedEmployees = Permit::with([
+            'employee'
+        ])->where(function ($query) {
+            $query->where(function ($between) {
+                $between->where('start_date', '<=', date('Y-m-d 09:00:00'))->
+                where('end_date', '>=', date('Y-m-d 18:00:00'));
+            })->orWhere(function ($same) {
+                $same->where('start_date', '>=', date('Y-m-d 09:00:00'))->
+                where('end_date', '<=', date('Y-m-d 18:00:00'));
+            });
+        })->get();
+
+        $oldShiftEmployeeList = Shift::with([
+            'employee'
+        ])->whereBetween('start_date', [
+            date('Y-m-d 00:00:00', strtotime('+1 days')),
+            date('Y-m-d 23:59:59', strtotime('+1 days'))
+        ])->
+        where(function ($shifts) {
+            $shifts->
+            where('start_date', '<>', date('Y-m-d 09:00:00'))->
+            orWhere('end_date', '<>', date('Y-m-d 18:00:00'));
+        })->
+        get();
 
         $blackTeam = $greenTeam = $blueTeam = $redTeam = $purpleTeam = $brownTeam = $otherTeams = [
             "users" => 0,
@@ -113,7 +148,7 @@ class MonitoringService
             'allActiveUsers' => $allActiveUsers,
             'todayShiftEmployees' => $todayShiftEmployees,
             'todayPermittedEmployees' => $todayPermittedEmployees,
-            'todayOvertimePermittedEmployees' => $todayOvertimePermittedEmployees
+            'oldShiftEmployeeList' => $oldShiftEmployeeList
         ];
     }
 

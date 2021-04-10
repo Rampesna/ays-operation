@@ -124,11 +124,13 @@ class EmployeeController extends Controller
 
     public function leave(Request $request)
     {
+
         $position = Position::where('employee_id', $request->employee_id)->where('end_date', null)->first();
         $position->end_date = $request->end_date;
         $position->save();
 
         $employee = Employee::find($request->employee_id);
+        (new OperationApi)->SetUserInterest($employee->guid);
         $employee->password = null;
         $employee->leave = 1;
         $employee->suspend = 1;

@@ -70,37 +70,31 @@
     var surveySellerConnectionSellerCodeSelector = $("#survey_seller_connection_seller_code");
 
     createSurveyButton.click(function () {
-        var code = $("#code_create").val();
-        var name = $("#name_create").val();
-        var description = $("#description_create").val();
-        var service_or_product = $("#service_or_product_create").val();
-        var call_reason = $("#call_reason_create").val();
-        var customer_information_1 = $("#customer_information_1_create").val();
-        var customer_information_2 = $("#customer_information_2_create").val();
-        var opportunity = $("#opportunity_create").val();
-        var call = $("#call_create").val();
-        var dial_plan = $("#dial_plan_create").val();
-        var opportunity_redirect_to_seller = $("#opportunity_redirect_to_seller_create").val();
-        var dial_plan_redirect_to_seller = $("#dial_plan_redirect_to_seller_create").val();
+        var data = new FormData();
+        data.append('_token', '{{ csrf_token() }}');
+        data.append('code', $("#code_create").val());
+        data.append('name', $("#name_create").val());
+        data.append('description', $("#description_create").val());
+        data.append('service_or_product', $("#service_or_product_create").val());
+        data.append('call_reason', $("#call_reason_create").val());
+        data.append('customer_information_1', $("#customer_information_1_create").val());
+        data.append('customer_information_2', $("#customer_information_2_create").val());
+        data.append('opportunity', $("#opportunity_create").val());
+        data.append('call', $("#call_create").val());
+        data.append('dial_plan', $("#dial_plan_create").val());
+        data.append('opportunity_redirect_to_seller', $("#opportunity_redirect_to_seller_create").val());
+        data.append('dial_plan_redirect_to_seller', $("#dial_plan_redirect_to_seller_create").val());
+        data.append('seller_redirection_type', $("#seller_redirection_type_create").val());
+        data.append('email_title', $("#email_title_create").val());
+        data.append('file', $('#file_selector_create')[0].files[0] ?? null);
 
         $.ajax({
+            async: false,
+            processData: false,
+            contentType: false,
             type: 'post',
             url: '{{ route('ajax.survey.create') }}',
-            data: {
-                _token: '{{ csrf_token() }}',
-                code: code,
-                name: name,
-                description: description,
-                service_or_product: service_or_product,
-                call_reason: call_reason,
-                customer_information_1: customer_information_1,
-                customer_information_2: customer_information_2,
-                opportunity: opportunity,
-                call: call,
-                dial_plan: dial_plan,
-                opportunity_redirect_to_seller: opportunity_redirect_to_seller,
-                dial_plan_redirect_to_seller: dial_plan_redirect_to_seller
-            },
+            data: data,
             success: function (response) {
                 if (response.status === 'Tamamlandı') {
                     toastr.success('Başarıyla Oluşturuldu');
@@ -164,6 +158,8 @@
                 $("#dial_plan_edit").val(survey.uyumCrmAramaPlani);
                 $("#opportunity_redirect_to_seller_edit").val(survey.uyumCrmFirsatSaticiyaYonlendir);
                 $("#dial_plan_redirect_to_seller_edit").val(survey.uyumCrmAramaPlaniSaticiyaYonlendir);
+                $("#email_title_edit").val(survey.epostaBaslik);
+                $("#seller_redirection_type_edit").val(survey.uyumCrmSaticiKoduTurKodu);
             },
             error: function () {
 
@@ -172,42 +168,32 @@
     });
 
     updateSurveyButton.click(function () {
-        var id = $("#id_edit").val();
-        var code = $("#code_edit").val();
-        var name = $("#name_edit").val();
-        var description = $("#description_edit").val();
-        var service_or_product = $("#service_or_product_edit").val();
-        var call_reason = $("#call_reason_edit").val();
-        var customer_information_1 = $("#customer_information_1_edit").val();
-        var customer_information_2 = $("#customer_information_2_edit").val();
-        var opportunity = $("#opportunity_edit").val();
-        var call = $("#call_edit").val();
-        var dial_plan = $("#dial_plan_edit").val();
-        var opportunity_redirect_to_seller = $("#opportunity_redirect_to_seller_edit").val();
-        var dial_plan_redirect_to_seller = $("#dial_plan_redirect_to_seller_edit").val();
-
-        console.log(id)
-        console.log(code)
+        var data = new FormData();
+        data.append('_token', '{{ csrf_token() }}');
+        data.append('id', $("#id_edit").val());
+        data.append('code', $("#code_edit").val());
+        data.append('name', $("#name_edit").val());
+        data.append('description', $("#description_edit").val());
+        data.append('service_or_product', $("#service_or_product_edit").val());
+        data.append('call_reason', $("#call_reason_edit").val());
+        data.append('customer_information_1', $("#customer_information_1_edit").val());
+        data.append('customer_information_2', $("#customer_information_2_edit").val());
+        data.append('opportunity', $("#opportunity_edit").val());
+        data.append('call', $("#call_edit").val());
+        data.append('dial_plan', $("#dial_plan_edit").val());
+        data.append('opportunity_redirect_to_seller', $("#opportunity_redirect_to_seller_edit").val());
+        data.append('dial_plan_redirect_to_seller', $("#dial_plan_redirect_to_seller_edit").val());
+        data.append('seller_redirection_type', $("#seller_redirection_type_edit").val());
+        data.append('email_title', $("#email_title_edit").val());
+        data.append('file', $('#file_selector_edit')[0].files[0] ?? null);
 
         $.ajax({
+            async: false,
+            processData: false,
+            contentType: false,
             type: 'post',
             url: '{{ route('ajax.survey.update') }}',
-            data: {
-                _token: '{{ csrf_token() }}',
-                id: id,
-                code: code,
-                name: name,
-                description: description,
-                service_or_product: service_or_product,
-                call_reason: call_reason,
-                customer_information_1: customer_information_1,
-                customer_information_2: customer_information_2,
-                opportunity: opportunity,
-                call: call,
-                dial_plan: dial_plan,
-                opportunity_redirect_to_seller: opportunity_redirect_to_seller,
-                dial_plan_redirect_to_seller: dial_plan_redirect_to_seller
-            },
+            data: data,
             success: function (response) {
                 if (response.status === 'Tamamlandı') {
                     toastr.success('Başarıyla Güncellendi');

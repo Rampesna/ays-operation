@@ -731,6 +731,9 @@
                             $("#absentee_user_count").html(result.absenteeUserCount);
 
                             $("#users_row").html('');
+
+                            console.log(result.todayShiftEmployees)
+
                             $.each(result.users, function (index) {
                                 var leftIcon = '';
                                 var rightIcon = '';
@@ -740,30 +743,23 @@
 
                                 var shiftControl = 0;
                                 $.each(result.todayShiftEmployees, function (shiftIndex) {
-                                    if (result.users[index].kullaniciMail == result.todayShiftEmployees[shiftIndex].user.email) {
+                                    if (result.users[index].kullaniciMail == result.todayShiftEmployees[shiftIndex].employee.email) {
                                         shiftControl = 1;
                                     }
                                 });
 
                                 permitControl = 0;
                                 $.each(result.todayPermittedEmployees, function (permitIndex) {
-                                    if (result.users[index].kullaniciMail == result.todayPermittedEmployees[permitIndex].email) {
+                                    if (result.users[index].kullaniciMail == result.todayPermittedEmployees[permitIndex].employee.email) {
                                         permitControl = 1;
                                     }
                                 });
 
-                                overtimePermitControl = 0;
-                                $.each(result.todayOvertimePermittedEmployees, function (permitIndex) {
-                                    if (result.users[index].kullaniciMail == result.todayOvertimePermittedEmployees[permitIndex].email) {
-                                        overtimePermitControl = 1;
-                                    }
-                                });
-
-                                sundayShiftControl = 0;
-                                if (sundayShiftUserList != null) {
-                                    $.each(sundayShiftUserList, function (sundayShiftIndex) {
-                                        if (result.users[index].kullaniciMail == sundayShiftUserList[sundayShiftIndex].email) {
-                                            sundayShiftControl = 1;
+                                oldShiftControl = 0;
+                                if (result.oldShiftEmployeeList != null) {
+                                    $.each(result.oldShiftEmployeeList, function (oldShiftIndex) {
+                                        if (result.users[index].kullaniciMail == result.oldShiftEmployeeList[oldShiftIndex].employee.email) {
+                                            oldShiftControl = 1;
                                         }
                                     });
                                 }
@@ -772,10 +768,8 @@
                                     rightIcon = '<i class="fas fa-house-user icon-2x text-white" style="margin-right: -20px"></i>';
                                 } else if (permitControl == 1) {
                                     rightIcon = '<i class="fas fa-paper-plane icon-2x text-white" style="margin-right: -20px"></i>';
-                                } else if (sundayShiftControl == 1) {
+                                } else if (oldShiftControl == 1) {
                                     rightIcon = '<i class="fas fa-calendar icon-2x text-white" style="margin-right: -20px"></i>';
-                                } else if (overtimePermitControl == 1) {
-                                    rightIcon = '<i class="fas fa-user-shield icon-2x text-white" style="margin-right: -20px"></i>';
                                 } else {
                                     rightIcon = '<i class="" style="margin-right: -20px"></i>';
                                 }
