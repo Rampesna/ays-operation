@@ -19,4 +19,18 @@ class MainController extends Controller
     {
         return response()->json(Company::find($request->company_id)->users()->whereNotIn('id', [$request->excepts ?? []])->get(), 200);
     }
+
+    public function getUserManagementDepartments(Request $request)
+    {
+        return response()->json(User::find($request->user_id)->managementDepartments()->pluck('id'), 200);
+    }
+
+    public function setUserManagementDepartments(Request $request)
+    {
+        User::find($request->user_id)->managementDepartments()->sync($request->management_departments);
+        return response()->json([
+            'status' => 200,
+            'message' => 'Tamamlandı'
+        ], 200);
+    }
 }

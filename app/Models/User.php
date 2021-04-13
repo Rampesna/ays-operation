@@ -128,4 +128,14 @@ class User extends Authenticatable
     {
         return $this->morphMany(CalendarReminder::class, 'relation');
     }
+
+    public function managementDepartments()
+    {
+        return $this->belongsToMany(ManagementDepartment::class);
+    }
+
+    public function recruitingActivities()
+    {
+        return $this->hasMany(RecruitingActivity::class);
+    }
 }

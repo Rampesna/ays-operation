@@ -758,17 +758,21 @@
                                 oldShiftControl = 0;
                                 if (result.oldShiftEmployeeList != null) {
                                     $.each(result.oldShiftEmployeeList, function (oldShiftIndex) {
-                                        if (result.users[index].kullaniciMail == result.oldShiftEmployeeList[oldShiftIndex].employee.email) {
-                                            oldShiftControl = 1;
+                                        if (result.oldShiftEmployeeList[oldShiftIndex].employee) {
+                                            if (result.oldShiftEmployeeList[oldShiftIndex].employee.email) {
+                                                if (result.users[index].kullaniciMail == result.oldShiftEmployeeList[oldShiftIndex].employee.email) {
+                                                    oldShiftControl = 1;
+                                                }
+                                            }
                                         }
                                     });
                                 }
 
-                                if (shiftControl == 1) {
+                                if (shiftControl === 1) {
                                     rightIcon = '<i class="fas fa-house-user icon-2x text-white" style="margin-right: -20px"></i>';
-                                } else if (permitControl == 1) {
+                                } else if (permitControl === 1) {
                                     rightIcon = '<i class="fas fa-paper-plane icon-2x text-white" style="margin-right: -20px"></i>';
-                                } else if (oldShiftControl == 1) {
+                                } else if (oldShiftControl === 1) {
                                     rightIcon = '<i class="fas fa-calendar icon-2x text-white" style="margin-right: -20px"></i>';
                                 } else {
                                     rightIcon = '<i class="" style="margin-right: -20px"></i>';

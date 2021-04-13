@@ -119,6 +119,14 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="job_resource_edit">İş Kaynağı</label>
+                            <input type="text" id="job_resource_edit" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xl-6">
                         <div class="form-group">
                             <label for="email_title_edit">E-posta Başlığı</label>

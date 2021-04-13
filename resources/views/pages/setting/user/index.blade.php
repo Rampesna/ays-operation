@@ -5,6 +5,8 @@
 
 @section('content')
 
+    @include('pages.setting.user.modals.management-department')
+
     <div class="row">
         <div class="col-xl-12 text-right">
             <button type="button" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary">Yeni Kullanıcı Oluştur</button>
@@ -55,47 +57,17 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                     <ul class="navi navi-hover">
-                                                        @if($user->suspend == 1)
-                                                            <li class="navi-item">
-                                                                <a href="#"
-                                                                   data-id="{{ $user->id }}"
-                                                                   data-toggle="modal"
-                                                                   data-target="#ActivateModal"
-                                                                   class="navi-link activate">
+                                                        <li class="navi-item">
+                                                            <a href="#"
+                                                               data-id="{{ $user->id }}"
+                                                               class="navi-link editManagementDepartment">
                                                                     <span class="navi-icon">
                                                                         <i class="fas fa-user-clock text-warning"></i>
                                                                     </span>
-                                                                    <span class="navi-text text-warning">Engeli Kaldır</span>
-                                                                </a>
-                                                            </li>
-                                                        @else
-                                                            <li class="navi-item">
-                                                                <a href="#"
-                                                                   data-id="{{ $user->id }}"
-                                                                   data-toggle="modal"
-                                                                   data-target="#SuspendedModal"
-                                                                   class="navi-link activate">
-                                                                    <span class="navi-icon">
-                                                                        <i class="fas fa-user-lock text-warning"></i>
-                                                                    </span>
-                                                                    <span class="navi-text text-warning">Engelle</span>
-                                                                </a>
-                                                            </li>
-                                                        @endif
-                                                        @if(!$user->email_verified_at)
-                                                            <li class="navi-item">
-                                                                <a href="#"
-                                                                   data-id="{{ $user->id }}"
-                                                                   data-toggle="modal"
-                                                                   data-target="#VerifyModal"
-                                                                   class="navi-link activate">
-                                                                    <span class="navi-icon">
-                                                                        <i class="fas fa-user-check text-success"></i>
-                                                                    </span>
-                                                                    <span class="navi-text text-success">Hesabı Onayla</span>
-                                                                </a>
-                                                            </li>
-                                                        @endif
+                                                                <span class="navi-text text-warning">Yönetim Departmanları</span>
+                                                            </a>
+                                                        </li>
+                                                        <hr>
                                                         <li class="navi-item">
                                                             <a href="#"
                                                                data-id="{{ $user->id }}"

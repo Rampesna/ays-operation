@@ -2,6 +2,9 @@
 <script src="{{ asset('assets/js/pages/crud/datatables/extensions/buttons.js?v=7.0.3') }}"></script>
 
 <script>
+
+    var updateUserManagementDepartmentsButton = $("#updateUserManagementDepartmentsButton");
+
     var table = $('#users').DataTable({
         language: {
             info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
@@ -207,5 +210,55 @@
 
             }
         });
+    });
+
+    $(document).delegate('.editManagementDepartment', 'click', function () {
+        var user_id = $(this).data('id');
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.user.getUserManagementDepartments') }}',
+            data: {
+                user_id: user_id
+            },
+            success: function (userManagementDepartments) {
+                $("#management_departments").selectpicker('val', userManagementDepartments).selectpicker('refresh');
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+
+        $("#management_department_user_id").val(user_id);
+        $("#ManagementDepartmentModal").modal('show');
+    });
+
+    updateUserManagementDepartmentsButton.click(function () {
+        var user_id = $("#management_department_user_id").val();
+        var management_departments = $("#management_departments").val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.user.setUserManagementDepartments') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                user_id: user_id,
+                management_departments: management_departments
+            },
+            success: function (response) {
+                if (response.status === 200) {
+                    $("#ManagementDepartmentModal").modal('hide');
+                    toastr.success('Kaydedildi');
+                } else {
+                    toastr.success('Bir Sorun Oluştu');
+                    console.log(response)
+                }
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+
+
     });
 </script>

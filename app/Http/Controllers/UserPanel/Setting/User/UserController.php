@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\UserPanel\Setting\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\ManagementDepartment;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,8 @@ class UserController extends Controller
     public function index()
     {
         return view('pages.setting.user.index', [
-            'users' => User::all()
+            'users' => User::all(),
+            'managementDepartments' => ManagementDepartment::all()
         ]);
     }
 

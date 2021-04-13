@@ -229,7 +229,8 @@ class SurveySystemApi extends OperationApi
             'uyumCrmAramaPlaniSaticiyaYonlendir' => $request->dial_plan_redirect_to_seller,
             'uyumCrmSaticiKoduTurKodu' => $request->seller_redirection_type,
             'epostaBaslik' => $request->email_title,
-            'epostaIcerik' => $request->hasFile('file') ? file_get_contents($request->file('file')) : ''
+            'epostaIcerik' => $request->hasFile('file') ? file_get_contents($request->file('file')) : '',
+            'uyumCrmIsKaynagi' => $request->job_resource
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);

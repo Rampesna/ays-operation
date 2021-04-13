@@ -100,7 +100,7 @@ class AnalysisController extends Controller
             $response = $api->GetPersonReport($request->start_date, $request->end_date);
 
             if ($response->status() == 200) {
-                return redirect()->back()->with(['type' => 'success', 'data' => 'Analiz Başarıyla Tamamlandı. Rapor Oluşturabilirsiniz']);
+                return redirect()->back()->with(['type' => 'success', 'data' => $response['response'] ?? $response['message']]);
             } else {
                 return [
                     'status' => $response->status(),

@@ -46,6 +46,8 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
     Route::prefix('user')->namespace('User')->group(function () {
         Route::post('emailControl', 'MainController@emailControl')->name('ajax.emailControl');
         Route::get('usersByCompany', 'MainController@usersByCompany')->name('ajax.user.usersByCompany');
+        Route::get('getUserManagementDepartments', 'MainController@getUserManagementDepartments')->name('ajax.user.getUserManagementDepartments');
+        Route::post('setUserManagementDepartments', 'MainController@setUserManagementDepartments')->name('ajax.user.setUserManagementDepartments');
     });
 
     Route::prefix('role')->namespace('Role')->group(function () {
@@ -267,6 +269,15 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
             Route::prefix('payment')->group(function () {
                 Route::get('getPayment', 'PaymentController@getPayment')->name('ajax.ik.payment.getPayment');
+            });
+
+            Route::prefix('recruiting')->group(function () {
+                Route::post('create', 'RecruitingController@create')->name('ajax.ik.recruiting.create');
+                Route::get('show', 'RecruitingController@show')->name('ajax.ik.recruiting.show');
+                Route::post('setRecruitingStepSubStepCheck', 'RecruitingController@setRecruitingStepSubStepCheck')->name('ajax.ik.recruiting.setRecruitingStepSubStepCheck');
+                Route::post('nextStepRecruiting', 'RecruitingController@nextStepRecruiting')->name('ajax.ik.recruiting.nextStepRecruiting');
+                Route::post('cancelRecruiting', 'RecruitingController@cancelRecruiting')->name('ajax.ik.recruiting.cancelRecruiting');
+                Route::get('recruitingStepSubStepCheckActivities', 'RecruitingController@recruitingStepSubStepCheckActivities')->name('ajax.ik.recruiting.recruitingStepSubStepCheckActivities');
             });
 
             Route::prefix('employee-device')->group(function () {

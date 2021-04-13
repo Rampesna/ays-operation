@@ -86,6 +86,7 @@
         data.append('dial_plan_redirect_to_seller', $("#dial_plan_redirect_to_seller_create").val());
         data.append('seller_redirection_type', $("#seller_redirection_type_create").val());
         data.append('email_title', $("#email_title_create").val());
+        data.append('job_resource', $("#job_resource_create").val());
         data.append('file', $('#file_selector_create')[0].files[0] ?? null);
 
         $.ajax({
@@ -159,6 +160,7 @@
                 $("#opportunity_redirect_to_seller_edit").val(survey.uyumCrmFirsatSaticiyaYonlendir);
                 $("#dial_plan_redirect_to_seller_edit").val(survey.uyumCrmAramaPlaniSaticiyaYonlendir);
                 $("#email_title_edit").val(survey.epostaBaslik);
+                $("#job_resource_edit").val(survey.uyumCrmIsKaynagi);
                 $("#seller_redirection_type_edit").val(survey.uyumCrmSaticiKoduTurKodu);
             },
             error: function () {
@@ -185,6 +187,7 @@
         data.append('dial_plan_redirect_to_seller', $("#dial_plan_redirect_to_seller_edit").val());
         data.append('seller_redirection_type', $("#seller_redirection_type_edit").val());
         data.append('email_title', $("#email_title_edit").val());
+        data.append('job_resource', $("#job_resource_edit").val());
         data.append('file', $('#file_selector_edit')[0].files[0] ?? null);
 
         $.ajax({

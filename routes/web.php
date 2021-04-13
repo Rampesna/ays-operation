@@ -538,6 +538,11 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 Route::get('scoring', 'ScoringController@index')->name('ik.application.scoring.index');
             });
 
+            Route::prefix('recruiting')->namespace('Recruiting')->group(function () {
+                Route::get('index', 'RecruitingController@index')->name('ik.application.recruiting.index');
+                Route::get('list', 'RecruitingController@list')->name('ik.application.recruiting.list');
+            });
+
             Route::prefix('covid-document')->namespace('CovidDocument')->group(function () {
                 Route::get('index', 'CovidDocumentController@index')->name('ik.application.covid-document.index');
                 Route::post('create', 'CovidDocumentController@create')->name('ik.application.covid-document.create');
