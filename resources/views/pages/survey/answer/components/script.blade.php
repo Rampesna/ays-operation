@@ -203,6 +203,7 @@
         var order_number = $("#order_number_edit").val();
         var groups = $("#groups_edit").val();
         var questions = $("#questions_edit").val();
+        var products = $("#products_edit").val();
         var question_id = '{{ $questionId }}';
 
         $.ajax({
@@ -216,14 +217,15 @@
                 question_id: question_id,
                 groups: groups,
                 questions: questions,
+                products: products,
                 code: '{{ $surveyCode }}'
             },
             success: function (response) {
-                if (response.status == 'Tamamlandı') {
+                if (response.status === 'Tamamlandı') {
                     toastr.success('Başarıyla Güncellendi');
                     location.reload();
                 } else {
-                    toastr.error('Bir Hata Oluştu');
+                    toastr.error('Bir Hata Oluştu. Console Loglarına Bakın');
                     console.log(response)
                 }
             },

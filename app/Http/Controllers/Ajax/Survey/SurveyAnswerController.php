@@ -20,6 +20,8 @@ class SurveyAnswerController extends Controller
         $questionsList = [];
         $productsList = [];
 
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
         foreach ($list as $item) {
             $groupsList[] = [
                 'anketCevaplarId' => $answerId,
@@ -28,6 +30,8 @@ class SurveyAnswerController extends Controller
         }
 
         $groupResponse = (new SurveySystemApi)->SetSurveyAnswersCategoryConnect($groupsList);
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
 
         if ($request->questions) {
             foreach ($request->questions as $question) {
@@ -40,6 +44,8 @@ class SurveyAnswerController extends Controller
 
         $questionsResponse = (new SurveySystemApi)->SetSurveyAnswersConnect($questionsList);
 
+        /////////////////////////////////////////////////////////////////////////////////////////////
+
         if ($request->products) {
             foreach ($request->products as $product) {
                 $productsList[] = [
@@ -50,6 +56,8 @@ class SurveyAnswerController extends Controller
         }
 
         $productsResponse = (new SurveySystemApi)->SetSurveyAnswersProductConnect($productsList);
+
+        /////////////////////////////////////////////////////////////////////////////////////////////
 
         return response()->json([
             'status' => 'Tamamlandı',
@@ -78,6 +86,7 @@ class SurveyAnswerController extends Controller
             $list = !is_null($request->groups) ? explode(',', General::clearTagifyTags($request->groups)) : [];
             $groupsList = [];
             $questionsList = [];
+            $productsList = [];
 
             foreach ($list as $item) {
                 $groupsList[] = [
@@ -126,7 +135,7 @@ class SurveyAnswerController extends Controller
                 'questionsResponse' => $questionsResponse->body()
             ], 200);
         } catch (\Exception $exception) {
-            return response()->json($exception);
+            return $exception;
         }
     }
 

@@ -35,8 +35,8 @@ class ExcelDataController extends Controller
                             'grupKodu' => $data[0],
                             'vknTckn' => $data[1],
                             'unvan' => $data[2],
-                            'sehir' => $data[3],
-                            'ilce' => $data[4],
+                            'sehir' => preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[3])) ? 'YOK' : str_replace(' ', '', $data[3]),
+                            'ilce' => preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[4])) ? 'YOK' : str_replace(' ', '', $data[4]),
                             'islemAdi' => $request->process_name
                         ];
                     }
