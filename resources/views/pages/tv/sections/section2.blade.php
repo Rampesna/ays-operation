@@ -732,8 +732,6 @@
 
                             $("#users_row").html('');
 
-                            console.log(result.todayShiftEmployees)
-
                             $.each(result.users, function (index) {
                                 var leftIcon = '';
                                 var rightIcon = '';
@@ -920,7 +918,268 @@
                             });
                         },
                         error: function (error) {
-                            console.log(error);
+                            var sundayShiftUserList = null;
+                            if (new Date().getDay() === 6) {
+                                $.ajax({
+                                    type: "get",
+                                    url: "{{ route('ajax.monitoring.ShiftEmployeesLastSunday') }}",
+                                    dataType: 'json',
+                                    data: {
+                                        _token: '{{ csrf_token() }}'
+                                    },
+                                    success: function (sundayShiftUsers) {
+                                        sundayShiftUserList = sundayShiftUsers;
+                                    },
+                                    error: function (error) {
+                                        sundayShiftUserList = null;
+                                    }
+                                });
+                            }
+
+                            var breaks = [];
+                            breaks[4] = "(İhtiyaç Molasında)";
+                            breaks[6] = "(Toplantıda)";
+                            breaks[9] = "(Yemek Molasında)";
+                            breaks[10] = "(Dış Aramada)";
+                            breaks[11] = "(İşlemde)";
+
+                            $("#black_team_in_job").html(result.blackTeam.in_job);
+                            $("#black_team_total_job").html(result.blackTeam.total_job);
+                            if (result.blackTeam.total_job.toString().length >= 4) {
+                                $("#black_team_total_job").css({"font-size": "14px", "margin-top" : "18px"});
+                            } else if (result.blackTeam.total_job.toString().length >= 3) {
+                                $("#black_team_total_job").css({"font-size": "24px", "margin-top" : "12px"});
+                            } else if (result.blackTeam.total_job.toString().length >= 2) {
+                                $("#black_team_total_job").css({"font-size": "30px", "margin-top" : "4px"});
+                            } else {
+                                $("#black_team_total_job").css({"font-size": "45px"});
+                            }
+                            $("#black_team_users").html(result.blackTeam.users);
+                            $("#black_team_arrived").html(result.blackTeam.arrived);
+                            $("#black_team_not_job").html(result.blackTeam.not_job);
+                            $("#black_team_support").html(result.blackTeam.support);
+
+                            $("#green_team_in_job").html(result.greenTeam.in_job);
+                            $("#green_team_total_job").html(result.greenTeam.total_job);
+                            if (result.greenTeam.total_job.toString().length >= 4) {
+                                $("#green_team_total_job").css({"font-size": "14px", "margin-top" : "18px"});
+                            } else if (result.greenTeam.total_job.toString().length >= 3) {
+                                $("#green_team_total_job").css({"font-size": "24px", "margin-top" : "12px"});
+                            } else if (result.greenTeam.total_job.toString().length >= 2) {
+                                $("#green_team_total_job").css({"font-size": "30px", "margin-top" : "4px"});
+                            } else {
+                                $("#green_team_total_job").css({"font-size": "45px"});
+                            }
+                            $("#green_team_users").html(result.greenTeam.users);
+                            $("#green_team_arrived").html(result.greenTeam.arrived);
+                            $("#green_team_not_job").html(result.greenTeam.not_job);
+                            $("#green_team_support").html(result.greenTeam.support);
+
+                            $("#blue_team_in_job").html(result.blueTeam.in_job);
+                            $("#blue_team_total_job").html(result.blueTeam.total_job);
+                            if (result.blueTeam.total_job.toString().length >= 4) {
+                                $("#blue_team_total_job").css({"font-size": "14px", "margin-top" : "18px"});
+                            } else if (result.blueTeam.total_job.toString().length >= 3) {
+                                $("#blue_team_total_job").css({"font-size": "24px", "margin-top" : "12px"});
+                            } else if (result.blueTeam.total_job.toString().length >= 2) {
+                                $("#blue_team_total_job").css({"font-size": "30px", "margin-top" : "4px"});
+                            } else {
+                                $("#blue_team_total_job").css({"font-size": "45px"});
+                            }
+                            $("#blue_team_users").html(result.blueTeam.users);
+                            $("#blue_team_arrived").html(result.blueTeam.arrived);
+                            $("#blue_team_not_job").html(result.blueTeam.not_job);
+                            $("#blue_team_support").html(result.blueTeam.support);
+
+                            $("#red_team_in_job").html(result.redTeam.in_job);
+                            $("#red_team_total_job").html(result.redTeam.total_job);
+                            if (result.redTeam.total_job.toString().length >= 4) {
+                                $("#red_team_total_job").css({"font-size": "14px", "margin-top" : "18px"});
+                            } else if (result.redTeam.total_job.toString().length >= 3) {
+                                $("#red_team_total_job").css({"font-size": "24px", "margin-top" : "12px"});
+                            } else if (result.redTeam.total_job.toString().length >= 2) {
+                                $("#red_team_total_job").css({"font-size": "30px", "margin-top" : "4px"});
+                            } else {
+                                $("#red_team_total_job").css({"font-size": "45px"});
+                            }
+                            $("#red_team_users").html(result.redTeam.users);
+                            $("#red_team_arrived").html(result.redTeam.arrived);
+                            $("#red_team_not_job").html(result.redTeam.not_job);
+                            $("#red_team_support").html(result.redTeam.support);
+
+                            $("#purple_team_in_job").html(result.purpleTeam.in_job);
+                            $("#purple_team_total_job").html(result.purpleTeam.total_job);
+                            if (result.purpleTeam.total_job.toString().length >= 4) {
+                                $("#purple_team_total_job").css({"font-size": "14px", "margin-top" : "18px"});
+                            } else if (result.purpleTeam.total_job.toString().length >= 3) {
+                                $("#purple_team_total_job").css({"font-size": "24px", "margin-top" : "12px"});
+                            } else if (result.purpleTeam.total_job.toString().length >= 2) {
+                                $("#purple_team_total_job").css({"font-size": "30px", "margin-top" : "4px"});
+                            } else {
+                                $("#purple_team_total_job").css({"font-size": "45px"});
+                            }
+                            $("#purple_team_users").html(result.purpleTeam.users);
+                            $("#purple_team_arrived").html(result.purpleTeam.arrived);
+                            $("#purple_team_not_job").html(result.purpleTeam.not_job);
+                            $("#purple_team_support").html(result.purpleTeam.support);
+
+                            $("#brown_team_in_job").html(result.brownTeam.in_job);
+                            $("#brown_team_total_job").html(result.brownTeam.total_job);
+                            if (result.brownTeam.total_job.toString().length >= 4) {
+                                $("#brown_team_total_job").css({"font-size": "14px", "margin-top" : "18px"});
+                            } else if (result.brownTeam.total_job.toString().length >= 3) {
+                                $("#brown_team_total_job").css({"font-size": "24px", "margin-top" : "12px"});
+                            } else if (result.brownTeam.total_job.toString().length >= 2) {
+                                $("#brown_team_total_job").css({"font-size": "30px", "margin-top" : "4px"});
+                            } else {
+                                $("#brown_team_total_job").css({"font-size": "45px"});
+                            }
+                            $("#brown_team_users").html(result.brownTeam.users);
+                            $("#brown_team_arrived").html(result.brownTeam.arrived);
+                            $("#brown_team_not_job").html(result.brownTeam.not_job);
+                            $("#brown_team_support").html(result.brownTeam.support);
+
+                            $("#total_user_count").html(result.totalUserCount);
+                            $("#need_break_count").html(result.needBreakCount);
+                            $("#food_break_count").html(result.foodBreakCount);
+                            $("#other_break_count").html(result.otherBreakCount);
+                            $("#all_active_users").html(result.allActiveUsers);
+                            $("#active_user_count").html(result.activeUserCount);
+                            $("#absentee_user_count").html(result.absenteeUserCount);
+
+                            $("#users_row").html('');
+
+                            $.each(result.users, function (index) {
+                                var leftIcon = '';
+                                var rightIcon = '';
+                                var callStatus = '';
+                                var time = '';
+                                var bgcolor = '#505050';
+
+                                var shiftControl = 0;
+                                $.each(result.todayShiftEmployees, function (shiftIndex) {
+                                    if (result.users[index].kullaniciMail == result.todayShiftEmployees[shiftIndex].employee.email) {
+                                        shiftControl = 1;
+                                    }
+                                });
+
+                                permitControl = 0;
+                                $.each(result.todayPermittedEmployees, function (permitIndex) {
+                                    if (result.users[index].kullaniciMail == result.todayPermittedEmployees[permitIndex].employee.email) {
+                                        permitControl = 1;
+                                    }
+                                });
+
+                                oldShiftControl = 0;
+                                if (result.oldShiftEmployeeList != null) {
+                                    $.each(result.oldShiftEmployeeList, function (oldShiftIndex) {
+                                        if (result.oldShiftEmployeeList[oldShiftIndex].employee) {
+                                            if (result.oldShiftEmployeeList[oldShiftIndex].employee.email) {
+                                                if (result.users[index].kullaniciMail == result.oldShiftEmployeeList[oldShiftIndex].employee.email) {
+                                                    oldShiftControl = 1;
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+
+                                if (shiftControl === 1) {
+                                    rightIcon = '<i class="fas fa-house-user icon-2x text-white" style="margin-right: -20px"></i>';
+                                } else if (permitControl === 1) {
+                                    rightIcon = '<i class="fas fa-paper-plane icon-2x text-white" style="margin-right: -20px"></i>';
+                                } else if (oldShiftControl === 1) {
+                                    rightIcon = '<i class="fas fa-calendar icon-2x text-white" style="margin-right: -20px"></i>';
+                                } else {
+                                    rightIcon = '<i class="" style="margin-right: -20px"></i>';
+                                }
+
+                                if (result.users[index].durumKodu === 1) {
+                                    bgcolor = 'darkgreen';
+                                } else if (result.users[index].durumKodu === 5 || result.users[index].durumKodu === 4 ||result.users[index].durumKodu === 8) {
+                                    bgcolor = 'orangered';
+                                } else if (result.users[index].durumKodu === 3 || result.users[index].durumKodu === 2) {
+                                    bgcolor = 'dodgerblue';
+                                }
+
+                                callStatus = '(Dahili Yok)';
+                                leftIcon = '<i class="fas fa-phone-slash icon-2x text-white" style="margin-left: -20px"></i>';
+
+                                if (result.users[index].kullaniciAdSoyad.length > 11) {
+                                    name = result.users[index].kullaniciAdSoyad.substr(0,11) + '...';
+                                } else {
+                                    name = result.users[index].kullaniciAdSoyad;
+                                }
+
+                                var small = '';
+                                var break_time = result.users[index].molaSuresi;
+                                if (break_time == null) {
+                                    break_time = 0;
+                                }
+
+                                var break_small = '<small class="float-right" style="font-size: 20px; margin-right: -20px; margin-top: -2px">' + break_time + '</small>';
+
+                                $("#users_row").append('' +
+                                    '<div class="ays-column">' +
+                                    '<div class="card card-custom card-stretch gutter-b" style="background-color: ' + bgcolor + '">' +
+                                    '<div class="card-body align-items-center mt-n2" style="height: 95px">' +
+                                    '<div class="row text-center text-white">' +
+                                    '<div class="col-xl-6 text-left mt-n2">' +
+                                    leftIcon +
+                                    '</div>' +
+                                    '<div class="col-xl-6 text-right mt-n2">' +
+                                    rightIcon +
+                                    '</div>' +
+                                    '<div class="col-xl-12 mt-n10">' +
+                                    '<h2>' +
+                                    name +
+                                    '</h2>' +
+                                    '</div>' +
+                                    '<div class="col-xl-12 mt-n2">' +
+                                    '<small style="font-size: 16px">' +
+                                    result.users[index].durumAdi +
+                                    '</small>' +
+                                    '<br>' +
+                                    '<small style="font-size: 15px; margin-right: -20px">' +
+                                    small +
+                                    '</small>' +
+                                    break_small +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '');
+                            });
+
+                            $("#stars_row").html('');
+                            $.each(result.starList, function (index) {
+                                var name = result.starList[index].adSoyad;
+                                $("#stars_row").append('<div class="ays-column">\n' +
+                                    '\n' +
+                                    '                <div class="card card-custom card-stretch gutter-b bg-dark-75">\n' +
+                                    '\n' +
+                                    '                    <div class="card-body d-flex align-items-center mt-n2" style="padding-bottom: 25px">\n' +
+                                    '                        <div class="row">\n' +
+                                    '                            <div class="col-xl-12">\n' +
+                                    '                                <div class="row">\n' +
+                                    '                                    <div class="col-xl-4">\n' +
+                                    '                                        <i class="fa fa-star fa-4x" style="color:yellow"></i>\n' +
+                                    '                                    </div>\n' +
+                                    '                                    <div class="col-xl-8">\n' +
+                                    '                                        <span class="font-weight-bold text-white font-size-h4-xl">' + name.substring(0,12) + '...</span>\n' +
+                                    '                                        <br>\n' +
+                                    '                                        <span href="#"\n' +
+                                    '                                              class="card-title text-primary font-weight-bolder font-size-lg mb-2">' + result.starList[index].baslik + '</span>\n' +
+                                    '                                    </div>\n' +
+                                    '                                </div>\n' +
+                                    '                            </div>\n' +
+                                    '                        </div>\n' +
+                                    '                    </div>\n' +
+                                    '                    <!--end::Body-->\n' +
+                                    '                </div>\n' +
+                                    '\n' +
+                                    '            </div>');
+                            });
                         }
                     });
 

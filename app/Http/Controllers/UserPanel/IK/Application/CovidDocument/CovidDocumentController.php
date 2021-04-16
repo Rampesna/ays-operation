@@ -20,6 +20,7 @@ class CovidDocumentController extends Controller
 
     public function create(Request $request)
     {
+        ini_set('max_execution_time', '300');
         $directory = date('Y_m_d_H_i_s') . '_covid_documents';
 
         if (!File::isDirectory(public_path('covid-documents'))) {
