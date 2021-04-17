@@ -129,6 +129,10 @@ class EmployeeController extends Controller
         $position->end_date = $request->end_date;
         $position->save();
 
+        Shift::where('employee_id', $request->employee_id)->
+        where('start_date', '>=', date('Y-m-d 00:00:00', strtotime($request->end_date)))->
+        delete();
+
         $employee = Employee::find($request->employee_id);
         (new OperationApi)->SetUserInterest($employee->guid);
         $employee->password = null;

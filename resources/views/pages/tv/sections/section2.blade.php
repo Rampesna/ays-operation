@@ -732,6 +732,10 @@
 
                             $("#users_row").html('');
 
+                            console.log(result.todayShiftEmployees)
+                            console.log(result.todayPermittedEmployees)
+                            console.log(result.oldShiftEmployeeList)
+
                             $.each(result.users, function (index) {
                                 var leftIcon = '';
                                 var rightIcon = '';
@@ -741,15 +745,23 @@
 
                                 var shiftControl = 0;
                                 $.each(result.todayShiftEmployees, function (shiftIndex) {
-                                    if (result.users[index].kullaniciMail == result.todayShiftEmployees[shiftIndex].employee.email) {
-                                        shiftControl = 1;
+                                    if (result.todayShiftEmployees[shiftIndex].employee) {
+                                        if (result.todayShiftEmployees[shiftIndex].employee.email) {
+                                            if (result.users[index].kullaniciMail == result.todayShiftEmployees[shiftIndex].employee.email) {
+                                                shiftControl = 1;
+                                            }
+                                        }
                                     }
                                 });
 
                                 permitControl = 0;
                                 $.each(result.todayPermittedEmployees, function (permitIndex) {
-                                    if (result.users[index].kullaniciMail == result.todayPermittedEmployees[permitIndex].employee.email) {
-                                        permitControl = 1;
+                                    if (result.todayPermittedEmployees[permitIndex].employee) {
+                                        if (result.todayPermittedEmployees[permitIndex].employee.email) {
+                                            if (result.users[index].kullaniciMail == result.todayPermittedEmployees[permitIndex].employee.email) {
+                                                permitControl = 1;
+                                            }
+                                        }
                                     }
                                 });
 
@@ -918,6 +930,10 @@
                             });
                         },
                         error: function (error) {
+                            console.log(result.todayShiftEmployees)
+                            console.log(result.todayPermittedEmployees)
+                            console.log(result.oldShiftEmployeeList)
+
                             var sundayShiftUserList = null;
                             if (new Date().getDay() === 6) {
                                 $.ajax({
@@ -1058,15 +1074,23 @@
 
                                 var shiftControl = 0;
                                 $.each(result.todayShiftEmployees, function (shiftIndex) {
-                                    if (result.users[index].kullaniciMail == result.todayShiftEmployees[shiftIndex].employee.email) {
-                                        shiftControl = 1;
+                                    if (result.todayShiftEmployees[shiftIndex].employee) {
+                                        if (result.todayShiftEmployees[shiftIndex].employee.email) {
+                                            if (result.users[index].kullaniciMail == result.todayShiftEmployees[shiftIndex].employee.email) {
+                                                shiftControl = 1;
+                                            }
+                                        }
                                     }
                                 });
 
                                 permitControl = 0;
                                 $.each(result.todayPermittedEmployees, function (permitIndex) {
-                                    if (result.users[index].kullaniciMail == result.todayPermittedEmployees[permitIndex].employee.email) {
-                                        permitControl = 1;
+                                    if (result.todayPermittedEmployees[permitIndex].employee) {
+                                        if (result.todayPermittedEmployees[permitIndex].employee.email) {
+                                            if (result.users[index].kullaniciMail == result.todayPermittedEmployees[permitIndex].employee.email) {
+                                                permitControl = 1;
+                                            }
+                                        }
                                     }
                                 });
 
