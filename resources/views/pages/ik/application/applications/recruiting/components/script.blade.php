@@ -233,6 +233,27 @@
 
     $(".recruitingStepSubStepChecks").hide();
 
+    $('body').on('contextmenu', function (e) {
+        var top = e.pageY - 10;
+        var left = e.pageX - 10;
+
+        $("#context-menu").css({
+            display: "block",
+            top: top,
+            left: left
+        });
+
+        return false;
+    }).on("click", function () {
+        $("#context-menu").hide();
+    }).on('focusout', function () {
+        $("#context-menu").hide();
+    });
+
+    function openSettings() {
+        window.open('{{ route('ik.application.recruiting.settings') }}', '_blank');
+    }
+
     $(document).delegate('.recruitingStepSubStepChecksToggle', 'click', function () {
         $("#recruitingStepSubStepChecks_" + $(this).data('id')).slideToggle();
     });
@@ -254,7 +275,7 @@
                 $("#show_recruiting_phone_number").html(recruiting.phone_number);
                 $("#show_recruiting_identification_number").html(recruiting.identification_number);
                 $("#show_recruiting_birth_date").html(recruiting.birth_date);
-                $("#show_recruiting_cv").html(recruiting.cv).attr('href', '{{ asset('') }}' + recruiting.cv);
+                $("#show_recruiting_cv").html('CV').attr('href', '{{ asset('') }}' + recruiting.cv);
 
                 $("#showRecruitingActivities").html('');
 
@@ -346,32 +367,53 @@
     });
 
     createRecruitingButton.click(function () {
-        $("#create_recruiting_rightbar_toggle").click();
-        $("#loader").fadeIn(250);
-        var data = new FormData();
-        data.append('_token', '{{ csrf_token() }}');
-        data.append('step_id', 1);
-        data.append('name', $("#create_recruiting_name").val());
-        data.append('email', $("#create_recruiting_email").val());
-        data.append('phone_number', $("#create_recruiting_phone_number").val());
-        data.append('identification_number', $("#create_recruiting_identification_number").val());
-        data.append('birth_date', $("#create_recruiting_birth_date").val());
-        data.append('cv', $('#create_recruiting_cv')[0].files[0]);
+        var name = $("#create_recruiting_name").val();
+        var email = $("#create_recruiting_email").val();
+        var phone_number = $("#create_recruiting_phone_number").val();
+        var identification_number = $("#create_recruiting_identification_number").val();
+        var birth_date = $("#create_recruiting_birth_date").val();
+        var cv = $('#create_recruiting_cv')[0].files[0];
 
-        $.ajax({
-            processData: false,
-            contentType: false,
-            type: 'post',
-            url: '{{ route('ajax.ik.recruiting.create') }}',
-            data: data,
-            success: function () {
-                toastr.success('Oluşturuldu');
-                location.reload();
-            },
-            error: function (error) {
-                console.log(error)
-            }
-        });
+        if (name == null || name === '') {
+            toastr.warning('Ad Soyad Boş Olamaz');
+        } else if (email == null || email === '') {
+            toastr.warning('E-posta Adresi Boş Olamaz');
+        } else if (phone_number == null || phone_number === '') {
+            toastr.warning('Telefon Numarası Boş Olamaz');
+        } else if (identification_number == null || identification_number === '') {
+            toastr.warning('Kimlik Numarası Boş Olamaz');
+        } else if (birth_date == null || birth_date === '') {
+            toastr.warning('Doğum Tarihi Boş Olamaz');
+        } else if (cv == null || cv === '') {
+            toastr.warning('CV Boş Olamaz');
+        } else {
+            $("#create_recruiting_rightbar_toggle").click();
+            $("#loader").fadeIn(250);
+            var data = new FormData();
+            data.append('_token', '{{ csrf_token() }}');
+            data.append('step_id', 1);
+            data.append('name', name);
+            data.append('email', email);
+            data.append('phone_number', phone_number);
+            data.append('identification_number', identification_number);
+            data.append('birth_date', birth_date);
+            data.append('cv', cv);
+
+            $.ajax({
+                processData: false,
+                contentType: false,
+                type: 'post',
+                url: '{{ route('ajax.ik.recruiting.create') }}',
+                data: data,
+                success: function () {
+                    toastr.success('Oluşturuldu');
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error)
+                }
+            });
+        }
     });
 
     setRecruitingStepSubStepCheckButton.click(function () {

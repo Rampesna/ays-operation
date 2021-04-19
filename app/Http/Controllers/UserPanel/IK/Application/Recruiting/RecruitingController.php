@@ -22,4 +22,9 @@ class RecruitingController extends Controller
             'recruitings' => Recruiting::all()
         ]);
     }
+
+    public function settings()
+    {
+        return view('pages.ik.application.applications.recruiting.settings.index');
+    }
 }

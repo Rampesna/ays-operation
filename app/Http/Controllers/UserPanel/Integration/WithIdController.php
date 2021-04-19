@@ -25,7 +25,7 @@ class WithIdController extends Controller
                 ]
             ]);
 
-            return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
+            return redirect()->back()->with(['type' => 'success', 'data' => $response['response'] ?? 'Api Başarıyla Çalıştı Ancak Cevap Dönmedi']);
         } catch (\Exception $exception){
             return $exception;
         }
