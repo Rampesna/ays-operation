@@ -7,28 +7,34 @@ use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
 use App\Models\Employee;
 use App\Models\Permit;
 use App\Models\Punishment;
+use App\Models\RecruitingStep;
 use App\Models\Shift;
 use App\Services\PermitService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        return Shift::with([
-            'employee'
-        ])->whereBetween('start_date', [
-            date('Y-m-d 00:00:00', strtotime('+1 days')),
-            date('Y-m-d 23:59:59', strtotime('+1 days'))
-        ])->
-        where(function ($shifts) {
-            $shifts->
-            where('start_date', '<>', date('Y-m-d 09:00:00'))->
-            orWhere('end_date', '<>', date('Y-m-d 18:00:00'));
-        })->
-        get();
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/x-www-form-urlencoded'
+        ])->asForm()->post('http://api.mesajpaneli.com/json_api/login', [
+            'data' => base64_encode(
+                json_encode(
+                    [
+                        'user' => [
+                            'name' => '5435754775',
+                            'pass' => '357159'
+                        ]
+                    ]
+                )
+            )
+        ]);
+
+        return base64_decode($response);
     }
 
     public function backdoor()

@@ -10,6 +10,11 @@ class RecruitingStep extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public function department()
+    {
+        return $this->belongsTo(ManagementDepartment::class, 'management_department_id', 'id');
+    }
+
     public function recruitings()
     {
         return $this->hasMany(Recruiting::class, 'step_id', 'id');

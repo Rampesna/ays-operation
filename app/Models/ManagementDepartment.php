@@ -14,4 +14,9 @@ class ManagementDepartment extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function recruitingSteps()
+    {
+        return $this->hasMany(RecruitingStep::class, 'management_department_id', 'id');
+    }
 }

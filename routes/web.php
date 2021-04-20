@@ -540,12 +540,17 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
 
             Route::prefix('recruiting')->namespace('Recruiting')->group(function () {
                 Route::get('index', 'RecruitingController@index')->name('ik.application.recruiting.index');
-                Route::get('list', 'RecruitingController@list')->name('ik.application.recruiting.list');
+                Route::get('show/{id?}', 'RecruitingController@show')->name('ik.application.recruiting.show');
                 Route::get('settings', 'RecruitingController@settings')->name('ik.application.recruiting.settings');
 
                 Route::prefix('settings')->namespace('Setting')->group(function () {
+
                     Route::prefix('recruiting-step-sub-steps')->group(function () {
                         Route::get('index', 'RecruitingStepSubStepController@index')->name('ik.application.recruiting.settings.recruiting-step-sub-steps.index');
+                    });
+
+                    Route::prefix('recruiting-steps')->group(function () {
+                        Route::get('index', 'RecruitingStepController@index')->name('ik.application.recruiting.settings.recruiting-steps.index');
                     });
                 });
             });

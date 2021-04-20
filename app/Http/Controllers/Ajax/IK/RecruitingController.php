@@ -10,28 +10,33 @@ use App\Models\RecruitingStepSubStep;
 use App\Models\RecruitingStepSubStepCheck;
 use App\Models\RecruitingStepSubStepCheckActivity;
 use App\Models\Salary;
+use App\Models\User;
 use App\Services\RecruitingActivityService;
 use App\Services\RecruitingService;
 use App\Services\RecruitingStepSubStepCheckActivityService;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class RecruitingController extends Controller
 {
-    public function create(Request $request)
+    public function index(Request $request)
+    {
+        return Datatables::of(Recruiting::with(['step'])->whereIn('step_id', RecruitingStep::whereIn('management_department_id', User::find($request->auth_user_id)->managementDepartments()->pluck('id'))->pluck('id')))->
+        filterColumn('step_id', function ($recruiting, $ids) {
+            return $recruiting->whereIn('step_id', $ids);
+        })->
+        editColumn('step_id', function ($recruiting) {
+            return '<span class="btn btn-pill btn-sm btn-' . $recruiting->step->color . '" style="font-size: 11px; height: 20px; padding-top: 2px">' . $recruiting->step->name . '</span>';
+        })->
+        rawColumns(['step_id'])->
+        make(true);
+    }
+
+    public function save(Request $request)
     {
         $recruitingService = new RecruitingService;
-        $recruitingService->setRecruiting(new Recruiting);
-        $recruiting = $recruitingService->save($request);
-
-        $recruitingStepSubSteps = RecruitingStepSubStep::all();
-
-        foreach ($recruitingStepSubSteps as $recruitingStepSubStep) {
-            $recruitingStepSubStepCheck = new RecruitingStepSubStepCheck;
-            $recruitingStepSubStepCheck->recruiting_id = $recruiting->id;
-            $recruitingStepSubStepCheck->recruiting_step_id = $recruitingStepSubStep->recruiting_step_id;
-            $recruitingStepSubStepCheck->recruiting_step_sub_step_id = $recruitingStepSubStep->id;
-            $recruitingStepSubStepCheck->save();
-        }
+        $recruitingService->setRecruiting($request->id ? Recruiting::find($request->id) : new Recruiting);
+        return response()->json($recruitingService->save($request), 200);
     }
 
     public function show(Request $request)

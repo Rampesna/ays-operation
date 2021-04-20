@@ -272,12 +272,31 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             });
 
             Route::prefix('recruiting')->group(function () {
-                Route::post('create', 'RecruitingController@create')->name('ajax.ik.recruiting.create');
+                Route::any('index', 'RecruitingController@index')->name('ajax.ik.recruiting.index');
+                Route::post('create', 'RecruitingController@save')->name('ajax.ik.recruiting.save');
                 Route::get('show', 'RecruitingController@show')->name('ajax.ik.recruiting.show');
                 Route::post('setRecruitingStepSubStepCheck', 'RecruitingController@setRecruitingStepSubStepCheck')->name('ajax.ik.recruiting.setRecruitingStepSubStepCheck');
                 Route::post('nextStepRecruiting', 'RecruitingController@nextStepRecruiting')->name('ajax.ik.recruiting.nextStepRecruiting');
                 Route::post('cancelRecruiting', 'RecruitingController@cancelRecruiting')->name('ajax.ik.recruiting.cancelRecruiting');
                 Route::get('recruitingStepSubStepCheckActivities', 'RecruitingController@recruitingStepSubStepCheckActivities')->name('ajax.ik.recruiting.recruitingStepSubStepCheckActivities');
+
+                Route::prefix('recruiting-step-sub-steps')->group(function () {
+                    Route::any('index', 'RecruitingStepSubStepController@index')->name('ajax.ik.recruiting.recruiting-step-sub-steps.index');
+                    Route::any('show', 'RecruitingStepSubStepController@show')->name('ajax.ik.recruiting.recruiting-step-sub-steps.show');
+                    Route::any('save', 'RecruitingStepSubStepController@save')->name('ajax.ik.recruiting.recruiting-step-sub-steps.save');
+                    Route::any('delete', 'RecruitingStepSubStepController@delete')->name('ajax.ik.recruiting.recruiting-step-sub-steps.delete');
+                });
+
+                Route::prefix('recruiting-steps')->group(function () {
+                    Route::any('index', 'RecruitingStepController@index')->name('ajax.ik.recruiting.recruiting-steps.index');
+                    Route::any('show', 'RecruitingStepController@show')->name('ajax.ik.recruiting.recruiting-steps.show');
+                    Route::any('save', 'RecruitingStepController@save')->name('ajax.ik.recruiting.recruiting-steps.save');
+                });
+
+                Route::prefix('reservation')->group(function () {
+                    Route::any('index', 'RecruitingReservationController@index')->name('ajax.ik.recruiting.recruiting-reservations.index');
+                    Route::any('save', 'RecruitingReservationController@save')->name('ajax.ik.recruiting.recruiting-reservations.save');
+                });
             });
 
             Route::prefix('employee-device')->group(function () {

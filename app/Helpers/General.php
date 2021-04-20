@@ -66,4 +66,9 @@ class General
             ($minutes != 0 ? ' ' . $minutes . ' Dakika' : '') .
             ($seconds != 0 ? ' ' . $seconds . ' Saniye' : '');
     }
+
+    public static function clearPhoneNumber($phoneNumber)
+    {
+        return str_replace('(', '', str_replace(')', '', str_replace('-', '', str_replace(' ', '', $phoneNumber))));
+    }
 }

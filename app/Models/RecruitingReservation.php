@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class RecruitingStepSubStep extends Model
+class RecruitingReservation extends Model
 {
     use HasFactory, SoftDeletes;
 
-    public function step()
+    public function recruiting()
     {
-        return $this->belongsTo(RecruitingStep::class, 'recruiting_step_id', 'id');
+        return $this->belongsTo(Recruiting::class);
     }
 }

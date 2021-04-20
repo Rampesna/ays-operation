@@ -11,15 +11,14 @@ class RecruitingController extends Controller
 {
     public function index()
     {
-        return view('pages.ik.application.applications.recruiting.index', [
-            'recruitingSteps' => RecruitingStep::whereNotIn('id', [7, 8])->get()
-        ]);
+        return view('pages.ik.application.applications.recruiting.index');
     }
 
-    public function list()
+    public function show($id)
     {
-        return view('pages.ik.application.applications.recruiting.list', [
-            'recruitings' => Recruiting::all()
+        return view('pages.ik.application.applications.recruiting.show.index', [
+            'recruitingId' => $id,
+            'recruitingSteps' => RecruitingStep::whereNotIn('id', [8])->get()
         ]);
     }
 
