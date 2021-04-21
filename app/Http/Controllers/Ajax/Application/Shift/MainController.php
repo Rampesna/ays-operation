@@ -31,7 +31,9 @@ class MainController extends Controller
 
     public function edit(Request $request)
     {
-        return response()->json(Shift::with('employee')->find($request->shift_id), 200);
+        return response()->json(Shift::with([
+            'employee'
+        ])->find($request->shift_id), 200);
     }
 
     public function update(Request $request)

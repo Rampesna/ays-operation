@@ -10,6 +10,9 @@ class OvertimeController extends Controller
 {
     public function getOvertime(Request $request)
     {
-        return response()->json(Overtime::find($request->id) ?? null, 200);
+        return response()->json(Overtime::with([
+                'status',
+                'reason'
+            ])->find($request->id) ?? null, 200);
     }
 }

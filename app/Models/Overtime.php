@@ -15,6 +15,8 @@ class Overtime extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $appends = ['duration'];
+
     private function minutesToHours($minutes)
     {
         return intval($minutes / 60);

@@ -6,10 +6,12 @@
 
 @section('content')
 
+    @include('employee.pages.dashboard.components.show-permit')
+    @include('employee.pages.dashboard.components.show-overtime')
+    @include('employee.pages.dashboard.components.show-shift')
+
     @include('employee.pages.dashboard.modals.create-permit')
-    @include('employee.pages.dashboard.modals.show-permit')
     @include('employee.pages.dashboard.modals.create-overtime')
-    @include('employee.pages.dashboard.modals.show-overtime')
 
     @include('employee.pages.dashboard.modals.show-food')
 

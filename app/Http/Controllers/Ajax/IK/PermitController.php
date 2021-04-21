@@ -11,6 +11,9 @@ class PermitController extends Controller
 {
     public function getPermit(Request $request)
     {
-        return response()->json(Permit::find($request->id) ?? null, 200);
+        return response()->json(Permit::with([
+                'status',
+                'type'
+            ])->find($request->id) ?? null, 200);
     }
 }

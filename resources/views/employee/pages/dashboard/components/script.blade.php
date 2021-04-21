@@ -2,6 +2,31 @@
 <script src="{{ asset('assets/vendor/fullcalendar/locale/tr.js') }}"></script>
 
 <script>
+
+    const months = [
+        'Ocak',
+        'Şubat',
+        'Mart',
+        'Nisan',
+        'Mayıs',
+        'Haziran',
+        'Temmuz',
+        'Ağustos',
+        'Eylül',
+        'Ekim',
+        'Kasım',
+        'Aralık',
+    ];
+
+    function reformatDate(date) {
+        var formattedDate = new Date(date);
+        return String(formattedDate.getDate()).padStart(2, '0') + ' ' +
+            months[formattedDate.getMonth()] + ' ' +
+            formattedDate.getFullYear() + ', ' +
+            String(formattedDate.getHours()).padStart(2, '0') + ':' +
+            String(formattedDate.getMinutes()).padStart(2, '0') + ' ';
+    }
+
     var calendar = $('#calendar').fullCalendar({
         defaultView: 'month',
         lang: {
@@ -86,49 +111,75 @@
 
         eventClick: function (calEvent, jsEvent, view) {
             if (calEvent.myEventType === 'permit') {
-                $("#show_permit_start_date").html(calEvent.start.format('DD MMMM YYYY - HH:mm'));
-                $("#show_permit_end_date").html(calEvent.end.format('DD MMMM YYYY - HH:mm'));
-                $("#show_permit_title").html(calEvent.title);
-                $("#permit_duration").html(calEvent.pduration);
-                $("#AcceptedPermitModal").modal('show');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('ajax.ik.permit.getPermit') }}',
+                    data: {
+                        id: calEvent.permitId
+                    },
+                    success: function (permit) {
+                        $("#show_permit_start_date").html(reformatDate(permit.start_date));
+                        $("#show_permit_end_date").html(reformatDate(permit.end_date));
+                        $("#show_permit_duration").html(permit.duration);
+                        $("#show_permit_type").html(permit.type.name);
+                        $("#show_permit_status").html(permit.status.name).removeClass().addClass(`btn btn-pill btn-sm btn-${permit.status.color}`);
+                        $("#show_permit_description").html(permit.description);
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                });
+
+                $("#show_permit_toggle").click();
             }
 
             if (calEvent.myEventType === 'overtime') {
-                $("#overtime_date").html(calEvent.start.format('DD MMMM YYYY - HH:mm'));
-                $("#overtime_duration").html(calEvent.oduration);
-                $("#AcceptedOvertimeModal").modal('show');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('ajax.ik.overtime.getOvertime') }}',
+                    data: {
+                        id: calEvent.overtimeId
+                    },
+                    success: function (overtime) {
+                        $("#show_overtime_start_date").html(reformatDate(overtime.start_date));
+                        $("#show_overtime_end_date").html(reformatDate(overtime.end_date));
+                        $("#show_overtime_duration").html(overtime.duration);
+                        $("#show_overtime_type").html(overtime.reason.name);
+                        $("#show_overtime_status").html(overtime.status.name).removeClass().addClass(`btn btn-pill btn-sm btn-${overtime.status.color}`);
+                        $("#show_overtime_description").html(overtime.description);
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                });
+
+                $("#show_overtime_toggle").click();
             }
 
             if (calEvent.myEventType === 'payment') {
-                $("#payment_date").html(calEvent.start.format('DD MMMM YYYY'));
-                $("#payment_type").html(calEvent.paymentType);
-                $("#payment_amount").html(calEvent.paymentAmount + " TL");
-                if (calEvent.isPayBack == 1) {
-                    $("#payment_payback_status").html("Ödendi");
-                    $("#payment_payback_status").addClass("btn-outline-success");
-                    $("#payment_payback_status").removeClass("btn-outline-warning");
-                } else {
-                    $("#payment_payback_status").html("Ödenmedi");
-                    $("#payment_payback_status").removeClass("btn-outline-success");
-                    $("#payment_payback_status").addClass("btn-outline-warning");
-                }
-                $("#PaymentsModal").modal('show');
-            }
 
-            if (calEvent.myEventType === 'event') {
-                $("#event_name").html(calEvent.title);
-                $("#event_start_date").html(calEvent.start.format('DD MMMM YYYY HH:mm'));
-                $("#event_end_date").html(calEvent.end.format('DD MMMM YYYY HH:mm'));
-                $("#event_description").html(calEvent.description);
-                $("#AllEventsModal").modal('show');
             }
 
             if (calEvent.myEventType === 'shift') {
-                $("#shift_start_date").html(calEvent.start.format('DD MMMM YYYY - HH:mm'));
-                $("#shift_end_date").html(calEvent.end.format('DD MMMM YYYY - HH:mm'));
-                $("#shift_break_duration").html(calEvent.breakDuration);
-                $("#shift_description").html(calEvent.description);
-                $("#ShiftModal").modal('show');
+                $.ajax({
+                    type: 'get',
+                    url: '{{ route('ajax.application.shift.edit') }}',
+                    data: {
+                        shift_id: calEvent.shiftId
+                    },
+                    success: function (shift) {
+                        $("#show_shift_start_date").html(reformatDate(shift.start_date));
+                        $("#show_shift_end_date").html(reformatDate(shift.end_date));
+                        $("#show_shift_duration").html(shift.duration);
+                        $("#show_shift_break_duration").html(shift.break_duration + ' Dakika');
+                        $("#show_shift_description").html(shift.description);
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                });
+
+                $("#show_shift_toggle").click();
             }
 
             if (calEvent.myEventType === 'food') {
@@ -199,4 +250,202 @@
         var description = $("#food_list_check_description").val();
         setFoodCheck(food_list_check_id, null, description);
     });
+
+    var ShowPermit = function () {
+        // Private properties
+        var _element;
+        var _offcanvasObject;
+
+        // Private functions
+        var _init = function () {
+            var header = KTUtil.find(_element, '.offcanvas-header');
+            var content = KTUtil.find(_element, '.offcanvas-content');
+
+            _offcanvasObject = new KTOffcanvas(_element, {
+                overlay: true,
+                baseClass: 'offcanvas',
+                placement: 'right',
+                closeBy: 'show_permit_close',
+                toggleBy: 'show_permit_toggle'
+            });
+
+            KTUtil.scrollInit(content, {
+                disableForMobile: true,
+                resetHeightOnDestroy: true,
+                handleWindowResize: true,
+                height: function () {
+                    var height = parseInt(KTUtil.getViewPort().height);
+
+                    if (header) {
+                        height = height - parseInt(KTUtil.actualHeight(header));
+                        height = height - parseInt(KTUtil.css(header, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(header, 'marginBottom'));
+                    }
+
+                    if (content) {
+                        height = height - parseInt(KTUtil.css(content, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(content, 'marginBottom'));
+                    }
+
+                    height = height - parseInt(KTUtil.css(_element, 'paddingTop'));
+                    height = height - parseInt(KTUtil.css(_element, 'paddingBottom'));
+
+                    height = height - 2;
+
+                    return height;
+                }
+            });
+        }
+
+        // Public methods
+        return {
+            init: function () {
+                _element = KTUtil.getById('show_permit');
+
+                if (!_element) {
+                    return;
+                }
+
+                // Initialize
+                _init();
+            },
+
+            getElement: function () {
+                return _element;
+            }
+        };
+    }();
+    ShowPermit.init();
+
+    var ShowShift = function () {
+        // Private properties
+        var _element;
+        var _offcanvasObject;
+
+        // Private functions
+        var _init = function () {
+            var header = KTUtil.find(_element, '.offcanvas-header');
+            var content = KTUtil.find(_element, '.offcanvas-content');
+
+            _offcanvasObject = new KTOffcanvas(_element, {
+                overlay: true,
+                baseClass: 'offcanvas',
+                placement: 'right',
+                closeBy: 'show_shift_close',
+                toggleBy: 'show_shift_toggle'
+            });
+
+            KTUtil.scrollInit(content, {
+                disableForMobile: true,
+                resetHeightOnDestroy: true,
+                handleWindowResize: true,
+                height: function () {
+                    var height = parseInt(KTUtil.getViewPort().height);
+
+                    if (header) {
+                        height = height - parseInt(KTUtil.actualHeight(header));
+                        height = height - parseInt(KTUtil.css(header, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(header, 'marginBottom'));
+                    }
+
+                    if (content) {
+                        height = height - parseInt(KTUtil.css(content, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(content, 'marginBottom'));
+                    }
+
+                    height = height - parseInt(KTUtil.css(_element, 'paddingTop'));
+                    height = height - parseInt(KTUtil.css(_element, 'paddingBottom'));
+
+                    height = height - 2;
+
+                    return height;
+                }
+            });
+        }
+
+        // Public methods
+        return {
+            init: function () {
+                _element = KTUtil.getById('show_shift');
+
+                if (!_element) {
+                    return;
+                }
+
+                // Initialize
+                _init();
+            },
+
+            getElement: function () {
+                return _element;
+            }
+        };
+    }();
+    ShowShift.init();
+
+    var ShowOvertime = function () {
+        // Private properties
+        var _element;
+        var _offcanvasObject;
+
+        // Private functions
+        var _init = function () {
+            var header = KTUtil.find(_element, '.offcanvas-header');
+            var content = KTUtil.find(_element, '.offcanvas-content');
+
+            _offcanvasObject = new KTOffcanvas(_element, {
+                overlay: true,
+                baseClass: 'offcanvas',
+                placement: 'right',
+                closeBy: 'show_overtime_close',
+                toggleBy: 'show_overtime_toggle'
+            });
+
+            KTUtil.scrollInit(content, {
+                disableForMobile: true,
+                resetHeightOnDestroy: true,
+                handleWindowResize: true,
+                height: function () {
+                    var height = parseInt(KTUtil.getViewPort().height);
+
+                    if (header) {
+                        height = height - parseInt(KTUtil.actualHeight(header));
+                        height = height - parseInt(KTUtil.css(header, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(header, 'marginBottom'));
+                    }
+
+                    if (content) {
+                        height = height - parseInt(KTUtil.css(content, 'marginTop'));
+                        height = height - parseInt(KTUtil.css(content, 'marginBottom'));
+                    }
+
+                    height = height - parseInt(KTUtil.css(_element, 'paddingTop'));
+                    height = height - parseInt(KTUtil.css(_element, 'paddingBottom'));
+
+                    height = height - 2;
+
+                    return height;
+                }
+            });
+        }
+
+        // Public methods
+        return {
+            init: function () {
+                _element = KTUtil.getById('show_overtime');
+
+                if (!_element) {
+                    return;
+                }
+
+                // Initialize
+                _init();
+            },
+
+            getElement: function () {
+                return _element;
+            }
+        };
+    }();
+    ShowOvertime.init();
 </script>

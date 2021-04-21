@@ -21,19 +21,19 @@
                         </select>
                     </div>
                     <div class="col-lg-4">
-                        <label for="start_date">Başlangıç Tarihi</label>
-                        <input type="datetime-local" id="start_date" name="start_date" class="form-control" required>
+                        <label for="permit_start_date">Başlangıç Tarihi</label>
+                        <input type="datetime-local" id="permit_start_date" name="start_date" class="form-control" required>
                     </div>
                     <div class="col-lg-4">
-                        <label for="end_date">Bitiş Tarihi</label>
-                        <input type="datetime-local" id="end_date" name="end_date" class="form-control" required>
+                        <label for="permit_end_date">Bitiş Tarihi</label>
+                        <input type="datetime-local" id="end_date" name="permit_end_date" class="form-control" required>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-lg-12">
-                        <label for="description">Açıklama</label>
-                        <textarea id="description" class="form-control" name="description" rows="3"></textarea>
+                        <label for="permit_description">Açıklama</label>
+                        <textarea id="permit_description" class="form-control" name="description" rows="3"></textarea>
                     </div>
                 </div>
             </div>

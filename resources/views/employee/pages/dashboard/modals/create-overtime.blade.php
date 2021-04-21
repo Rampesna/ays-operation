@@ -18,19 +18,19 @@
                         </select>
                     </div>
                     <div class="col-lg-4">
-                        <label for="start_date">Başlangıç Tarihi</label>
-                        <input type="datetime-local" id="start_date" name="start_date" class="form-control" required>
+                        <label for="overtime_start_date">Başlangıç Tarihi</label>
+                        <input type="datetime-local" id="overtime_start_date" name="start_date" class="form-control" required>
                     </div>
                     <div class="col-lg-4">
-                        <label for="end_date">Bitiş Tarihi</label>
-                        <input type="datetime-local" id="end_date" name="end_date" class="form-control" required>
+                        <label for="overtime_end_date">Bitiş Tarihi</label>
+                        <input type="datetime-local" id="overtime_end_date" name="end_date" class="form-control" required>
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-lg-12">
-                        <label for="description">Açıklama</label>
-                        <textarea name="description" id="description" class="form-control" rows="4"></textarea>
+                        <label for="overtime_description">Açıklama</label>
+                        <textarea name="description" id="overtime_description" class="form-control" rows="4"></textarea>
                     </div>
                 </div>
                 <hr>
