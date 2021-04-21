@@ -30,6 +30,8 @@ class RecruitingStepService
         $this->recruitingStep->management_department_id = $request->management_department_id;
         $this->recruitingStep->name = $request->name;
         $this->recruitingStep->color = $request->color;
+        $this->recruitingStep->sms = $request->sms;
+        $this->recruitingStep->message = $request->message;
         $this->recruitingStep->save();
 
         return $this->recruitingStep;

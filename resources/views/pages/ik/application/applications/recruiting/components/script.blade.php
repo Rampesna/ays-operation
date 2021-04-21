@@ -7,6 +7,7 @@
     var updateRecruitingButton = $("#updateRecruitingButton");
 
     editRecruitingContext = $("#editRecruitingContext");
+    showRecruitingContext = $("#showRecruitingContext");
     deleteRecruitingContext = $("#deleteRecruitingContext");
 
     var recruitings = $('#recruitings').DataTable({
@@ -216,9 +217,11 @@
             $("#editing_recruiting_id").val(recruiting_id);
 
             editRecruitingContext.show();
+            showRecruitingContext.show();
             deleteRecruitingContext.show();
         } else {
             editRecruitingContext.hide();
+            showRecruitingContext.hide();
             deleteRecruitingContext.hide();
         }
 

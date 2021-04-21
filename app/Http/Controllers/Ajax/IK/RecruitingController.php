@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Ajax\IK;
 
+use App\Helpers\General;
 use App\Http\Controllers\Controller;
 use App\Models\Recruiting;
 use App\Models\RecruitingActivity;
@@ -15,6 +16,7 @@ use App\Services\RecruitingActivityService;
 use App\Services\RecruitingService;
 use App\Services\RecruitingStepSubStepCheckActivityService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Yajra\DataTables\DataTables;
 
 class RecruitingController extends Controller
@@ -60,8 +62,38 @@ class RecruitingController extends Controller
         $recruitingActivityService->setRecruitingActivity(new RecruitingActivity);
         $recruitingActivityService->save($recruiting->id, intval($recruiting->step_id + 1), $request->description, $request->user_id);
 
-        $recruiting->step_id = intval($recruiting->step_id + 1);
+        $nextStepId = $recruiting->step_id + 1;
+
+        $recruiting->step_id = intval($nextStepId);
         $recruiting->save();
+
+        $recruitingStep = RecruitingStep::find($nextStepId);
+
+        if ($recruitingStep->sms == 1) {
+            $response = Http::withHeaders([
+                'Content-Type' => 'application/x-www-form-urlencoded'
+            ])->asForm()->post('http://api.mesajpaneli.com/json_api/', [
+                'data' => base64_encode(
+                    json_encode([
+                        'user' => [
+                            'name' => '5435754775',
+                            'pass' => '357159'
+                        ],
+                        'msgBaslik' => 'AYSSOFT',
+                        'tr' => true,
+                        'start' => 1490001000,
+                        'msgData' => [
+                            [
+                                'msg' => str_replace('#date#', date('d.m.Y 10:30', strtotime('+1 days')), str_replace('#name#', $recruiting->name, $recruitingStep->message)),
+                                'tel' => [
+                                    General::clearPhoneNumber($recruiting->phone_number)
+                                ]
+                            ]
+                        ]
+                    ])
+                )
+            ]);
+        }
     }
 
     public function cancelRecruiting(Request $request)

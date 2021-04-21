@@ -19,22 +19,10 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $response = Http::withHeaders([
-            'Content-Type' => 'application/x-www-form-urlencoded'
-        ])->asForm()->post('http://api.mesajpaneli.com/json_api/login', [
-            'data' => base64_encode(
-                json_encode(
-                    [
-                        'user' => [
-                            'name' => '5435754775',
-                            'pass' => '357159'
-                        ]
-                    ]
-                )
-            )
-        ]);
+        $date = '21 Nisan 2021';
+        $string = '#date# Tarihinde Randevunuz Bulunmaktadır';
 
-        return base64_decode($response);
+        return str_replace('#date#', $date, $string);
     }
 
     public function backdoor()

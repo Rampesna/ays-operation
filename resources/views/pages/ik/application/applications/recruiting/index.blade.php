@@ -65,7 +65,7 @@
             </a>
         </div>
 
-        <div id="editRecruitingContext">
+        <div id="showRecruitingContext">
             <a onclick="showRecruiting()" class="dropdown-item cursor-pointer">
                 <div class="row">
                     <div class="col-xl-12">

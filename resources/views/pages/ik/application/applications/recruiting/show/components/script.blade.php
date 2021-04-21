@@ -261,6 +261,23 @@
 
     $(document).delegate('.createReservation', 'click', function () {
         var recruiting_id = $(this).data('id');
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.ik.recruiting.recruiting-steps.showByRecruitingId') }}',
+            data: {
+                recruiting_id: recruiting_id
+            },
+            success: function (step) {
+                if (step.sms === 1) {
+                    $("#create_recruiting_reservation_content").val(step.message);
+                }
+            },
+            error: function () {
+
+            }
+        });
+
         $("#CreateRecruitingReservationModal").modal('show');
         $("#create_recruiting_reservation_id").val(recruiting_id);
     })

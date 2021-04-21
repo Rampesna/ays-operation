@@ -52,6 +52,30 @@
                         </label>
                     </div>
                 </div>
+                <hr>
+                <div class="row mt-6">
+                    <div class="col-xl-3 mt-2">
+                        <span class="font-weight-bold">Otomatik SMS: </span>
+                    </div>
+                    <div class="col-xl-9">
+                        <label style="width: 100%">
+                            <select id="editing_recruiting_step_sms" class="form-control">
+                                <option value="0">Hayır</option>
+                                <option value="1">Evet</option>
+                            </select>
+                        </label>
+                    </div>
+                </div>
+                <div class="row mt-6">
+                    <div class="col-xl-3 mt-2">
+                        <span class="font-weight-bold">Otomatik SMS Mesajı: </span>
+                    </div>
+                    <div class="col-xl-9">
+                        <label style="width: 100%">
+                            <textarea id="editing_recruiting_step_message" class="form-control" rows="4"></textarea>
+                        </label>
+                    </div>
+                </div>
             </div>
             <hr>
             <div class="offcanvas-footer">

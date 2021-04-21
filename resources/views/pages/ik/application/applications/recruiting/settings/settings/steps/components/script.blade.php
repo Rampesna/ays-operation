@@ -187,6 +187,8 @@
                 $("#editing_recruiting_step_name").val(recruitingStep.name);
                 $("#editing_recruiting_step_color").val(recruitingStep.color).selectpicker('refresh');
                 $("#editing_recruiting_step_management_department_id").val(recruitingStep.management_department_id).selectpicker('refresh');
+                $("#editing_recruiting_step_sms").val(recruitingStep.sms).selectpicker('refresh');
+                $("#editing_recruiting_step_message").val(recruitingStep.message);
             },
             error: function (error) {
                 console.log(error)
@@ -201,6 +203,8 @@
         var name = $("#editing_recruiting_step_name").val();
         var color = $("#editing_recruiting_step_color").val();
         var management_department_id = $("#editing_recruiting_step_management_department_id").val();
+        var sms = $("#editing_recruiting_step_sms").val();
+        var message = $("#editing_recruiting_step_message").val();
 
         $.ajax({
             type: 'post',
@@ -210,7 +214,9 @@
                 id: id,
                 name: name,
                 color: color,
-                management_department_id: management_department_id
+                management_department_id: management_department_id,
+                sms: sms,
+                message: message
             },
             success: function () {
                 toastr.success('Başarıyla Güncellendi');

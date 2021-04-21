@@ -588,6 +588,15 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 Route::get('/robot', 'ShiftController@robot')->name('ik.applications.shift.robot')->middleware('Authority:30');
                 Route::post('/robot/store', 'ShiftController@robotStore')->name('ik.applications.shift.robot.store')->middleware('Authority:30');
             });
+
+            Route::prefix('sms')->namespace('Sms')->group(function () {
+                Route::get('/', function () {
+                    return redirect()->route('ik.applications.sms.index');
+                });
+                Route::get('/index', 'SmsController@index')->name('ik.applications.sms.index')->middleware('Authority:29');
+                Route::post('/send', 'SmsController@send')->name('ik.applications.sms.send')->middleware('Authority:30');
+                Route::post('/send-others', 'SmsController@sendOthers')->name('ik.applications.sms.send-others')->middleware('Authority:30');
+            });
         });
 
         Route::prefix('setting')->namespace('Setting')->group(function () {

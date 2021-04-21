@@ -290,6 +290,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
                 Route::prefix('recruiting-steps')->group(function () {
                     Route::any('index', 'RecruitingStepController@index')->name('ajax.ik.recruiting.recruiting-steps.index');
                     Route::any('show', 'RecruitingStepController@show')->name('ajax.ik.recruiting.recruiting-steps.show');
+                    Route::any('showByRecruitingId', 'RecruitingStepController@showByRecruitingId')->name('ajax.ik.recruiting.recruiting-steps.showByRecruitingId');
                     Route::any('save', 'RecruitingStepController@save')->name('ajax.ik.recruiting.recruiting-steps.save');
                 });
 

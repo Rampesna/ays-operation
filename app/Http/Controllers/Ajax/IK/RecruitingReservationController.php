@@ -19,6 +19,8 @@ class RecruitingReservationController extends Controller
         $recruitingReservationService->setRecruitingReservation($request->id ? RecruitingReservation::find($request->id) : new RecruitingReservation);
         $recruitingReservation = $recruitingReservationService->save($request);
 
+        $recruiting = Recruiting::find($request->recruiting_id);
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/x-www-form-urlencoded'
         ])->asForm()->post('http://api.mesajpaneli.com/json_api/', [
@@ -33,9 +35,9 @@ class RecruitingReservationController extends Controller
                     'start' => 1490001000,
                     'msgData' => [
                         [
-                            'msg' => $request->get('content'),
+                            'msg' => str_replace('#date#', date('d.m.Y', $request->date), str_replace('#name#', $recruiting->name, $request->get('content'))),
                             'tel' => [
-                                General::clearPhoneNumber(Recruiting::find($request->recruiting_id)->phone_number)
+                                General::clearPhoneNumber($recruiting->phone_number)
                             ]
                         ]
                     ]

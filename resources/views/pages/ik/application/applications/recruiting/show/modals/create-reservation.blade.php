@@ -10,16 +10,10 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-12">
                         <div class="form-group">
                             <label for="create_recruiting_reservation_date">Randevu Tarihi</label>
                             <input type="datetime-local" class="form-control" id="create_recruiting_reservation_date">
-                        </div>
-                    </div>
-                    <div class="col-xl-6">
-                        <div class="form-group">
-                            <label for="create_recruiting_reservation_title">Randevu Başlığı</label>
-                            <input type="text" class="form-control" id="create_recruiting_reservation_title">
                         </div>
                     </div>
                 </div>

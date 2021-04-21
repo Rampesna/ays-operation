@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax\IK;
 
 use App\Http\Controllers\Controller;
+use App\Models\Recruiting;
 use App\Models\RecruitingStep;
 use App\Services\RecruitingStepService;
 use Illuminate\Http\Request;
@@ -29,6 +30,11 @@ class RecruitingStepController extends Controller
     public function show(Request $request)
     {
         return response()->json(RecruitingStep::find($request->recruiting_step_id));
+    }
+
+    public function showByRecruitingId(Request $request)
+    {
+        return response()->json(RecruitingStep::find(Recruiting::find($request->recruiting_id)->step_id));
     }
 
     public function save(Request $request)
