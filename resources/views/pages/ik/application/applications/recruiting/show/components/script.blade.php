@@ -286,6 +286,9 @@
         var recruiting_id = $("#next_step_recruiting_id").val();
         var description = $("#next_step_recruiting_description").val();
 
+        $("#NextStepRecruitingModal").modal('hide');
+        $("#loader").fadeIn(250);
+
         $.ajax({
             type: 'post',
             url: '{{ route('ajax.ik.recruiting.nextStepRecruiting') }}',
@@ -295,7 +298,8 @@
                 description: description,
                 user_id: '{{ auth()->user()->getId() }}'
             },
-            success: function () {
+            success: function (response) {
+                toastr.success('Sonraki Aşamaya Geçildi');
                 location.reload();
             },
             error: function (error) {

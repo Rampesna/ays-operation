@@ -58,16 +58,18 @@ class RecruitingController extends Controller
     {
         $recruiting = Recruiting::find($request->recruiting_id);
 
+        $nextStepId = $recruiting->step_id + 1;
+
         $recruitingActivityService = new RecruitingActivityService;
         $recruitingActivityService->setRecruitingActivity(new RecruitingActivity);
-        $recruitingActivityService->save($recruiting->id, intval($recruiting->step_id + 1), $request->description, $request->user_id);
-
-        $nextStepId = $recruiting->step_id + 1;
+        $recruitingActivityService->save($recruiting->id, intval($nextStepId), $request->description, $request->user_id);
 
         $recruiting->step_id = intval($nextStepId);
         $recruiting->save();
 
         $recruitingStep = RecruitingStep::find($nextStepId);
+
+        $response = null;
 
         if ($recruitingStep->sms == 1) {
             $response = Http::withHeaders([
@@ -94,6 +96,8 @@ class RecruitingController extends Controller
                 )
             ]);
         }
+
+        return response()->json($response, 200);
     }
 
     public function cancelRecruiting(Request $request)

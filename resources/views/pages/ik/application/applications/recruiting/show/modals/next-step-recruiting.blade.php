@@ -18,7 +18,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-round btn-secondary" data-dismiss="modal">Vazgeç</button>
-                <button type="submit" class="btn btn-round btn-success" id="nextStepRecruitingButton">Sonraki Aşamaya Geç</button>
+                <button type="button" class="btn btn-round btn-success" id="nextStepRecruitingButton">Sonraki Aşamaya Geç</button>
             </div>
         </div>
     </div>

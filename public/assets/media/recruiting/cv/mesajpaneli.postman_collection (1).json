@@ -1,0 +1,1066 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Mesajpaneli Json Api",
+		"_postman_id": "891dbd4f-939d-1e32-3a02-f40ec7b5992d",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Telefon Defteri",
+			"description": "",
+			"item": [
+				{
+					"name": "Grup Oluşturma",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"groupName\": \"TestGroup\"",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/createGroup",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/group/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Grup Silme",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"groupID\": 0",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/deleteGroup",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/group/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Grup Listeleme",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    }",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/getGroups",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/usage"
+					},
+					"response": []
+				},
+				{
+					"name": "Kişi Ekleme",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"groupID\": 296412,",
+									"    \"rows\": [",
+									"        {",
+									"            \"numara\": \"5305039999\",",
+									"            \"ad\": \"E\",",
+									"            \"soyad\": \"B\",",
+									"            \"sehir\": \"Izmir\",",
+									"            \"ozel1\" : \"özel alan 1\",",
+									"            \"ozel2\" : \"özel alan 2\",",
+									"            \"ozel3\" : \"özel alan 3\",",
+									"            \"ozel4\" : \"özel alan 4\",",
+									"            \"ozel5\" : \"özel alan 5\"",
+									"        }",
+									"    ]",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/addContact",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Kişi Silme",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"groupID\": 296412,",
+									"    \"numara\": [",
+									"        '5305039999'",
+									"    ]",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/removeContact",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/group/removeContact"
+					},
+					"response": []
+				},
+				{
+					"name": "Kişi Listeleme",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"groupID\" : 296412",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/getContactsByGroupID",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/usage"
+					},
+					"response": []
+				},
+				{
+					"name": "Kişi Düzenleme ( ID ile )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"groupID\": 296412,",
+									"    \"search\" : \"687152831\",",
+									"    \"changes\" : {",
+									"        \"ad\" : 'Testkin',",
+									"        \"ozel1\" : '123456e'",
+									"    }",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/editContactById",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/group/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Kişi Düzenleme ( Numara ile )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"groupID\": 296412,",
+									"    \"search\" : \"5305039999\",",
+									"    \"changes\" : {",
+									"        \"ad\" : 'Test',",
+									"        \"ozel1\" : 'Test123'",
+									"    }",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/editContactByNumber",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/group/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Kişi Arama ( Tek Grupta )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"numara\": '5305039999',",
+									"    \"groupID\": '296412'",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/searchNumberInGroup",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/group/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Kişi Arama ( Tüm Gruplarda )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\"                      // Şifre",
+									"    },",
+									"    \"numara\": '5305039999'",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/group/searchNumberInGroups",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/group/create"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mesaj Gönderme",
+			"description": "",
+			"item": [
+				{
+					"name": "Toplu Mesaj Gönderme",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\",                     // Şifre",
+									"    },",
+									"    \"msgBaslik\" : \"DEMO\",                   // Mesaj Başlığı ( 850 )",
+									"    \"tr\" : false,                            // Türkçe karakter kullanımı",
+									"    \"start\" : 1490001000,                   // GMT değeri https://www.epochconverter.com/",
+									"    \"msgData\" : [",
+									"        {",
+									"            \"msg\" : \"mesaj metni\",",
+									"            \"tel\" : [ \"5321234567\",\"5321234568\",\"5321234569\" ]",
+									"        }",
+									"    ]",
+									"};",
+									"",
+									"",
+									"",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/usage"
+					},
+					"response": []
+				},
+				{
+					"name": "Toplu Mesaj Gönderme ( Türkçe )",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\",                     // Şifre",
+									"    },",
+									"    \"msgBaslik\" : \"DEMO\",                   // Mesaj Başlığı ( 850 )",
+									"    \"tr\" : true,                            // Türkçe karakter kullanımı",
+									"    \"start\" : 1490001000,                   // GMT değeri https://www.epochconverter.com/",
+									"    \"msgData\" : [",
+									"        {",
+									"            \"msg\" : \"mesaj metni\",",
+									"            \"tel\" : [ \"5321234567\",\"5321234568\",\"5321234569\" ]",
+									"        }",
+									"    ]",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/usage"
+					},
+					"response": []
+				},
+				{
+					"name": "Parametrik Mesaj Gönderme",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var jsonData = JSON.parse(atob(responseBody));",
+									"console.debug(jsonData);",
+									"tests[\"Successful POST request\"] = responseCode.code === 200;",
+									"tests[\"Response Status\"] = jsonData.status === true;"
+								]
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"type": "text/javascript",
+								"exec": [
+									"var postData = {",
+									"    \"user\" : {",
+									"        \"name\": \"demo\",                     // Kullanıcı Adı",
+									"        \"pass\": \"demo\",                     // Şifre",
+									"    },",
+									"    \"msgBaslik\" : \"DEMO\",                   // Mesaj Başlığı ( 850 )",
+									"    \"tr\" : false,                            // Türkçe karakter kullanımı",
+									"    \"start\" : 1490001000,                   // GMT değeri https://www.epochconverter.com/",
+									"    \"msgData\" : [",
+									"        {",
+									"            \"msg\" : \"mesaj metni1\",",
+									"            \"tel\" : [ \"5321234567\" ]",
+									"        },",
+									"        {",
+									"            \"msg\" : \"mesaj metni2\",",
+									"            \"tel\" : [ \"5321234567\" ]",
+									"        }",
+									"    ]",
+									"};",
+									"var jsonData = JSON.stringify(postData);    // Json Encode",
+									"var baseData = btoa(jsonData);              // Base64 Encode",
+									"postman.setGlobalVariable(\"data\", baseData);",
+									""
+								]
+							}
+						}
+					],
+					"request": {
+						"url": "http://api.mesajpaneli.com/json_api/",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "data",
+									"value": "{{data}}",
+									"type": "text"
+								}
+							]
+						},
+						"description": "http://api.mesajpaneli.com/json_api/usage"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Mesaj uzunluğu hesaplama",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var postData = {",
+							"    \"text\" : \"multiplier\\ntest\",",
+							"    \"encodingTr\" : true",
+							"};",
+							"var jsonData = JSON.stringify(postData);    // Json Encode",
+							"//var baseData = btoa(jsonData);            // Base64 Encode",
+							"postman.setGlobalVariable(\"data\", jsonData);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://api.mesajpaneli.com/json_api/calculateMultiplier",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{data}}"
+				},
+				"description": "Temizlenmiş mesaj önizlemesi, mesaj uzunluğu, mesaj çarpanı ve mevcut çarpan içerisinde kalan karakter sayısını hesaplar."
+			},
+			"response": []
+		},
+		{
+			"name": "Kullanıcı Doğrulama | Kredi Sorgulama | Başlık Sorgulama",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(atob(responseBody));",
+							"console.debug(jsonData);",
+							"tests[\"Successful POST request\"] = responseCode.code === 200;",
+							"tests[\"Response Status\"] = jsonData.status === true;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var postData = {",
+							"    \"user\" : {",
+							"        \"name\": \"demo\",                     // Kullanıcı Adı",
+							"        \"pass\": \"demo\"                      // Şifre",
+							"    }",
+							"};",
+							"var jsonData = JSON.stringify(postData);    // Json Encode",
+							"var baseData = btoa(jsonData);              // Base64 Encode",
+							"postman.setGlobalVariable(\"data\", baseData);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://api.mesajpaneli.com/json_api/login",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "data",
+							"value": "{{data}}",
+							"type": "text"
+						}
+					]
+				},
+				"description": "http://api.mesajpaneli.com/json_api/usage"
+			},
+			"response": []
+		},
+		{
+			"name": "Rapor Listele",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(atob(responseBody));",
+							"console.debug(jsonData);",
+							"tests[\"Successful POST request\"] = responseCode.code === 200;",
+							"tests[\"Response Status\"] = jsonData.status === true;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var postData = {",
+							"    \"user\" : {",
+							"        \"name\": \"demo\",                     // Kullanıcı Adı",
+							"        \"pass\": \"demo\"                      // Şifre",
+							"    },",
+							"    \"tarih\" : {",
+							"        \"basla\" : \"2015-01-01 00:00:00\",    // Tarih aralığı Başlangıç",
+							"        \"bitis\" : \"2016-01-01 00:00:00\"     // Tarih aralığı Bitiş, Eğer verilmezse başlangıçtan bugüne kadar olan kayıtlar getirlir",
+							"    },",
+							"    \"limit\" : 10                             // Listelenecek Kayıt Sayısı, 0 verilmesi durumunda tüm kayıtlar döner.",
+							"\t\t                                    // Belirtilmemişse son 50 gönderim döner.",
+							"};",
+							"var jsonData = JSON.stringify(postData);    // Json Encode",
+							"var baseData = btoa(jsonData);              // Base64 Encode",
+							"postman.setGlobalVariable(\"data\", baseData);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://api.mesajpaneli.com/json_api/report",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "data",
+							"value": "{{data}}",
+							"type": "text"
+						}
+					]
+				},
+				"description": "http://api.mesajpaneli.com/json_api/usage"
+			},
+			"response": []
+		},
+		{
+			"name": "Rapor Detay",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(atob(responseBody));",
+							"console.debug(jsonData);",
+							"tests[\"Successful POST request\"] = responseCode.code === 200;",
+							"tests[\"Response Status\"] = jsonData.status === true;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var postData = {",
+							"    \"user\" : {",
+							"        \"name\": \"demo\",                     // Kullanıcı Adı",
+							"        \"pass\": \"demo\"                      // Şifre",
+							"    },",
+							"    \"refno\" : 1                             // Raporu görüntülenecek mesaj id'si",
+							"};",
+							"var jsonData = JSON.stringify(postData);    // Json Encode",
+							"var baseData = btoa(jsonData);              // Base64 Encode",
+							"postman.setGlobalVariable(\"data\", baseData);",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "http://api.mesajpaneli.com/json_api/report",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "data",
+							"value": "{{data}}",
+							"type": "text"
+						}
+					]
+				},
+				"description": "http://api.mesajpaneli.com/json_api/usage"
+			},
+			"response": []
+		}
+	]
+}
