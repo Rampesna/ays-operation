@@ -10,10 +10,21 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xl-12">
+                    <div class="col-xl-6">
                         <div class="form-group">
                             <label for="create_recruiting_reservation_date">Randevu Tarihi</label>
                             <input type="datetime-local" class="form-control" id="create_recruiting_reservation_date">
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="create_recruiting_reservation_user_id">Görüşülecek Yetkili</label>
+                            <select class="form-control selectpicker" id="create_recruiting_reservation_user_id" data-live-search="true">
+                                <option selected hidden disabled></option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@
 <script>
 
     var createRecruitingReservationButton = $("#createRecruitingReservationButton");
+    var sendSmsButton = $("#sendSmsButton");
     var nextStepRecruitingButton = $("#nextStepRecruitingButton");
     var cancelRecruitingButton = $("#cancelRecruitingButton");
     var setRecruitingStepSubStepCheckButton = $("#setRecruitingStepSubStepCheckButton");
@@ -43,7 +44,7 @@
                             '       		<ul class="navi navi-hover">' +
 
                             @if(\App\Models\RecruitingStepSubStepCheck::with(['subStep'])->where('recruiting_id', $recruiting->id)->where('recruiting_step_id', $recruiting->step_id)->where('check', 0)->count() <= 0)
-                            '       			<li class="navi-item">' +
+                                '       			<li class="navi-item">' +
                             '       				<a class="navi-link cursor-pointer nextStepRecruiting" data-id="{{ $recruiting->id }}">' +
                             '       					<span class="navi-icon">' +
                             '       						<i class="fas fa-forward text-success"></i>' +
@@ -53,12 +54,20 @@
                             '       			</li>' +
                             '                   <hr>' +
                             @endif
-                            '       			<li class="navi-item">' +
+                                '       			<li class="navi-item">' +
                             '       				<a class="navi-link cursor-pointer createReservation" data-id="{{ $recruiting->id }}">' +
                             '       					<span class="navi-icon">' +
                             '       						<i class="fas fa-calendar-plus text-info"></i>' +
                             '       					</span>' +
                             '       					<span class="navi-text">Randevu Oluştur</span>' +
+                            '       				</a>' +
+                            '       			</li>' +
+                            '       			<li class="navi-item">' +
+                            '       				<a class="navi-link cursor-pointer sendSms" data-id="{{ $recruiting->id }}">' +
+                            '       					<span class="navi-icon">' +
+                            '       						<i class="fa fa-comment-alt text-primary"></i>' +
+                            '       					</span>' +
+                            '       					<span class="navi-text">SMS Gönder</span>' +
                             '       				</a>' +
                             '       			</li>' +
                             '       			<li class="navi-item">' +
@@ -74,13 +83,13 @@
                             '       	</div>' +
                             '       </div>' +
                             '   </div>' +
-                            '   <div class="col-xl-8 ml-1 mt-1">' +
+                            '   <div class="col-xl-10 ml-1 mt-1">' +
                             '       <span data-id="{{ $recruiting->id }}" class="recruitingName cursor-pointer">{{ $recruiting->name }}</span>' +
                             '   </div>' +
-                            '   <div class="col-xl-2 mt-1">' +
-                            '       <i class="fas fa-sort-amount-down cursor-pointer recruitingStepSubStepChecksToggle" data-id="{{ $recruiting->id }}"></i>' +
-                            '   </div>' +
-                            '</div>' +
+                            {{--'   <div class="col-xl-2 mt-1">' +--}}
+                                {{--'       <i class="fas fa-sort-amount-down cursor-pointer recruitingStepSubStepChecksToggle" data-id="{{ $recruiting->id }}"></i>' +--}}
+                                {{--'   </div>' +--}}
+                                '</div>' +
                             '<div id="recruitingStepSubStepChecks_{{ $recruiting->id }}" class="recruitingStepSubStepChecks">' +
                             '   <hr>' +
                             '   <div class="row" id="recruitingStepSubStepChecksControl_{{ $recruiting->id }}">' +
@@ -172,7 +181,7 @@
     }();
     ShowRecruiting.init();
 
-    $(".recruitingStepSubStepChecks").hide();
+    // $(".recruitingStepSubStepChecks").hide();
 
     $('body').on('contextmenu', function (e) {
         var top = e.pageY - 10;
@@ -195,9 +204,9 @@
         window.open('{{ route('ik.application.recruiting.settings') }}', '_blank');
     }
 
-    $(document).delegate('.recruitingStepSubStepChecksToggle', 'click', function () {
-        $("#recruitingStepSubStepChecks_" + $(this).data('id')).slideToggle();
-    });
+    // $(document).delegate('.recruitingStepSubStepChecksToggle', 'click', function () {
+    //     $("#recruitingStepSubStepChecks_" + $(this).data('id')).slideToggle();
+    // });
 
     $(document).delegate('.recruitingName', 'click', function () {
         var recruiting_id = $(this).data('id');
@@ -280,10 +289,47 @@
 
         $("#CreateRecruitingReservationModal").modal('show');
         $("#create_recruiting_reservation_id").val(recruiting_id);
-    })
+    });
+
+    $(document).delegate('.sendSms', 'click', function () {
+        var recruiting_id = $(this).data('id');
+        $("#SendSmsModal").modal('show');
+        $("#send_sms_recruiting_id").val(recruiting_id);
+    });
+
+    sendSmsButton.click(function () {
+        var recruiting_id = $("#send_sms_recruiting_id").val();
+        var message = $("#send_sms_message").val();
+
+        $("#SendSmsModal").modal('hide');
+        $("#loader").fadeIn(250);
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.ik.recruiting.sendSms') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                recruiting_id: recruiting_id,
+                message: message
+            },
+            success: function (response) {
+                if (parseInt(response.status) === 200) {
+                    toastr.success('SMS Başarıyla Gönderildi');
+                } else {
+                    toastr.error('SMS Gönderilirken Bir Hata Oluştu!');
+                    console.log(response)
+                }
+            },
+            error: function () {
+                console.log(error)
+            }
+        });
+    });
 
     nextStepRecruitingButton.click(function () {
         var recruiting_id = $("#next_step_recruiting_id").val();
+        var date = $("#next_step_recruiting_reservation_date").val();
+        var user_id = $("#next_step_recruiting_user").val();
         var description = $("#next_step_recruiting_description").val();
 
         $("#NextStepRecruitingModal").modal('hide');
@@ -295,6 +341,8 @@
             data: {
                 _token: '{{ csrf_token() }}',
                 recruiting_id: recruiting_id,
+                reservation_user_id: user_id,
+                date: date,
                 description: description,
                 user_id: '{{ auth()->user()->getId() }}'
             },
@@ -359,34 +407,59 @@
         var date = $("#create_recruiting_reservation_date").val();
         var title = $("#create_recruiting_reservation_title").val();
         var content = $("#create_recruiting_reservation_content").val();
+        var user_id = $("#create_recruiting_reservation_user_id").val();
 
         if (recruiting_id == null || recruiting_id === '') {
             toastr.error('Sistemsel Bir Hata Oluştu. Ekranı Yenilemeyi Deneyin!');
         } else if (date == null || date === '') {
             toastr.warning('Tarih Seçmediniz!');
-        } else if (title == null || title === '') {
-            toastr.warning('Başlık Girmediniz!');
         } else if (content == null || content === '') {
             toastr.warning('İçerik Girmediniz');
         } else {
+
+            var isEmpty = 0;
+
             $.ajax({
-                type: 'post',
-                url: '{{ route('ajax.ik.recruiting.recruiting-reservations.save') }}',
+                async: false,
+                type: 'get',
+                url: '{{ route('ajax.ik.recruiting.recruiting-reservations.control') }}',
                 data: {
-                    _token: '{{ csrf_token() }}',
-                    recruiting_id: recruiting_id,
                     date: date,
-                    title: title,
-                    content: content
+                    user_id: user_id
                 },
-                success: function (reservation) {
-                    toastr.success('Randevu Başarıyla Oluşturuldu ve SMS Gönderildi');
-                    $("#CreateRecruitingReservationModal").modal('hide');
+                success: function (reservations) {
+                    if (reservations.length === 0) {
+                        isEmpty = 1;
+                    }
                 },
                 error: function (error) {
                     console.log(error)
                 }
             });
+
+            if (isEmpty === 0) {
+                toastr.warning('Bu Yetkilinin Belirtilen Saatte Başka Bir Rezervasyonu Bulunmakta!');
+            } else {
+                $.ajax({
+                    type: 'post',
+                    url: '{{ route('ajax.ik.recruiting.recruiting-reservations.save') }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        recruiting_id: recruiting_id,
+                        date: date,
+                        title: title,
+                        content: content,
+                        user_id: user_id
+                    },
+                    success: function (reservation) {
+                        toastr.success('Randevu Başarıyla Oluşturuldu ve SMS Gönderildi');
+                        $("#CreateRecruitingReservationModal").modal('hide');
+                    },
+                    error: function (error) {
+                        console.log(error)
+                    }
+                });
+            }
         }
     });
 

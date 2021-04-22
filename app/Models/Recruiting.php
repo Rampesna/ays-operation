@@ -20,5 +20,8 @@ class Recruiting extends Model
         return $this->hasMany(RecruitingActivity::class);
     }
 
-
+    public function evaluationParameters()
+    {
+        return $this->hasMany(RecruitingEvaluationParameter::class);
+    }
 }

@@ -539,6 +539,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
 
             Route::prefix('recruiting')->namespace('Recruiting')->group(function () {
                 Route::get('index', 'RecruitingController@index')->name('ik.application.recruiting.index');
+                Route::get('calendar', 'RecruitingController@calendar')->name('ik.application.recruiting.calendar');
                 Route::get('show/{id?}', 'RecruitingController@show')->name('ik.application.recruiting.show');
                 Route::get('settings', 'RecruitingController@settings')->name('ik.application.recruiting.settings');
 
@@ -550,6 +551,10 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
 
                     Route::prefix('recruiting-steps')->group(function () {
                         Route::get('index', 'RecruitingStepController@index')->name('ik.application.recruiting.settings.recruiting-steps.index');
+                    });
+
+                    Route::prefix('evaluation-parameters')->group(function () {
+                        Route::get('index', 'EvaluationParameterController@index')->name('ik.application.recruiting.settings.evaluation-parameters.index');
                     });
                 });
             });

@@ -9,7 +9,15 @@
     @include('pages.ik.application.applications.recruiting.components.edit-recruiting')
 
     @include('pages.ik.application.applications.recruiting.modals.delete')
+    @include('pages.ik.application.applications.recruiting.modals.delete-evaluation-parameter')
+    @include('pages.ik.application.applications.recruiting.modals.reactivate')
 
+    <div class="row">
+        <div class="col-xl-12 text-right">
+            <a href="{{ route('ik.application.recruiting.calendar') }}" class="btn btn-sm btn-primary">Randevu Takvimi</a>
+        </div>
+    </div>
+    <hr>
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
@@ -90,6 +98,16 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <i class="fas fa-trash-alt text-danger"></i><span class="ml-4">Sil</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div id="reactivateRecruitingContext">
+            <a onclick="reactivateRecruiting()" class="dropdown-item cursor-pointer">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <i class="fas fa-undo-alt text-warning"></i><span class="ml-4">Tekrar Havuza Aktar</span>
                     </div>
                 </div>
             </a>

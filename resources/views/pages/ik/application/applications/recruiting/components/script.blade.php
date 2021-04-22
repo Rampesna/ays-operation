@@ -5,10 +5,24 @@
 
     var createRecruitingButton = $("#createRecruitingButton");
     var updateRecruitingButton = $("#updateRecruitingButton");
+    var deleteRecruitingButton = $("#deleteRecruitingButton");
+    var reactivateRecruitingButton = $("#reactivateRecruitingButton");
+    var createNewEvaluationParameterButton = $("#createNewEvaluationParameterButton");
+    var deleteRecruitingEvaluationParameterButton = $("#deleteRecruitingEvaluationParameterButton");
 
-    editRecruitingContext = $("#editRecruitingContext");
-    showRecruitingContext = $("#showRecruitingContext");
-    deleteRecruitingContext = $("#deleteRecruitingContext");
+    var editRecruitingContext = $("#editRecruitingContext");
+    var showRecruitingContext = $("#showRecruitingContext");
+    var deleteRecruitingContext = $("#deleteRecruitingContext");
+    var reactivateRecruitingContext = $("#reactivateRecruitingContext");
+
+    var showRecruitingActivitiesSelector = $("#showRecruitingActivities");
+    var showRecruitingEvaluationParameters = $("#showRecruitingEvaluationParameters");
+
+    showRecruitingActivitiesSelector.hide();
+
+    $("#showRecruitingActivitiesToggle").click(function () {
+        showRecruitingActivitiesSelector.slideToggle();
+    });
 
     var recruitings = $('#recruitings').DataTable({
         language: {
@@ -259,8 +273,7 @@
                 recruiting_id: recruiting_id
             },
             success: function (recruiting) {
-                console.log(recruiting)
-
+                showRecruitingActivitiesSelector.hide();
                 $("#edit_recruiting_name").val(recruiting.name);
                 $("#edit_recruiting_email").val(recruiting.email);
                 $("#edit_recruiting_phone_number").val(recruiting.phone_number);
@@ -268,9 +281,9 @@
                 $("#edit_recruiting_birth_date").val(recruiting.birth_date);
                 $("#edit_recruiting_step_id").val(recruiting.step_id);
 
-                $("#showRecruitingActivities").html('');
+                showRecruitingActivitiesSelector.html('');
                 $.each(recruiting.activities, function (index) {
-                    $("#showRecruitingActivities").append(
+                    showRecruitingActivitiesSelector.append(
                         `<div class="row ml-2 mb-3">
                             <div class="col-xl-2">
                                 <label>İşlemi Yapan: </label><br>
@@ -285,6 +298,24 @@
                                 <span class="mt-3">${recruiting.activities[index].description}</span>
                             </div>
                         </div><hr>`
+                    );
+                });
+
+                showRecruitingEvaluationParameters.html('');
+                $.each(recruiting.evaluation_parameters, function (index) {
+                    showRecruitingEvaluationParameters.append(
+                        `<div class="row" id="recruitingEvaluationParameterRow_${recruiting.evaluation_parameters[index].id}">
+                            <div class="col-xl-1">
+                                <label class="checkbox checkbox-circle checkbox-success">
+                                    <input data-id="${recruiting.evaluation_parameters[index].id}" data-parameter="${recruiting.evaluation_parameters[index].parameter}" ${recruiting.evaluation_parameters[index].check === 1 ? 'checked' : null} type="checkbox" class="evaluationParameterRadio">
+                                    <span></span>
+                                </label>
+                            </div>
+                            <div class="col-xl-11 ml-n8 mt-5">
+                                <span>${recruiting.evaluation_parameters[index].parameter}</span>
+                                <i data-id="${recruiting.evaluation_parameters[index].id}" class="fa fa-times-circle text-danger cursor-pointer ml-5 evaluationParameterDeleter"></i>
+                            </div>
+                        </div>`
                     );
                 });
             },
@@ -303,6 +334,10 @@
         $("#DeleteRecruitingModal").modal('show');
     }
 
+    function reactivateRecruiting() {
+        $("#ReactivateRecruitingModal").modal('show');
+    }
+
     createRecruitingButton.click(function () {
         var name = $("#create_recruiting_name").val();
         var email = $("#create_recruiting_email").val();
@@ -317,8 +352,6 @@
             toastr.warning('E-posta Adresi Boş Olamaz');
         } else if (phone_number == null || phone_number === '') {
             toastr.warning('Telefon Numarası Boş Olamaz');
-        } else if (identification_number == null || identification_number === '') {
-            toastr.warning('Kimlik Numarası Boş Olamaz');
         } else if (birth_date == null || birth_date === '') {
             toastr.warning('Doğum Tarihi Boş Olamaz');
         } else if (cv == null || cv === '') {
@@ -369,8 +402,6 @@
             toastr.warning('E-posta Adresi Boş Olamaz');
         } else if (phone_number == null || phone_number === '') {
             toastr.warning('Telefon Numarası Boş Olamaz');
-        } else if (identification_number == null || identification_number === '') {
-            toastr.warning('Kimlik Numarası Boş Olamaz');
         } else if (birth_date == null || birth_date === '') {
             toastr.warning('Doğum Tarihi Boş Olamaz');
         } else {
@@ -401,5 +432,134 @@
                 }
             });
         }
+    });
+
+    deleteRecruitingButton.click(function () {
+        var id = $("#editing_recruiting_id").val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.ik.recruiting.delete') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id
+            },
+            success: function () {
+                toastr.success('Aday Silindi');
+                recruitings.search('').columns().search('').ajax.reload().draw();
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    reactivateRecruitingButton.click(function () {
+        var id = $("#editing_recruiting_id").val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.ik.recruiting.reactivate') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                user_id: '{{ auth()->user()->getId() }}'
+            },
+            success: function () {
+                toastr.success('Aday Tekrar Havuza Alındı');
+                $("#ReactivateRecruitingModal").modal('hide');
+                recruitings.search('').columns().search('').ajax.reload().draw();
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $(document).delegate('.evaluationParameterDeleter', 'click', function () {
+        $("#deleting_recruiting_evaluation_parameter_id").val($(this).data('id'));
+        $("#DeleteRecruitingEvaluationParameterModal").modal('show');
+    });
+
+    deleteRecruitingEvaluationParameterButton.click(function () {
+        var id = $("#deleting_recruiting_evaluation_parameter_id").val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.ik.recruiting.recruiting-evaluation-parameters.delete') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id
+            },
+            success: function () {
+                toastr.success('Parametre Kaldırıldı');
+                $("#DeleteRecruitingEvaluationParameterModal").modal('hide');
+                $("#recruitingEvaluationParameterRow_" + id).remove();
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    createNewEvaluationParameterButton.click(function () {
+        var recruiting_id = $("#editing_recruiting_id").val();
+        var parameter = $("#createNewEvaluationParameterInput").val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.ik.recruiting.recruiting-evaluation-parameters.save') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                recruiting_id: recruiting_id,
+                parameter: parameter,
+                check: 0
+            },
+            success: function (recruitingEvaluationParameter) {
+                showRecruitingEvaluationParameters.append(
+                    `<div class="row" id="recruitingEvaluationParameterRow_${recruitingEvaluationParameter.id}">
+                        <div class="col-xl-1">
+                            <label class="checkbox checkbox-circle checkbox-success">
+                                <input data-id="${recruitingEvaluationParameter.id}" data-parameter="${recruitingEvaluationParameter.parameter}" ${recruitingEvaluationParameter.check === 1 ? 'checked' : null} type="checkbox" class="evaluationParameterRadio">
+                                <span></span>
+                            </label>
+                        </div>
+                        <div class="col-xl-11 ml-n8 mt-5">
+                            <span>${recruitingEvaluationParameter.parameter}</span>
+                            <i data-id="${recruitingEvaluationParameter.id}" class="fa fa-times-circle text-danger cursor-pointer ml-5 evaluationParameterDeleter"></i>
+                        </div>
+                    </div>`
+                );
+                $("#createNewEvaluationParameterInput").val(null);
+            },
+            error: function () {
+
+            }
+        });
+    });
+
+    $(document).delegate('.evaluationParameterRadio', 'click', function () {
+        var id = $(this).data('id');
+        var recruiting_id = $("#editing_recruiting_id").val();
+        var parameter = $(this).data('parameter');
+        var check = $(this).is(':checked') ? 1 : 0;
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.ik.recruiting.recruiting-evaluation-parameters.save') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: id,
+                recruiting_id: recruiting_id,
+                parameter: parameter,
+                check: check
+            },
+            success: function () {
+
+            },
+            error: function () {
+
+            }
+        });
     });
 </script>

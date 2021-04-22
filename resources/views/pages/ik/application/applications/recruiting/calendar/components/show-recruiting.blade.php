@@ -1,16 +1,25 @@
 <div id="show_recruiting_rightbar" style="width: 800px" class="offcanvas offcanvas-show-recruiting p-10">
-    <div class="offcanvas-header d-flex align-items-center justify-content-between pb-7">
-
-    </div>
+    <input type="hidden" id="show_recruiting_rightbar_toggle">
+    <input type="hidden" id="selected_reservation_id">
+    <input type="hidden" id="selected_reservation_recruiting_id">
     <div class="offcanvas-content">
         <div class="row">
             <div class="col-xl-12">
                 <div class="form-group">
-                    <h5 id="show_recruiting_name">Personel İşe Alımı Detayları</h5>
+                    <h5 id="show_recruiting_name">Randevu Detayları</h5>
                 </div>
             </div>
         </div>
         <hr class="mt-n2">
+        <div class="row mt-6">
+            <div class="col-xl-3">
+                <span class="font-weight-bold">Randevu Tarihi: </span>
+            </div>
+            <div class="col-xl-9">
+                <span id="show_recruiting_reservation_date"></span>
+            </div>
+        </div>
+        <hr>
         <div class="row mt-6">
             <div class="col-xl-3">
                 <span class="font-weight-bold">Durum: </span>
@@ -61,9 +70,31 @@
         </div>
         <hr>
         <div class="row">
+            <div class="col-xl-8">
+                <h5 class="cursor-pointer">Değerlendirme Parametreleri</h5>
+            </div>
+            <div class="col-xl-4">
+                <div class="input-group">
+                    <label for="createNewEvaluationParameterInput"></label>
+                    <input type="text" class="form-control" id="createNewEvaluationParameterInput" placeholder="Yeni Parametre Ekle">
+                    <div class="input-group-append">
+                        <button class="btn btn-success" id="createNewEvaluationParameterButton" type="button">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-n6">
+            <div class="col-xl-12">
+                <div id="showRecruitingEvaluationParameters" class="mt-2">
+
+                </div>
+            </div>
+        </div>
+        <hr class="mt-15">
+        <div class="row">
             <div class="col-xl-12">
                 <div class="form-group">
-                    <h5>Geçmiş İşlemler</h5>
+                    <h5 class="cursor-pointer" id="showRecruitingActivitiesToggle">Geçmiş İşlemler</h5>
                 </div>
             </div>
         </div>

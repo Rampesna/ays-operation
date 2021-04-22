@@ -274,17 +274,27 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::prefix('recruiting')->group(function () {
                 Route::any('index', 'RecruitingController@index')->name('ajax.ik.recruiting.index');
                 Route::post('create', 'RecruitingController@save')->name('ajax.ik.recruiting.save');
+                Route::post('delete', 'RecruitingController@delete')->name('ajax.ik.recruiting.delete');
+                Route::post('reactivate', 'RecruitingController@reactivate')->name('ajax.ik.recruiting.reactivate');
                 Route::get('show', 'RecruitingController@show')->name('ajax.ik.recruiting.show');
                 Route::post('setRecruitingStepSubStepCheck', 'RecruitingController@setRecruitingStepSubStepCheck')->name('ajax.ik.recruiting.setRecruitingStepSubStepCheck');
                 Route::post('nextStepRecruiting', 'RecruitingController@nextStepRecruiting')->name('ajax.ik.recruiting.nextStepRecruiting');
                 Route::post('cancelRecruiting', 'RecruitingController@cancelRecruiting')->name('ajax.ik.recruiting.cancelRecruiting');
                 Route::get('recruitingStepSubStepCheckActivities', 'RecruitingController@recruitingStepSubStepCheckActivities')->name('ajax.ik.recruiting.recruitingStepSubStepCheckActivities');
+                Route::post('sendSms', 'RecruitingController@sendSms')->name('ajax.ik.recruiting.sendSms');
 
                 Route::prefix('recruiting-step-sub-steps')->group(function () {
                     Route::any('index', 'RecruitingStepSubStepController@index')->name('ajax.ik.recruiting.recruiting-step-sub-steps.index');
                     Route::any('show', 'RecruitingStepSubStepController@show')->name('ajax.ik.recruiting.recruiting-step-sub-steps.show');
                     Route::any('save', 'RecruitingStepSubStepController@save')->name('ajax.ik.recruiting.recruiting-step-sub-steps.save');
                     Route::any('delete', 'RecruitingStepSubStepController@delete')->name('ajax.ik.recruiting.recruiting-step-sub-steps.delete');
+                });
+
+                Route::prefix('evaluation-parameters')->group(function () {
+                    Route::any('index', 'EvaluationParameterController@index')->name('ajax.ik.recruiting.evaluation-parameters.index');
+                    Route::any('show', 'EvaluationParameterController@show')->name('ajax.ik.recruiting.evaluation-parameters.show');
+                    Route::any('save', 'EvaluationParameterController@save')->name('ajax.ik.recruiting.evaluation-parameters.save');
+                    Route::any('delete', 'EvaluationParameterController@delete')->name('ajax.ik.recruiting.evaluation-parameters.delete');
                 });
 
                 Route::prefix('recruiting-steps')->group(function () {
@@ -295,8 +305,15 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
                 });
 
                 Route::prefix('reservation')->group(function () {
-                    Route::any('index', 'RecruitingReservationController@index')->name('ajax.ik.recruiting.recruiting-reservations.index');
+                    Route::any('calendar', 'RecruitingReservationController@calendar')->name('ajax.ik.recruiting.recruiting-reservations.calendar');
+                    Route::any('show', 'RecruitingReservationController@show')->name('ajax.ik.recruiting.recruiting-reservations.show');
                     Route::any('save', 'RecruitingReservationController@save')->name('ajax.ik.recruiting.recruiting-reservations.save');
+                    Route::any('control', 'RecruitingReservationController@control')->name('ajax.ik.recruiting.recruiting-reservations.control');
+                });
+
+                Route::prefix('recruiting-evaluation-parameters')->group(function () {
+                    Route::any('save', 'RecruitingEvaluationParameterController@save')->name('ajax.ik.recruiting.recruiting-evaluation-parameters.save');
+                    Route::any('delete', 'RecruitingEvaluationParameterController@delete')->name('ajax.ik.recruiting.recruiting-evaluation-parameters.delete');
                 });
             });
 

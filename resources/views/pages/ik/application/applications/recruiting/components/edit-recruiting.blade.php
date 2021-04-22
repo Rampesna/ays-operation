@@ -62,13 +62,33 @@
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-xl-12">
-                        <div class="form-group">
-                            <h5>Geçmiş İşlemler</h5>
+                    <div class="col-xl-8">
+                        <h5 class="cursor-pointer">Değerlendirme Parametreleri</h5>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="input-group">
+                            <label for="createNewEvaluationParameterInput"></label>
+                            <input type="text" class="form-control" id="createNewEvaluationParameterInput" placeholder="Yeni Parametre Ekle">
+                            <div class="input-group-append">
+                                <button class="btn btn-success" id="createNewEvaluationParameterButton" type="button">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div id="showRecruitingActivities">
+                <div class="row mt-n6">
+                    <div class="col-xl-12">
+                        <div id="showRecruitingEvaluationParameters" class="mt-2">
+
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h5 class="cursor-pointer" id="showRecruitingActivitiesToggle">Geçmiş İşlemler</h5>
+                    </div>
+                </div>
+                <div id="showRecruitingActivities" class="mt-2">
 
                 </div>
             </div>

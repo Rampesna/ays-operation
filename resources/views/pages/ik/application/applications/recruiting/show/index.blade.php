@@ -13,6 +13,7 @@
     @include('pages.ik.application.applications.recruiting.show.modals.show-recruiting-step-sub-step-check-activities')
 
     @include('pages.ik.application.applications.recruiting.show.modals.create-reservation')
+    @include('pages.ik.application.applications.recruiting.show.modals.send-sms')
 
     <input type="hidden" id="show_recruiting_rightbar_toggle">
 

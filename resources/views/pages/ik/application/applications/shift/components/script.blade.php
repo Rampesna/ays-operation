@@ -58,7 +58,7 @@
                 description: '{{ $shift->description }}',
                 shift_id: '{{ $shift->id }}'
             },
-                @endforeach
+            @endforeach
         ],
 
         select: function (start, end, jsEvent, view) {
@@ -153,13 +153,15 @@
                             start: shiftStartDate + 'T' + shiftStartHour + ':00',
                             end: shiftEndDate + 'T' + shiftEndHour + ':00',
                             url: 'javascript:void(0);',
-                            className: 'fc-event-light fc-event-solid-primary',
+                            className: `fc-event-light fc-event-solid-${shiftStartHour !== '09:00' || shiftEndHour !== '18:00' ? 'danger' : 'primary'}`,
                             breakDuration: response[index].break_duration + ' Dakika',
                             description: response[index].description,
                             shift_id: response[index].id
                         });
                     });
                     toastr.success('Vardiyalar Eklendi');
+                    $("#createShiftsForm").trigger('reset');
+                    $("#employees_create").selectpicker('refresh');
                     $("#CreateModal").modal('hide');
                 },
                 error: function (error) {
@@ -263,5 +265,28 @@
         });
     });
 
+    $("#shift_start_hour_create").on('focus select', function () {
+        if (!this.is(":focus")) {
+            this.select();
+        }
+    });
+
+    $("#shift_end_hour_create").on('focus select', function () {
+        if (!this.is(":focus")) {
+            this.select();
+        }
+    });
+
+    $("#shift_start_hour_edit").on('focus select', function () {
+        if (!this.is(":focus")) {
+            this.select();
+        }
+    });
+
+    $("#shift_end_hour_edit").on('focus select', function () {
+        if (!this.is(":focus")) {
+            this.select();
+        }
+    });
 
 </script>

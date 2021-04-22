@@ -56,7 +56,7 @@ class AppServiceProvider extends ServiceProvider
             'pages.setting.user.*',
             'pages.setting.device-group.*',
             'pages.setting.device-status.*',
-            'pages.application.applications.shift.*',
+            'pages.ik.application.applications.shift.*',
         ], CompaniesComposer::class);
         View::composer([
             'pages.setting.user.*'

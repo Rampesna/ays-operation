@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\EvaluationParameter;
 use App\Models\Recruiting;
+use App\Models\RecruitingEvaluationParameter;
 use App\Models\RecruitingStepSubStep;
 use App\Models\RecruitingStepSubStepCheck;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +48,7 @@ class RecruitingService
 
         if (!$request->id) {
             $recruitingStepSubSteps = RecruitingStepSubStep::all();
+            $evaluationParameters = EvaluationParameter::all();
 
             foreach ($recruitingStepSubSteps as $recruitingStepSubStep) {
                 $recruitingStepSubStepCheck = new RecruitingStepSubStepCheck;
@@ -53,6 +56,13 @@ class RecruitingService
                 $recruitingStepSubStepCheck->recruiting_step_id = $recruitingStepSubStep->recruiting_step_id;
                 $recruitingStepSubStepCheck->recruiting_step_sub_step_id = $recruitingStepSubStep->id;
                 $recruitingStepSubStepCheck->save();
+            }
+
+            foreach ($evaluationParameters as $evaluationParameter) {
+                $recruitingEvaluationParameter = new RecruitingEvaluationParameter;
+                $recruitingEvaluationParameter->recruiting_id = $this->recruiting->id;
+                $recruitingEvaluationParameter->parameter = $evaluationParameter->name;
+                $recruitingEvaluationParameter->save();
             }
         }
 

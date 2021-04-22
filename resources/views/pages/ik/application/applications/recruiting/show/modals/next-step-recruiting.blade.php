@@ -10,6 +10,25 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="next_step_recruiting_reservation_date">Sonraki Aşama İçin Randevu Tarihi</label>
+                            <input type="datetime-local" class="form-control" id="next_step_recruiting_reservation_date">
+                        </div>
+                    </div>
+                    <div class="col-xl-6">
+                        <div class="form-group">
+                            <label for="next_step_recruiting_user">Sonraki Aşamada Görüşülecek Yetkili</label>
+                            <select class="form-control selectpicker" id="next_step_recruiting_user" data-live-search="true">
+                                <option selected hidden disabled></option>
+                                @foreach($users as $user)
+                                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-xl-12">
                         <label for="next_step_recruiting_description">Sonraki Aşama İçin Notlarınız</label>
                         <textarea class="form-control" id="next_step_recruiting_description" name="description" rows="4"></textarea>
