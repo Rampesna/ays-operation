@@ -62,6 +62,27 @@
             this.api().columns().every(function (index) {
                 var column = this;
                 var input = document.createElement('input');
+                if (index === 0) {
+                    input = null;
+                    $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            column.search($(this).val(), false, false, true).draw();
+                        });
+                    return;
+                } else if (index === 1) {
+                    input = document.createElement('select');
+                    var option = document.createElement("option");
+                    option.setAttribute("value", 0);
+                    option.innerHTML = "Tümü";
+                    input.appendChild(option);
+
+                    @foreach($recruitingSteps as $recruitingStep)
+                        option = document.createElement("option");
+                    option.setAttribute("value", '{{ $recruitingStep->id }}');
+                    option.innerHTML = "{{ $recruitingStep->name }}";
+                    input.appendChild(option);
+                    @endforeach
+                }
                 input.className = 'form-control';
                 $(input).appendTo($(column.footer()).empty())
                     .on('change', function () {
@@ -90,6 +111,14 @@
 
         responsive: true,
         select: 'single'
+    });
+
+    $('#recruitings tbody').on('mousedown', 'tr', function (e) {
+        if (e.button === 0) {
+            return false;
+        } else {
+            recruitings.row(this).select();
+        }
     });
 
     var CreateRecruiting = function () {

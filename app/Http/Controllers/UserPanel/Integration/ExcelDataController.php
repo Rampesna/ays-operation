@@ -19,6 +19,7 @@ class ExcelDataController extends Controller
     {
         if ($request->file('file')->getClientMimeType() == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
             try {
+                $jobList = [];
                 $name = date('Ymd_His');
                 $file = $request->file('file');
                 $fileName = $name . '-' . $file->getClientOriginalName();
@@ -30,29 +31,29 @@ class ExcelDataController extends Controller
                 $collection = $excel->getCollection();
 
                 foreach ($collection as $data) {
-                    if (gettype($data[0]) == 'integer') {
-                        $jobList[] = [
-                            'grupKodu' => $data[0],
-                            'vknTckn' => $data[1],
-                            'unvan' => $data[2],
-                            'sehir' => preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[3])) ? 'YOK' : str_replace(' ', '', $data[3]),
-                            'ilce' => preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[4])) ? 'YOK' : str_replace(' ', '', $data[4]),
-                            'islemAdi' => $request->process_name
-                        ];
-                    }
+                    $jobList[] = [
+                        'grupKodu' => $data[0],
+                        'vknTckn' => $data[1],
+                        'unvan' => $data[2],
+                        'sehir' => $data[3] ? preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[3])) ? 'YOK' : str_replace(' ', '', $data[3]) : 'YOK',
+                        'ilce' => $data[4] ? preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[4])) ? 'YOK' : str_replace(' ', '', $data[4]) : 'YOK',
+                        'islemAdi' => $request->process_name
+                    ];
                 }
 
-                $api = new DataScanningApi();
-                $response = $api->SetDataScanning($jobList);
+                return $jobList;
 
-                if ($response->status() == 200) {
-                    return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
-                } else {
-                    return $response;
-                }
+//                $api = new DataScanningApi();
+//                $response = $api->SetDataScanning($jobList);
+//
+//                if ($response->status() == 200) {
+//                    return $response;
+//                } else {
+//                    return $response;
+//                }
 
             } catch (\Exception $exception) {
-                return redirect()->back()->with(['type' => 'error', 'data' => 'API Bağlantısında Bir Sorun Meydana Geldi!']);
+                return $exception;
             }
         } else {
             return redirect()->back()->with(['type' => 'warning', 'data' => 'Sadece .xlsx Türündeki Dosyalar Yüklenebilir!']);

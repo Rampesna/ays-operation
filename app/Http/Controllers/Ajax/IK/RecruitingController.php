@@ -27,8 +27,8 @@ class RecruitingController extends Controller
     public function index(Request $request)
     {
         return Datatables::of(Recruiting::with(['step'])->whereIn('step_id', RecruitingStep::whereIn('management_department_id', User::find($request->auth_user_id)->managementDepartments()->pluck('id'))->pluck('id')))->
-        filterColumn('step_id', function ($recruiting, $ids) {
-            return $recruiting->whereIn('step_id', $ids);
+        filterColumn('step_id', function ($recruiting, $id) {
+            return $id == 0 ? $recruiting : $recruiting->where('step_id', $id);
         })->
         editColumn('step_id', function ($recruiting) {
             return '<span class="btn btn-pill btn-sm btn-' . $recruiting->step->color . '" style="font-size: 11px; height: 20px; padding-top: 2px">' . $recruiting->step->name . '</span>';

@@ -5,38 +5,50 @@
 
 @section('content')
 
-    <form action="{{ route('integration.excel-data.store') }}" method="post" enctype="multipart/form-data" class="row">
-        @csrf
+    {{ public_path() }}
+
+    <div class="row">
         <div class="col-xl-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xl-12">
-                            <div class="form-group">
-                                <label for="file">Dosyayı Seçin</label>
-                                <input type="file" id="file" name="file" required>
+            <form action="{{ route('integration.excel-data.store') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row text-right">
+                            <div class="col-xl-12">
+                                <a href="{{ asset('assets/documents/data-excel.xlsx') }}" class="btn btn-sm btn-primary" download>Şablonu İndir</a>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="for">
-                        <div class="col-xl-12">
-                            <div class="form-group">
-                                <label for="process_name">İşlem Adı</label>
-                                <input type="text" id="process_name" name="process_name" class="form-control" required>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label for="file">Dosyayı Seçin</label>
+                                    <input type="file" id="file" name="file" required>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-xl-12 text-right">
-                            <button type="submit" class="btn btn-primary">İşleri Aktar</button>
+                        <hr>
+                        <div class="for">
+                            <div class="col-xl-12">
+                                <div class="form-group">
+                                    <label for="process_name">İşlem Adı</label>
+                                    <input type="text" id="process_name" name="process_name" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-xl-12 text-right">
+                                <button type="submit" class="btn btn-primary">İşleri Aktar</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
-    </form>
+        <div class="col-xl-6">
+        </div>
+    </div>
 
 @endsection
 

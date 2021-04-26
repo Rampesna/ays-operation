@@ -12,7 +12,9 @@ class RecruitingController extends Controller
 {
     public function index()
     {
-        return view('pages.ik.application.applications.recruiting.index');
+        return view('pages.ik.application.applications.recruiting.index', [
+            'recruitingSteps' => RecruitingStep::all()
+        ]);
     }
 
     public function calendar()

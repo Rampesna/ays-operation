@@ -26,7 +26,7 @@
                     </div>
                     <div class="col-lg-4">
                         <label for="permit_end_date">Bitiş Tarihi</label>
-                        <input type="datetime-local" id="end_date" name="permit_end_date" class="form-control" required>
+                        <input type="datetime-local" id="permit_end_date" name="end_date" class="form-control" required>
                     </div>
                 </div>
                 <hr>

@@ -10,6 +10,12 @@
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-body">
+                    <div class="row text-right">
+                        <div class="col-xl-12">
+                            <a href="{{ asset('assets/documents/job-excel.xlsx') }}" class="btn btn-sm btn-primary" download>Şablonu İndir</a>
+                        </div>
+                    </div>
+                    <hr>
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="form-group">
