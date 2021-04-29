@@ -10,6 +10,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        return bcrypt(123456);
         return response()->json(Response::SuccessResponse('Başarılı'));
     }
 

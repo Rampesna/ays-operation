@@ -113,7 +113,7 @@
     getEmployeesByCompany();
 
     $("#create_shift").click(function () {
-        var company_id = $("#company_id_create").val();
+        var company_id = 1;
         var employees = $("#employees_create").val();
         var shiftStartDate = $("#shift_start_date_create").val();
         var shiftStartHour = $("#shift_start_hour_create").val();
@@ -166,7 +166,7 @@
                 },
                 error: function (error) {
                     console.log(error);
-                    alert("Bir Hata Oluştu. Lütfen Daha Sonra Tekrar Deneyin.");
+                    toastr.success('Bir Hata Oluştu. Lütfen Daha Sonra Tekrar Deneyin.');
                 }
             });
         }

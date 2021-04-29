@@ -107,10 +107,6 @@
             }
         });
 
-        @if(count($errors->all()) > 0)
-        toastr.warning("{{ $errors->first() }}");
-        @endif
-
     </script>
 
 @stop

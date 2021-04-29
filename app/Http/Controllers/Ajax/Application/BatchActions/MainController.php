@@ -108,4 +108,27 @@ class MainController extends Controller
             'response' => $response->status()
         ], 200);
     }
+
+    public function changeLockScreenType(Request $request)
+    {
+        $list = [];
+        foreach ($request->employees as $employee) {
+
+            $employee = Employee::find($employee);
+
+            $list[] = [
+                'id' => $employee->guid,
+                "ekranKilitTuru" => "$request->lock_screen_type"
+            ];
+        }
+
+        $api = new PersonSystemApi();
+        $response = $api->SetPersonDisplayType($list);
+
+        return response()->json([
+            'list' => $list,
+            'responseStatus' => $response->status(),
+            'responseMessage' => $response['response'] ?? $response['message'],
+        ], 200);
+    }
 }

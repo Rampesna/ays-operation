@@ -3,17 +3,6 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('dashboard')->namespace('Dashboard')->group(function () {
@@ -24,6 +13,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         Route::get('getEmployeesByCompanyId', 'MainController@getEmployeesByCompanyId')->name('ajax.employees-by-company-id');
         Route::get('getAllEmployeesByCompanyId', 'MainController@getAllEmployeesByCompanyId')->name('ajax.all-employees-by-company-id');
         Route::get('getEmployeesFromPositions', 'MainController@getEmployeesFromPositions')->name('ajax.getEmployeesFromPositions');
+        Route::get('getEmployeesDatatableFromPositions', 'MainController@getEmployeesDatatableFromPositions')->name('ajax.getEmployeesDatatableFromPositions');
 
         Route::post('updateQueues', 'MainController@updateQueues')->name('ajax.employee.updateQueues');
         Route::post('updateCompetences', 'MainController@updateCompetences')->name('ajax.employee.updateCompetences');
@@ -84,6 +74,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::any('changeAssignmentPermission', 'MainController@changeAssignmentPermission')->name('ajax.application.batch-actions.changeAssignmentPermission');
             Route::any('changeTeamSupportPermission', 'MainController@changeTeamSupportPermission')->name('ajax.application.batch-actions.changeTeamSupportPermission');
             Route::any('changeTeamSupportAssistantPermission', 'MainController@changeTeamSupportAssistantPermission')->name('ajax.application.batch-actions.changeTeamSupportAssistantPermission');
+            Route::any('changeLockScreenType', 'MainController@changeLockScreenType')->name('ajax.application.batch-actions.changeLockScreenType');
         });
 
         Route::prefix('custom-report')->namespace('CustomReport')->group(function () {

@@ -16,8 +16,8 @@
     <link href="{{ asset('assets/css/pages/login/login-3.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
     <!--end::Page Vendors Styles-->
     <!--begin::Global Theme Styles(used by all pages)-->
-{{--    <link href="{{ asset('assets/plugins/global/plugins.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />--}}
-{{--    <link href="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />--}}
+    <link href="{{ asset('assets/plugins/global/plugins.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.min.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
@@ -85,9 +85,9 @@
 
 @stack('before-scripts')
 
-{{--<script src="{{ asset('assets/plugins/global/plugins.bundle.js?v=7.0.3') }}"></script>--}}
-{{--<script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.3') }}"></script>--}}
-{{--<script src="{{ asset('assets/js/scripts.bundle.js?v=7.0.3') }}"></script>--}}
+<script src="{{ asset('assets/plugins/global/plugins.bundle.js?v=7.0.3') }}"></script>
+<script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.3') }}"></script>
+<script src="{{ asset('assets/js/scripts.bundle.js?v=7.0.3') }}"></script>
 
 @stack('after-scripts')
 

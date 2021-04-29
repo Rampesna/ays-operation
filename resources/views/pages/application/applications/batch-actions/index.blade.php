@@ -39,6 +39,7 @@
                             <option value="2">Görevlendirme Yetkisi</option>
                             <option value="3">Takım Destek Yetkisi</option>
                             <option value="4">Takım Lideri Yardımcısı Yetkisi</option>
+                            <option value="5">Ekran Kilit Türü</option>
                         </select>
                     </div>
                 </div>
@@ -94,6 +95,7 @@
     @include('pages.application.applications.batch-actions.modals.change-assignment')
     @include('pages.application.applications.batch-actions.modals.change-team-support')
     @include('pages.application.applications.batch-actions.modals.change-team-support-assistant')
+    @include('pages.application.applications.batch-actions.modals.change-lock-screen-type')
 
 @endsection
 

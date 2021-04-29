@@ -5,10 +5,12 @@
     var changeAssignmentPermissionButton = $("#change_assignment_permission_button");
     var changeTeamSupportPermissionButton = $("#change_team_support_permission_button");
     var changeTeamSupportAssistantPermissionButton = $("#change_team_support_assistant_permission_button");
+    var changeLockScreenTypeButton = $("#change_lock_screen_type_button");
     var educationType = $("#education_type");
     var assignmentType = $("#assignment_type");
     var teamSupportType = $("#team_support_type");
     var teamSupportAssistantType = $("#team_support_assistant_type");
+    var lockScreenType = $("#lock_screen_type");
 
     var typeFiltererSelector = $("#typeFilterer");
 
@@ -70,6 +72,8 @@
             $("#ChangeTeamSupportPermission").modal('show');
         } else if ($(this).val() === "4") {
             $("#ChangeTeamSupportAssistantPermission").modal('show');
+        } else if ($(this).val() === "5") {
+            $("#ChangeLockScreenType").modal('show');
         }
 
         $(this).prop("selectedIndex", 0);
@@ -195,6 +199,31 @@
                 location.reload();
             },
             error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+
+    changeLockScreenTypeButton.click(function () {
+        $("#loader").fadeIn(250);
+        var employees = getSelectedEmployees();
+        var lock_screen_type = lockScreenType.val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.application.batch-actions.changeLockScreenType') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                employees: employees,
+                lock_screen_type: `${lock_screen_type}`
+            },
+            success: function (response) {
+                console.log(response);
+                toastr.success(response.responseMessage);
+                location.reload();
+            },
+            error: function (error) {
+                toastr.error('Bir Sorun Oluştu!');
                 console.log(error);
             }
         });

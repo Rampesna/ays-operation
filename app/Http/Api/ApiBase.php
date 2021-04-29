@@ -10,7 +10,7 @@ abstract class ApiBase
     protected $baseUrl;
     public $_token;
 
-    public function callApi($url, $method, $headers = [], $params = [])
+    public function callApi($url, $method, $headers = [], $params = [], $body = [])
     {
         return Http::withHeaders($headers)->$method($url, $params);
     }

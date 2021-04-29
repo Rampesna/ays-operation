@@ -87,6 +87,19 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
 
     });
 
+    Route::prefix('management-report')->namespace('ManagementReport')->middleware('Authority:100')->group(function () {
+
+        Route::prefix('employee-monitoring')->group(function () {
+            Route::get('index', 'EmployeeMonitoringController@index')->name('management-report.employee-monitoring.index');
+        });
+
+        Route::prefix('screen-monitoring')->group(function () {
+            Route::get('index', 'ScreenMonitoringController@index')->name('management-report.screen-monitoring.index');
+            Route::get('details/{guid?}', 'ScreenMonitoringController@details')->name('management-report.screen-monitoring.details');
+        });
+
+    });
+
     Route::prefix('integration')->namespace('Integration')->group(function () {
 
         Route::prefix('excel')->group(function () {
@@ -535,6 +548,11 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
 
             Route::prefix('scoring')->namespace('Scoring')->group(function () {
                 Route::get('scoring', 'ScoringController@index')->name('ik.application.scoring.index');
+            });
+
+            Route::prefix('permit-progress')->namespace('PermitProgress')->group(function () {
+                Route::get('index', 'PermitProgressController@index')->name('ik.application.permit-progress.index');
+                Route::post('report', 'PermitProgressController@report')->name('ik.application.permit-progress.report');
             });
 
             Route::prefix('recruiting')->namespace('Recruiting')->group(function () {

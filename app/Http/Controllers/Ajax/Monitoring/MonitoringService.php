@@ -80,62 +80,29 @@ class MonitoringService
         })->
         get();
 
-        $blackTeam = $greenTeam = $blueTeam = $redTeam = $purpleTeam = $brownTeam = $otherTeams = [
-            "users" => 0,
-            "absentees" => 0,
-            "arrived" => 0,
-            "in_job" => 0,
-            "not_job" => 0,
-            "total_job" => 0,
-            "support" => 0
-        ];
-
         $needBreakCount = $foodBreakCount = $otherBreakCount = $activeUserCount = $absenteeUserCount = $allActiveUsers = 0;
 
-        $teamList = [
-            1 => 'blackTeam',
-            2 => 'greenTeam',
-            3 => 'blueTeam',
-            4 => 'redTeam',
-            5 => 'purpleTeam',
-            9 => 'brownTeam'
-        ];
-
         foreach ($tvScreenGetStaffStatusList['response'] as $user) {
-            $teamName = array_key_exists($user['takimKodu'], $teamList) ? $teamList[$user['takimKodu']] : 'otherTeams';
-            $$teamName["users"] += 1;
-            $$teamName["total_job"] += $user['yapilanIs'];
             if ($user['durumKodu'] == 6) {
-                $$teamName["absentees"] += 1;
                 $absenteeUserCount += 1;
             } else {
-                $$teamName["arrived"] += 1;
                 $activeUserCount += 1;
             }
+
             if ($user['durumKodu'] == 1) {
-                $$teamName["in_job"] += 1;
                 $allActiveUsers += 1;
             }
 
             if ($user['durumKodu'] == 2) {
                 $needBreakCount += 1;
-                $$teamName["not_job"] += 1;
             } else if ($user['durumKodu'] == 3) {
                 $foodBreakCount += 1;
-                $$teamName["not_job"] += 1;
             } else if ($user['durumKodu'] == 8 || $user['durumKodu'] == 4 || $user['durumKodu'] == 5) {
                 $otherBreakCount += 1;
-                $user['durumKodu'] == 8 ? $$teamName["support"] += 1 : null;
             }
         }
 
         return [
-            'blackTeam' => $blackTeam,
-            'greenTeam' => $greenTeam,
-            'blueTeam' => $blueTeam,
-            'redTeam' => $redTeam,
-            'purpleTeam' => $purpleTeam,
-            'brownTeam' => $brownTeam,
             'totalUserCount' => count($tvScreenGetStaffStatusList['response']),
             'needBreakCount' => $needBreakCount,
             'foodBreakCount' => $foodBreakCount,
@@ -144,7 +111,6 @@ class MonitoringService
             'activeUserCount' => $activeUserCount,
             'absenteeUserCount' => $absenteeUserCount,
             'users' => $tvScreenGetStaffStatusList['response'],
-            'starList' => $tvScreenGetStaffStarList['response'],
             'allActiveUsers' => $allActiveUsers,
             'todayShiftEmployees' => $todayShiftEmployees,
             'todayPermittedEmployees' => $todayPermittedEmployees,

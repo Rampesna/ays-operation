@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use App\Models\FailedLogin;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -57,6 +58,48 @@ class LoginController extends Controller
             'password' => 'required'
         ]);
 
+        $employee = Employee::where('email', $request->email)->first();
+
+        if (is_null($employee)) {
+            return redirect()->back()->with([
+                'type' => 'warning',
+                'data' => 'Böyle Bir Kullanıcı Sistemde Kayıtlı Değil!'
+            ]);
+        } else if ($employee->suspend == 1) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'data' => 'Hesabınız Engellenmiş! Lütfen Yöneticiniz İle İletişime Geçin.'
+            ]);
+        } else if (!Hash::check($request->password, $employee->password)) {
+//            return 3;
+
+            $failedLogin = new FailedLogin;
+            $failedLogin->relation_type = 'App\Models\Employee';
+            $failedLogin->relation_id = $employee->id;
+            $failedLogin->date = date('Y-m-d H:i:s');
+            $failedLogin->ip = $request->ip();
+            $failedLogin->user_agent = serialize($request->userAgent());
+            $failedLogin->cookie = serialize($request->cookie());
+            $failedLogin->save();
+
+            $failedLoginControl = FailedLogin::where('relation_id', $employee->id)->where('relation_type', 'App\Models\Employee')->where('cancel', 0)->count();
+
+            if ($failedLoginControl >= 3) {
+                $employee->suspend = 1;
+                $employee->save();
+
+                return redirect()->back()->with([
+                    'type' => 'error',
+                    'data' => '3 Defa Hatalı Giriş Yaptığınız İçin Hesabınız Engellendi! Lütfen Yöneticiniz İle İletişime Geçin.'
+                ]);
+            } else {
+                return redirect()->back()->with([
+                    'type' => 'warning',
+                    'data' => 'Kullanıcı Adı ve Şifreniz Uyuşmuyor! ' . (3 - $failedLoginControl) . ' Defa Daha Hatalı Giriş Yaparsanız Hesabınız Engellenecektir!'
+                ]);
+            }
+        }
+
         if (Auth::guard('employee')->attempt(['email' => $request->email, 'password' => $request->password])) {
             return redirect()->intended('/employee/index');
         }
@@ -101,42 +144,51 @@ class LoginController extends Controller
 
     protected function sendFailedLoginResponse(Request $request)
     {
-//        $user = User::where('email', $request->email)->first();
-//
-//        if (is_null($user)) {
-//            $errors = ['error' => 'Böyle Bir Kullanıcı Sistemde Kayıtlı Değil!'];
-//        } else if ($user->suspend == 1) {
-//            $errors = ['error' => 'Hesabınız Engellenmiş! Lütfen Yöneticiniz İle İletişime Geçin.'];
-//        } else if (!Hash::check($request->password, $user->password)) {
-//
-//            $failedLogin = new FailedLogin;
-//            $failedLogin->user_id = $user->id;
-//            $failedLogin->date = date('Y-m-d H:i:s');
-//            $failedLogin->ip = $request->ip();
-//            $failedLogin->user_agent = serialize($request->userAgent());
-//            $failedLogin->cookie = serialize($request->cookie());
-//            $failedLogin->save();
-//
-//            $failedLoginControl = FailedLogin::where('user_id', $user->id)->where('cancel', 0)->count();
-//
-//            if ($failedLoginControl >= 3) {
-//                $errors = ['error' => '3 Defa Hatalı Giriş Yaptığınız İçin Hesabınız Engellendi! Lütfen Yöneticiniz İle İletişime Geçin.'];
-//                $user->suspend = 1;
-//                $user->save();
-//            } else {
-//                $errors = ['error' => 'Kullanıcı Adı ve Şifreniz Uyuşmuyor! ' . (3 - $failedLoginControl) . ' Defa Daha Hatalı Giriş Yaparsanız Hesabınız Engellenecektir!'];
-//            }
-//        }
+        $user = User::where('email', $request->email)->first();
 
-        $errors = ['error' => ''];
+        if (is_null($user)) {
+            return redirect()->back()->with([
+                'type' => 'warning',
+                'data' => 'Böyle Bir Kullanıcı Sistemde Kayıtlı Değil!'
+            ]);
+        } else if ($user->suspend == 1) {
+            return redirect()->back()->with([
+                'type' => 'error',
+                'data' => 'Hesabınız Engellenmiş! Lütfen Yöneticiniz İle İletişime Geçin.'
+            ]);
+        } else if (!Hash::check($request->password, $user->password)) {
+            $failedLogin = new FailedLogin;
+            $failedLogin->relation_type = 'App\Models\User';
+            $failedLogin->relation_id = $user->id;
+            $failedLogin->date = date('Y-m-d H:i:s');
+            $failedLogin->ip = $request->ip();
+            $failedLogin->user_agent = serialize($request->userAgent());
+            $failedLogin->cookie = serialize($request->cookie());
+            $failedLogin->save();
 
-        if ($request->expectsJson()) {
-            return response()->json($errors, 422);
+            $failedLoginControl = FailedLogin::where('relation_id', $user->id)->where('relation_type', 'App\Models\User')->where('cancel', 0)->count();
+
+            if ($failedLoginControl >= 3) {
+                $user->suspend = 1;
+                $user->save();
+
+                return redirect()->back()->with([
+                    'type' => 'error',
+                    'data' => '3 Defa Hatalı Giriş Yaptığınız İçin Hesabınız Engellendi! Lütfen Yöneticiniz İle İletişime Geçin.'
+                ]);
+            } else {
+                return redirect()->back()->with([
+                    'type' => 'warning',
+                    'data' => 'Kullanıcı Adı ve Şifreniz Uyuşmuyor! ' . (3 - $failedLoginControl) . ' Defa Daha Hatalı Giriş Yaparsanız Hesabınız Engellenecektir!'
+                ]);
+            }
         }
 
-        return redirect()->back()
-            ->withInput($request->only($this->username(), 'remember'))
-            ->withErrors($errors);
+        if ($request->expectsJson()) {
+            return response()->json([], 422);
+        }
+
+        return redirect()->back()->withInput($request->only($this->username(), 'remember'));
     }
 
     public function logout(Request $request)

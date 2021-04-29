@@ -16,4 +16,14 @@ class PersonSystemApi extends OperationApi
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
+
+    public function SetPersonDisplayType($list)
+    {
+        $endpoint = "PersonSystem/SetPersonDisplayType";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
 }

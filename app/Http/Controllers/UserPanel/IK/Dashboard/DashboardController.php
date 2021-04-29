@@ -38,7 +38,7 @@ class DashboardController extends Controller
             'overtimeReasons' => OvertimeReason::all(),
             'overtimeStatuses' => OvertimeStatus::all(),
             'paymentTypes' => PaymentType::all(),
-            'paymentStatuses' => PaymentStatus::all(),
+            'paymentStatuses' => PaymentStatus::all()
         ]);
     }
 }
