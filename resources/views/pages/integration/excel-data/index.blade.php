@@ -5,8 +5,6 @@
 
 @section('content')
 
-    {{ public_path() }}
-
     <div class="row">
         <div class="col-xl-6">
             <form action="{{ route('integration.excel-data.store') }}" method="post" enctype="multipart/form-data">
@@ -28,11 +26,17 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="for">
-                            <div class="col-xl-12">
+                        <div class="row">
+                            <div class="col-xl-6">
                                 <div class="form-group">
                                     <label for="process_name">İşlem Adı</label>
                                     <input type="text" id="process_name" name="process_name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="col-xl-6">
+                                <div class="form-group">
+                                    <label for="priority">Öncelik</label>
+                                    <input type="number" id="priority" name="priority" class="form-control" required>
                                 </div>
                             </div>
                         </div>

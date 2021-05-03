@@ -26,4 +26,24 @@ class PersonSystemApi extends OperationApi
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
+
+    public function GetPersonDataScanList()
+    {
+        $endpoint = "PersonSystem/GetPersonDataScanList";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
+    }
+
+    public function SetPersonDataScan($list)
+    {
+        $endpoint = "PersonSystem/SetPersonDataScan";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
 }

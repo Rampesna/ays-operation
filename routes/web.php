@@ -559,6 +559,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 Route::get('index', 'RecruitingController@index')->name('ik.application.recruiting.index');
                 Route::get('calendar', 'RecruitingController@calendar')->name('ik.application.recruiting.calendar');
                 Route::get('show/{id?}', 'RecruitingController@show')->name('ik.application.recruiting.show');
+                Route::get('history/{id?}', 'RecruitingController@transactionHistory')->name('ik.application.recruiting.transactionHistory');
                 Route::get('settings', 'RecruitingController@settings')->name('ik.application.recruiting.settings');
 
                 Route::prefix('settings')->namespace('Setting')->group(function () {

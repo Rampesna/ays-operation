@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\ManagementDepartment;
 use App\Models\Recruiting;
 use App\Models\RecruitingStep;
+use App\Models\RecruitingStepSubStep;
+use App\Models\RecruitingStepSubStepCheck;
 use Illuminate\Http\Request;
 
 class RecruitingController extends Controller
@@ -38,6 +40,23 @@ class RecruitingController extends Controller
             'recruitingId' => $id,
             'recruitingSteps' => RecruitingStep::whereNotIn('id', [8])->get(),
             'users' => $users
+        ]);
+    }
+
+    public function transactionHistory($id)
+    {
+        return view('pages.ik.application.applications.recruiting.history.index', [
+            'recruiting' => Recruiting::with([
+                'activities' => function ($activities) {
+                    $activities->with([
+                        'step',
+                        'user'
+                    ]);
+                }
+            ])->find($id),
+            'recruitingStepSubStepChecks' => RecruitingStepSubStepCheck::with([
+                'subStep'
+            ])->where('recruiting_id', $id)->get()
         ]);
     }
 

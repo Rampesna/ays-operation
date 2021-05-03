@@ -35,22 +35,21 @@ class ExcelDataController extends Controller
                         'grupKodu' => $data[0],
                         'vknTckn' => $data[1],
                         'unvan' => $data[2],
-                        'sehir' => $data[3] ? preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[3])) ? 'YOK' : str_replace(' ', '', $data[3]) : 'YOK',
-                        'ilce' => $data[4] ? preg_match('/[^a-zA-Z\d]/', str_replace(' ', '', $data[4])) ? 'YOK' : str_replace(' ', '', $data[4]) : 'YOK',
-                        'islemAdi' => $request->process_name
+                        'sehir' => is_string($data[3]) ? str_replace('.', '', str_replace('-', '', str_replace('*', '', $data[3]))) : 'YOK',
+                        'ilce' => is_string($data[4]) ? str_replace('.', '', str_replace('-', '', str_replace('*', '', $data[4]))) : 'YOK',
+                        'islemAdi' => $request->process_name,
+                        'Oncelik' => $request->priority
                     ];
                 }
 
-                return $jobList;
+                $api = new DataScanningApi();
+                $response = $api->SetDataScanning($jobList);
 
-//                $api = new DataScanningApi();
-//                $response = $api->SetDataScanning($jobList);
-//
-//                if ($response->status() == 200) {
-//                    return $response;
-//                } else {
-//                    return $response;
-//                }
+                if ($response->status() == 200) {
+                    return redirect()->back()->with(['type' => 'warning', 'data' => 'Sadece .xlsx Türündeki Dosyalar Yüklenebilir!']);
+                } else {
+                    return $response;
+                }
 
             } catch (\Exception $exception) {
                 return $exception;

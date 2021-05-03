@@ -113,6 +113,17 @@
             </a>
         </div>
 
+        <div id="reactivateRecruitingContext">
+            <hr>
+            <a onclick="transactionHistory()" class="dropdown-item cursor-pointer">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <i class="fas fa-clipboard-list text-dark-75"></i><span class="ml-4">İşlem Geçmişi</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
     </div>
 
 @endsection

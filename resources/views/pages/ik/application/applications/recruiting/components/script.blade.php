@@ -367,6 +367,10 @@
         $("#ReactivateRecruitingModal").modal('show');
     }
 
+    function transactionHistory() {
+        window.open('{{ route('ik.application.recruiting.transactionHistory') }}/' + $("#editing_recruiting_id").val(), '_blank');
+    }
+
     createRecruitingButton.click(function () {
         var name = $("#create_recruiting_name").val();
         var email = $("#create_recruiting_email").val();

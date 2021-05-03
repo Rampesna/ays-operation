@@ -226,6 +226,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
         Route::prefix('employee')->group(function () {
             Route::post('update', 'SurveyEmployeeController@update')->name('ajax.survey.employee.update');
+            Route::post('scanDataUpdate', 'SurveyEmployeeController@scanDataUpdate')->name('ajax.survey.employee.scanDataUpdate');
         });
 
         Route::prefix('answer')->group(function () {

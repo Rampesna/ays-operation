@@ -2,6 +2,7 @@
 
     var batchActionTypeSelector = $("#batch_action_type");
     var selectEmployeeSurveyButton = $("#selectEmployeeSurveyButton");
+    var selectEmployeeDataButton = $("#selectEmployeeDataButton");
 
     batchActionTypeSelector.attr('disabled', 'disabled');
 
@@ -53,6 +54,8 @@
     batchActionTypeSelector.change(function () {
         if ($(this).val() === "1") {
             $("#SelectEmployeeSurveyModal").modal('show');
+        } else if ($(this).val() === "2") {
+            $("#SelectEmployeeDataModal").modal('show');
         }
 
         $(this).prop("selectedIndex", 0);
@@ -87,6 +90,30 @@
                 toastr.success(response.response);
                 $("#SelectEmployeeSurveyModal").modal('hide');
                 location.reload();
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    });
+
+    selectEmployeeDataButton.click(function () {
+        var employees = getSelectedEmployees();
+        var data_scan_group_code = $("#data_scan_group_code").val();
+
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.survey.employee.scanDataUpdate') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                employees: employees,
+                data_scan_group_code: data_scan_group_code
+            },
+            success: function (response) {
+                console.log(response)
+                // toastr.success(response.response);
+                // $("#SelectEmployeeSurveyModal").modal('hide');
+                // location.reload();
             },
             error: function (error) {
                 console.log(error)

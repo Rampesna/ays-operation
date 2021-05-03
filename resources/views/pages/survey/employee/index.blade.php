@@ -28,6 +28,7 @@
                         <select name="batch_action_type" id="batch_action_type" class="form-control" data-live-search="true">
                             <option value="" disabled selected hidden>İşlem Seçin</option>
                             <option value="1">Anket Seçimi</option>
+                            <option value="2">Data Tarama Seçimi</option>
                         </select>
                     </div>
                 </div>
@@ -54,6 +55,9 @@
                                         </div>
                                         <div class="d-flex flex-column">
                                             <span class="text-dark font-weight-bold font-size-h6 mb-0 employee-name">{{ ucwords($employee->name) }}</span>
+                                            <p>
+                                                <span class="btn btn-pill btn-sm btn-warning m-1" style="font-size: 11px; height: 20px; padding-top: 2px">Eğitim Yetkisi</span>
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -66,6 +70,7 @@
     </div>
 
     @include('pages.survey.employee.modals.select-survey')
+    @include('pages.survey.employee.modals.select-data')
 
 @endsection
 

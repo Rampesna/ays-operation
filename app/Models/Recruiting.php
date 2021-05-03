@@ -15,6 +15,11 @@ class Recruiting extends Model
         return $this->belongsTo(RecruitingStep::class, 'step_id', 'id');
     }
 
+    public function steps()
+    {
+        return $this->hasMany(RecruitingStepSubStepCheck::class);
+    }
+
     public function activities()
     {
         return $this->hasMany(RecruitingActivity::class);
