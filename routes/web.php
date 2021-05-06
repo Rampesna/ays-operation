@@ -1,11 +1,25 @@
 <?php
 
+use App\Http\Api\OperationApi\OperationApi;
+use App\Models\Queue;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', [\App\Http\Controllers\HomeController::class, 'index'])->name('test');
 
 Auth::routes();
+
+Route::get('employee/monitoring', function () {
+    return view('pages.tv.sections.section2', [
+        'token' => (new OperationApi)->Login()
+    ]);
+})->name('employee.monitoring');
+
+Route::get('employee/queues', function () {
+    return view('pages.tv.sections.section1', [
+        'queues' => Queue::where('company_id', 1)->get()
+    ]);
+})->name('employee.queues');
 
 Route::get('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLoginForm'])->name('employee-panel.login.form');
 Route::post('/login/employee', [\App\Http\Controllers\Auth\LoginController::class, 'employeeLogin'])->name('employee-panel.login');

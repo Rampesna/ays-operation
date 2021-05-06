@@ -54,7 +54,28 @@
             }
         },
 
-        dom: 'rtipl',
+        dom: 'Brtipl',
+
+        buttons: [
+            {
+                extend: 'collection',
+                text: '<i class="fa fa-download"></i> Dışa Aktar',
+                buttons: [
+                    {
+                        extend: 'pdf',
+                        text: '<i class="fa fa-file-pdf"></i> PDF İndir'
+                    },
+                    {
+                        extend: 'excel',
+                        text: '<i class="fa fa-file-excel"></i> Excel İndir',
+                    }
+                ]
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> Yazdır'
+            }
+        ],
 
         initComplete: function () {
             var r = $('#recruitings tfoot tr');
