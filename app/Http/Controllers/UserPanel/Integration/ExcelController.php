@@ -30,7 +30,7 @@ class ExcelController extends Controller
                 $collection = $excel->getCollection();
 
                 foreach ($collection as $data) {
-                    if (gettype($data[0]) == 'integer') {
+                    if (gettype($data[0]) == 'integer' && gettype($data[1]) == 'integer') {
                         $jobList[] = [
                             'id' => $data[0],
                             'oncelik' => $data[1],

@@ -35,7 +35,7 @@ class SurveyController extends Controller
 
     public function employees()
     {
-        return (new OperationApi)->GetUserList()['response'];
+//        return (new OperationApi)->GetUserList()['response'];
         return view('pages.survey.employee.index', [
             'employees' => (new OperationApi)->GetUserList()['response'],
             'surveys' => (new SurveySystemApi)->GetSurveyList()['response'],
