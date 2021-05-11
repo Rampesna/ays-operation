@@ -19,6 +19,8 @@ class ActivityController extends Controller
             $api = new JobsSystemApi();
             $response = $api->SetJobCaseWorkDelete($request->id);
 
+            return $response;
+
             if ($response->status() == 200) {
                 return redirect()->back()->with(['type' => 'success', 'data' => $response['response']]);
             } else {
