@@ -20,7 +20,7 @@
                         <tbody>
                         @foreach($foodListChecks as $foodListCheck)
                             <tr @if($foodListCheck->checked != null && $foodListCheck->checked == 1) class="printableRow" @endif>
-                                <td>{{ ucwords($foodListCheck->employee->name) }}</td>
+                                <td>{{ @ucwords($foodListCheck->employee->name) }}</td>
                                 <td>
                                     @if($foodListCheck->checked === null)
                                             <i class="fas fa-circle text-warning"></i> Cevap Verilmedi
@@ -33,7 +33,7 @@
                                         @endif
                                     @endif
                                 </td>
-                                <td><label style="width: 100%"><textarea class="form-control" rows="2" disabled>{{ $foodListCheck->description }}</textarea></label></td>
+                                <td><label style="width: 100%"><textarea class="form-control" rows="2" disabled>{{ @$foodListCheck->description }}</textarea></label></td>
                             </tr>
                         @endforeach
                         </tbody>

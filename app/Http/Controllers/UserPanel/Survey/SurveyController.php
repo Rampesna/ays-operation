@@ -13,7 +13,8 @@ class SurveyController extends Controller
     public function Index()
     {
         return view('pages.survey.script.index', [
-            'surveyList' => (new SurveySystemApi)->GetSurveyList()['response']
+            'surveyList' => (new SurveySystemApi)->GetSurveyList()['response'],
+            'products' => (new SurveySystemApi)->GetSurveyProductList()['response']
         ]);
     }
 
@@ -37,9 +38,9 @@ class SurveyController extends Controller
     {
 //        return (new OperationApi)->GetUserList()['response'];
         return view('pages.survey.employee.index', [
-            'employees' => (new OperationApi)->GetUserList()['response'],
-            'surveys' => (new SurveySystemApi)->GetSurveyList()['response'],
-            'dataScanList' => (new PersonSystemApi)->GetPersonDataScanList()['response']
+            'employees' => (new OperationApi)->GetUserList()['response'] ?? [],
+            'surveys' => (new SurveySystemApi)->GetSurveyList()['response'] ?? [],
+            'dataScanList' => (new PersonSystemApi)->GetPersonDataScanList()['response'] ?? []
         ]);
     }
 

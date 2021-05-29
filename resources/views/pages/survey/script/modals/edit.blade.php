@@ -17,10 +17,24 @@
                             <input type="text" id="code_edit" class="form-control">
                         </div>
                     </div>
-                    <div class="col-xl-9">
+                    <div class="col-xl-6">
                         <div class="form-group">
                             <label for="name_edit">Adı</label>
                             <input type="text" id="name_edit" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="form-group">
+                            <label for="status_edit">Durum</label>
+                            <select id="status_edit" class="form-control">
+                                <option value="Beklemede">Beklemede</option>
+                                <option value="Arama Listesi Bekleniyor">Arama Listesi Bekleniyor</option>
+                                <option value="Oto Arama Aktif Edildi | Devam Ediyor">Oto Arama Aktif Edildi | Devam Ediyor</option>
+                                <option value="Otomatik Arama Durdu | Devam Ediyor">Otomatik Arama Durdu | Devam Ediyor</option>
+                                <option value="Yeniden Taranıyor">Yeniden Taranıyor</option>
+                                <option value="İptal Edildi">İptal Edildi</option>
+                                <option value="Tamamlandı">Tamamlandı</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -37,6 +51,14 @@
                         <div class="form-group">
                             <label for="call_reason_edit">Çağrı Nedeni</label>
                             <input type="text" id="call_reason_edit" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="tags_edit">Etiketler</label>
+                            <input type="text" id="tags_edit" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -127,16 +149,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="email_title_edit">E-posta Başlığı</label>
                             <input id="email_title_edit" type="text" class="form-control">
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
-                            <label for="file_selector_edit">Dosya Seçimi</label>
+                            <label for="file_selector_edit">Mail İçerik Dosyası Seçimi</label>
                             <input id="file_selector_edit" type="file" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
+                            <label for="call_file_selector_edit">Aranacak Liste Dosyası Seçimi</label>
+                            <input id="call_file_selector_edit" type="file" class="form-control">
                         </div>
                     </div>
                 </div>

@@ -283,6 +283,11 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         Route::get('/sellers', 'SurveyController@sellers')->name('surveys.sellers');
         Route::get('/employees', 'SurveyController@employees')->name('surveys.employees');
 
+        Route::prefix('report')->group(function () {
+            Route::get('report', 'SurveyReportController@index')->name('surveys.report.index');
+            Route::get('{code?}/show', 'SurveyReportController@show')->name('surveys.report.show');
+        });
+
         Route::prefix('questions')->group(function () {
             Route::get('/{code?}/index', 'SurveyQuestionController@Index')->name('surveys.questions');
         });
@@ -447,6 +452,21 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
                 return redirect()->route('applications.custom-report.index');
             });
             Route::get('index', 'CustomReportController@index')->name('applications.custom-report.index');
+        });
+
+        Route::prefix('meeting')->namespace('Meeting')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('applications.meeting.index');
+            });
+            Route::get('index', 'MeetingController@index')->name('applications.meeting.index');
+            Route::get('show/{id?}/{tab?}', 'MeetingController@show')->name('applications.meeting.show');
+        });
+
+        Route::prefix('agenda')->namespace('MeetingAgenda')->group(function () {
+            Route::get('/', function () {
+                return redirect()->route('applications.agenda.index');
+            });
+            Route::get('index', 'MeetingAgendaController@index')->name('applications.agenda.index')->middleware('Authority:101');
         });
 
 

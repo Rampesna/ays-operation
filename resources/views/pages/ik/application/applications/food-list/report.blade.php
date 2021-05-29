@@ -25,18 +25,18 @@
                         <tbody>
                         @foreach($foodList as $food)
                             <tr>
-                                <td><a href="{{ route('ik.applications.food-list.report-detail', ['date' => $food->date]) }}" target="_blank">{{ $food->date }}</a></td>
-                                <td>{{ $food->name }}</td>
+                                <td><a href="{{ route('ik.applications.food-list.report-detail', ['date' => $food->date]) }}" target="_blank">{{ @$food->date }}</a></td>
+                                <td>{{ @$food->name }}</td>
                                 <td><textarea class="form-control" rows="2" disabled>{{ $food->description }}</textarea></td>
-                                <td>{{ $food->foodListChecks()->where('checked', 1)->count() }}</td>
+                                <td>{{ @$food->foodListChecks()->where('checked', 1)->count() }}</td>
                                 <td>
-                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 1)->get() as $foodListCheck){{ ucwords($foodListCheck->employee->name) . ' ' . strtoupper($foodListCheck->employee->surname) }}@endforeach</textarea>
+                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 1)->get() as $foodListCheck){{ @ucwords($foodListCheck->employee->name) . ' ' . @strtoupper($foodListCheck->employee->surname) }}@endforeach</textarea>
                                 </td>
-                                <td>{{ $food->foodListChecks()->where('checked', 0)->count() }}</td>
+                                <td>{{ @$food->foodListChecks()->where('checked', 0)->count() }}</td>
                                 <td>
-                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 0)->get() as $foodListCheck){{ ucwords($foodListCheck->employee->name) . ' ' . strtoupper($foodListCheck->employee->surname) }}@endforeach</textarea>
+                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 0)->get() as $foodListCheck){{ @ucwords($foodListCheck->employee->name) . ' ' . @strtoupper($foodListCheck->employee->surname) }}@endforeach</textarea>
                                 </td>
-                                <td>{{ $food->foodListChecks()->where('checked', null)->count() }}</td>
+                                <td>{{ @$food->foodListChecks()->where('checked', null)->count() }}</td>
                             </tr>
                         @endforeach
                         </tbody>

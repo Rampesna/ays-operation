@@ -11,7 +11,7 @@ class MeetingController extends Controller
 {
     public function create(Request $request)
     {
-        $meeting = (new MeetingService(new Meeting))->store($request);
+        $meeting = (new MeetingService(new Meeting))->save($request);
         return response()->json($meeting, 200);
     }
 
@@ -22,7 +22,7 @@ class MeetingController extends Controller
 
     public function update(Request $request)
     {
-        $meeting = (new MeetingService(Meeting::find($request->meeting_id)))->store($request);
+        $meeting = (new MeetingService(Meeting::find($request->meeting_id)))->save($request);
         return response()->json($meeting, 200);
     }
 

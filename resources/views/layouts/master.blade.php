@@ -11,18 +11,18 @@
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
 
-    <link href="{{ asset('assets/plugins/global/plugins.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/global/plugins.bundle.css?v=1.8.9.23') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.css?v=1.8.9.23') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
 
-    <link href="{{ asset('assets/css/themes/layout/header/base/light.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/themes/layout/header/menu/light.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/themes/layout/brand/dark.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/css/themes/layout/aside/dark.css?v=7.0.3') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/themes/layout/header/base/light.css?v=1.8.9.23') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/themes/layout/header/menu/light.css?v=1.8.9.23') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/themes/layout/brand/dark.css?v=1.8.9.23') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/themes/layout/aside/dark.css?v=1.8.9.23') }}" rel="stylesheet" type="text/css" />
 
     <link rel="shortcut icon" href="{{ asset('assets/media/favicon/favicon.png') }}" />
 
-    <link rel="stylesheet" href="{{ asset('assets/css/custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('assets/css/custom.css?v=1.8.9.23') }}" />
 
     @stack('before-styles')
 
@@ -91,13 +91,13 @@
 @stack('before-scripts')
 
 <script src="{{ asset('assets/plugins/global/plugins.bundle.js') }}"></script>
-<script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.3') }}"></script>
-<script src="{{ asset('assets/js/scripts.bundle.js?v=7.0.3') }}"></script>
+<script src="{{ asset('assets/plugins/custom/prismjs/prismjs.bundle.js?v=1.8.9.23') }}"></script>
+<script src="{{ asset('assets/js/scripts.bundle.js?v=1.8.9.23') }}"></script>
 
 @stack('after-scripts')
 
 <script src="{{ asset('assets/js/bootstrap-datepicker.tr.js') }}"></script>
-<script src="{{ asset('assets/js/pages/crud/forms/widgets/input-mask.js?v=7.0.3') }}"></script>
+<script src="{{ asset('assets/js/pages/crud/forms/widgets/input-mask.js?v=1.8.9.23') }}"></script>
 
 @if (trim($__env->yieldContent('page-script')))
     @yield('page-script')

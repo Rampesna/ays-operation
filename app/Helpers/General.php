@@ -4,6 +4,16 @@ namespace App\Helpers;
 
 class General
 {
+    public static function searchForKeyword($keyword, $value, $array)
+    {
+        foreach ($array as $key => $val) {
+            if ($val[$keyword] === $value) {
+                return $key;
+            }
+        }
+        return null;
+    }
+
     public static function displayDates($date1, $date2, $format = 'Y-m-d')
     {
         $dates = array();

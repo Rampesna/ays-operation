@@ -4,6 +4,7 @@
 namespace App\Http\Api\OperationApi\SurveySystem;
 
 use App\Http\Api\OperationApi\OperationApi;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
 class SurveySystemApi extends OperationApi
@@ -206,7 +207,7 @@ class SurveySystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
     }
 
-    public function SetSurvey(Request $request)
+    public function SetSurvey(Request $request, $callList)
     {
         $endpoint = "SurveySystem/SetSurvey";
         $headers = [
@@ -229,9 +230,13 @@ class SurveySystemApi extends OperationApi
             'uyumCrmAramaPlaniSaticiyaYonlendir' => $request->dial_plan_redirect_to_seller,
             'uyumCrmSaticiKoduTurKodu' => $request->seller_redirection_type,
             'epostaBaslik' => $request->email_title,
-            'epostaIcerik' => $request->hasFile('file') ? file_get_contents($request->file('file')) : '',
-            'uyumCrmIsKaynagi' => $request->job_resource
+            'epostaIcerik' => $request->hasFile('file') ? file_get_contents($request->file('file')) : null,
+            'uyumCrmIsKaynagi' => $request->job_resource,
+            'durum' => $request->status,
+            'aranacakListe' => $callList
         ];
+
+//        return $params;
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
     }
@@ -417,5 +422,77 @@ class SurveySystemApi extends OperationApi
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
+    }
+
+    public function GetSurveyReport($code)
+    {
+        $endpoint = "SurveySystem/GetSurveyReport";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SurveyCode' => $code
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
+    public function GetSurveyReportStatusDetails($code, $startDate, $endDate, $list)
+    {
+        $endpoint = "SurveySystem/GetSurveyReportStatusDetails";
+
+        $parameters = [
+            'SurveyCode' => $code,
+            'BaslangicTarihi' => $startDate,
+            'BitisTarihi' => $endDate
+        ];
+
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json'
+        ];
+
+        $client = new Client;
+        $response = $client->request('get', $this->baseUrl . $endpoint, [
+            'headers' => $headers,
+            'body' => json_encode($list),
+            'query' => $parameters
+        ]);
+
+        return $response;
+    }
+
+    public function GetSurveyReportWantedDetails($code, $startDate, $endDate)
+    {
+        $endpoint = "SurveySystem/GetSurveyReportWantedDetails";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SurveyCode' => $code,
+            'BaslangicTarihi' => null,
+            'BitisTarihi' => null
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
+    }
+
+    public function GetSurveyReportRemainingDetails($code, $startDate, $endDate)
+    {
+        $endpoint = "SurveySystem/GetSurveyReportRemainingDetails";
+        $headers = [
+            'Authorization' => 'Bearer ' . $this->_token,
+        ];
+
+        $params = [
+            'SurveyCode' => $code,
+//            'BaslangicTarihi' => $startDate,
+//            'BitisTarihi' => $endDate
+        ];
+
+        return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
     }
 }

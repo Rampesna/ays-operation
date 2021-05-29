@@ -404,6 +404,14 @@
                                     <span class="menu-text">Personeller</span>
                                 </a>
                             </li>
+                            <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'employees' ? 'menu-item-active' : null }}" aria-haspopup="true">
+                                <a href="{{ route('surveys.report.index') }}" class="menu-link">
+                                    <i class="menu-bullet menu-bullet-dot">
+                                        <span></span>
+                                    </i>
+                                    <span class="menu-text">Raporlar</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </li>

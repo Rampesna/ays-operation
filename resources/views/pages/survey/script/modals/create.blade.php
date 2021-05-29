@@ -1,5 +1,5 @@
 <div class="modal fade" id="CreateSurvey" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" data-backdrop="static" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog" role="document" style="max-width:900px;">
+    <div class="modal-dialog" role="document" style="max-width:1200px;">
         <div class="modal-content">
             @csrf
             <div class="modal-header">
@@ -16,10 +16,24 @@
                             <input type="text" id="code_create" class="form-control">
                         </div>
                     </div>
-                    <div class="col-xl-9">
+                    <div class="col-xl-6">
                         <div class="form-group">
                             <label for="name_create">Adı</label>
                             <input type="text" id="name_create" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-xl-3">
+                        <div class="form-group">
+                            <label for="status_create">Durum</label>
+                            <select id="status_create" class="form-control">
+                                <option value="Beklemede">Beklemede</option>
+                                <option value="Arama Listesi Bekleniyor">Arama Listesi Bekleniyor</option>
+                                <option value="Oto Arama Aktif Edildi | Devam Ediyor">Oto Arama Aktif Edildi | Devam Ediyor</option>
+                                <option value="Otomatik Arama Durdu | Devam Ediyor">Otomatik Arama Durdu | Devam Ediyor</option>
+                                <option value="Yeniden Taranıyor">Yeniden Taranıyor</option>
+                                <option value="İptal Edildi">İptal Edildi</option>
+                                <option value="Tamamlandı">Tamamlandı</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -36,6 +50,14 @@
                         <div class="form-group">
                             <label for="call_reason_create">Çağrı Nedeni</label>
                             <input type="text" id="call_reason_create" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="tags_create">Etiketler</label>
+                            <input type="text" id="tags_create" class="form-control">
                         </div>
                     </div>
                 </div>
@@ -126,17 +148,42 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="email_title_create">E-posta Başlığı</label>
                             <input id="email_title_create" type="text" class="form-control">
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
-                            <label for="file_selector_create">Dosya Seçimi</label>
+                            <label for="file_selector_create">Mail İçerik Dosyası Seçimi</label>
                             <input id="file_selector_create" type="file" class="form-control">
                         </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
+                            <label for="call_file_selector_create">Aranacak Liste Dosyası Seçimi</label>
+                            <input id="call_file_selector_create" type="file" class="form-control">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <h5>Scripte Bağlanacak Yeni Satıcı Oluştur <i class="fa fa-plus-circle text-success ml-4 cursor-pointer" id="createSellecIcon"></i></h5>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <table class="table" id="sellers">
+                            <thead>
+                            <tr>
+                                <th>Yeni Satıcı Kodu</th>
+                                <th>Yeni Satıcı Adı</th>
+                                <th>Yeni Satıcı Ürün Bağlantıları</th>
+                            </tr>
+                            </thead>
+                        </table>
                     </div>
                 </div>
             </div>

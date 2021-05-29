@@ -56,7 +56,7 @@
                                         <div class="d-flex flex-column">
                                             <span class="text-dark font-weight-bold font-size-h6 mb-0 employee-name">{{ ucwords($employee->name) }}</span>
                                             <p>
-                                                <span class="btn btn-pill btn-sm btn-warning m-1" style="font-size: 11px; height: 20px; padding-top: 2px">Eğitim Yetkisi</span>
+                                                <span class="btn btn-pill btn-sm btn-warning m-1" style="font-size: 11px; height: 20px; padding-top: 2px"></span>
                                             </p>
                                         </div>
                                     </div>

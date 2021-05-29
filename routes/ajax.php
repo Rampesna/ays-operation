@@ -34,6 +34,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
     });
 
     Route::prefix('user')->namespace('User')->group(function () {
+        Route::get('index', 'MainController@index')->name('ajax.user.index');
         Route::post('emailControl', 'MainController@emailControl')->name('ajax.emailControl');
         Route::get('usersByCompany', 'MainController@usersByCompany')->name('ajax.user.usersByCompany');
         Route::get('getUserManagementDepartments', 'MainController@getUserManagementDepartments')->name('ajax.user.getUserManagementDepartments');
@@ -82,6 +83,25 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::get('edit', 'CustomReportController@edit')->name('ajax.application.custom-report.edit');
             Route::post('update', 'CustomReportController@update')->name('ajax.application.custom-report.update');
             Route::post('delete', 'CustomReportController@delete')->name('ajax.application.custom-report.delete');
+        });
+
+        Route::prefix('meeting')->namespace('Meeting')->group(function () {
+            Route::get('index', 'MeetingController@index')->name('ajax.application.meeting.index');
+            Route::get('datatable', 'MeetingController@datatable')->name('ajax.application.meeting.datatable');
+            Route::get('show', 'MeetingController@show')->name('ajax.application.meeting.show');
+            Route::post('save', 'MeetingController@save')->name('ajax.application.meeting.save');
+            Route::delete('drop', 'MeetingController@drop')->name('ajax.application.meeting.drop');
+
+            Route::prefix('user')->group(function () {
+                Route::get('index', 'MeetingController@users')->name('ajax.application.meeting.user.index');
+            });
+        });
+
+        Route::prefix('agenda')->namespace('MeetingAgenda')->group(function () {
+            Route::get('datatable', 'MeetingAgendaController@datatable')->name('ajax.application.meeting.agenda.datatable');
+            Route::get('show', 'MeetingAgendaController@show')->name('ajax.application.meeting.agenda.show');
+            Route::post('save', 'MeetingAgendaController@save')->name('ajax.application.meeting.agenda.save');
+            Route::delete('drop', 'MeetingAgendaController@drop')->name('ajax.application.meeting.agenda.drop');
         });
     });
 
@@ -194,6 +214,9 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
         Route::prefix('survey')->group(function () {
             Route::get('getSurveyList', 'SurveyController@getSurveyList')->name('ajax.survey.getSurveyList');
+            Route::get('scriptReportDetail', 'SurveyController@scriptReportDetail')->name('ajax.survey.scriptReportDetail');
+            Route::get('scriptCallReportDetail', 'SurveyController@scriptCallReportDetail')->name('ajax.survey.scriptCallReportDetail');
+            Route::get('scriptRemainingReportDetail', 'SurveyController@scriptRemainingReportDetail')->name('ajax.survey.scriptRemainingReportDetail');
             Route::post('create', 'SurveyController@create')->name('ajax.survey.create');
             Route::get('edit', 'SurveyController@edit')->name('ajax.survey.edit');
             Route::post('update', 'SurveyController@update')->name('ajax.survey.update');

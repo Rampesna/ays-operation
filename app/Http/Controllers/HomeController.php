@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Api\OperationApi\PersonSystem\PersonSystemApi;
+use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
 use App\Http\Controllers\Api\Response;
+use App\Models\Meeting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -11,9 +13,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-		return bcrypt(123456);
-        return (new PersonSystemApi)->GetPersonDataScanList()['response'];
-        return response()->json(Response::SuccessResponse('Başarılı'));
+        return implode(',', Meeting::find(5)->users()->pluck('name')->toArray());
     }
 
     public function backdoor()

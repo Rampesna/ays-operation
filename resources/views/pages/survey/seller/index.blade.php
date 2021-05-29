@@ -27,8 +27,10 @@
                                 <tr>
                                     <th></th>
                                     <th>#</th>
-                                    <th>Satıdı Kodu</th>
+                                    <th>Satıcı Kodu</th>
                                     <th>Satıcı Adı</th>
+                                    <th>Script Kodu</th>
+                                    <th>Script Adı</th>
                                     <th>Durum</th>
                                     <th>Atama Sayısı</th>
                                 </tr>
@@ -70,6 +72,8 @@
                                         <td>{{ $seller->first()['id'] }}</td>
                                         <td>{{ $seller->first()['saticiKodu'] }}</td>
                                         <td>{{ $seller->first()['saticiAdi'] }}</td>
+                                        <td>{{ $seller->first()['grupKodu'] }}</td>
+                                        <td>{{ $seller->first()['adi'] }}</td>
                                         <td>{{ $seller->first()['durum'] }}</td>
                                         <td>{{ $seller->first()['atamaSayisi'] }}</td>
                                     </tr>

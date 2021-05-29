@@ -2,6 +2,43 @@
 <script src="{{ asset('assets/js/pages/crud/datatables/extensions/buttons.js?v=7.0.3') }}"></script>
 
 <script>
+
+    function createRandomCode() {
+        $("#code_create").val(parseInt(Math.floor((Math.random() * 100000) + 10000) / 10) * 10);
+    }
+
+    var createSellecIcon = $("#createSellecIcon");
+    var createSellerButton = $("#createSellerButton");
+    var cancelCreateSellerButton = $("#cancelCreateSellerButton");
+
+    createSellerButton.click(function () {
+        var code = $("#code_create_seller").val();
+        var name = $("#name_create_seller").val();
+        var products = $("#products_create_seller").val();
+
+        sellers.row.add([
+            code,
+            name,
+            products
+        ]).draw(false);
+        $("#CreateSeller").modal('hide');
+        $("#CreateSurvey").fadeIn(250);
+    });
+
+    cancelCreateSellerButton.click(function () {
+        $("#CreateSurvey").fadeIn(250);
+    });
+
+    createSellecIcon.click(function () {
+        $("#CreateSurvey").fadeOut(250);
+
+        $("#code_create_seller").val(null);
+        $("#name_create_seller").val(null);
+        $("#products_create_seller").val([]).selectpicker('refresh');
+
+        $("#CreateSeller").modal('show');
+    });
+
     var surveyList = $('#surveyList').DataTable({
         language: {
             info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
@@ -59,6 +96,36 @@
         select: false
     });
 
+    var sellers = $('#sellers').DataTable({
+        language: {
+            info: "_TOTAL_ Kayıttan _START_ - _END_ Arasındaki Kayıtlar Gösteriliyor.",
+            infoEmpty: "Gösterilecek Hiç Kayıt Yok.",
+            loadingRecords: "Kayıtlar Yükleniyor.",
+            zeroRecords: "Tablo Boş",
+            search: "Arama:",
+            infoFiltered: "(Toplam _MAX_ Kayıttan Filtrelenenler)",
+            lengthMenu: "Sayfa Başı _MENU_ Kayıt Göster",
+            sProcessing: "Yükleniyor...",
+            paginate: {
+                first: "İlk",
+                previous: "Önceki",
+                next: "Sonraki",
+                last: "Son"
+            },
+            select: {
+                rows: {
+                    "_": "%d kayıt seçildi",
+                    "0": "",
+                    "1": "1 kayıt seçildi"
+                }
+            }
+        },
+        dom: 'rtipl',
+
+        responsive: true,
+        select: 'single'
+    });
+
     var createSurveyButton = $("#createSurveyButton");
     var deleteSurveyButton = $("#deleteSurveyButton");
     var updateSurveyButton = $("#updateSurveyButton");
@@ -70,7 +137,18 @@
     var surveySellerConnectionSellerCodeSelector = $("#survey_seller_connection_seller_code");
 
     createSurveyButton.click(function () {
+        $("#loader").fadeIn(250);
         var data = new FormData();
+
+        var selectedRows = sellers.rows();
+        if (selectedRows.count() > 0) {
+            $.each(selectedRows.data(), function (index) {
+                data.append('new_sellers[' + index + '][code]', code = selectedRows.data()[index][0]);
+                data.append('new_sellers[' + index + '][name]', code = selectedRows.data()[index][1]);
+                data.append('new_sellers[' + index + '][products]', code = selectedRows.data()[index][2]);
+            });
+        }
+
         data.append('_token', '{{ csrf_token() }}');
         data.append('code', $("#code_create").val());
         data.append('name', $("#name_create").val());
@@ -87,7 +165,9 @@
         data.append('seller_redirection_type', $("#seller_redirection_type_create").val());
         data.append('email_title', $("#email_title_create").val());
         data.append('job_resource', $("#job_resource_create").val());
+        data.append('status', $("#status_create").val());
         data.append('file', $('#file_selector_create')[0].files[0] ?? null);
+        data.append('call_file', $('#call_file_selector_create')[0].files[0] ?? null);
 
         $.ajax({
             async: false,
@@ -98,11 +178,12 @@
             data: data,
             success: function (response) {
                 if (response.status === 'Tamamlandı') {
-                    toastr.success('Başarıyla Oluşturuldu');
+                    toastr.success('İşlem Tamamlandı!');
                     location.reload();
                 } else {
-                    toastr.error('Bir Hata Oluştu');
+                    toastr.error('Sistemsel Bir Hata Oluştu!');
                     console.log(response)
+                    $("#loader").fadeOut(250);
                 }
             },
             error: function (error) {
@@ -162,6 +243,7 @@
                 $("#email_title_edit").val(survey.epostaBaslik);
                 $("#job_resource_edit").val(survey.uyumCrmIsKaynagi);
                 $("#seller_redirection_type_edit").val(survey.uyumCrmSaticiKoduTurKodu);
+                $("#status_edit").val(survey.durum);
             },
             error: function () {
 
@@ -189,6 +271,7 @@
         data.append('email_title', $("#email_title_edit").val());
         data.append('job_resource', $("#job_resource_edit").val());
         data.append('file', $('#file_selector_edit')[0].files[0] ?? null);
+        data.append('status', $("#status_edit").val());
 
         $.ajax({
             async: false,
@@ -271,4 +354,23 @@
             }
         });
     });
+
+    ////////////////////////////////////////////////////
+
+    var tagsCreate = document.getElementById('tags_create');
+    var tagsEdit = document.getElementById('tags_edit');
+
+    var tagifyCreate = new Tagify(tagsCreate);
+    var tagifyEdit = new Tagify(tagsEdit);
+
+    tagifyCreate.on('add', onAddTagCreate);
+    tagifyEdit.on('add', onAddTagEdit);
+
+    function onAddTagCreate(e) {
+        tagify.off('add', onAddTagCreate) // exmaple of removing a custom Tagify event
+    }
+
+    function onAddTagEdit(e) {
+        tagify.off('add', onAddTagEdit) // exmaple of removing a custom Tagify event
+    }
 </script>

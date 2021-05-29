@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
+    public function index(Request $request)
+    {
+        return response()->json(User::all(), 200);
+    }
+
     public function emailControl(Request $request)
     {
         $user = User::where('email', $request->email)->first();

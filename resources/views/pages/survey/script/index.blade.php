@@ -10,10 +10,11 @@
     @include('pages.survey.script.modals.delete')
 
     @include('pages.survey.script.modals.connect-survey')
+    @include('pages.survey.script.modals.create-seller')
 
     <div class="row">
         <div class="col-xl-12 text-right">
-            <a data-toggle="modal" data-target="#CreateSurvey" class="btn btn-primary">Yeni Oluştur</a>
+            <a onclick="createRandomCode()" data-toggle="modal" data-target="#CreateSurvey" class="btn btn-primary">Yeni Oluştur</a>
         </div>
     </div>
     <hr>
@@ -40,11 +41,13 @@
                                     <th>Arama Planı</th>
                                     <th>Fırsat Satıcıya Yönlendir</th>
                                     <th>Arama Planı Satıcıya Yönlendir</th>
+                                    <th>Oluşturulma Tarihi</th>
+                                    <th>Durum</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($surveyList as $survey)
-                                    <tr id="row_id_{{ $survey['id'] }}">
+                                    <tr id="row_id_{{ @$survey['id'] }}">
                                         <td>
                                             <div class="dropdown dropdown-inline">
                                                 <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -53,7 +56,7 @@
                                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                     <ul class="navi navi-hover">
                                                         <li class="navi-item">
-                                                            <a data-code="{{ $survey['kodu'] }}"
+                                                            <a data-code="{{ @$survey['kodu'] }}"
                                                                data-toggle="modal"
                                                                data-target="#ConnectSurvey"
                                                                class="navi-link cursor-pointer connect-survey">
@@ -64,18 +67,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="navi-item">
-                                                            <a data-code="{{ $survey['kodu'] }}"
-                                                               data-toggle="modal"
-                                                               data-target="#ConnectSeller"
-                                                               class="navi-link cursor-pointer connect-seller">
-                                                                    <span class="navi-icon">
-                                                                        <i class="fa fa-user-alt text-primary"></i>
-                                                                    </span>
-                                                                <span class="navi-text">Satıcı Bağla</span>
-                                                            </a>
-                                                        </li>
-                                                        <li class="navi-item">
-                                                            <a href="{{ route('surveys.questions', ['code' => $survey['kodu']]) }}"
+                                                            <a href="{{ route('surveys.questions', ['code' => @$survey['kodu']]) }}"
                                                                target="_blank"
                                                                class="navi-link cursor-pointer">
                                                                     <span class="navi-icon">
@@ -84,9 +76,19 @@
                                                                 <span class="navi-text">Sorular</span>
                                                             </a>
                                                         </li>
+                                                        <li class="navi-item">
+                                                            <a href="{{ route('surveys.report.show', ['code' => @$survey['kodu'], 'name' => $survey['adi']]) }}"
+                                                               target="_blank"
+                                                               class="navi-link cursor-pointer">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-chart-bar text-dark-75"></i>
+                                                                    </span>
+                                                                <span class="navi-text">Rapor</span>
+                                                            </a>
+                                                        </li>
                                                         <hr>
                                                         <li class="navi-item">
-                                                            <a data-id="{{ $survey['id'] }}"
+                                                            <a data-id="{{ @$survey['id'] }}"
                                                                data-toggle="modal"
                                                                data-target="#EditSurvey"
                                                                class="navi-link cursor-pointer edit">
@@ -97,7 +99,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="navi-item">
-                                                            <a data-id="{{ $survey['id'] }}"
+                                                            <a data-id="{{ @$survey['id'] }}"
                                                                data-toggle="modal"
                                                                data-target="#DeleteSurvey"
                                                                class="navi-link cursor-pointer delete">
@@ -111,19 +113,21 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td>{{ $survey['id'] }}</td>
-                                        <td>{{ $survey['kodu'] }}</td>
-                                        <td>{{ $survey['adi'] }}</td>
-                                        <td>{{ $survey['uyumCrmCagriNedeni'] }}</td>
-                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ $survey['aciklama'] }}</textarea></td>
-                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ $survey['musteriBilgilendirme'] }}</textarea></td>
-                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ $survey['musteriBilgilendirme2'] }}</textarea></td>
-                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ $survey['uyumCrmHizmetUrun'] }}</textarea></td>
-                                        <td>{{ $survey['uyumCrmFirsat'] == 1 ? 'Evet' : 'Hayır' }}</td>
-                                        <td>{{ $survey['uyumCrmCagri'] == 1 ? 'Evet' : 'Hayır' }}</td>
-                                        <td>{{ $survey['uyumCrmAramaPlani'] == 1 ? 'Evet' : 'Hayır' }}</td>
-                                        <td>{{ $survey['uyumCrmFirsatSaticiyaYonlendir'] == 1 ? 'Evet' : 'Hayır' }}</td>
-                                        <td>{{ $survey['uyumCrmAramaPlaniSaticiyaYonlendir'] == 1 ? 'Evet' : 'Hayır' }}</td>
+                                        <td>{{ @$survey['id'] }}</td>
+                                        <td>{{ @$survey['kodu'] }}</td>
+                                        <td>{{ @$survey['adi'] }}</td>
+                                        <td>{{ @$survey['uyumCrmCagriNedeni'] }}</td>
+                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ @$survey['aciklama'] }}</textarea></td>
+                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ @$survey['musteriBilgilendirme'] }}</textarea></td>
+                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ @$survey['musteriBilgilendirme2'] }}</textarea></td>
+                                        <td><textarea class="form-control" rows="2" style="width: 240px" disabled>{{ @$survey['uyumCrmHizmetUrun'] }}</textarea></td>
+                                        <td>{{ @$survey['uyumCrmFirsat'] == 1 ? 'Evet' : 'Hayır' }}</td>
+                                        <td>{{ @$survey['uyumCrmCagri'] == 1 ? 'Evet' : 'Hayır' }}</td>
+                                        <td>{{ @$survey['uyumCrmAramaPlani'] == 1 ? 'Evet' : 'Hayır' }}</td>
+                                        <td>{{ @$survey['uyumCrmFirsatSaticiyaYonlendir'] == 1 ? 'Evet' : 'Hayır' }}</td>
+                                        <td>{{ @$survey['uyumCrmAramaPlaniSaticiyaYonlendir'] == 1 ? 'Evet' : 'Hayır' }}</td>
+                                        <td>{{ @$survey['durum'] }}</td>
+                                        <td>{{ @$survey['tarih'] }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

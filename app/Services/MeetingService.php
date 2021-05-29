@@ -14,7 +14,7 @@ class MeetingService
         $this->meeting = $meeting;
     }
 
-    public function store(Request $request)
+    public function save(Request $request)
     {
         $this->meeting->company_id = $request->company_id;
         $this->meeting->creator_id = $request->creator_id;
@@ -27,7 +27,7 @@ class MeetingService
         $this->meeting->link = $request->link;
         $this->meeting->save();
 
-        $this->meeting->employees()->sync($request->employees);
+//        $this->meeting->employees()->sync($request->employees);
         $this->meeting->users()->sync($request->users);
 
         return $this->meeting;
