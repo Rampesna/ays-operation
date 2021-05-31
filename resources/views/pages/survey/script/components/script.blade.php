@@ -252,6 +252,9 @@
     });
 
     updateSurveyButton.click(function () {
+        $("#EditSurvey").modal('hide');
+        $("#loader").fadeIn(250);
+        toastr.info('İşlem Yapılıyor Lütfen Bekleyin!');
         var data = new FormData();
         data.append('_token', '{{ csrf_token() }}');
         data.append('id', $("#id_edit").val());
@@ -272,27 +275,31 @@
         data.append('job_resource', $("#job_resource_edit").val());
         data.append('file', $('#file_selector_edit')[0].files[0] ?? null);
         data.append('status', $("#status_edit").val());
+        data.append('call_file', $('#call_file_selector_edit')[0].files[0] ?? null);
 
-        $.ajax({
-            async: false,
-            processData: false,
-            contentType: false,
-            type: 'post',
-            url: '{{ route('ajax.survey.update') }}',
-            data: data,
-            success: function (response) {
-                if (response.status === 'Tamamlandı') {
-                    toastr.success('Başarıyla Güncellendi');
-                    location.reload();
-                } else {
-                    toastr.error('Bir Hata Oluştu');
-                    console.log(response)
+        setTimeout(function(){
+            $.ajax({
+                async: false,
+                processData: false,
+                contentType: false,
+                type: 'post',
+                url: '{{ route('ajax.survey.update') }}',
+                data: data,
+                success: function (response) {
+                    if (response.status === 'Tamamlandı') {
+                        toastr.success('Başarıyla Güncellendi');
+                        location.reload();
+                    } else {
+                        $("#loader").fadeOut(250);
+                        toastr.error('Bir Hata Oluştu!');
+                        console.log(response)
+                    }
+                },
+                error: function (error) {
+                    console.log(error)
                 }
-            },
-            error: function (error) {
-                console.log(error)
-            }
-        });
+            });
+        },2000);
     });
 
     $(document).delegate(".delete", "click", function () {

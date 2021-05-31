@@ -81,7 +81,30 @@ class SurveyController extends Controller
     public function update(Request $request)
     {
         try {
-            $response = (new SurveySystemApi)->SetSurvey($request);
+            $callList = [];
+            if ($request->hasFile('call_file')) {
+                if ($request->file('call_file')->getClientMimeType() == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+                    $name = date('Ymd_His');
+                    $file = $request->file('call_file');
+                    $fileName = $name . '-' . $file->getClientOriginalName();
+                    $path = public_path('/integration/excel-data/');
+                    $file->move($path, $fileName);
+
+                    $excel = new Excel();
+                    $excel->load($path . $fileName);
+                    $collection = $excel->getCollection();
+
+                    foreach ($collection as $data) {
+                        if (gettype($data[0]) == 'integer') {
+                            $callList[] = [
+                                'cariId' => $data[0]
+                            ];
+                        }
+                    }
+                }
+            }
+
+            $response = (new SurveySystemApi)->SetSurvey($request, $callList);
             return response()->json([
                 'status' => 'Tamamlandı',
                 'response' => $response->body()

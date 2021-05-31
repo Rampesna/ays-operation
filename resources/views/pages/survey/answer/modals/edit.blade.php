@@ -35,7 +35,7 @@
                 <div class="row">
                     <div class="col-xl-12">
                         <div class="form-group">
-                            <label for="questions_edit">Sorular</label>
+                            <label for="questions_edit">Cevaba Bağlanılacak Alt Sorular</label>
                             <select id="questions_edit" class="form-control selectpicker" data-live-search="true" multiple>
 
                             </select>
@@ -48,6 +48,25 @@
                             <label for="products_edit">Ürünler</label>
                             <select id="products_edit" class="form-control selectpicker" data-live-search="true" multiple>
 
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-xl-12">
+                        <div class="form-group">
+                            <label for="columns_edit">Zorunlu Kolon Adları</label>
+                            <select id="columns_edit" class="form-control selectpicker" data-live-search="true" multiple>
+                                <option value="RandevuNotu">Randevu Notu Alanı</option>
+                                <option value="SeciliSehir">Şehir Alanı</option>
+                                <option value="SeciliIlce">İlçe Alanı</option>
+                                <option value="Email">E-Mail Alanı</option>
+                                <option value="YetkiliTel">Yetkili Telefon Alanı</option>
+                                <option value="MaliMusavirTel">Mali Müşavir Telefon Alanı</option>
+                                <option value="TicariYazilimAdi">Ticari Yazılım Alanı</option>
+                                <option value="EntegratorKodu">Entegratör Adı Alanı</option>
+                                <option value="KvkkIysIzni">Kvkk ve İys İzni Alanı</option>
                             </select>
                         </div>
                     </div>

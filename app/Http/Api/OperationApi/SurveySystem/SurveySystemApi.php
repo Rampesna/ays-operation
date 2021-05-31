@@ -272,7 +272,8 @@ class SurveySystemApi extends OperationApi
             'id' => $request->id,
             'anketSorularId' => $request->question_id,
             'cevap' => $request->answer,
-            'siraNo' => $request->order_number
+            'siraNo' => $request->order_number,
+            'zorunluKolonAdlari' => implode(';', $request->columns)
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);

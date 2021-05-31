@@ -129,6 +129,7 @@
         var groups = $("#groups_create").val();
         var questions = $("#questions_create").val();
         var products = $("#products_create").val();
+        var columns = $("#columns_create").val();
         var question_id = '{{ $questionId }}';
 
         $.ajax({
@@ -141,7 +142,8 @@
                 question_id: question_id,
                 groups: groups,
                 questions: questions,
-                products: products
+                products: products,
+                columns: columns
             },
             success: function (response) {
                 if (response.status === 'Tamamlandı') {
@@ -169,12 +171,15 @@
                 id: id
             },
             success: function (response) {
+                console.log(response)
                 $("#answer_edit").val(response.answer.cevap);
                 $("#order_number_edit").val(response.answer.siraNo);
                 tagify2.removeAllTags();
                 $.each(response.groups, function (index) {
                     tagify2.addTags([`${response.groups[index].kategori}`]);
                 });
+
+                $("#columns_edit").val(response.answer.zorunluKolonAdlari.split(";")).selectpicker('refresh');
 
                 var questionsList = [];
                 var productsList = [];
@@ -204,6 +209,7 @@
         var groups = $("#groups_edit").val();
         var questions = $("#questions_edit").val();
         var products = $("#products_edit").val();
+        var columns = $("#columns_edit").val();
         var question_id = '{{ $questionId }}';
 
         $.ajax({
@@ -218,6 +224,7 @@
                 groups: groups,
                 questions: questions,
                 products: products,
+                columns: columns,
                 code: '{{ $surveyCode }}'
             },
             success: function (response) {
