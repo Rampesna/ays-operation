@@ -460,6 +460,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             });
             Route::get('index', 'MeetingController@index')->name('applications.meeting.index');
             Route::get('show/{id?}/{tab?}', 'MeetingController@show')->name('applications.meeting.show');
+            Route::get('download', 'MeetingController@download')->name('applications.meeting.download');
         });
 
         Route::prefix('agenda')->namespace('MeetingAgenda')->group(function () {

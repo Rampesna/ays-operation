@@ -77,6 +77,13 @@
                     </div>
                 </div>
             </a>
+            <a onclick="downloadMeeting()" class="dropdown-item cursor-pointer">
+                <div class="row">
+                    <div class="col-xl-12">
+                        <i class="fas fa-download text-warning"></i><span class="ml-4">İndir</span>
+                    </div>
+                </div>
+            </a>
             <a onclick="drop()" class="dropdown-item cursor-pointer">
                 <div class="row">
                     <div class="col-xl-12">

@@ -28,14 +28,14 @@
                         <td>
                             <div class="font-15">
                                 <strong>
-                                    <a href="{{ route('ik.employee.show', ['id' => $position->employee->id, 'tab' => 'general']) }}" class="cursor-pointer">
-                                        {{ $position->employee->name }}
+                                    <a href="{{ route('ik.employee.show', ['id' => @$position->employee->id ?? 0, 'tab' => 'general']) }}" class="cursor-pointer">
+                                        {{ @$position->employee->name }}
                                     </a>
                                 </strong>
                             </div>
                         </td>
-                        <td><span>{{ $position->company->name }}</span></td>
-                        <td data-sort="{{ $position->start_date }}">{{ date('d/m/Y', strtotime($position->start_date)) }}</td>
+                        <td><span>{{ @$position->company->name }}</span></td>
+                        <td data-sort="{{ @$position->start_date }}">{{ @date('d/m/Y', strtotime($position->start_date)) }}</td>
                     </tr>
                 @endforeach
                 </tbody>

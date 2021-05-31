@@ -259,6 +259,10 @@
         window.open('{{ route('applications.meeting.show') }}/' + id + '/index', '_blank');
     }
 
+    function downloadMeeting() {
+        window.open('{{ route('applications.meeting.download') }}?id=' + $("#id_edit").val(), '_self');
+    }
+
     function drop() {
         $("#DeleteModal").modal('show');
     }

@@ -8,11 +8,12 @@ use Illuminate\Http\Request;
 
 class SurveyQuestionController extends Controller
 {
-    public function Index($code)
+    public function Index(Request $request)
     {
         return view('pages.survey.question.index', [
-            'questions' => (new SurveySystemApi)->GetSurveyQuestionsList($code)['response'] ?? [],
-            'surveyCode' => $code
+            'questions' => (new SurveySystemApi)->GetSurveyQuestionsList($request->code)['response'] ?? [],
+            'surveyCode' => $request->code,
+            'surveyName' => $request->name,
         ]);
     }
 

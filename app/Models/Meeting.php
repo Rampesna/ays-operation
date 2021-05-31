@@ -28,4 +28,9 @@ class Meeting extends Model
     {
         return $this->morphedByMany(Employee::class, 'relation', 'meeting_relations');
     }
+
+    public function agendas()
+    {
+        return $this->hasMany(MeetingAgenda::class);
+    }
 }

@@ -10,7 +10,10 @@
     @include('pages.survey.question.modals.delete')
 
     <div class="row">
-        <div class="col-xl-12 text-right">
+        <div class="col-xl-6">
+            {{ $surveyName }} - Sorular
+        </div>
+        <div class="col-xl-6 text-right">
             <a data-toggle="modal" data-target="#CreateQuestion" class="btn btn-primary">Yeni Oluştur</a>
         </div>
     </div>
@@ -45,7 +48,7 @@
                                                     <ul class="navi navi-hover">
                                                         @if($question['soruTurKodu'] == 3 || $question['soruTurKodu'] == 4)
                                                             <li class="navi-item">
-                                                                <a href="{{ route('surveys.answers', ['id' => $question['id'], 'surveyCode' => $question['grupKodu']]) }}"
+                                                                <a href="{{ route('surveys.answers', ['id' => $question['id'], 'surveyCode' => $question['grupKodu'], 'surveyName' => $surveyName, 'questionName' => $question['soru']]) }}"
                                                                    target="_blank"
                                                                    data-id="{{ $question['id'] }}"
                                                                    class="navi-link cursor-pointer">

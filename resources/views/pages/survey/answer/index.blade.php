@@ -10,7 +10,10 @@
     @include('pages.survey.answer.modals.delete')
 
     <div class="row">
-        <div class="col-xl-12 text-right">
+        <div class="col-xl-6">
+            {{ $surveyName }} / {{ $questionName }} - Cevaplar
+        </div>
+        <div class="col-xl-6 text-right">
             <a data-toggle="modal" data-target="#CreateAnswer" class="btn btn-primary">Yeni Oluştur</a>
         </div>
     </div>

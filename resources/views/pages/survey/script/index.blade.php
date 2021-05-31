@@ -67,7 +67,7 @@
                                                             </a>
                                                         </li>
                                                         <li class="navi-item">
-                                                            <a href="{{ route('surveys.questions', ['code' => @$survey['kodu']]) }}"
+                                                            <a href="{{ route('surveys.questions', ['code' => @$survey['kodu'], 'name' => $survey['adi']]) }}"
                                                                target="_blank"
                                                                class="navi-link cursor-pointer">
                                                                     <span class="navi-icon">

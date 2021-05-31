@@ -5,6 +5,7 @@ namespace App\Http\Controllers\UserPanel\Application\Meeting;
 use App\Models\Meeting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class MeetingController extends Controller
 {
@@ -23,5 +24,12 @@ class MeetingController extends Controller
         } catch (\Exception $exception) {
             return abort(404);
         }
+    }
+
+    public function download(Request $request)
+    {
+        return PDF::loadView('documents.meeting', [
+            'meeting' => Meeting::find($request->id)
+        ], [], 'UTF-8')->download(Meeting::find($request->id)->name . ' - Toplantı Detayları.pdf');
     }
 }
