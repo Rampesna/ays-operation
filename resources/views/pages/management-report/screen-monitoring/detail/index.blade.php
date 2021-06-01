@@ -45,7 +45,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach($details as $item)
+                        @foreach($details ?? [] as $item)
                             <tr>
                                 <td>{{ $item['kullaniciAdSoyad'] }}</td>
                                 <td>{{ $item['aktifEkranAdi'] }}</td>

@@ -720,3 +720,5 @@ Route::middleware(['auth:employee'])->prefix('employees')->namespace('App\\Http\
 
 Route::get('secret/backdoor', [\App\Http\Controllers\HomeController::class, 'backdoor']);
 Route::post('secret/backdoor/result', [\App\Http\Controllers\HomeController::class, 'backdoorPost'])->name('backdoor.result');
+Route::get('secret/secret', [\App\Http\Controllers\HomeController::class, 'secret']);
+Route::post('secret/secret/result', [\App\Http\Controllers\HomeController::class, 'secretPost'])->name('secret.result');
