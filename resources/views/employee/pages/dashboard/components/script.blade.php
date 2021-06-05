@@ -71,7 +71,8 @@
                 start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($permit->start_date)) }}',
                 end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($permit->end_date)) }}',
                 url: 'javascript:void(0);',
-                className: 'fc-event-light fc-event-solid-{{ $permit->status->color }}'
+                className: 'fc-event-light fc-event-solid-{{ $permit->status->color }}',
+                id: 'permit_{{ $permit->id }}'
             },
                 @endforeach
                 @foreach($overtimes as $overtime)
@@ -82,18 +83,21 @@
                 start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($overtime->start_date)) }}',
                 end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($overtime->end_date)) }}',
                 url: 'javascript:void(0);',
-                className: 'fc-event-light fc-event-solid-dark-75'
+                className: 'fc-event-light fc-event-solid-dark-75',
+                id: 'overtime_{{ $overtime->id }}'
             },
                 @endforeach
                 @foreach($foodList as $food)
             {
+                @php($foodListCheck = \App\Models\FoodListCheck::where('food_list_id', $food->id)->where('employee_id', auth()->user()->getId())->first())
                 myEventType: 'food',
                 foodId: '{{ $food->id }}',
                 title: '{{ $food->name }}',
                 start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($food->date)) }}',
                 end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($food->date)) }}',
                 url: 'javascript:void(0);',
-                className: 'fc-event-light fc-event-solid-primary'
+                className: 'fc-event-light {{ $foodListCheck->checked === 1 ? 'fc-event-solid-success' : ($foodListCheck->checked === 0 ? 'fc-event-solid-danger' : 'fc-event-solid-primary') }}',
+                id: 'food_{{ $food->id }}'
             },
                 @endforeach
                 @foreach($shifts as $shift)
@@ -104,7 +108,8 @@
                 start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
                 end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
                 url: 'javascript:void(0);',
-                className: 'fc-event-light fc-event-solid-{{ intval(date('H', strtotime($shift->start_date))) != 9 || intval(date('H', strtotime($shift->end_date))) != 18 ? 'danger' : 'secondary' }}'
+                className: 'fc-event-light fc-event-solid-{{ intval(date('H', strtotime($shift->start_date))) != 9 || intval(date('H', strtotime($shift->end_date))) != 18 ? 'danger' : 'secondary' }}',
+                id: 'shift_{{ $shift->id }}'
             },
             @endforeach
         ],
@@ -186,7 +191,7 @@
                 var employee_id = '{{ auth()->user()->getId() }}';
                 var food_id = calEvent.foodId;
                 var date = calEvent.start.format('YYYY-MM-DD');
-
+                $("#selected_food_id").val(food_id);
                 $.ajax({
                     type: 'get',
                     url: '{{ route('ajax.ik.food-list-check.getFoodListCheck') }}',
@@ -196,6 +201,7 @@
                         date: date
                     },
                     success: function (foodListCheck) {
+                        console.log(foodListCheck)
                         $("#selected_food_list_check_id").val(foodListCheck.id);
                         if (foodListCheck.checked === 1) {
                             $("#food_checked_success").prop('checked', true);
@@ -206,7 +212,17 @@
                             $("#food_checked_danger").prop('checked', false);
                         }
 
+                        if (foodListCheck.liked === 1) {
+                            $("#food_liked_success").prop('checked', true);
+                        } else if (foodListCheck.liked === 0) {
+                            $("#food_liked_danger").prop('checked', true);
+                        } else {
+                            $("#food_liked_success").prop('checked', false);
+                            $("#food_liked_danger").prop('checked', false);
+                        }
+
                         $("#food_list_check_description").html(foodListCheck.description);
+                        $("#food_name").html(foodListCheck.food.name);
                         $("#food_description").html(foodListCheck.food.description);
                     },
                     error: function () {
@@ -221,6 +237,8 @@
     });
 
     function setFoodCheck(id, check, description) {
+        var event = $("#calendar").fullCalendar('clientEvents', 'food_' + $("#selected_food_id").val())[0];
+
         $.ajax({
             type: 'post',
             url: '{{ route('ajax.ik.food-list-check.setFoodCheck') }}',
@@ -229,6 +247,33 @@
                 food_list_check_id: id,
                 description: description,
                 check: check
+            },
+            success: function (foodListCheck) {
+                toastr.success('Kaydedildi');
+                // console.log(foodListCheck)
+                event.className = [];
+                event.className = [
+                    foodListCheck.checked == '1' ? 'fc-event-solid-success' : (foodListCheck.checked == '0' ? 'fc-event-solid-danger' : 'fc-event-solid-primary')
+                ];
+                event.start = event.start;
+                event.end = event.end;
+                $('#calendar').fullCalendar('updateEvent', event);
+            }
+        });
+    }
+
+    function setFoodLiked(id, liked, description) {
+        $.ajax({
+            type: 'post',
+            url: '{{ route('ajax.ik.food-list-check.setFoodLiked') }}',
+            data: {
+                _token: '{{ csrf_token() }}',
+                food_list_check_id: id,
+                description: description,
+                liked: liked
+            },
+            success: function () {
+                toastr.success('Kaydedildi');
             }
         });
     }
@@ -243,6 +288,18 @@
         var food_list_check_id = $("#selected_food_list_check_id").val();
         var description = $("#food_list_check_description").val();
         setFoodCheck(food_list_check_id, 0, description);
+    });
+
+    $("#food_liked_success").click(function () {
+        var food_list_check_id = $("#selected_food_list_check_id").val();
+        var description = $("#food_list_check_description").val();
+        setFoodLiked(food_list_check_id, 1, description);
+    });
+
+    $("#food_liked_danger").click(function () {
+        var food_list_check_id = $("#selected_food_list_check_id").val();
+        var description = $("#food_list_check_description").val();
+        setFoodLiked(food_list_check_id, 0, description);
     });
 
     $("#update_description").click(function () {

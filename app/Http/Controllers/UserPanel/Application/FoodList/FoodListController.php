@@ -40,7 +40,7 @@ class FoodListController extends Controller
             $foodListCheckService = new FoodListCheckService;
             $foodListCheckService->setFoodListCheck(new FoodListCheck);
             foreach ($todayShiftEmployees as $todayShiftEmployee) {
-                $checked = $employee->email == $todayShiftEmployee['user']['email'] ? 0 : 0;
+                $checked = $employee->email == $todayShiftEmployee['user']['email'] ? 0 : null;
                 $locked = $employee->email == $todayShiftEmployee['user']['email'] ? 1 : 0;
                 $description = $employee->email == $todayShiftEmployee['user']['email'] ? 'Personel Nöbetçi Olduğu İçin Sistem Tarafından Yemeyecek Olarak Ayarlandı.' : null;
             }

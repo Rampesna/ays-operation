@@ -272,6 +272,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::prefix('food')->group(function () {
                 Route::get('getFoodListCheck', 'FoodListCheckController@getFoodListCheck')->name('ajax.ik.food-list-check.getFoodListCheck');
                 Route::post('setFoodCheck', 'FoodListCheckController@setFoodCheck')->name('ajax.ik.food-list-check.setFoodCheck');
+                Route::post('setFoodLiked', 'FoodListCheckController@setFoodLiked')->name('ajax.ik.food-list-check.setFoodLiked');
             });
 
             Route::prefix('permit')->group(function () {

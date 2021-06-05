@@ -38,6 +38,9 @@ class FoodListController extends Controller
         foreach ($employees as $employee) {
             $foodListCheckService = new FoodListCheckService;
             $foodListCheckService->setFoodListCheck(new FoodListCheck);
+            $checked = null;
+            $locked = null;
+            $description = null;
             foreach ($todayShifts as $todayShift) {
                 $checked = $employee->id == $todayShift->employee->id ? 0 : 0;
                 $locked = $employee->id == $todayShift->employee->id ? 1 : 0;

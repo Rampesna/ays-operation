@@ -23,5 +23,17 @@ class FoodListCheckController extends Controller
         !is_null($request->get('check')) ? $foodListCheck->checked = $request->get('check') : null;
         $foodListCheck->description = $request->description;
         $foodListCheck->save();
+
+        return $foodListCheck;
+    }
+
+    public function setFoodLiked(Request $request)
+    {
+        $foodListCheck = FoodListCheck::find($request->food_list_check_id);
+        !is_null($request->get('liked')) ? $foodListCheck->liked = $request->get('liked') : null;
+        $foodListCheck->description = $request->description;
+        $foodListCheck->save();
+
+        return $foodListCheck;
     }
 }

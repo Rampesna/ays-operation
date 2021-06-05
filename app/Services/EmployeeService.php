@@ -111,12 +111,13 @@ class EmployeeService
         return response()->json('success', 200);
     }
 
-    public function store(Employee $employee, $request, $guid = 0)
+    public function store(Employee $employee, $request, $guid = 0, $creating = 0)
     {
         $employee->guid = $guid;
         $employee->company_id = $request->company_id;
         $employee->name = $request->name;
         $employee->email = $request->email;
+        $employee->password = $creating == 1 ? bcrypt('123') : null;
         $employee->phone_number = $request->phone_number;
         $employee->identification_number = $request->identification_number;
         $employee->extension_number = $request->extension_number;

@@ -15,28 +15,32 @@
                             <th>Tarih</th>
                             <th>Yemek Adı</th>
                             <th>Açıklamalar</th>
-                            <th>Yiyecek Kişi Sayısı</th>
-                            <th>Yiyecek Kişiler</th>
-                            <th>Yemeyecek Kişi Sayısı</th>
-                            <th>Yemeyecek Kişiler</th>
-                            <th>Cevap Vermeyen Kişi Sayısı</th>
+                            <th>Yiyecek Sayı</th>
+                            <th>Yiyecekler</th>
+                            <th>Yemeyecek Sayı</th>
+                            <th>Yemeyecekler</th>
+                            <th>Cevap Vermeyen Sayı</th>
+                            <th>Beğenen Sayı</th>
+                            <th>Beğenenmeyen Sayı</th>
                         </tr>
                         </thead>
                         <tbody>
                         @foreach($foodList as $food)
                             <tr>
-                                <td><a href="{{ route('ik.applications.food-list.report-detail', ['date' => $food->date]) }}" target="_blank">{{ @$food->date }}</a></td>
+                                <td data-sort="{{ date('Y-m-d', strtotime($food->date)) }}"><a href="{{ route('ik.applications.food-list.report-detail', ['date' => $food->date]) }}" target="_blank">{{ @date('d.m.Y', strtotime($food->date)) }}</a></td>
                                 <td>{{ @$food->name }}</td>
                                 <td><textarea class="form-control" rows="2" disabled>{{ $food->description }}</textarea></td>
                                 <td>{{ @$food->foodListChecks()->where('checked', 1)->count() }}</td>
                                 <td>
-                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 1)->get() as $foodListCheck){{ @ucwords($foodListCheck->employee->name) . ' ' . @strtoupper($foodListCheck->employee->surname) }}@endforeach</textarea>
+                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 1)->get() as $foodListCheck){{ @ucwords($foodListCheck->employee->name) . ', ' }}@endforeach</textarea>
                                 </td>
                                 <td>{{ @$food->foodListChecks()->where('checked', 0)->count() }}</td>
                                 <td>
-                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 0)->get() as $foodListCheck){{ @ucwords($foodListCheck->employee->name) . ' ' . @strtoupper($foodListCheck->employee->surname) }}@endforeach</textarea>
+                                    <textarea class="form-control" disabled>@foreach($food->foodListChecks()->with('employee')->where('checked', 0)->get() as $foodListCheck){{ @ucwords($foodListCheck->employee->name) . ', ' }}@endforeach</textarea>
                                 </td>
                                 <td>{{ @$food->foodListChecks()->where('checked', null)->count() }}</td>
+                                <td>{{ @$food->foodListChecks()->where('liked', 1)->count() }}</td>
+                                <td>{{ @$food->foodListChecks()->where('liked', 0)->count() }}</td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -165,28 +169,48 @@
 
         const apexChart = "#chart_3";
         var options = {
-            series: [{
+            series: [
+                {
                 name: 'Yiyecekler',
                 data: [
                     @foreach($foodList as $food)
                     {{ $food->foodListChecks()->where('checked', 1)->count() }}{{ $loop->last ? null : ',' }}
                     @endforeach
                 ]
-            }, {
+            },
+                {
                 name: 'Yemeyecekler',
                 data: [
                     @foreach($foodList as $food)
                     {{ $food->foodListChecks()->where('checked', 0)->count() }}{{ $loop->last ? null : ',' }}
                     @endforeach
                 ]
-            }, {
+            },
+                {
                 name: 'Cevap Vermeyenler',
                 data: [
                     @foreach($foodList as $food)
                     {{ $food->foodListChecks()->where('checked', null)->count() }}{{ $loop->last ? null : ',' }}
                     @endforeach
                 ]
-            }],
+            },
+                {
+                name: 'Beğenenler',
+                data: [
+                    @foreach($foodList as $food)
+                    {{ $food->foodListChecks()->where('liked', 1)->count() }}{{ $loop->last ? null : ',' }}
+                    @endforeach
+                ]
+            },
+                {
+                name: 'Beğenmeyenler',
+                data: [
+                    @foreach($foodList as $food)
+                    {{ $food->foodListChecks()->where('liked', 0)->count() }}{{ $loop->last ? null : ',' }}
+                    @endforeach
+                ]
+            }
+            ],
             chart: {
                 type: 'bar',
                 height: 350
@@ -228,7 +252,7 @@
                     }
                 }
             },
-            colors: [success, danger, warning]
+            colors: [success, danger, warning, primary, info]
         };
 
         var chart = new ApexCharts(document.querySelector(apexChart), options);

@@ -6,6 +6,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
                 <button type="button" id="update_description" class="btn btn-success">Güncelle</button>
             </div>
+            <input type="hidden" id="selected_food_id">
             <input type="hidden" id="selected_food_list_check_id">
             <div class="modal-body">
                 <div class="row text-center">
@@ -17,6 +18,19 @@
                     <div class="col-6 pb-4 pt-4">
                         <label class="radio radio-outline radio-outline-2x radio-danger">
                             <input id="food_checked_danger" name="checked" type="radio" />Yemeyeceğim
+                            <span></span></label>
+                    </div>
+                </div>
+                <hr>
+                <div class="row text-center">
+                    <div class="col-6 border-right pb-4 pt-4">
+                        <label class="radio radio-outline radio-outline-2x radio-success">
+                            <input id="food_liked_success" name="liked" type="radio" />Beğendim
+                            <span></span></label>
+                    </div>
+                    <div class="col-6 pb-4 pt-4">
+                        <label class="radio radio-outline radio-outline-2x radio-danger">
+                            <input id="food_liked_danger" name="liked" type="radio" />Beğenmedim
                             <span></span></label>
                     </div>
                 </div>
