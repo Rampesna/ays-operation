@@ -157,7 +157,7 @@
                     </div>
                     <div class="col-xl-4">
                         <div class="form-group">
-                            <label for="file_selector_edit">Mail İçerik Dosyası Seçimi</label>
+                            <label for="file_selector_edit">Mail İçerik Dosyası Seçimi</label> <span id="file_selector_edit_control"></span>
                             <input id="file_selector_edit" type="file" class="form-control">
                         </div>
                     </div>

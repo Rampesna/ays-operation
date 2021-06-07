@@ -244,6 +244,7 @@
                 $("#job_resource_edit").val(survey.uyumCrmIsKaynagi);
                 $("#seller_redirection_type_edit").val(survey.uyumCrmSaticiKoduTurKodu);
                 $("#status_edit").val(survey.durum);
+                $("#file_selector_edit_control").html(survey.epostaIcerik !== '' || survey.epostaIcerik != null ? '(İçerik Dolu)' : '(İçerik Boş)');
             },
             error: function () {
 

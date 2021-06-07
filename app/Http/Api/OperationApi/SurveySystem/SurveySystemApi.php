@@ -207,7 +207,7 @@ class SurveySystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
     }
 
-    public function SetSurvey(Request $request, $callList)
+    public function SetSurvey(Request $request, $callList = [])
     {
         $endpoint = "SurveySystem/SetSurvey";
         $headers = [
@@ -268,12 +268,15 @@ class SurveySystemApi extends OperationApi
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
+        $zorunluKolonAdlari = '';
+        $request->columns ? $zorunluKolonAdlari = implode(';', $request->columns ?? '') : null;
+
         $params = [
             'id' => $request->id,
             'anketSorularId' => $request->question_id,
             'cevap' => $request->answer,
             'siraNo' => $request->order_number,
-            'zorunluKolonAdlari' => implode(';', $request->columns)
+            'zorunluKolonAdlari' => $zorunluKolonAdlari
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params);
