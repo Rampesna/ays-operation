@@ -14,6 +14,11 @@ class SurveyQuestionController extends Controller
         return response()->json((new SurveySystemApi)->GetSurveyQuestionsList($request->code)['response'], 200);
     }
 
+    public function questionListForDiagram(Request $request)
+    {
+
+    }
+
     public function create(Request $request)
     {
         try {

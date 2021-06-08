@@ -61,6 +61,8 @@
             }
         ],
 
+        order: [[ 3, "asc" ]],
+
         responsive: true,
         select: false
     });

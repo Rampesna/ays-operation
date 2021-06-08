@@ -43,6 +43,8 @@
             }
         ],
 
+        order: [[ 5, "asc" ]],
+
         responsive: true,
         select: false
     });

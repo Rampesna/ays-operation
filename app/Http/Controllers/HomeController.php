@@ -16,7 +16,9 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        return Permit::where('employee_id', 160)->get();
+        return view('pages.survey.script.diagram.index', [
+            'survey' => (new SurveySystemApi)->GetSurveyEdit(44)['response'][0]
+        ]);
     }
 
     public function backdoor()

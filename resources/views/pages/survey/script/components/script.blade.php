@@ -233,8 +233,8 @@
                 $("#service_or_product_edit").val(survey.uyumCrmHizmetUrun);
                 $("#call_reason_edit").val(survey.uyumCrmCagriNedeni);
                 $("#description_edit").val(survey.aciklama);
-                $("#customer_information_1_edit").val(survey.musteriBilgilendirme);
-                $("#customer_information_2_edit").val(survey.musteriBilgilendirme2);
+                $("#customer_information_1_edit").val(survey.musteriBilgilendirme2);
+                $("#customer_information_2_edit").val(survey.musteriBilgilendirme);
                 $("#opportunity_edit").val(survey.uyumCrmFirsat);
                 $("#call_edit").val(survey.uyumCrmCagri);
                 $("#dial_plan_edit").val(survey.uyumCrmAramaPlani);

@@ -66,22 +66,22 @@
                 @foreach($permits as $permit)
             {
                 myEventType: 'permit',
-                permitId: '{{ $permit->id }}',
-                title: '{{ $permit->type->name }}',
-                start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($permit->start_date)) }}',
-                end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($permit->end_date)) }}',
+                permitId: '{{ @$permit->id }}',
+                title: '{{ @$permit->type->name }}',
+                start: '{{ @strftime("%Y-%m-%dT%H:%M:00",strtotime($permit->start_date)) }}',
+                end: '{{ @strftime("%Y-%m-%dT%H:%M:00",strtotime($permit->end_date)) }}',
                 url: 'javascript:void(0);',
-                className: 'fc-event-light fc-event-solid-{{ $permit->status->color }}',
+                className: 'fc-event-light fc-event-solid-{{ @$permit->status->color }}',
                 id: 'permit_{{ $permit->id }}'
             },
                 @endforeach
                 @foreach($overtimes as $overtime)
             {
                 myEventType: 'overtime',
-                overtimeId: '{{ $overtime->id }}',
-                title: '{{ $overtime->reason->name }}',
-                start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($overtime->start_date)) }}',
-                end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($overtime->end_date)) }}',
+                overtimeId: '{{ @$overtime->id }}',
+                title: '{{ @$overtime->reason->name }}',
+                start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime(@$overtime->start_date)) }}',
+                end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime(@$overtime->end_date)) }}',
                 url: 'javascript:void(0);',
                 className: 'fc-event-light fc-event-solid-dark-75',
                 id: 'overtime_{{ $overtime->id }}'
@@ -89,27 +89,27 @@
                 @endforeach
                 @foreach($foodList as $food)
             {
-                @php($foodListCheck = \App\Models\FoodListCheck::where('food_list_id', $food->id)->where('employee_id', auth()->user()->getId())->first())
+                @php(@$foodListCheck = \App\Models\FoodListCheck::where('food_list_id', $food->id)->where('employee_id', auth()->user()->getId())->first())
                 myEventType: 'food',
-                foodId: '{{ $food->id }}',
-                title: '{{ $food->name }}',
-                start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($food->date)) }}',
-                end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($food->date)) }}',
+                foodId: '{{ @$food->id }}',
+                title: '{{ @$food->name }}',
+                start: '{{ @strftime("%Y-%m-%dT%H:%M:00",strtotime($food->date)) }}',
+                end: '{{ @strftime("%Y-%m-%dT%H:%M:00",strtotime($food->date)) }}',
                 url: 'javascript:void(0);',
-                className: 'fc-event-light {{ $foodListCheck->checked === 1 ? 'fc-event-solid-success' : ($foodListCheck->checked === 0 ? 'fc-event-solid-danger' : 'fc-event-solid-primary') }}',
+                className: 'fc-event-light {{ @$foodListCheck->checked === 1 ? 'fc-event-solid-success' : (@$foodListCheck->checked === 0 ? 'fc-event-solid-danger' : 'fc-event-solid-primary') }}',
                 id: 'food_{{ $food->id }}'
             },
                 @endforeach
                 @foreach($shifts as $shift)
             {
                 myEventType: 'shift',
-                shiftId: '{{ $shift->id }}',
-                title: '{{ $shift->description }}',
-                start: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
-                end: '{{ strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
+                shiftId: '{{ @$shift->id }}',
+                title: '{{ @$shift->description }}',
+                start: '{{ @strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
+                end: '{{ @strftime("%Y-%m-%dT%H:%M:00",strtotime($shift->start_date)) }}',
                 url: 'javascript:void(0);',
-                className: 'fc-event-light fc-event-solid-{{ intval(date('H', strtotime($shift->start_date))) != 9 || intval(date('H', strtotime($shift->end_date))) != 18 ? 'danger' : 'secondary' }}',
-                id: 'shift_{{ $shift->id }}'
+                className: 'fc-event-light fc-event-solid-{{ @intval(date('H', strtotime(@$shift->start_date))) != 9 || @intval(date('H', strtotime(@$shift->end_date))) != 18 ? 'danger' : 'secondary' }}',
+                id: 'shift_{{ @$shift->id }}'
             },
             @endforeach
         ],

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ajax\Survey;
 
 use App\Helpers\General;
+use App\Http\Api\OperationApi\OperationApi;
 use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
@@ -10,6 +11,11 @@ use Illuminate\Http\Request;
 
 class SurveyAnswerController extends Controller
 {
+    public function answerList(Request $request)
+    {
+        return response()->json((new SurveySystemApi)->GetSurveyAnswersList($request->id)['response'] ?? [], 200);
+    }
+
     public function create(Request $request)
     {
         $response = (new SurveySystemApi)->SetSurveyAnswers($request);

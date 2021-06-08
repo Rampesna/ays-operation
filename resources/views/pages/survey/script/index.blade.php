@@ -77,6 +77,16 @@
                                                             </a>
                                                         </li>
                                                         <li class="navi-item">
+                                                            <a href="{{ route('surveys.diagram', ['id' => @$survey['id']]) }}"
+                                                               target="_blank"
+                                                               class="navi-link cursor-pointer">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fa fa-eye text-primary"></i>
+                                                                    </span>
+                                                                <span class="navi-text">İncele</span>
+                                                            </a>
+                                                        </li>
+                                                        <li class="navi-item">
                                                             <a href="{{ route('surveys.report.show', ['code' => @$survey['kodu'], 'name' => $survey['adi']]) }}"
                                                                target="_blank"
                                                                class="navi-link cursor-pointer">

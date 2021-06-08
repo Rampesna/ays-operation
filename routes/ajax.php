@@ -226,6 +226,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
         Route::prefix('question')->group(function () {
             Route::get('questionList', 'SurveyQuestionController@questionList')->name('ajax.survey.question.questionList');
+            Route::get('questionListForDiagram', 'SurveyQuestionController@questionListForDiagram')->name('ajax.survey.question.questionListForDiagram');
             Route::post('create', 'SurveyQuestionController@create')->name('ajax.survey.question.create');
             Route::get('edit', 'SurveyQuestionController@edit')->name('ajax.survey.question.edit');
             Route::post('update', 'SurveyQuestionController@update')->name('ajax.survey.question.update');
@@ -253,6 +254,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         });
 
         Route::prefix('answer')->group(function () {
+            Route::get('answerList', 'SurveyAnswerController@answerList')->name('ajax.survey.answer.answerList');
             Route::post('create', 'SurveyAnswerController@create')->name('ajax.survey.answer.create');
             Route::get('edit', 'SurveyAnswerController@edit')->name('ajax.survey.answer.edit');
             Route::post('update', 'SurveyAnswerController@update')->name('ajax.survey.answer.update');

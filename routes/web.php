@@ -279,6 +279,8 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
             return redirect()->route('surveys.index');
         });
         Route::get('/index', 'SurveyController@Index')->name('surveys.index');
+        Route::get('/detail', 'SurveyController@Detail')->name('surveys.detail');
+        Route::get('/diagram/{id?}', 'SurveyController@Diagram')->name('surveys.diagram');
         Route::get('/products', 'SurveyController@products')->name('surveys.products');
         Route::get('/sellers', 'SurveyController@sellers')->name('surveys.sellers');
         Route::get('/employees', 'SurveyController@employees')->name('surveys.employees');

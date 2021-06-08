@@ -18,6 +18,20 @@ class SurveyController extends Controller
         ]);
     }
 
+    public function Detail()
+    {
+        return view('pages.survey.script.detail.index', [
+            'surveyList' => (new SurveySystemApi)->GetSurveyList()['response']
+        ]);
+    }
+
+    public function Diagram(Request $request)
+    {
+        return view('pages.survey.script.diagram.index', [
+            'survey' => (new SurveySystemApi)->GetSurveyEdit($request->id)['response'][0]
+        ]);
+    }
+
     public function products()
     {
         return view('pages.survey.product.index', [
