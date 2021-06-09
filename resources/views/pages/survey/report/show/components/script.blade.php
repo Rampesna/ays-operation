@@ -341,7 +341,7 @@
     });
 
     getReports.click(function () {
-        $("#loader").fadeIn(250);
+        // $("#loader").fadeIn(250);
         var code = '{{ $surveyCode }}';
         var start_date = $("#start_date").val();
         var end_date = $("#end_date").val();
@@ -356,43 +356,44 @@
                 ids: selectedList
             },
             success: function (response) {
-                details.clear().draw();
-
-                var detailsData = [];
-                var reportChartList = [];
-                var nameList = [];
-                $.each(response, function (index) {
-                    detailsData.push([
-                        response[index].kullaniciAdSoyad,
-                        response[index].cariId,
-                        response[index].musteriAdi,
-                        `<textarea class="form-control" rows="2" disabled>${response[index].gorusmeNotlari}</textarea>`
-                    ]);
-
-                    if(jQuery.inArray(response[index].kullaniciAdSoyad, nameList) == -1) {
-                        nameList.push(response[index].kullaniciAdSoyad)
-                    }
-
-                    if (reportChartList[response[index].kullaniciAdSoyad] == null) {
-                        reportChartList[response[index].kullaniciAdSoyad] = 1;
-                    } else {
-                        reportChartList[response[index].kullaniciAdSoyad] = reportChartList[response[index].kullaniciAdSoyad] + 1;
-                    }
-                });
-
-                details.rows.add(detailsData).draw(false);
-                $("#ReportDetail").modal('show');
-                $("#loader").fadeOut(250);
-
-                var renderList = [];
-                $.each(nameList, function (index) {
-                    renderList.push({
-                        name: nameList[index],
-                        data: [reportChartList[nameList[index]]]
-                    });
-                });
-
-                reportChart.updateSeries(renderList);
+                console.log(response)
+                // details.clear().draw();
+                //
+                // var detailsData = [];
+                // var reportChartList = [];
+                // var nameList = [];
+                // $.each(response, function (index) {
+                //     detailsData.push([
+                //         response[index].kullaniciAdSoyad,
+                //         response[index].cariId,
+                //         response[index].musteriAdi,
+                //         `<textarea class="form-control" rows="2" disabled>${response[index].gorusmeNotlari}</textarea>`
+                //     ]);
+                //
+                //     if(jQuery.inArray(response[index].kullaniciAdSoyad, nameList) == -1) {
+                //         nameList.push(response[index].kullaniciAdSoyad)
+                //     }
+                //
+                //     if (reportChartList[response[index].kullaniciAdSoyad] == null) {
+                //         reportChartList[response[index].kullaniciAdSoyad] = 1;
+                //     } else {
+                //         reportChartList[response[index].kullaniciAdSoyad] = reportChartList[response[index].kullaniciAdSoyad] + 1;
+                //     }
+                // });
+                //
+                // details.rows.add(detailsData).draw(false);
+                // $("#ReportDetail").modal('show');
+                // $("#loader").fadeOut(250);
+                //
+                // var renderList = [];
+                // $.each(nameList, function (index) {
+                //     renderList.push({
+                //         name: nameList[index],
+                //         data: [reportChartList[nameList[index]]]
+                //     });
+                // });
+                //
+                // reportChart.updateSeries(renderList);
             },
             error: function (error) {
                 console.log(error)
