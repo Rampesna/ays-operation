@@ -9,7 +9,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="deleted_seller_code">
+                <input type="hidden" id="deleted_seller_id">
                 <p>
                     Silmek istediğinizden emin misiniz?
                 </p>

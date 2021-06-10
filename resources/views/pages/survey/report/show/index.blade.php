@@ -16,24 +16,26 @@
     </div>
     <hr>
     <input type="hidden" id="selecteds">
-    <div class="row">
+    <form action="" method="get" class="row">
         <div class="col-xl-3">
             <div class="corm-group">
                 <label for="start_date">Başlangıç Tarihi</label>
-                <input type="datetime-local" class="form-control" id="start_date">
+                <input type="datetime-local" class="form-control" name="start_date" id="start_date" value="{{ $startDate ? date('Y-m-d', strtotime($startDate)) . 'T' . date('H:i', strtotime($startDate)) : null }}">
             </div>
         </div>
         <div class="col-xl-3">
             <div class="corm-group">
                 <label for="end_date">Başlangıç Tarihi</label>
-                <input type="datetime-local" class="form-control" id="end_date">
+                <input type="datetime-local" class="form-control" name="end_date" id="end_date" value="{{ $endDate ? date('Y-m-d', strtotime($endDate)) . 'T' . date('H:i', strtotime($endDate)) : null }}">
             </div>
         </div>
-        <div class="col-xl-3"></div>
         <div class="col-xl-3 mt-9">
-            <button class="btn btn-sm btn-block btn-primary" id="getReports" style="display: none">Raporla</button>
+            <button type="submit" class="btn btn-sm btn-block btn-dark-75">Filtrele</button>
         </div>
-    </div>
+        <div class="col-xl-3 mt-9">
+            <button type="button" class="btn btn-sm btn-block btn-primary" id="getReports" style="display: none">Raporla</button>
+        </div>
+    </form>
     <hr>
     <div class="row">
         <div class="col-xl-3">
@@ -43,7 +45,7 @@
                         <div class="mr-2">
                             <h3 class="font-weight-bolder">Toplam Arama Sayısı</h3>
                         </div>
-                        <div class="font-weight-boldest font-size-h1 text-primary">{{ @$list[0]['toplamadata'] }}</div>
+                        <div class="font-weight-boldest font-size-h1 text-primary">{{ $list ? @$list[0]['toplamadata'] : '' }}</div>
                     </div>
                 </div>
             </div>
@@ -55,7 +57,7 @@
                         <div class="mr-2">
                             <h3 class="font-weight-bolder">Toplam Aranan Firma</h3>
                         </div>
-                        <div class="font-weight-boldest font-size-h1 text-success">{{ @$list[0]['aranandata'] }}</div>
+                        <div class="font-weight-boldest font-size-h1 text-success">{{ $list ? @$list[0]['aranandata'] : '' }}</div>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,7 @@
                         <div class="mr-2">
                             <h3 class="font-weight-bolder">Kalan Arama Sayısı</h3>
                         </div>
-                        <div class="font-weight-boldest font-size-h1 text-warning">{{ @$list[0]['kalandata'] }}</div>
+                        <div class="font-weight-boldest font-size-h1 text-warning">{{ $list ? @$list[0]['kalandata'] : '' }}</div>
                     </div>
                 </div>
             </div>
@@ -79,7 +81,7 @@
                         <div class="mr-2">
                             <h3 class="font-weight-bolder">Müşteriye Ulaşılamadı</h3>
                         </div>
-                        <div class="font-weight-boldest font-size-h1 text-danger">{{ $list[\App\Helpers\General::searchForKeyword('pazarlamaDurumKodu', 1, $list)]['aranandatA1'] }}</div>
+                        <div class="font-weight-boldest font-size-h1 text-danger">{{ $list ? @$list[\App\Helpers\General::searchForKeyword('pazarlamaDurumKodu', 1, $list)]['aranandatA1'] : '' }}</div>
                     </div>
                 </div>
             </div>
@@ -87,10 +89,10 @@
     </div>
     <hr class="mt-n3">
     <div class="row">
-        @foreach($list as $data)
-            @if($data['pazarlamaDurumKodu'] != 1 && ($data['adi'] != null || $data['adi'] != ''))
+        @foreach($list ?? [] as $data)
+            @if($data['pazarlamaDurumKodu'] != 1 && (@$data['adi'] != null || @$data['adi'] != ''))
                 <div class="col-xl-2 mb-3">
-                    <div class="card dataCardSelector" data-id="{{ $data['pazarlamaDurumKodu'] }}">
+                    <div class="card dataCardSelector" data-id="{{ @$data['pazarlamaDurumKodu'] }}">
                         <div class="card-body">
                             <span class="svg-icon svg-icon-2x svg-icon-dark-75 dataCardSelectorIcon">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -103,8 +105,8 @@
                                     </g>
                                 </svg>
                             </span>
-                            <span class="card-title font-weight-bolder font-size-h2 mb-0 mt-6 d-block dataCardSelectorCounter">{{ $data['aranandatA1'] }} ({{ number_format(($data['aranandatA1'] * 100) / ($data['aranandata'] - $list[\App\Helpers\General::searchForKeyword('pazarlamaDurumKodu', 1, $list)]['aranandatA1']), 2) }}%)</span>
-                            <span class="font-weight-bold font-size-sm dataCardSelectorTitle">{{ $data['adi'] }}</span>
+                            <span class="card-title font-weight-bolder font-size-h2 mb-0 mt-6 d-block dataCardSelectorCounter">{{ @$data['aranandatA1'] }} ({{ @number_format(($data['aranandatA1'] * 100) / (@$data['aranandata'] - @$list[\App\Helpers\General::searchForKeyword('pazarlamaDurumKodu', 1, $list)]['aranandatA1']), 2) }}%)</span>
+                            <span class="font-weight-bold font-size-sm dataCardSelectorTitle">{{ @$data['adi'] }}</span>
                         </div>
                     </div>
                 </div>

@@ -53,7 +53,6 @@ class SurveySellerController extends Controller
 
     public function delete(Request $request)
     {
-        return $response = (new SurveySystemApi)->SetSurveySellerDelete($request->seller_code);
-        return $request;
+        return $response = (new SurveySystemApi)->SetSurveySellerDelete($request->seller_id);
     }
 }

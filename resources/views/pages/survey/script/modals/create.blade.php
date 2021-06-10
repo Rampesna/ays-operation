@@ -113,7 +113,7 @@
                     </div>
                     <div class="col-xl-4">
                         <div class="form-group">
-                            <label for="opportunity_redirect_to_seller_create">Fırsat Satıcıya Yönlendir</label>
+                            <label for="opportunity_redirect_to_seller_create">Satıcıya Yönlendir Durumunda Fırsat Gönderilsin mi?</label>
                             <select id="opportunity_redirect_to_seller_create" class="form-control">
                                 <option value="0">Hayır</option>
                                 <option value="1">Evet</option>
@@ -122,7 +122,7 @@
                     </div>
                     <div class="col-xl-4">
                         <div class="form-group">
-                            <label for="dial_plan_redirect_to_seller_create">Arama Planı Satıcıya Yönlendir</label>
+                            <label for="dial_plan_redirect_to_seller_create">Satıcıya Yönlendir Durumunda Arama Planı Gönderilsin mi?</label>
                             <select id="dial_plan_redirect_to_seller_create" class="form-control">
                                 <option value="0">Hayır</option>
                                 <option value="1">Evet</option>

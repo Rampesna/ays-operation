@@ -14,7 +14,7 @@
 
     <div class="row">
         <div class="col-xl-12 text-right">
-            <a onclick="createRandomCode()" data-toggle="modal" data-target="#CreateSurvey" class="btn btn-primary">Yeni Oluştur</a>
+            <a onclick="createRandomCode()" data-toggle="modal" data-target="#CreateSurvey" class="btn btn-primary">Script Oluştur</a>
         </div>
     </div>
     <hr>
@@ -39,8 +39,8 @@
                                     <th>Fırsat</th>
                                     <th>Çağrı</th>
                                     <th>Arama Planı</th>
-                                    <th>Fırsat Satıcıya Yönlendir</th>
-                                    <th>Arama Planı Satıcıya Yönlendir</th>
+                                    <th>Satıcıya Yönlendir Durumunda Fırsat Gönderilsin mi?</th>
+                                    <th>Satıcıya Yönlendir Durumunda Arama Planı Gönderilsin mi?</th>
                                     <th>Oluşturulma Tarihi</th>
                                     <th>Durum</th>
                                 </tr>

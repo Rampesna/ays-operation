@@ -221,6 +221,13 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         });
     });
 
+    Route::prefix('mission')->namespace('Mission')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('mission.index');
+        });
+        Route::get('index', 'MissionController@index')->name('mission.index');
+    });
+
     Route::prefix('inventory')->namespace('Inventory')->middleware(['Authority:44'])->group(function () {
         Route::get('/', function () {
             return redirect()->route('inventory.index');

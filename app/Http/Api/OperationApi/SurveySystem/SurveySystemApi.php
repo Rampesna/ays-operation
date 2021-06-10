@@ -394,7 +394,7 @@ class SurveySystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
 
-    public function SetSurveySellerDelete($sellerCode)
+    public function SetSurveySellerDelete($sellerId)
     {
         $endpoint = "SurveySystem/SetSurveySellerDelete";
         $headers = [
@@ -402,7 +402,7 @@ class SurveySystemApi extends OperationApi
         ];
 
         $params = [
-            'SellerCode' => $sellerCode
+            'SurveyId' => $sellerId
         ];
 
         return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
@@ -428,7 +428,7 @@ class SurveySystemApi extends OperationApi
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
 
-    public function GetSurveyReport($code)
+    public function GetSurveyReport($code, $startDate, $endDate)
     {
         $endpoint = "SurveySystem/GetSurveyReport";
         $headers = [
@@ -436,7 +436,9 @@ class SurveySystemApi extends OperationApi
         ];
 
         $params = [
-            'SurveyCode' => $code
+            'SurveyCode' => $code,
+            'BaslangicTarihi' => $startDate,
+            'BitisTarihi' => $endDate
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
@@ -458,11 +460,11 @@ class SurveySystemApi extends OperationApi
             'Content-Type' => 'application/json'
         ];
 
-        return [
-            'headers' => $headers,
-            'body' => json_encode($list),
-            'query' => $parameters
-        ];
+//        return [
+//            'headers' => $headers,
+//            'body' => json_encode($list),
+//            'query' => $parameters
+//        ];
 
         $client = new Client;
         $response = $client->request('get', $this->baseUrl . $endpoint, [

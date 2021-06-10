@@ -144,13 +144,13 @@ class SurveyController extends Controller
     {
 //        return $request;
         $list = [];
-        foreach ($request->ids as $id) {
+        foreach ($request->ids ?? [] as $id) {
             $list[] = [
                 'statusCode' => $id
             ];
         }
 
-        return (new SurveySystemApi)->GetSurveyReportStatusDetails($request->code, $request->start_date, $request->end_date, $list);
+//        return (new SurveySystemApi)->GetSurveyReportStatusDetails($request->code, $request->start_date, $request->end_date, $list);
 
         return ((array)json_decode((new SurveySystemApi)->GetSurveyReportStatusDetails($request->code, $request->start_date, $request->end_date, $list)->getBody()->getContents()))['response'];
     }

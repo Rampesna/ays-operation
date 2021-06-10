@@ -154,21 +154,21 @@
     });
 
     $(document).delegate('.delete', 'click', function () {
-        $("#deleted_seller_code").val($(this).data('code'));
+        $("#deleted_seller_id").val($(this).data('id'));
         $("#DeleteSeller").modal('show');
     });
 
     deleteSellerButton.click(function () {
         $("#DeleteSeller").modal('hide');
         $("#loader").fadeIn(250);
-        var seller_code = $("#deleted_seller_code").val();
+        var seller_id = $("#deleted_seller_id").val();
 
         $.ajax({
             type: 'post',
             url: '{{ route('ajax.survey.seller.delete') }}',
             data: {
                 _token: '{{ csrf_token() }}',
-                seller_code: seller_code
+                seller_id: seller_id
             },
             success: function () {
                 toastr.success('Başarıyla Silindi');

@@ -180,6 +180,10 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         });
     });
 
+    Route::prefix('mission')->namespace('Mission')->group(function () {
+        Route::get('datatable', 'MissionController@datatable')->name('ajax.mission.datatable');
+    });
+
     Route::prefix('calendar')->namespace('Calendar')->group(function () {
         Route::prefix('meeting')->group(function () {
             Route::post('create', 'MeetingController@create')->name('ajax.calendar.meeting.create');
