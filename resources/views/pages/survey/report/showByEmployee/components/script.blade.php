@@ -10,6 +10,7 @@
     const warning = '#FFA800';
     const danger = '#F64E60';
 
+    var selectedNames = [];
     var selectedList = [];
 
     var filterData = $("#filterData");
@@ -309,7 +310,7 @@
                 code: code,
                 start_date: start_date ?? null,
                 end_date: end_date ?? null,
-                ids: selectedList
+                ids: jQuery.unique(selectedList)
             },
             success: function (response) {
                 console.log(response)
@@ -328,7 +329,7 @@
                 });
 
                 details.rows.add(detailsData).draw(false);
-                details.search(selectedName.val()).draw();
+                details.search(jQuery.unique(selectedNames).join('|'), true, false).draw();
                 $("#ReportDetail").modal('show');
                 $("#loader").fadeOut(250);
             },
@@ -465,37 +466,22 @@
     $.fn.dataTable.ext.errMode = 'none';
 
     $(document).delegate('.statusSelector', 'click', function () {
-        if (selectedName.val() == null || selectedName.val() === '') {
-            selectedName.val($(this).data('employee-name'));
-            if ($(this).hasClass('bg-success')) {
-                $(this).removeClass('bg-success text-white');
-                selectedList.splice($.inArray($(this).data('status-id'), selectedList), 1);
-            } else {
-                $(this).addClass('bg-success text-white');
-                selectedList.push($(this).data('status-id'));
-            }
+        if ($(this).hasClass('bg-success')) {
+            $(this).removeClass('bg-success text-white');
+            selectedList.splice($.inArray($(this).data('status-id'), selectedList), 1);
+            selectedNames.splice($.inArray($(this).data('employee-name'), selectedList), 1);
         } else {
-            if (selectedName.val() === $(this).data('employee-name')) {
-                if ($(this).hasClass('bg-success')) {
-                    $(this).removeClass('bg-success text-white');
-                    selectedList.splice($.inArray($(this).data('status-id'), selectedList), 1);
-                } else {
-                    $(this).addClass('bg-success text-white');
-                    selectedList.push($(this).data('status-id'));
-                }
-            } else {
-                selectedName.val($(this).data('employee-name'))
-                statusSelectors.removeClass('bg-success text-white');
-                selectedList = [];
-                if ($(this).hasClass('bg-success')) {
-                    $(this).removeClass('bg-success text-white');
-                    selectedList.splice($.inArray($(this).data('status-id'), selectedList), 1);
-                } else {
-                    $(this).addClass('bg-success text-white');
-                    selectedList.push($(this).data('status-id'));
-                }
-            }
+            $(this).addClass('bg-success text-white');
+            selectedList.push($(this).data('status-id'));
+            selectedNames.push($(this).data('employee-name'));
         }
+
+        // jQuery.unique(selectedList);
+
+        // if ($.inArray($(this).data('status-id'), selectedList) !== -1) {
+        //     alert("found");
+        // }
+
         selectedList.length > 0 ? getReports.show() : getReports.hide();
     });
 

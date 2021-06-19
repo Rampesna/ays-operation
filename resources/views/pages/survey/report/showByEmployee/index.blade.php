@@ -80,7 +80,7 @@
                     </div>
                     <div class="card-body">
                         @foreach($employee['data'] as $key => $data)
-                            <span data-status-id="{{ $key }}" data-employee-name="{{ $employee['name'] }}" id="employee_{{ $employee['name'] }}_status_{{ $key }}" class="btn btn-pill btn-sm btn-secondary mb-2 statusSelector" style="font-size: 11px; height: auto; padding-top: 2px; width: 100%">{{ @$data['name'] }} ({{ @$data['count'] }})</span><br>
+                            <span data-status-id="{{ $key }}" data-employee-name="{{ $employee['name'] }}" id="employee_{{ $employee['name'] }}_status_{{ $key }}" class="btn btn-pill btn-sm btn-secondary mb-2 statusSelector status_{{ $key }}" style="font-size: 11px; height: auto; padding-top: 2px; width: 100%">{{ @$data['name'] }} ({{ @$data['count'] }})</span><br>
                         @endforeach
                     </div>
                 </div>
