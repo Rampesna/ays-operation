@@ -295,6 +295,7 @@ Route::middleware(['auth'])->namespace('App\\Http\\Controllers\\UserPanel')->gro
         Route::prefix('report')->group(function () {
             Route::get('report', 'SurveyReportController@index')->name('surveys.report.index');
             Route::get('{code?}/show', 'SurveyReportController@show')->name('surveys.report.show');
+            Route::get('{code?}/showByEmployee', 'SurveyReportController@showByEmployee')->name('surveys.report.showByEmployee');
         });
 
         Route::prefix('questions')->group(function () {

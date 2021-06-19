@@ -96,6 +96,16 @@
                                                                 <span class="navi-text">Rapor</span>
                                                             </a>
                                                         </li>
+                                                        <li class="navi-item">
+                                                            <a href="{{ route('surveys.report.showByEmployee', ['code' => @$survey['kodu'], 'name' => $survey['adi']]) }}"
+                                                               target="_blank"
+                                                               class="navi-link cursor-pointer">
+                                                                    <span class="navi-icon">
+                                                                        <i class="fas fa-user text-danger"></i>
+                                                                    </span>
+                                                                <span class="navi-text">Personel Raporu</span>
+                                                            </a>
+                                                        </li>
                                                         <hr>
                                                         <li class="navi-item">
                                                             <a data-id="{{ @$survey['id'] }}"
