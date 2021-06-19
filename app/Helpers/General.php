@@ -11,7 +11,7 @@ class General
                 return $key;
             }
         }
-        return null;
+        return -1;
     }
 
     public static function displayDates($date1, $date2, $format = 'Y-m-d')

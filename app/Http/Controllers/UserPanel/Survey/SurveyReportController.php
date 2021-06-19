@@ -54,7 +54,7 @@ class SurveyReportController extends Controller
         $responseArray = [];
 
         foreach ($surveyReportStatusDetails['response'] as $surveyReportStatusDetail) {
-            if ($nameKey = General::searchForKeyword('name', $surveyReportStatusDetail->kullaniciAdSoyad, $responseArray)) {
+            if (($nameKey = General::searchForKeyword('name', $surveyReportStatusDetail->kullaniciAdSoyad, $responseArray)) != -1) {
                 if (isset($responseArray[$nameKey]['data'][$surveyReportStatusDetail->pazarlamaDurumKodu])) {
                     $responseArray[$nameKey]['data'][$surveyReportStatusDetail->pazarlamaDurumKodu]['count'] += 1;
                 } else {
