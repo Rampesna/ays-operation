@@ -460,12 +460,6 @@ class SurveySystemApi extends OperationApi
             'Content-Type' => 'application/json'
         ];
 
-//        return [
-//            'headers' => $headers,
-//            'body' => json_encode($list),
-//            'query' => $parameters
-//        ];
-
         $client = new Client;
         $response = $client->request('get', $this->baseUrl . $endpoint, [
             'headers' => $headers,

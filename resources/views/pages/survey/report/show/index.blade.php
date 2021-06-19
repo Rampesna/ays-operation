@@ -75,7 +75,7 @@
             </div>
         </div>
         <div class="col-xl-3">
-            <div class="card card-custom gutter-b" style="height: 100px;">
+            <div class="card card-custom gutter-b cursor-pointer" id="getNotContactCustomers" style="height: 100px;" data-id="{{ $list ? @$list[\App\Helpers\General::searchForKeyword('pazarlamaDurumKodu', 1, $list)]['pazarlamaDurumKodu'] : '' }}">
                 <div class="card-body d-flex flex-column">
                     <div class="d-flex align-items-center justify-content-between flex-grow-1">
                         <div class="mr-2">

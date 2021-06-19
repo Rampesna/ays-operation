@@ -4,7 +4,6 @@
 <script>
     "use strict";
 
-    // Shared Colors Definition
     const primary = '#6993FF';
     const success = '#1BC5BD';
     const info = '#8950FC';
@@ -17,6 +16,7 @@
     var getReports = $("#getReports");
     var getCallReports = $("#getCallReports");
     var getRemainingReports = $("#getRemainingReports");
+    var getNotContactCustomers = $("#getNotContactCustomers");
     var startDateSelector = $("#start_date");
     var endDateSelector = $("#end_date");
 
@@ -357,28 +357,30 @@
                 ids: selectedList
             },
             success: function (response) {
-                // console.log(response)
+                console.log(response)
                 details.clear().draw();
 
                 var detailsData = [];
                 var reportChartList = [];
                 var nameList = [];
-                $.each(response, function (index) {
+                $.each(response.response, function (index) {
                     detailsData.push([
-                        response[index].kullaniciAdSoyad,
-                        response[index].cariId,
-                        response[index].musteriAdi,
-                        `<textarea class="form-control" rows="2" disabled>${response[index].gorusmeNotlari}</textarea>`
+                        response.response[index].id,
+                        response.response[index].islemTarihi1,
+                        response.response[index].kullaniciAdSoyad,
+                        response.response[index].cariId,
+                        response.response[index].musteriAdi,
+                        `<textarea class="form-control" rows="2" disabled>${response.response[index].gorusmeNotlari}</textarea>`
                     ]);
 
-                    if(jQuery.inArray(response[index].kullaniciAdSoyad, nameList) == -1) {
-                        nameList.push(response[index].kullaniciAdSoyad)
+                    if (jQuery.inArray(response.response[index].kullaniciAdSoyad, nameList) == -1) {
+                        nameList.push(response.response[index].kullaniciAdSoyad)
                     }
 
-                    if (reportChartList[response[index].kullaniciAdSoyad] == null) {
-                        reportChartList[response[index].kullaniciAdSoyad] = 1;
+                    if (reportChartList[response.response[index].kullaniciAdSoyad] == null) {
+                        reportChartList[response.response[index].kullaniciAdSoyad] = 1;
                     } else {
-                        reportChartList[response[index].kullaniciAdSoyad] = reportChartList[response[index].kullaniciAdSoyad] + 1;
+                        reportChartList[response.response[index].kullaniciAdSoyad] = reportChartList[response.response[index].kullaniciAdSoyad] + 1;
                     }
                 });
 
@@ -420,19 +422,20 @@
             },
             success: function (response) {
                 callDetails.clear().draw();
-
                 var callDetailsData = [];
                 var reportChartList = [];
                 var nameList = [];
                 $.each(response, function (index) {
                     callDetailsData.push([
+                        response[index].id,
+                        response[index].islemTarihi1,
                         response[index].kullaniciAdSoyad,
                         response[index].cariId,
                         response[index].musteriAdi,
                         `<textarea class="form-control" rows="2" disabled>${response[index].gorusmeNotlari}</textarea>`
                     ]);
 
-                    if(jQuery.inArray(response[index].kullaniciAdSoyad, nameList) == -1) {
+                    if (jQuery.inArray(response[index].kullaniciAdSoyad, nameList) == -1) {
                         nameList.push(response[index].kullaniciAdSoyad)
                     }
 
@@ -479,31 +482,76 @@
                 end_date: end_date ?? null
             },
             success: function (response) {
+                console.log(response)
                 remainingDetails.clear().draw();
-
                 var remainingDetailsData = [];
-                var reportChartList = [];
-                var nameList = [];
                 $.each(response, function (index) {
                     remainingDetailsData.push([
-                        response[index].kullaniciAdSoyad,
-                        response[index].cariId,
-                        response[index].musteriAdi,
-                        `<textarea class="form-control" rows="2" disabled>${response[index].gorusmeNotlari}</textarea>`
+                        response[index].id,
+                        response[index].cariid,
+                        response[index].grupkodu,
                     ]);
-
-                    if(jQuery.inArray(response[index].kullaniciAdSoyad, nameList) == -1) {
-                        nameList.push(response[index].kullaniciAdSoyad)
-                    }
-
-                    if (reportChartList[response[index].kullaniciAdSoyad] == null) {
-                        reportChartList[response[index].kullaniciAdSoyad] = 1;
-                    } else {
-                        reportChartList[response[index].kullaniciAdSoyad] = reportChartList[response[index].kullaniciAdSoyad] + 1;
-                    }
                 });
                 remainingDetails.rows.add(remainingDetailsData).draw(false);
                 $("#RemainingReportDetail").modal('show');
+                $("#loader").fadeOut(250);
+
+            },
+            error: function (error) {
+                console.log(error)
+                toastr.error('Detay Bilgiler Alınırken API\'de Hata Oluştu!');
+                $("#loader").fadeOut(250);
+            }
+        });
+    });
+
+    getNotContactCustomers.click(function () {
+        $("#loader").fadeIn(250);
+        var code = '{{ $surveyCode }}';
+        var start_date = $("#start_date").val();
+        var end_date = $("#end_date").val();
+
+        $.ajax({
+            type: 'get',
+            url: '{{ route('ajax.survey.scriptReportDetail') }}',
+            data: {
+                code: code,
+                start_date: start_date ?? null,
+                end_date: end_date ?? null,
+                ids: [
+                    $(this).data('id')
+                ]
+            },
+            success: function (response) {
+                console.log(response)
+                details.clear().draw();
+
+                var detailsData = [];
+                var reportChartList = [];
+                var nameList = [];
+                $.each(response.response, function (index) {
+                    detailsData.push([
+                        response.response[index].id,
+                        response.response[index].islemTarihi1,
+                        response.response[index].kullaniciAdSoyad,
+                        response.response[index].cariId,
+                        response.response[index].musteriAdi,
+                        `<textarea class="form-control" rows="2" disabled>${response.response[index].gorusmeNotlari}</textarea>`
+                    ]);
+
+                    if (jQuery.inArray(response.response[index].kullaniciAdSoyad, nameList) == -1) {
+                        nameList.push(response.response[index].kullaniciAdSoyad)
+                    }
+
+                    if (reportChartList[response.response[index].kullaniciAdSoyad] == null) {
+                        reportChartList[response.response[index].kullaniciAdSoyad] = 1;
+                    } else {
+                        reportChartList[response.response[index].kullaniciAdSoyad] = reportChartList[response.response[index].kullaniciAdSoyad] + 1;
+                    }
+                });
+
+                details.rows.add(detailsData).draw(false);
+                $("#ReportDetail").modal('show');
                 $("#loader").fadeOut(250);
 
                 var renderList = [];
@@ -524,29 +572,7 @@
         });
     });
 
-    filterData.click(function () {
-        var code = '{{ $surveyCode }}';
-        var start_date = $("#start_date").val();
-        var end_date = $("#end_date").val();
-
-        $.ajax({
-            type: 'get',
-            url: '{{ route('ajax.survey.scriptReportDetail') }}',
-            data: {
-                code: code,
-                start_date: start_date ?? null,
-                end_date: end_date ?? null,
-                ids: selectedList
-            },
-            success: function (response) {
-                console.log(1)
-                console.log(response)
-            },
-            error: function (error) {
-                console.log(error)
-            }
-        });
-    });
+    $.fn.dataTable.ext.errMode = 'none';
 
     /////////////////////////////////////////////////////////////////////////////////////////
 </script>

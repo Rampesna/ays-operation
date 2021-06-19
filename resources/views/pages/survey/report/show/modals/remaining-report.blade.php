@@ -14,18 +14,16 @@
                         <table class="table table-hover" id="remainingDetails">
                             <thead>
                             <tr>
-                                <th>Personel</th>
+                                <th>ID</th>
                                 <th>Cari ID</th>
-                                <th>Müşteri</th>
-                                <th>Görüşme Notları</th>
+                                <th>Grup Kodu</th>
                             </tr>
                             </thead>
                             <tfoot>
                             <tr>
-                                <th>Personel</th>
+                                <th>ID</th>
                                 <th>Cari ID</th>
-                                <th>Müşteri</th>
-                                <th>Görüşme Notları</th>
+                                <th>Grup Kodu</th>
                             </tr>
                             </tfoot>
                         </table>

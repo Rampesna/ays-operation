@@ -14,6 +14,8 @@
                         <table class="table table-hover" id="callDetails">
                             <thead>
                             <tr>
+                                <th>ID</th>
+                                <th>İşlem Tarihi</th>
                                 <th>Personel</th>
                                 <th>Cari ID</th>
                                 <th>Müşteri</th>
@@ -22,6 +24,8 @@
                             </thead>
                             <tfoot>
                             <tr>
+                                <th>ID</th>
+                                <th>İşlem Tarihi</th>
                                 <th>Personel</th>
                                 <th>Cari ID</th>
                                 <th>Müşteri</th>

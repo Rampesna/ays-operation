@@ -152,7 +152,7 @@ class SurveyController extends Controller
 
 //        return (new SurveySystemApi)->GetSurveyReportStatusDetails($request->code, $request->start_date, $request->end_date, $list);
 
-        return ((array)json_decode((new SurveySystemApi)->GetSurveyReportStatusDetails($request->code, $request->start_date, $request->end_date, $list)->getBody()->getContents()))['response'];
+        return ((array)json_decode((new SurveySystemApi)->GetSurveyReportStatusDetails($request->code, $request->start_date, $request->end_date, $list)->getBody()->getContents()));
     }
 
     public function scriptCallReportDetail(Request $request)
