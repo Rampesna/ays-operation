@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\Mission;
 use App\Models\MissionStatus;
 use App\Models\User;
+use App\Services\MissionService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
@@ -69,5 +70,34 @@ class MissionController extends Controller
             return $mission->assigned->name;
         })->
         make(true);
+    }
+
+    public function show(Request $request)
+    {
+        return response()->json(Mission::find($request->id), 200);
+    }
+
+    public function save(Request $request)
+    {
+        $missionService = new MissionService;
+        $missionService->setMission($request->id ? Mission::find($request->id) : new Mission);
+        $missionService->save($request);
+        return response()->json([
+            'type' => 'success',
+            'message' => 'Başarıyla Kaydedildi'
+        ]);
+    }
+
+    public function getAssigns(Request $request)
+    {
+        return response()->json(
+            $request->type == 'App\\Models\\User' ? User::all() :
+                ($request->type == 'App\\Models\\Employee' ? Employee::all() : []),
+            200);
+    }
+
+    public function getStatuses(Request $request)
+    {
+        return response()->json(MissionStatus::all(), 200);
     }
 }

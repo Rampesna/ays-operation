@@ -21,6 +21,7 @@ class SurveySellerController extends Controller
             foreach ($request->surveys as $surveyCode) {
                 foreach ($request->products as $productCode) {
                     $list[] = [
+                        'id' => $request->id ?? null,
                         'saticiKodu' => $request->code,
                         'saticiAdi' => $request->name,
                         'durum' => 1,
@@ -29,8 +30,6 @@ class SurveySellerController extends Controller
                     ];
                 }
             }
-
-//            return $list;
 
             $response = (new SurveySystemApi)->SetSurveySellerConnect($list);
             return response()->json([
@@ -47,7 +46,7 @@ class SurveySellerController extends Controller
     {
         return response()->json([
             'seller' => (new SurveySystemApi)->GetSurveySellerEdit($request->seller_id)['response'],
-            'sellerConnections' => (new SurveySystemApi)->GetSurveySellerCodeEdit($request->seller_code)['response']
+//            'sellerConnections' => (new SurveySystemApi)->GetSurveySellerCodeEdit($request->seller_code)['response']
         ], 200);
     }
 

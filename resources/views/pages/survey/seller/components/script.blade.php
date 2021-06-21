@@ -97,22 +97,11 @@
                 seller_code: seller_code
             },
             success: function (response) {
+                $("#editing_seller_id").val(response.seller[0].id);
                 $("#code_edit").val(response.seller[0].saticiKodu);
                 $("#name_edit").val(response.seller[0].saticiAdi);
-
-                var surveysList = [];
-                var productsList = [];
-
-                $.each(response.sellerConnections, function (index) {
-                    var groupCode = response.sellerConnections[index].grupKodu;
-                    var productCode = response.sellerConnections[index].urunKodu;
-                    surveysList.indexOf(groupCode) === -1 ? surveysList.push(groupCode) : null;
-                    productsList.indexOf(productCode) === -1 ? productsList.push(productCode) : null;
-                });
-                surveysEditSelector.selectpicker('val', []).selectpicker('refresh');
-                surveysEditSelector.selectpicker('val', surveysList).selectpicker('refresh');
-                productsEditSelector.selectpicker('val', []).selectpicker('refresh');
-                productsEditSelector.selectpicker('val', productsList).selectpicker('refresh');
+                surveysEditSelector.val(response.seller[0].grupKodu).selectpicker('refresh');
+                productsEditSelector.val(response.seller[0].urunKodu).selectpicker('refresh');
                 $("#loader").fadeOut(250);
                 $("#EditSeller").modal('show');
             },
@@ -123,22 +112,29 @@
     });
 
     updateSellerButton.click(function () {
+        var id = $("#editing_seller_id").val();
         var code = $("#code_edit").val();
         var name = $("#name_edit").val();
-        var surveys = $("#surveys_edit").val();
-        var products = $("#products_edit").val();
+        var survey = $("#surveys_edit").val();
+        var product = $("#products_edit").val();
 
         $.ajax({
             type: 'post',
             url: '{{ route('ajax.survey.seller.save') }}',
             data: {
                 _token: '{{ csrf_token() }}',
+                id: id,
                 code: code,
                 name: name,
-                surveys: surveys,
-                products: products
+                surveys: [
+                    survey
+                ],
+                products: [
+                    product
+                ]
             },
             success: function (response) {
+                console.log(response)
                 if (response.status === 'Tamamlandı') {
                     toastr.success('Başarıyla Güncellendi');
                     location.reload();

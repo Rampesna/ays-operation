@@ -28,7 +28,7 @@
                     <div class="col-xl-6">
                         <div class="form-group">
                             <label for="surveys_edit">Anketleri Seçin</label>
-                            <select id="surveys_edit" class="form-control selectpicker" multiple>
+                            <select id="surveys_edit" class="form-control selectpicker">
                                 @foreach($surveys as $survey)
                                     <option value="{{ $survey['kodu'] }}">{{ $survey['adi'] }}</option>
                                 @endforeach
@@ -38,7 +38,7 @@
                     <div class="col-xl-6">
                         <div class="form-group">
                             <label for="products_edit">Ürünleri Seçin</label>
-                            <select id="products_edit" class="form-control selectpicker" multiple>
+                            <select id="products_edit" class="form-control selectpicker">
                                 @foreach($products as $product)
                                     <option value="{{ $product['kodu'] }}">{{ $product['adi'] }}</option>
                                 @endforeach

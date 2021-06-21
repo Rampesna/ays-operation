@@ -182,6 +182,11 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
 
     Route::prefix('mission')->namespace('Mission')->group(function () {
         Route::get('datatable', 'MissionController@datatable')->name('ajax.mission.datatable');
+        Route::get('show', 'MissionController@show')->name('ajax.mission.show');
+        Route::post('save', 'MissionController@save')->name('ajax.mission.save');
+
+        Route::get('getAssigns', 'MissionController@getAssigns')->name('ajax.mission.getAssigns');
+        Route::get('getStatuses', 'MissionController@getStatuses')->name('ajax.mission.getStatuses');
     });
 
     Route::prefix('calendar')->namespace('Calendar')->group(function () {

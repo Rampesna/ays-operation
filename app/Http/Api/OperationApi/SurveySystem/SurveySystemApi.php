@@ -402,7 +402,7 @@ class SurveySystemApi extends OperationApi
         ];
 
         $params = [
-            'SurveyId' => $sellerId
+            'SellerCode' => $sellerId
         ];
 
         return $this->callApi($this->baseUrl . $endpoint . '?' . http_build_query($params), 'post', $headers, $params);
@@ -495,8 +495,8 @@ class SurveySystemApi extends OperationApi
 
         $params = [
             'SurveyCode' => $code,
-//            'BaslangicTarihi' => $startDate,
-//            'BitisTarihi' => $endDate
+            'BaslangicTarihi' => $startDate,
+            'BitisTarihi' => $endDate
         ];
 
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers, $params);
