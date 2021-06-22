@@ -166,6 +166,8 @@
         data.append('email_title', $("#email_title_create").val());
         data.append('job_resource', $("#job_resource_create").val());
         data.append('status', $("#status_create").val());
+        data.append('additional_product_opportunity', $("#additional_product_opportunity_create").val());
+        data.append('additional_product_call_plan', $("#additional_product_call_plan_create").val());
         data.append('file', $('#file_selector_create')[0].files[0] ?? null);
         data.append('call_file', $('#call_file_selector_create')[0].files[0] ?? null);
 
@@ -244,6 +246,8 @@
                 $("#job_resource_edit").val(survey.uyumCrmIsKaynagi);
                 $("#seller_redirection_type_edit").val(survey.uyumCrmSaticiKoduTurKodu);
                 $("#status_edit").val(survey.durum);
+                $("#additional_product_opportunity_edit").val(survey.UyumCrmEkUrunFirsat);
+                $("#additional_product_call_plan_edit").val(survey.UyumCrmEkUrunAramaPlani);
                 $("#file_selector_edit_control").html(survey.epostaIcerik !== '' || survey.epostaIcerik != null ? '(İçerik Dolu)' : '(İçerik Boş)');
             },
             error: function () {
@@ -276,6 +280,8 @@
         data.append('job_resource', $("#job_resource_edit").val());
         data.append('file', $('#file_selector_edit')[0].files[0] ?? null);
         data.append('status', $("#status_edit").val());
+        data.append('additional_product_opportunity', $("#additional_product_opportunity_edit").val());
+        data.append('additional_product_call_plan', $("#additional_product_call_plan_edit").val());
         data.append('call_file', $('#call_file_selector_edit')[0].files[0] ?? null);
 
         setTimeout(function(){

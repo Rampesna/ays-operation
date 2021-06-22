@@ -132,6 +132,24 @@
                     </div>
                     <div class="col-xl-4">
                         <div class="form-group">
+                            <label for="additional_product_opportunity_edit">Ek Ürün İçin Fırsat Gönderilsin mi?</label>
+                            <select id="additional_product_opportunity_edit" class="form-control">
+                                <option value="0">Hayır</option>
+                                <option value="1">Evet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
+                            <label for="additional_product_call_plan_edit">Ek Ürün İçin Arama Planı Gönderilsin mi?</label>
+                            <select id="additional_product_call_plan_edit" class="form-control">
+                                <option value="0">Hayır</option>
+                                <option value="1">Evet</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
                             <label for="seller_redirection_type_edit">Satıcı Yönlendirme Tipi</label>
                             <select id="seller_redirection_type_edit" class="form-control">
                                 <option value="1">Şehire Göre Satıcı Yönlendirme</option>
