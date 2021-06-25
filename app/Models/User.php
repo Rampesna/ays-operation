@@ -11,7 +11,6 @@ use Illuminate\Notifications\Notifiable;
 /**
  * @method static find($primaryKey)
  * @method static select(array $array)
- * @method static where(string $column, string $data)
  * @method static whereBetween($column, array $array)
  * @method static whereIn(string $column, string $operator, array $array)
  * @method static whereNotIn($column, array $excepts)
@@ -137,5 +136,10 @@ class User extends Authenticatable
     public function recruitingActivities()
     {
         return $this->hasMany(RecruitingActivity::class);
+    }
+
+    public function meetingAgendas()
+    {
+        return $this->morphToMany(MeetingAgenda::class, 'relation', 'meeting_agenda_relations');
     }
 }

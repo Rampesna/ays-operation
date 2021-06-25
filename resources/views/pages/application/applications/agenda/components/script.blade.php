@@ -76,7 +76,7 @@
         columns: [
             {data: 'subject', name: 'subject'},
             {data: 'meeting_id', name: 'meeting_id'},
-            {data: 'users', name: 'users'},
+            {data: 'users', name: 'users', orderable: false},
             {data: 'discussions', name: 'discussions'},
             {data: 'result', name: 'result'},
         ],

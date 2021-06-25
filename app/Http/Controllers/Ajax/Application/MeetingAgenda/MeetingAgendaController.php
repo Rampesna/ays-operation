@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ajax\Application\MeetingAgenda;
 
 use App\Http\Controllers\Controller;
 use App\Models\MeetingAgenda;
+use App\Models\User;
 use App\Services\MeetingAgendaService;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -19,6 +20,14 @@ class MeetingAgendaController extends Controller
         }
 
         return Datatables::of($model)->
+        filterColumn('users', function ($agendas, $keyword) {
+            $agendaList = [];
+            $users = User::where('name', 'like', '%' . 'Ta' . '%')->get();
+            foreach ($users as $user) {
+                $agendaList = array_merge($agendaList, collect($user->meetingAgendas)->toArray());
+            }
+            $agendas->whereIn('id', collect($agendaList)->unique('id')->pluck('id'));
+        })->
         editColumn('users', function ($agenda) {
             return implode(',', $agenda->users()->pluck('name')->toArray()) ?? '';
         })->
