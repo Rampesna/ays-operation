@@ -14,6 +14,8 @@ class Task extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $guarded = [];
+
     protected $appends = ['status', 'progress'];
 
     public function creator()

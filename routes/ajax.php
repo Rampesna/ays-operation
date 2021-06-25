@@ -112,7 +112,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         Route::get('taskStatuses', 'ProjectController@taskStatuses')->name('ajax.project.taskStatuses');
 
         Route::prefix('task')->group(function () {
-            Route::get('create', 'TaskController@create')->name('ajax.project.task.create');
+            Route::post('create', 'TaskController@create')->name('ajax.project.task.create');
             Route::get('edit', 'TaskController@edit')->name('ajax.project.task.edit');
             Route::post('delete', 'TaskController@delete')->name('ajax.project.task.delete');
 
@@ -129,6 +129,7 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
             Route::post('updatePriority', 'TaskController@updatePriority')->name('ajax.project.task.updatePriority');
             Route::post('updateDescription', 'TaskController@updateDescription')->name('ajax.project.task.updateDescription');
             Route::post('updateEmployee', 'TaskController@updateEmployee')->name('ajax.project.task.updateEmployee');
+            Route::post('order-update', 'TaskController@orderUpdate')->name('ajax.project.task.order-update');
 
             Route::prefix('task-status')->group(function () {
                 Route::post('create', 'TaskStatusController@create')->name('ajax.project.task-status.create');

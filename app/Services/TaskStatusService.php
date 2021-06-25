@@ -20,6 +20,7 @@ class TaskStatusService
         $this->taskStatus->project_id = $request->project_id;
         $this->taskStatus->name = $request->name ?? '';
         $this->taskStatus->order = Project::find($request->project_id)->taskStatuses->count() + 1;
+        $this->taskStatus->management = $request->management;
         $this->taskStatus->save();
 
         return $this->taskStatus;

@@ -14,25 +14,32 @@ class TaskController extends Controller
 {
     public function create(Request $request)
     {
+//        return $request;
+        $lastTaskInBoard = Task::where('status_id', $request->status_id)->orderBy('order', 'desc')->first();
         $task = new Task;
-        $task->company_id = Project::find($request->project_id)->company_id;
-        $task->project_id = $request->project_id;
-        $task->employee_id = $request->employee_id;
-        $task->creator_id = $request->creator_id;
-        $task->milestone_id = $request->milestone_id;
+        $task->company_id = intval(Project::find($request->project_id)->company_id);
+        $task->project_id = intval($request->project_id);
+        $task->employee_id = intval($request->employee_id);
+        $task->creator_id = intval($request->creator_id);
+        $task->milestone_id = intval($request->milestone_id);
         $task->name = $request->name;
         $task->description = $request->description;
-        $task->tags = $request->tags ? General::clearTagifyTags($request->tags) : null;
+        $task->tags = !is_null($request->tags) ? General::clearTagifyTags($request->tags) : null;
         $task->start_date = $request->start_date;
         $task->end_date = $request->end_date;
-        $task->status_id = $request->status_id;
-        $task->priority_id = $request->priority_id;
+        $task->status_id = intval($request->status_id);
+        $task->priority_id = intval($request->priority_id);
+        $task->order = $lastTaskInBoard ? ($lastTaskInBoard->order + 1) : 0;
+        if ($request->hasFile('image')) {
+            $task->image = 'tasks/' . $request->file('image')->getClientOriginalName();
+            $request->file('image')->move('tasks/', $request->file('image')->getClientOriginalName());
+        }
         $task->save();
 
         if ($request->employee_id) {
             $assignment = new Assignment;
             $assignment->task_id = $task->id;
-            $assignment->employee_id = $request->employee_id;
+            $assignment->employee_id = intval($request->employee_id);
             $assignment->date = date('Y-m-d H:i:s');
             $assignment->save();
         }
@@ -41,7 +48,7 @@ class TaskController extends Controller
             foreach ($request->checklist as $item) {
                 $newChecklistItem = new ChecklistItem;
                 $newChecklistItem->task_id = $task->id;
-                $newChecklistItem->creator_id = $request->creator_id;
+                $newChecklistItem->creator_id = intval($request->creator_id);
                 $newChecklistItem->name = $item;
                 $newChecklistItem->save();
             }
@@ -179,5 +186,12 @@ class TaskController extends Controller
         $assignment->save();
 
         return response()->json($task, 200);
+    }
+
+    public function orderUpdate(Request $request)
+    {
+        foreach ($request->list as $key => $value) {
+            $key && $value && gettype($key) == 'integer' ? Task::find($key)->update(['order' => $value]) : null;
+        }
     }
 }

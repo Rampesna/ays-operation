@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Proje Görevleri')
+@section('title', 'Proje Yönetim İşleri')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
 
@@ -8,11 +8,6 @@
     @include('pages.project.project.show.components.subheader')
     <input type="hidden" id="kt_quick_cart_toggle">
     <input type="hidden" id="loaderControl" value="0">
-    <div class="row mt-15">
-        <div class="col-xl-6">
-            <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks']) }}" class="btn btn-primary">Liste Görünümüne Geç</a>
-        </div>
-    </div>
     <hr>
     <div id="tasks"></div>
 
@@ -150,7 +145,7 @@
                 });
             },
             boards: [
-                @foreach($project->taskStatuses()->where('management', 0)->orderBy('order','asc')->get() as $status)
+                @foreach($project->taskStatuses()->where('management', 1)->orderBy('order','asc')->get() as $status)
                 {
                     'id': '{{ $status->id }}',
                     'title': '' +
@@ -318,6 +313,7 @@
                     // console.log(task);
                     selectedTaskIdSelector.val(task.id);
                     checklistItemCreateIcon.data('id',task.id);
+                    $("#taskImageSelector").attr('src', task.image ? '{{ asset('') }}' + task.image : null);
 
                     var exists = timesheetExistControl(task.id,'{{ auth()->user()->getId() }}');
 
@@ -348,7 +344,7 @@
 
                     taskMilestoneSelector.removeClass();
                     taskMilestoneSelector.html('');
-                    if (task.milestone_id != null) {
+                    if (task.milestone) {
                         taskMilestoneSelector.html(task.milestone.name);
                         taskMilestoneSelector.addClass('btn btn-pill btn-sm btn-' + task.milestone.color);
                     }
@@ -482,6 +478,8 @@
             var start_date = $("#start_date").val();
             var end_date = $("#end_date").val();
 
+            var dataList = new FormData();
+
             if (status_id == null || status_id === '') {
                 toastr.error('Pano Seçiminde Bir Hata Oluştu. Sayfayı Yenileyip Tekrar Deneyin');
             } else if (project_id === '') {
@@ -497,26 +495,29 @@
             } else if (priority_id == null || priority_id === '') {
                 toastr.warning('Öncelik Durumu Seçilmesi Zorunludur');
             } else {
+
+                dataList.append('_token', '{{ csrf_token() }}');
+                dataList.append('status_id', status_id);
+                dataList.append('project_id', project_id);
+                dataList.append('employee_id', employee_id);
+                dataList.append('creator_id', creator_id);
+                dataList.append('milestone_id', milestone_id);
+                dataList.append('priority_id', priority_id);
+                dataList.append('name', name);
+                dataList.append('description', description);
+                dataList.append('tags', tags);
+                dataList.append('start_date', start_date);
+                dataList.append('end_date', end_date);
+                dataList.append('checklist', checklist);
+                dataList.append('image', $('#image')[0].files[0]);
+
                 $.ajax({
+                    processData: false,
+                    contentType: false,
                     type: 'post',
                     url: '{{ route('ajax.project.task.create') }}',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        status_id: status_id,
-                        project_id: project_id,
-                        employee_id: employee_id,
-                        creator_id: creator_id,
-                        milestone_id: milestone_id,
-                        priority_id: priority_id,
-                        name: name,
-                        description: description,
-                        tags: tags,
-                        start_date: start_date,
-                        end_date: end_date,
-                        checklist: checklist
-                    },
+                    data: dataList,
                     success: function (task) {
-                        console.log(task);
                         var assigned = 'Yok';
                         if (task.assigned != null) {
                             assigned = task.assigned.name;
@@ -563,6 +564,10 @@
                         });
                         $("#newTaskCreateForm")[0].reset();
                         $("#CreateTask").modal('hide');
+                    },
+                    error: function (error) {
+                        toastr.error('Görev Oluşturulurken Sistemsel Hata Oluştu!');
+                        console.log(error)
                     }
                 });
             }
@@ -757,7 +762,7 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     project_id: project_id,
-                    management: 0
+                    management: 1
                 },
                 success: function (taskStatus) {
                     kanban.removeBoard('0');

@@ -69,6 +69,26 @@ class ProjectController extends Controller
                     'tab' => $tab
                 ]);
             }
+        } else if ($tab == 'management-tasks') {
+            if (!auth()->user()->authority(34)) {
+                return abort(403);
+            }
+            if ($sub) {
+                if ($sub == 'kanban') {
+                    return view('pages.project.project.show.management-tasks-kanban', [
+                        'project' => $project,
+                        'tab' => $tab,
+                        'taskPriorities' => TaskPriority::all()
+                    ]);
+                } else {
+                    return abort(404);
+                }
+            } else {
+                return view('pages.project.project.show.tasks', [
+                    'project' => $project,
+                    'tab' => $tab
+                ]);
+            }
         } else if ($tab == 'calendar') {
             if (!auth()->user()->authority(42)) {
                 return abort(403);

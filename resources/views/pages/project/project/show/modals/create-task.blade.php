@@ -28,20 +28,18 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="start_date">Başlangıç Tarihi</label>
                             <input type="date" class="form-control" name="start_date" id="start_date" required>
                         </div>
                     </div>
-                    <div class="col-xl-6">
+                    <div class="col-xl-4">
                         <div class="form-group">
                             <label for="end_date">Bitiş Tarihi</label>
                             <input type="date" class="form-control" name="end_date" id="end_date" required>
                         </div>
                     </div>
-                </div>
-                <div class="row">
                     <div class="col-xl-4">
                         <div class="form-group">
                             <label for="employee_id">Personel Ataması</label>
@@ -53,6 +51,8 @@
                             </select>
                         </div>
                     </div>
+                </div>
+                <div class="row">
                     <div class="col-xl-4">
                         <div class="form-group">
                             <label for="milestone_id">Kilometre Taşı</label>
@@ -72,6 +72,12 @@
                                     <option value="{{ $taskPriority->id }}">{{ $taskPriority->name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                    </div>
+                    <div class="col-xl-4">
+                        <div class="form-group">
+                            <label for="image">Görsel Ekle</label>
+                            <input type="file" id="image">
                         </div>
                     </div>
                 </div>

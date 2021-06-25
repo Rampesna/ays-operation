@@ -29,6 +29,15 @@
             </li>
             @endAuthority
 
+            @Authority(34)
+            <li class="nav-item">
+                <a class="nav-link @if($tab == 'management-tasks') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'management-tasks', 'sub' => 'kanban']) }}">
+                    <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
+                    <span class="nav-text">Yönetim İşleri</span>
+                </a>
+            </li>
+            @endAuthority
+
             @Authority(42)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'calendar') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'calendar']) }}">

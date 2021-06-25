@@ -86,6 +86,15 @@
             </div>
             <hr>
             <div class="row">
+                <div class="col-xl-3">
+                    <span class="font-weight-bold">Görev Görseli: </span>
+                </div>
+                <div class="col-xl-9">
+                    <img src="" id="taskImageSelector" style="width: 100%">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
                 <div class="col-xl-12">
                     <h6 class="font-size-h6-sm">Alt İşler <i class="fa fa-plus-circle text-success cursor-pointer ml-3" id="checklistItemCreate" data-id=""></i></h6>
                 </div>
