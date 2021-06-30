@@ -88,7 +88,7 @@ class EmployeeController extends Controller
                 $internal
             )['response'];
 
-            $employee = (new EmployeeService)->store(new Employee, $request, $guid);
+            $employee = (new EmployeeService)->store(new Employee, $request, $guid, 1);
 
             $positionService = new PositionService;
             $positionService->setPosition(new Position);
