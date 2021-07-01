@@ -90,12 +90,12 @@ class ReportController extends Controller
                 $query->where(function ($start) use ($request) {
                     $start->whereBetween('start_date', [
                             date('Y-m-01', strtotime($request->date)),
-                            date('Y-m-t', strtotime($request->date))]
+                            date('Y-m-t 23:59:59', strtotime($request->date))]
                     );
                 })->orWhere(function ($end) use ($request) {
                     $end->whereBetween('end_date', [
                             date('Y-m-01', strtotime($request->date)),
-                            date('Y-m-t', strtotime($request->date))]
+                            date('Y-m-t 23:59:59', strtotime($request->date))]
                     );
                 });
             })->
@@ -111,12 +111,12 @@ class ReportController extends Controller
                 $query->where(function ($start) use ($request) {
                     $start->whereBetween('start_date', [
                             date('Y-m-01', strtotime($request->date)),
-                            date('Y-m-t', strtotime($request->date))]
+                            date('Y-m-t 23:59:59', strtotime($request->date))]
                     );
                 })->orWhere(function ($end) use ($request) {
                     $end->whereBetween('end_date', [
                             date('Y-m-01', strtotime($request->date)),
-                            date('Y-m-t', strtotime($request->date))]
+                            date('Y-m-t 23:59:59', strtotime($request->date))]
                     );
                 });
             })->
@@ -153,8 +153,14 @@ class ReportController extends Controller
 
                 foreach ($permits as $permit) {
                     if (
-                        $permit->start_date >= date('Y-m-01 09:00:00') &&
-                        $permit->end_date <= date('Y-m-t 18:00:00') &&
+                        $permit->start_date <= date('Y-m-01 09:00:00', strtotime($request->date)) &&
+                        $permit->end_date >= date('Y-m-t 18:00:00', strtotime($request->date))
+                    ) {
+                        $totalMinutes = intval(date('t', strtotime($request->date))) * 480;
+                        break;
+                    } else if (
+                        $permit->start_date >= date('Y-m-01 09:00:00', strtotime($request->date)) &&
+                        $permit->end_date <= date('Y-m-t 18:00:00', strtotime($request->date)) &&
                         date('Y-m-d', strtotime($permit->start_date)) == date('Y-m-d', strtotime($permit->end_date))
                     ) {
                         $totalMinutes += Carbon::createFromDate($permit->start_date)->diffInMinutes($permit->end_date) >= 480 ?
@@ -214,12 +220,12 @@ class ReportController extends Controller
                         $query->where(function ($start) use ($request) {
                             $start->whereBetween('start_date', [
                                     date('Y-m-01', strtotime($request->date)),
-                                    date('Y-m-t', strtotime($request->date))]
+                                    date('Y-m-t 23:59:59', strtotime($request->date))]
                             );
                         })->orWhere(function ($end) use ($request) {
                             $end->whereBetween('end_date', [
                                     date('Y-m-01', strtotime($request->date)),
-                                    date('Y-m-t', strtotime($request->date))]
+                                    date('Y-m-t 23:59:59', strtotime($request->date))]
                             );
                         });
                     })->
