@@ -40,7 +40,7 @@
                     <hr>
                     <div class="row">
                         <div class="col-xl-12 text-right">
-                            <button type="submit" class="btn btn-primary">İşleri Aktar</button>
+                            <button type="submit" class="btn btn-primary" id="submitButton">İşleri Aktar</button>
                         </div>
                     </div>
                 </div>
@@ -55,5 +55,10 @@
 @stop
 
 @section('page-script')
-
+    <script>
+        $('#submitButton').click(function () {
+            toastr.info('Aktarım başlatılıyor...');
+            $('#loader').fadeIn(250);
+        });
+    </script>
 @stop
