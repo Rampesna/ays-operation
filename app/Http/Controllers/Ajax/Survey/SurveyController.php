@@ -63,9 +63,11 @@ class SurveyController extends Controller
             return response()->json([
                 'status' => 'Tamamlandı',
                 'response' => [
-                    'survey' => $responseSurvey->body(),
-                    'sellers' => $responseSellers->body(),
-                    'callList' => $callList
+                    'survey' => @$responseSurvey->body(),
+                    'surveyStatus' => @$responseSurvey->status(),
+                    'sellers' => @$responseSellers->body(),
+                    'sellersStatus' => @$responseSellers->status(),
+                    'callList' => @$callList
                 ]
             ], 200);
         } catch (\Exception $exception) {

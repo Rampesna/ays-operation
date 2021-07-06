@@ -138,6 +138,7 @@
 
     createSurveyButton.click(function () {
         $("#loader").fadeIn(250);
+        $('#CreateSurvey').modal('hide');
         var data = new FormData();
 
         var selectedRows = sellers.rows();
@@ -181,9 +182,10 @@
             success: function (response) {
                 if (response.status === 'Tamamlandı') {
                     toastr.success('İşlem Tamamlandı!');
+                    console.log(response)
                     location.reload();
                 } else {
-                    toastr.error('Sistemsel Bir Hata Oluştu!');
+                    toastr.error('Bir Hata Oluştu!');
                     console.log(response)
                     $("#loader").fadeOut(250);
                 }
@@ -246,8 +248,8 @@
                 $("#job_resource_edit").val(survey.uyumCrmIsKaynagi);
                 $("#seller_redirection_type_edit").val(survey.uyumCrmSaticiKoduTurKodu);
                 $("#status_edit").val(survey.durum);
-                $("#additional_product_opportunity_edit").val(survey.UyumCrmEkUrunFirsat);
-                $("#additional_product_call_plan_edit").val(survey.UyumCrmEkUrunAramaPlani);
+                $("#additional_product_opportunity_edit").val(survey.uyumCrmEkUrunFirsat);
+                $("#additional_product_call_plan_edit").val(survey.uyumCrmEkUrunAramaPlani);
                 $("#file_selector_edit_control").html(survey.epostaIcerik !== '' || survey.epostaIcerik != null ? '(İçerik Dolu)' : '(İçerik Boş)');
             },
             error: function () {
@@ -295,6 +297,7 @@
                 success: function (response) {
                     if (response.status === 'Tamamlandı') {
                         toastr.success('Başarıyla Güncellendi');
+                        console.log(response)
                         location.reload();
                     } else {
                         $("#loader").fadeOut(250);
