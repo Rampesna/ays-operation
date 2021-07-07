@@ -121,39 +121,8 @@ class MonitoringService
 
     public static function AbandonService()
     {
-        $params = [
-            "draw" => "1",
-            "columns[0][data]" => "callerNumber",
-            "columns[1][data]" => "standByTime",
-            "columns[2][data]" => "callTime",
-            "columns[3][data]" => "status",
-            "columns[4][data]" => "result",
-            "columns[5][data]" => "callbackTime",
-            "columns[6][data]" => "queue",
-            "columns[7][data]" => "callbackAgent",
-            "order[0][column]" => "2",
-            "order[0][dir]" => "desc",
-            "start" => "0",
-            "length" => "100",
-            "_csrf_token" => "istatistik_detay_getir",
-            "t1" => date('d.m.Y'),
-            "t2" => date('d.m.Y'),
-            "departman" => "EfaturaEarsiv",
-            "tip" => "abandon",
-            "startHour" => "",
-            "endHour" => "",
-            "indate" => "",
-            "maxbekleme" => ""
-        ];
-
-        $queues = Queue::where('company_id', 1)->get();
-
-        foreach ($queues as $queue) {
-            $params["departman"] = $queue->short;
-            $response[$queue->short] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-        }
-
-        return $response;
+        $netSantralApi = new NetsantralApi;
+        $netSantralApi->Abandons(Queue::where('company_id', 1)->pluck('short'));
     }
 
     public static function ShiftEmployeesLastSundayService()

@@ -40,4 +40,13 @@ class NetsantralApi extends ApiBase
             'end_date' => $endDate
         ]);
     }
+
+    public function Abandons($queues)
+    {
+        $endpoint = "Abandons";
+        return $this->callApi($this->baseUrl . $endpoint, 'get', [], [
+            'appToken' => env('NETSANTRAL_API_TOKEN'),
+            'queues' => $queues
+        ]);
+    }
 }
