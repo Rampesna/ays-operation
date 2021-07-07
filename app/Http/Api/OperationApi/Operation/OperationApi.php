@@ -91,21 +91,14 @@ class OperationApi extends OperationApiBase
         return $this->callApi($this->baseUrl . $endpoint, 'get', $headers);
     }
 
-    public function SetLostList($lostGroupCode, $phone)
+    public function SetLostList($list)
     {
         $endpoint = "Operation/SetLostList";
         $headers = [
             'Authorization' => 'Bearer ' . $this->_token,
         ];
 
-        $parameters = [
-            'body' => [
-                'kayipGrupKodu' => $lostGroupCode,
-                'tel' => $phone
-            ]
-        ];
-
-        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $parameters);
+        return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $list);
     }
 
     public function SetParameters($dailyTotalBreakTime, $dailyTotalFoodBreakTime, $dailyTotalBioBreakTime, $instantFoodBreakTime, $instantBioBreakTime)

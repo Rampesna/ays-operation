@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Api\NetsantralApi;
+use App\Http\Api\OperationApi\Operation\OperationApi;
 use App\Http\Api\OperationApi\SpecialReport\SpecialReportApi;
 use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
+use App\Models\Queue;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -12,13 +15,7 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $agendaList = [];
-        $users = User::where('name', 'like', '%' . 'Ta' . '%')->get();
-        foreach ($users as $user) {
-            $agendaList = array_merge($agendaList, collect($user->meetingAgendas)->toArray());
-        }
 
-        return $agendaList;
     }
 
     public function backdoor()
