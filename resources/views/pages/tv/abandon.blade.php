@@ -208,7 +208,7 @@
         {
             $.ajax({
                 type: "get",
-                url: "/Abandon",
+                url: "{{ route('ajax.monitoring.Abandon') }}",
                 dataType: 'json',
                 data: {
                     _token: '{{ csrf_token() }}'
