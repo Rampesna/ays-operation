@@ -122,7 +122,7 @@ class MonitoringService
     public static function AbandonService()
     {
         $netSantralApi = new NetsantralApi;
-        $netSantralApi->Abandons(Queue::where('company_id', 1)->pluck('short'));
+        return json_decode($netSantralApi->Abandons(Queue::where('company_id', 1)->pluck('short')->toArray())->body());
     }
 
     public static function ShiftEmployeesLastSundayService()
