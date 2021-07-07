@@ -186,6 +186,24 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card">
+                                    <div class="card-header" id="headingTwo3">
+                                        <div class="card-title collapsed" data-toggle="collapse" data-target="#iys">IYS</div>
+                                    </div>
+                                    <div id="iys" class="collapse" data-parent="#accordionExample3">
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-xl-12">
+                                                    <table class="table">
+                                                        <tbody id="iys_row">
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -206,6 +224,7 @@
 
         function CallApi()
         {
+            $('#loader').fadeIn(250);
             $.ajax({
                 type: "get",
                 url: "{{ route('ajax.monitoring.Abandon') }}",
@@ -217,54 +236,62 @@
                     console.log(response);
 
                     $("#iuyum_row").empty();
-                    $.each(response.iuyum, function (index) {
-                        $("#iuyum_row").append('<tr><td><strong>' + response.iuyum[index].callerNumber + '</strong></td><td>Son Durum: ' + response.iuyum[index].status + ' | Sonuç: ' + response.iuyum[index].result + '</td></tr>');
+                    $.each(response.Iuyum, function (index) {
+                        $("#iuyum_row").append('<tr><td><strong>' + response.Iuyum[index].callerNumber + '</strong></td><td>Son Durum: ' + response.Iuyum[index].status + ' | Sonuç: ' + response.Iuyum[index].result + '</td></tr>');
                     });
 
                     $("#efaturaearsiv_row").empty();
-                    $.each(response.efaturaearsiv, function (index) {
-                        $("#efaturaearsiv_row").append('<tr><td><strong>' + response.efaturaearsiv[index].callerNumber + '</strong></td><td>Son Durum: ' + response.efaturaearsiv[index].status + ' | Sonuç: ' + response.efaturaearsiv[index].result + '</td></tr>');
+                    $.each(response.EfaturaEarsiv, function (index) {
+                        $("#efaturaearsiv_row").append('<tr><td><strong>' + response.EfaturaEarsiv[index].callerNumber + '</strong></td><td>Son Durum: ' + response.EfaturaEarsiv[index].status + ' | Sonuç: ' + response.EfaturaEarsiv[index].result + '</td></tr>');
                     });
 
                     $("#hesapaktivasyon_row").empty();
-                    $.each(response.hesapaktivasyon, function (index) {
-                        $("#hesapaktivasyon_row").append('<tr><td><strong>' + response.hesapaktivasyon[index].callerNumber + '</strong></td><td>Son Durum: ' + response.hesapaktivasyon[index].status + ' | Sonuç: ' + response.hesapaktivasyon[index].result + '</td></tr>');
+                    $.each(response.HesapAktivasyon, function (index) {
+                        $("#hesapaktivasyon_row").append('<tr><td><strong>' + response.HesapAktivasyon[index].callerNumber + '</strong></td><td>Son Durum: ' + response.HesapAktivasyon[index].status + ' | Sonuç: ' + response.HesapAktivasyon[index].result + '</td></tr>');
                     });
 
                     $("#eirsaliyeaktivasyon_row").empty();
-                    $.each(response.eirsaliyehesapacilis, function (index) {
-                        $("#eirsaliyeaktivasyon_row").append('<tr><td><strong>' + response.eirsaliyehesapacilis[index].callerNumber + '</strong></td><td>Son Durum: ' + response.eirsaliyehesapacilis[index].status + ' | Sonuç: ' + response.eirsaliyehesapacilis[index].result + '</td></tr>');
+                    $.each(response.eIsaliyeHesapAcilis, function (index) {
+                        $("#eirsaliyeaktivasyon_row").append('<tr><td><strong>' + response.eIsaliyeHesapAcilis[index].callerNumber + '</strong></td><td>Son Durum: ' + response.eIsaliyeHesapAcilis[index].status + ' | Sonuç: ' + response.eIsaliyeHesapAcilis[index].result + '</td></tr>');
                     });
 
                     $("#eirsaliyedestek_row").empty();
-                    $.each(response.eirsaliyedestek, function (index) {
-                        $("#eirsaliyedestek_row").append('<tr><td><strong>' + response.eirsaliyedestek[index].callerNumber + '</strong></td><td>Son Durum: ' + response.eirsaliyedestek[index].status + ' | Sonuç: ' + response.eirsaliyedestek[index].result + '</td></tr>');
+                    $.each(response.eIrsaliyeDestek, function (index) {
+                        $("#eirsaliyedestek_row").append('<tr><td><strong>' + response.eIrsaliyeDestek[index].callerNumber + '</strong></td><td>Son Durum: ' + response.eIrsaliyeDestek[index].status + ' | Sonuç: ' + response.eIrsaliyeDestek[index].result + '</td></tr>');
                     });
 
                     $("#ekocari_row").empty();
-                    $.each(response.ekocari, function (index) {
-                        $("#ekocari_row").append('<tr><td><strong>' + response.ekocari[index].callerNumber + '</strong></td><td>Son Durum: ' + response.ekocari[index].status + ' | Sonuç: ' + response.ekocari[index].result + '</td></tr>');
+                    $.each(response.EkoCari, function (index) {
+                        $("#ekocari_row").append('<tr><td><strong>' + response.EkoCari[index].callerNumber + '</strong></td><td>Son Durum: ' + response.EkoCari[index].status + ' | Sonuç: ' + response.EkoCari[index].result + '</td></tr>');
                     });
 
                     $("#edefter_row").empty();
-                    $.each(response.edefter, function (index) {
-                        $("#edefter_row").append('<tr><td><strong>' + response.edefter[index].callerNumber + '</strong></td><td>Son Durum: ' + response.edefter[index].status + ' | Sonuç: ' + response.edefter[index].result + '</td></tr>');
+                    $.each(response.Edefter, function (index) {
+                        $("#edefter_row").append('<tr><td><strong>' + response.Edefter[index].callerNumber + '</strong></td><td>Son Durum: ' + response.Edefter[index].status + ' | Sonuç: ' + response.Edefter[index].result + '</td></tr>');
                     });
 
                     $("#edefterimzalama_row").empty();
-                    $.each(response.edefterimzalama, function (index) {
-                        $("#edefterimzalama_row").append('<tr><td><strong>' + response.edefterimzalama[index].callerNumber + '</strong></td><td>Son Durum: ' + response.edefterimzalama[index].status + ' | Sonuç: ' + response.edefterimzalama[index].result + '</td></tr>');
+                    $.each(response.Edefterimzalama, function (index) {
+                        $("#edefterimzalama_row").append('<tr><td><strong>' + response.Edefterimzalama[index].callerNumber + '</strong></td><td>Son Durum: ' + response.Edefterimzalama[index].status + ' | Sonuç: ' + response.Edefterimzalama[index].result + '</td></tr>');
                     });
 
                     $("#yedek_row").empty();
-                    $.each(response.yedek, function (index) {
-                        $("#yedek_row").append('<tr><td><strong>' + response.yedek[index].callerNumber + '</strong></td><td>Son Durum: ' + response.yedek[index].status + ' | Sonuç: ' + response.yedek[index].result + '</td></tr>');
+                    $.each(response.Yedek, function (index) {
+                        $("#yedek_row").append('<tr><td><strong>' + response.Yedek[index].callerNumber + '</strong></td><td>Son Durum: ' + response.Yedek[index].status + ' | Sonuç: ' + response.Yedek[index].result + '</td></tr>');
+                    });
+
+                    $("#iys_row").empty();
+                    $.each(response.IYS, function (index) {
+                        $("#iys_row").append('<tr><td><strong>' + response.IYS[index].callerNumber + '</strong></td><td>Son Durum: ' + response.IYS[index].status + ' | Sonuç: ' + response.IYS[index].result + '</td></tr>');
                     });
 
                     $("#reload_abandons").attr('disabled', false);
+                    $('#loader').fadeOut(250);
                 },
                 error: function (error) {
+                    toastr.error('Kayıp Çağrılar Alınırken Sistemsel Bir Hata Oluştu!');
                     console.log(error);
+                    $('#loader').fadeOut(250);
                 }
             });
         }

@@ -6,6 +6,7 @@ use App\Http\Api\AyssoftIkApi;
 use App\Http\Api\NetsantralApi;
 use App\Http\Api\OperationApi\TvScreen\TvScreenApi;
 use App\Models\Permit;
+use App\Models\Queue;
 use App\Models\Shift;
 use Illuminate\Support\Facades\Http;
 
@@ -145,32 +146,12 @@ class MonitoringService
             "maxbekleme" => ""
         ];
 
-        $params["departman"] = "IUyum";
-        $response["iuyum"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
+        $queues = Queue::where('company_id', 1)->get();
 
-        $params["departman"] = "EfaturaEarsiv";
-        $response["efaturaearsiv"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-
-        $params["departman"] = "eIrsaliyeDestek";
-        $response["eirsaliyedestek"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-
-        $params["departman"] = "HesapAktivasyon";
-        $response["hesapaktivasyon"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-
-        $params["departman"] = "eIsaliyeHesapAcilis";
-        $response["eirsaliyehesapacilis"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-
-        $params["departman"] = "Edefter";
-        $response["edefter"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-
-        $params["departman"] = "EdefterImzalama";
-        $response["edefterimzalama"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-
-        $params["departman"] = "EkoCari";
-        $response["ekocari"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
-
-        $params["departman"] = "Yedek";
-        $response["yedek"] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
+        foreach ($queues as $queue) {
+            $params["departman"] = $queue->short;
+            $response[$queue->short] = Http::asForm()->post('http://uyumsoft.netasistan.com/istatistik/departman/detay', $params)["data"];
+        }
 
         return $response;
     }
