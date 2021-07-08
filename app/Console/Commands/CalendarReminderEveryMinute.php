@@ -40,20 +40,6 @@ class CalendarReminderEveryMinute extends Command
      */
     public function handle()
     {
-        $calendarReminders = CalendarReminder::with(['relation'])->whereBetween('date', [
-            date('Y-m-d H:i:s', strtotime('+3 hours')),
-            date('Y-m-d H:i:s', strtotime('+3 hours +1 minutes'))
-        ])->where('reminded', 0)->get();
-
-        foreach ($calendarReminders as $calendarReminder) {
-            if ($calendarReminder->mail == 1) {
-                try {
-                    Mail::to($calendarReminder->relation->email)->send(new CalendarReminderMail($calendarReminder));
-                } catch (\Exception $exception) {
-
-                }
-                $calendarReminder->update(['reminded' => 1]);
-            }
-        }
+        return 0;
     }
 }

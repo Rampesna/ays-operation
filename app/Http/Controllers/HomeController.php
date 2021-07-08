@@ -15,7 +15,13 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        $netSantralApi = new NetsantralApi;
+        $queues = Queue::where('company_id', 1)->pluck('short')->toArray();
+        $response = (array)json_decode($netSantralApi->Abandons($queues)->body());
 
+        $list = [];
+
+        return $response;
     }
 
     public function backdoor()

@@ -18,6 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('NetSantral/SetAbandons', [\App\Http\Controllers\Api\Santral\SantralController::class, 'abandons']);
 
 Route::middleware(['TokenControl'])->namespace('App\\Http\\Controllers\\Api')->group(function () {
 
@@ -27,7 +28,7 @@ Route::middleware(['TokenControl'])->namespace('App\\Http\\Controllers\\Api')->g
 
     Route::prefix('FoodList')->namespace('FoodList')->group(function () {
 
-        Route::get('FoodList','FoodListController@FoodList');
+        Route::get('FoodList', 'FoodListController@FoodList');
 
         Route::prefix('FoodListCheck')->namespace('FoodListCheck')->group(function () {
             Route::get('Edit', 'FoodListCheckController@Edit');

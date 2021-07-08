@@ -6,12 +6,6 @@
 @section('content')
 
     <div class="row">
-        <div class="col-xl-12 text-right">
-            <a href="{{ route('exams.questions.create') }}" class="btn btn-primary">Yeni Sınav Sorusu Oluştur</a>
-        </div>
-    </div>
-    <hr>
-    <div class="row">
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">

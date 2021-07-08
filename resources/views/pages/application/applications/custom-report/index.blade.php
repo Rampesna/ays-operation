@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title', 'Toplu İşlemler')
+@section('title', 'Özel Raporlar')
 @php(setlocale(LC_ALL, 'tr_TR.UTF-8'))
 
 

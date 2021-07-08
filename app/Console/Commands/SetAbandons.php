@@ -3,9 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Http\Api\NetsantralApi;
-use App\Http\Api\OperationApi\OperationApi;
 use App\Models\Queue;
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class SetAbandons extends Command
 {
@@ -50,7 +50,13 @@ class SetAbandons extends Command
             if ($getQueue = Queue::where('short', $queue)->first()) {
                 if (!is_null($getQueue->group_code) && $getQueue->group_code != 0) {
                     foreach ($response[$queue] as $phone) {
-                        if ($phone->isProcessed == 0 || $phone->isProcessed == "0") {
+                        if (
+                            $phone->isProcessed == 0 ||
+                            $phone->isProcessed == "0" ||
+                            $phone->result == "" ||
+                            $phone->result == "Cevap Yok" ||
+                            $phone->result == "Meşgul"
+                        ) {
                             $list[] = [
                                 'kayipGrupKodu' => $getQueue->group_code,
                                 'tel' => $phone->callerNumber
@@ -61,7 +67,7 @@ class SetAbandons extends Command
             }
         }
 
-        $operationApi = new OperationApi;
+        $operationApi = new \App\Http\Api\OperationApi\Operation\OperationApi;
         $operationApi->SetLostList($list);
 
         return 0;
