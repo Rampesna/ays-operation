@@ -26,6 +26,7 @@ class ShiftGroupService
     }
 
     public function save(
+        $order,
         $companyId,
         $name,
         $addType,
@@ -59,6 +60,7 @@ class ShiftGroupService
         $employees
     )
     {
+        $this->shiftGroup->order = $order;
         $this->shiftGroup->company_id = $companyId;
         $this->shiftGroup->name = $name;
         $this->shiftGroup->add_type = $addType;

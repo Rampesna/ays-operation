@@ -40,6 +40,7 @@ class ShiftGroupController extends Controller
         $shiftGroupService = new ShiftGroupService;
         $shiftGroupService->setShiftGroup($request->id ? ShiftGroup::find($request->id) : new ShiftGroup);
         $shiftGroupService->save(
+            $request->order,
             $request->company_id,
             $request->name,
             $request->add_type,
@@ -72,17 +73,6 @@ class ShiftGroupController extends Controller
             $request->day6_end_time,
             $request->employees
         );
-    }
-
-//    public function edit(Request $request)
-//    {
-//        return response()->json(ShiftGroup::find($request->id), 200);
-//    }
-
-    public function update(Request $request)
-    {
-        $queue = (new ShiftGroupService)->save(ShiftGroup::find($request->id), $request);
-        return response()->json($queue, 200);
     }
 
     public function delete(Request $request)

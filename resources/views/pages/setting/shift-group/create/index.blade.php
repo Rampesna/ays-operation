@@ -18,7 +18,13 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-xl-12">
+                                <div class="col-xl-2">
+                                    <div class="form-group">
+                                        <label for="order">Sıra</label>
+                                        <input type="text" id="order" class="form-control onlyNumber">
+                                    </div>
+                                </div>
+                                <div class="col-xl-10">
                                     <div class="form-group">
                                         <label for="name">Vardiya Grubu Adı</label>
                                         <input type="text" id="name" class="form-control">

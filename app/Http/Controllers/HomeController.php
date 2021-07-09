@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Api\NetsantralApi;
+use App\Http\Api\OperationApi\DataScanning\DataScanningApi;
 use App\Http\Api\OperationApi\Operation\OperationApi;
 use App\Http\Api\OperationApi\SpecialReport\SpecialReportApi;
 use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
@@ -15,13 +16,25 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        $netSantralApi = new NetsantralApi;
-        $queues = Queue::where('company_id', 1)->pluck('short')->toArray();
-        $response = (array)json_decode($netSantralApi->Abandons($queues)->body());
+        set_time_limit(86400);
+        $jobList = [];
+        $dataList = (array)json_decode(file_get_contents(public_path('n11.json')), true);
+        for ($i = 0; $i < count($dataList); $i++) {
+            $jobList[] = [
+                'grupKodu' => 200,
+                'vknTckn' => $dataList[$i]['vkn'],
+                'unvan' => $dataList[$i]['name'],
+                'sehir' => 'YOK',
+                'ilce' => 'YOK',
+                'islemAdi' => 'n11 Data Tarama',
+                'Oncelik' => 5
+            ];
+        }
 
-        $list = [];
+        $api = new DataScanningApi;
+        $response = $api->SetDataScanning($jobList);
 
-        return $response;
+        return $response->body();
     }
 
     public function backdoor()

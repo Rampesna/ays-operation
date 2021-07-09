@@ -20,6 +20,7 @@
     });
 
     CreateButton.click(function () {
+        var order = $('#order').val();
         var company_id = 1;
         var name = $('#name').val();
         var add_type = $('#add_type').val();
@@ -62,6 +63,7 @@
                 url: '{{ route('setting.shift-groups.store') }}',
                 data: {
                     _token: '{{ csrf_token() }}',
+                    order: order,
                     company_id: company_id,
                     name: name,
                     add_type: add_type,

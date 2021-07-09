@@ -6,8 +6,11 @@
 
     var UpdateButton = $('#UpdateButton');
 
+    @if($shiftGroup->add_type === 1)
     perDayColumn.hide();
     perDay.prop('required', false);
+    @endif
+
 
     addType.change(function () {
         if ($(this).val() === 1 || $(this).val() === '1') {
@@ -21,6 +24,7 @@
 
     UpdateButton.click(function () {
         var id = $('#id').val();
+        var order = $('#order').val();
         var company_id = 1;
         var name = $('#name').val();
         var add_type = $('#add_type').val();
@@ -64,6 +68,7 @@
                 data: {
                     _token: '{{ csrf_token() }}',
                     id: id,
+                    order: order,
                     company_id: company_id,
                     name: name,
                     add_type: add_type,
