@@ -7,7 +7,7 @@
 
     <div class="row">
         <div class="col-xl-12 text-right">
-            <button type="button" data-toggle="modal" data-target="#CreateModal" class="btn btn-primary">Vardiya Grubu Oluştur</button>
+            <a href="{{ route('setting.shift-groups.create') }}" class="btn btn-primary">Vardiya Grubu Oluştur</a>
         </div>
     </div>
     <hr>
@@ -21,9 +21,7 @@
                                 <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Firma</th>
                                     <th>Grup Adı</th>
-                                    <th class="text-right mr-20">Personeller</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -37,10 +35,7 @@
                                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                     <ul class="navi navi-hover">
                                                         <li class="navi-item">
-                                                            <a href="#"
-                                                               data-id="{{ $group->id }}"
-                                                               data-toggle="modal"
-                                                               data-target="#EditModal"
+                                                            <a href="{{ route('setting.shift-groups.edit', ['id' => $group->id]) }}"
                                                                class="navi-link edit">
                                                                     <span class="navi-icon">
                                                                         <i class="fa fa-edit"></i>
@@ -64,17 +59,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="pt-6">{{ $group->company->title }}</td>
                                         <td class="pt-6">{{ $group->name }}</td>
-                                        <td class="text-right">
-                                            <label for="{{ $group->id }}_employees"></label>
-                                            <select style="width: 100%" class="selectpicker" id="{{ $group->id }}_employees" data-live-search="true" multiple>
-                                                @foreach($group->company->employees as $employee)
-                                                    <option @if($group->employees()->where('employee_id', $employee->id)->exists()) selected @endif value="{{ $employee->id }}">{{ ucwords($employee->name) }}</option>
-                                                @endforeach
-                                            </select>
-                                            <button type="button" data-group-id="{{ $group->id }}" class="btn btn-success btn-square employeesUpdate"><i class="far fa-save"></i> Kaydet</button>
-                                        </td>
                                     </tr>
                                 @endforeach
                                 </tbody>

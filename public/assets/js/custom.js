@@ -79,6 +79,24 @@ $(".email-input-mask").inputmask({
     }
 });
 
+$('.decimal').on("copy cut paste drop", function () {
+    return false;
+}).keyup(function () {
+    var val = $(this).val();
+    if (isNaN(val)) {
+        val = val.replace(/[^0-9\.]/g, '');
+        if (val.split('.').length > 2)
+            val = val.replace(/\.+$/, "");
+    }
+    $(this).val(val);
+});
+
+$(".onlyNumber").keypress(function (e) {
+    if (e.which !== 8 && e.which !== 0 && (e.which < 48 || e.which > 57)) {
+        return false;
+    }
+});
+
 toastr.options = {
     "closeButton": false,
     "debug": false,

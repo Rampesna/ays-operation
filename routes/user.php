@@ -480,6 +480,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('shift-groups')->middleware('Authority:30')->group(function () {
             Route::get('/index', [ShiftGroupSettingController::class, 'index'])->name('setting.shift-groups.index');
+            Route::get('/create', [ShiftGroupSettingController::class, 'create'])->name('setting.shift-groups.create');
+            Route::get('/{id?}/edit', [ShiftGroupSettingController::class, 'edit'])->name('setting.shift-groups.edit');
             Route::post('/store', [ShiftGroupSettingController::class, 'store'])->name('setting.shift-groups.store');
             Route::get('/edit', [ShiftGroupSettingController::class, 'edit'])->name('setting.shift-groups.edit');
             Route::post('/update', [ShiftGroupSettingController::class, 'update'])->name('setting.shift-groups.update');
