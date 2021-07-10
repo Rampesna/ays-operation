@@ -5,6 +5,7 @@
 
 @section('content')
 
+    @Authority(1)
     <form action="{{ route('index') }}" class="row mt-n5">
         <div class="col-xl-3">
             <label for="company_id">Firma</label>
@@ -154,6 +155,7 @@
             </div>
         </div>
     </div>
+    @endAuthority
 
 @endsection
 
@@ -164,4 +166,3 @@
 @section('page-script')
     @include('pages.dashboard.components.script')
 @stop
-

@@ -20,6 +20,7 @@
 {{--                                </div>--}}
 {{--                            </a>--}}
 {{--                        </div>--}}
+                        @Authority(77)
                         <div class="col-xl-4">
                             <a href="#" id="CreateMeeting" data-toggle="modal" data-target="#CreateNoteModal" class="card card-custom card-stretch gutter-b" data-dismiss="modal">
                                 <div class="card-body">
@@ -37,6 +38,9 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
+
+                        @Authority(78)
                         <div class="col-xl-4">
                             <a href="#" id="CreateMeeting" data-toggle="modal" data-target="#CreateInformationModal" class="card card-custom card-stretch gutter-b" data-dismiss="modal">
                                 <div class="card-body">
@@ -53,6 +57,9 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
+
+                        @Authority(79)
                         <div class="col-xl-4">
                             <a href="#" id="CreateMeeting" data-toggle="modal" data-target="#CreateReminderModal" class="card card-custom card-stretch gutter-b" data-dismiss="modal">
                                 <div class="card-body">
@@ -68,6 +75,7 @@
                                 </div>
                             </a>
                         </div>
+                        @endAuthority
                     </div>
                 </div>
                 <div class="text-center">

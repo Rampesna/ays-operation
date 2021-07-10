@@ -39,7 +39,7 @@
                                             <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                 <!--begin::Navigation-->
                                                 <ul class="navi navi-hover">
-                                                    @Authority(33)
+                                                    @Authority(59)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'overview']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -50,7 +50,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(43)
+                                                    @Authority(60)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'dashboard', 'sub' => 'kanban']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -61,7 +61,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(34)
+                                                    @Authority(61)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -72,7 +72,18 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(42)
+                                                    @Authority(62)
+                                                    <li class="navi-item">
+                                                        <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'management-tasks']) }}" class="navi-link">
+                                                            <span class="navi-icon">
+                                                                <i class="fas fa-clipboard-list"></i>
+                                                            </span>
+                                                            <span class="navi-text">Yönetim İşleri</span>
+                                                        </a>
+                                                    </li>
+                                                    @endAuthority
+
+                                                    @Authority(63)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'calendar']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -83,7 +94,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(35)
+                                                    @Authority(64)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'timesheets']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -94,7 +105,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(36)
+                                                    @Authority(65)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'milestones']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -105,7 +116,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(37)
+                                                    @Authority(66)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'files']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -116,7 +127,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(38)
+                                                    @Authority(67)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'comments']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -127,7 +138,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(39)
+                                                    @Authority(68)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tickets']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -138,7 +149,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(40)
+                                                    @Authority(69)
                                                     <li class="navi-item">
                                                         <a href="{{ route('project.project.show', ['project' => $project, 'tab' => 'notes']) }}" class="navi-link">
                                                             <span class="navi-icon">
@@ -149,7 +160,7 @@
                                                     </li>
                                                     @endAuthority
 
-                                                    @Authority(22)
+                                                    @Authority(58)
                                                     <hr>
                                                     <li class="navi-item">
                                                         <a href="#" data-toggle="modal" data-target="#DeleteProject" data-id="{{ $project->id }}" class="navi-link deleteProject">

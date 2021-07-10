@@ -20,9 +20,11 @@
                                         {{ $project->name }}
                                     </a>
                                 </div>
+                                @Authority(57)
                                 <div class="my-lg-0 my-1">
                                     <a href="#" class="btn btn-sm btn-secondary font-weight-bolder" data-toggle="modal" data-target="#EditProject">Projeyi Düzenle</a>
                                 </div>
+                                @endAuthority
                             </div>
                             <!--end: Title-->
                             <!--begin: Content-->

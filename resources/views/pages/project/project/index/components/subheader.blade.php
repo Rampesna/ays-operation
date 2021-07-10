@@ -23,9 +23,11 @@
                 </div>
             </div>
             <div class="col-xl-2"></div>
+            @Authority(56)
             <div class="col-xl-2 mt-7 text-right">
                 <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#CreateProject">Yeni Proje Oluştur</button>
             </div>
+            @endAuthority
         </form>
     </div>
 </div>

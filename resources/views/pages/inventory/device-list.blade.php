@@ -56,7 +56,9 @@
 
     @include('pages.inventory.modals.create-device')
     @include('pages.inventory.modals.remove-employee')
+    @Authority(74)
     @include('pages.inventory.components.device-rightbar-devices')
+    @endAuthority
 
 @endsection
 

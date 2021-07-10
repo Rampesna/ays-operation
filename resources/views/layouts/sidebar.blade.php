@@ -19,7 +19,6 @@
         <div id="kt_aside_menu" class="aside-menu my-4" data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
             <ul class="menu-nav">
 
-                @Authority(1)
                 <li class="menu-item {{ request()->segment(1) === 'index' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('index') }}" class="menu-link">
@@ -35,13 +34,14 @@
                         <span class="menu-text">Anasayfa</span>
                     </a>
                 </li>
-                @endAuthority
 
+                @Authority(2)
                 <li class="menu-section">
                     <h4 class="menu-text">OPERASYON İŞ TAKİBİ</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
-                @Authority(2)
+
+                @Authority(3)
                 <li class="menu-item {{ request()->segment(1) === 'employee' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('employee.index') }}" class="menu-link">
@@ -59,7 +59,7 @@
                 </li>
                 @endAuthority
 
-                @Authority(3)
+                @Authority(11)
                 <li class="menu-item {{ request()->segment(1) === 'analysis' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -79,7 +79,8 @@
                     <div class="menu-submenu">
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
-                            @Authority(4)
+
+                            @Authority(12)
                             <li class="menu-item {{ request()->segment(1) === 'analysis' && request()->segment(2) === 'employee-call-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('analysis.employee-call-analysis-create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -90,7 +91,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(5)
+                            @Authority(13)
                             <li class="menu-item {{ request()->segment(1) === 'analysis' && request()->segment(2) === 'employee-job-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('analysis.employee-job-analysis-create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -101,7 +102,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(6)
+                            @Authority(14)
                             <li class="menu-item {{ request()->segment(1) === 'analysis' && request()->segment(2) === 'queue-call-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('analysis.queue-call-analysis-create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -112,7 +113,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(7)
+                            @Authority(15)
                             <li class="menu-item {{ request()->segment(1) === 'analysis' && request()->segment(2) === 'job-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('analysis.job-analysis-create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -127,7 +128,7 @@
                 </li>
                 @endAuthority
 
-                @Authority(20)
+                @Authority(16)
                 <li class="menu-item {{ request()->segment(1) === 'report' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -145,7 +146,8 @@
                     <div class="menu-submenu">
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
-                            @Authority(8)
+
+                            @Authority(17)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'comparison-report' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.comparison-report') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -156,7 +158,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(9)
+                            @Authority(18)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'queue-call-report' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.queue-call-report.create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -167,7 +169,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(10)
+                            @Authority(19)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'job-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.general.create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -178,7 +180,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(11)
+                            @Authority(20)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'job-analysis-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.employees') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -189,7 +191,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(11)
+                            @Authority(21)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'performance-create' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.performance.create') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -200,7 +202,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(45)
+                            @Authority(22)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'job' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.job.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -211,7 +213,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(45)
+                            @Authority(23)
                             <li class="menu-item {{ request()->segment(1) === 'report' && request()->segment(2) === 'custom' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('report.custom.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -226,6 +228,7 @@
                 </li>
                 @endAuthority
 
+                @Authority(24)
                 <li class="menu-item {{ request()->segment(1) === 'integration' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -245,7 +248,7 @@
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
 
-                            @Authority(47)
+                            @Authority(25)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'excel' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.excel.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -256,7 +259,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(48)
+                            @Authority(26)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'with-id' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.with-id.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -267,7 +270,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(49)
+                            @Authority(27)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'excel-data' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.excel-data.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -278,6 +281,7 @@
                             </li>
                             @endAuthority
 
+                            @Authority(28)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'call-data-scanning' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.call-data-scanning.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -286,8 +290,9 @@
                                     <span class="menu-text">Cağrı Tarama Aktarımı</span>
                                 </a>
                             </li>
+                            @endAuthority
 
-                            @Authority(50)
+                            @Authority(29)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'with-id' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.re-activate-suspended-jobs') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -298,7 +303,7 @@
                             </li>
                             @endAuthority
 
-                            @Authority(51)
+                            @Authority(30)
                             <li class="menu-item {{ request()->segment(1) === 'integration' && request()->segment(2) === 'delete-activity' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('integration.activity-delete') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -312,8 +317,9 @@
                         </ul>
                     </div>
                 </li>
+                @endAuthority
 
-                @Authority(21)
+                @Authority(31)
                 <li class="menu-item {{ request()->segment(1) === 'tv' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -331,6 +337,7 @@
                     <div class="menu-submenu">
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
+                            @Authority(32)
                             <li class="menu-item {{ request()->segment(1) === 'tv' && request()->segment(2) === 'index' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('tv.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -339,6 +346,9 @@
                                     <span class="menu-text">TV Ekranları</span>
                                 </a>
                             </li>
+                            @endAuthority
+
+                            @Authority(33)
                             <li class="menu-item {{ request()->segment(1) === 'tv' && request()->segment(2) === 'abandons' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('dashboard.abandons') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -347,12 +357,13 @@
                                     <span class="menu-text">Kayıp Çağrılar</span>
                                 </a>
                             </li>
+                            @endAuthority
                         </ul>
                     </div>
                 </li>
                 @endAuthority
 
-                @Authority(23)
+                @Authority(34)
                 <li class="menu-item {{ request()->segment(1) === 'surveys' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -372,6 +383,7 @@
                     <div class="menu-submenu">
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
+                            @Authority(35)
                             <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'index' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('surveys.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -380,6 +392,9 @@
                                     <span class="menu-text">Scriptler</span>
                                 </a>
                             </li>
+                            @endAuthority
+
+                            @Authority(39)
                             <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'detail' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('surveys.detail') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -388,6 +403,9 @@
                                     <span class="menu-text">Script Detay</span>
                                 </a>
                             </li>
+                            @endAuthority
+
+                            @Authority(40)
                             <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'products' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('surveys.products') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -396,6 +414,9 @@
                                     <span class="menu-text">Ürünler</span>
                                 </a>
                             </li>
+                            @endAuthority
+
+                            @Authority(44)
                             <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'sellers' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('surveys.sellers') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -404,6 +425,9 @@
                                     <span class="menu-text">Satıcılar</span>
                                 </a>
                             </li>
+                            @endAuthority
+
+                            @Authority(48)
                             <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'employees' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('surveys.employees') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -412,6 +436,9 @@
                                     <span class="menu-text">Personeller</span>
                                 </a>
                             </li>
+                            @endAuthority
+
+                            @Authority(49)
                             <li class="menu-item {{ request()->segment(1) === 'surveys' && request()->segment(2) === 'employees' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('surveys.report.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -420,16 +447,19 @@
                                     <span class="menu-text">Raporlar</span>
                                 </a>
                             </li>
+                            @endAuthority
                         </ul>
                     </div>
                 </li>
                 @endAuthority
+                @endAuthority
 
-                @Authority(100)
+                @Authority(50)
                 <li class="menu-section">
                     <h4 class="menu-text">YÖNETİM RAPORLARI</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
+                @Authority(51)
                 <li class="menu-item {{ request()->segment(1) === 'management-report' && request()->segment(2) === 'screen-monitoring' && request()->segment(3) === 'index' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('management-report.screen-monitoring.index') }}" class="menu-link">
@@ -446,6 +476,9 @@
                         <span class="menu-text">Ekran Takibi</span>
                     </a>
                 </li>
+                @endAuthority
+
+                @Authority(53)
                 <li class="menu-item {{ request()->segment(1) === 'management-report' && request()->segment(2) === 'employee-monitoring' && request()->segment(3) === 'index' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('management-report.employee-monitoring.index') }}" class="menu-link">
@@ -463,12 +496,15 @@
                     </a>
                 </li>
                 @endAuthority
+                @endAuthority
 
+                @Authority(54)
                 <li class="menu-section">
                     <h4 class="menu-text">YÖNETİM</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
-                @Authority(32)
+
+                @Authority(55)
                 <li class="menu-item {{ request()->segment(1) === 'project-management' && request()->segment(2) === 'project' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('project.project.index') }}" class="menu-link">
@@ -487,7 +523,7 @@
                 </li>
                 @endAuthority
 
-                @Authority(44)
+                @Authority(70)
                 <li class="menu-item {{ request()->segment(1) === 'inventory' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('inventory.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -504,6 +540,7 @@
                 </li>
                 @endAuthority
 
+                @Authority(75)
                 <li class="menu-item {{ request()->segment(1) === 'mission' && request()->segment(2) === 'index' ? 'menu-item-active' : null }}"
                     aria-haspopup="true">
                     <a href="{{ route('mission.index') }}" class="menu-link">
@@ -521,8 +558,9 @@
                         <span class="menu-text">Görev Yönetimi</span>
                     </a>
                 </li>
+                @endAuthority
 
-                @Authority(52)
+                @Authority(76)
                 <li class="menu-item {{ request()->segment(1) === 'calendar' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('calendar.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -542,12 +580,14 @@
                     </a>
                 </li>
                 @endAuthority
+                @endAuthority
 
-                @Authority(53)
+                @Authority(80)
                 <li class="menu-section">
                     <h4 class="menu-text">İNSAN KAYNAKLARI</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
+                @Authority(81)
                 <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'dashboard' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('ik.dashboard.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -562,6 +602,9 @@
                         <span class="menu-text">Genel Bakış</span>
                     </a>
                 </li>
+                @endAuthority
+
+                @Authority(82)
                 <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'employee' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -580,6 +623,7 @@
                         <i class="menu-arrow"></i>
                         <ul class="menu-subnav">
 
+                            @Authority(83)
                             <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'employee' && request()->segment(3) === 'index' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('ik.employee.index') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -588,7 +632,9 @@
                                     <span class="menu-text">Aktif Çalışan</span>
                                 </a>
                             </li>
+                            @endAuthority
 
+                            @Authority(95)
                             <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'employee' && request()->segment(3) === 'leavers' ? 'menu-item-active' : null }}" aria-haspopup="true">
                                 <a href="{{ route('ik.employee.leavers') }}" class="menu-link">
                                     <i class="menu-bullet menu-bullet-dot">
@@ -597,10 +643,13 @@
                                     <span class="menu-text">İşten Ayrılanlar</span>
                                 </a>
                             </li>
-
+                            @endAuthority
                         </ul>
                     </div>
                 </li>
+                @endAuthority
+
+                @Authority(96)
                 <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'calendar' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('ik.calendar.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -615,6 +664,9 @@
                         <span class="menu-text">Takvim</span>
                     </a>
                 </li>
+                @endAuthority
+
+                @Authority(97)
                 <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'report' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('ik.report.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -629,6 +681,9 @@
                         <span class="menu-text">Raporlar</span>
                     </a>
                 </li>
+                @endAuthority
+
+                @Authority(101)
                 <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'applications' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
                     <a href="{{ route('ik.application.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -642,26 +697,15 @@
                         <span class="menu-text">Uygulamalar</span>
                     </a>
                 </li>
-                <li class="menu-item {{ request()->segment(1) === 'ik' && request()->segment(2) === 'settings' ? 'menu-item-open menu-item-here' : null }}" aria-haspopup="true">
-                    <a href="{{ route('ik.setting.index') }}" class="menu-link">
-                        <span class="svg-icon menu-icon">
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" >
-                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                    <rect x="0" y="0" width="24" height="24"/>
-                                    <path d="M5,8.6862915 L5,5 L8.6862915,5 L11.5857864,2.10050506 L14.4852814,5 L19,5 L19,9.51471863 L21.4852814,12 L19,14.4852814 L19,19 L14.4852814,19 L11.5857864,21.8994949 L8.6862915,19 L5,19 L5,15.3137085 L1.6862915,12 L5,8.6862915 Z M12,15 C13.6568542,15 15,13.6568542 15,12 C15,10.3431458 13.6568542,9 12,9 C10.3431458,9 9,10.3431458 9,12 C9,13.6568542 10.3431458,15 12,15 Z" fill="#000000"/>
-                                </g>
-                            </svg>
-                        </span>
-                        <span class="menu-text">Ayarlar</span>
-                    </a>
-                </li>
+                @endAuthority
                 @endAuthority
 
+                @Authority(145)
                 <li class="menu-section">
-                    <h4 class="menu-text">DİĞER</h4>
+                    <h4 class="menu-text">EKSTRA</h4>
                     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
                 </li>
-                @Authority(22)
+                @Authority(146)
                 <li class="menu-item {{ request()->segment(1) === 'exams' ? 'menu-item-open menu-item-here' : null }} menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="#" class="menu-link menu-toggle">
                         <span class="svg-icon menu-icon">
@@ -692,11 +736,7 @@
                 </li>
                 @endAuthority
 
-                <li class="menu-section">
-                    <h4 class="menu-text">EKSTRA</h4>
-                    <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
-                </li>
-                @Authority(27)
+                @Authority(150)
                 <li style="margin-bottom: 100px" class="menu-item {{ request()->segment(1) === 'applications' ? 'menu-item-active' : null }}" aria-haspopup="true">
                     <a href="{{ route('applications.index') }}" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -712,7 +752,7 @@
                     </a>
                 </li>
                 @endAuthority
-
+                @endAuthority
             </ul>
             <!--end::Menu Nav-->
         </div>

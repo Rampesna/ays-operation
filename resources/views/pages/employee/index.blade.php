@@ -47,15 +47,17 @@
                                 <!--begin::Title-->
                                 <div class="d-flex justify-content-between flex-wrap mt-1">
                                     <div class="d-flex mr-3">
-                                        <a href="{{ route('employee.show', ['employee' => $employee, 'tab' => 'general']) }}" class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
+                                        <a @Authority(6) href="{{ route('employee.show', ['employee' => $employee, 'tab' => 'general']) }}" @endAuthority class="text-dark-75 text-hover-primary font-size-h5 font-weight-bold mr-3 employee-name">{{ ucwords($employee->name) }}</a>
                                         <a>
                                             <i class="flaticon2-correct text-success font-size-h5"></i>
                                         </a>
                                     </div>
                                     <div class="mt-n5 mr-n5">
+                                        @Authority(5)
                                         <a @if(!is_null($employee->extension_number) && $employee->extension_number != '') href="{{ route('employee.report', $employee) }}" @endif class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
                                             <i class="fas fa-chart-line"></i>
                                         </a>
+                                        @endAuthority
                                         <a data-id="{{ $employee->id }}" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon cursor-pointer manage">
                                             <i class="ki ki-solid-plus" id="{{ $employee->id }}_plus"></i>
                                             <i class="ki ki-solid-minus" id="{{ $employee->id }}_minus"></i>
@@ -86,6 +88,7 @@
                         </div>
 
                         <div id="{{ $employee->id }}_management" class="employeeManagement mt-9">
+                            @Authority(8)
                             <div class="row">
                                 <div class="col-xl-6 mt-4">
                                     Kuyruklar
@@ -97,6 +100,7 @@
                             </div>
                             <div class="separator separator-solid"></div>
                             <div class="d-flex align-items-center flex-wrap mt-2">
+
                                 <div id="{{ $employee->id }}_queues_list_card" class="col-xl-12 mt-2">
                                     <div class="row" id="{{ $employee->id }}_queues_list_row">
                                         @foreach($employee->queues as $queue)
@@ -106,6 +110,7 @@
                                         @endforeach
                                     </div>
                                 </div>
+
                                 <div id="{{ $employee->id }}_queues_selection_card" class="col-xl-12 mt-2 queue_selection_card">
                                     <div class="form-group">
                                         <label for="{{ $employee->id }}_queues_selection"></label>
@@ -117,10 +122,11 @@
                                     </div>
                                 </div>
                             </div>
-
                             <br>
                             <br>
+                            @endAuthority
 
+                            @Authority(9)
                             <div class="row">
                                 <div class="col-xl-6 mt-4">
                                     Yetkinlikler
@@ -152,10 +158,11 @@
                                     </div>
                                 </div>
                             </div>
-
                             <br>
                             <br>
+                            @endAuthority
 
+                            @Authority(10)
                             <div class="row">
                                 <div class="col-xl-6 mt-4">
                                     Öncelikler
@@ -176,6 +183,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @endAuthority
                         </div>
                     </div>
                 </div>

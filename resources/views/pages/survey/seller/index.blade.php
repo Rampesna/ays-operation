@@ -9,13 +9,14 @@
     @include('pages.survey.seller.modals.edit')
     @include('pages.survey.seller.modals.delete')
 
-
+    @Authority(45)
     <div class="row">
         <div class="col-xl-12 text-right">
             <a data-toggle="modal" data-target="#CreateSeller" class="btn btn-primary">Yeni Oluştur</a>
         </div>
     </div>
     <hr>
+    @endAuthority
     <div class="row">
         <div class="col-xl-12">
             <div class="card">
@@ -46,6 +47,7 @@
                                                 </a>
                                                 <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
                                                     <ul class="navi navi-hover">
+                                                        @Authority(46)
                                                         <li class="navi-item">
                                                             <a data-id="{{ $seller['id'] }}"
                                                                data-code="{{ $seller['saticiKodu'] }}"
@@ -56,6 +58,8 @@
                                                                 <span class="navi-text">Düzenle</span>
                                                             </a>
                                                         </li>
+                                                        @endAuthority
+                                                        @Authority(47)
                                                         <li class="navi-item">
                                                             <a data-id="{{ $seller['id'] }}"
                                                                data-code="{{ $seller['saticiKodu'] }}"
@@ -66,6 +70,7 @@
                                                                 <span class="navi-text text-danger">Sil</span>
                                                             </a>
                                                         </li>
+                                                        @endAuthority
                                                     </ul>
                                                 </div>
                                             </div>

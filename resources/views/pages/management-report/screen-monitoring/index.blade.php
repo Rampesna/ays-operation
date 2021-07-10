@@ -66,6 +66,7 @@
                 </div>
             </a>
         </div>
+        @Authority(52)
         <div id="editExtraContext">
             <hr>
             <a onclick="showDetail()" class="dropdown-item cursor-pointer">
@@ -76,6 +77,7 @@
                 </div>
             </a>
         </div>
+        @endAuthority
     </div>
 
     <input type="hidden" id="selectedEmployee">

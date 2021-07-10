@@ -2,7 +2,7 @@
     <div class="container-fluid align-items-center justify-content-between flex-wrap flex-sm-nowrap">
         <ul class="nav nav-tabs nav-tabs-line mb-n4">
 
-            @Authority(33)
+            @Authority(59)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'overview') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'overview']) }}">
                     <span class="nav-icon"><i class="fas fa-th"></i></span>
@@ -11,7 +11,7 @@
             </li>
             @endAuthority
 
-            @Authority(43)
+            @Authority(60)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'dashboard') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'dashboard']) }}">
                     <span class="nav-icon"><i class="fas fa-chart-pie"></i></span>
@@ -20,7 +20,7 @@
             </li>
             @endAuthority
 
-            @Authority(34)
+            @Authority(61)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'tasks') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tasks', 'sub' => 'kanban']) }}">
                     <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
@@ -29,7 +29,7 @@
             </li>
             @endAuthority
 
-            @Authority(34)
+            @Authority(62)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'management-tasks') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'management-tasks', 'sub' => 'kanban']) }}">
                     <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
@@ -38,7 +38,7 @@
             </li>
             @endAuthority
 
-            @Authority(42)
+            @Authority(63)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'calendar') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'calendar']) }}">
                     <span class="nav-icon"><i class="far fa-calendar-alt"></i></span>
@@ -47,7 +47,7 @@
             </li>
             @endAuthority
 
-            @Authority(35)
+            @Authority(64)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'timesheets') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'timesheets']) }}">
                     <span class="nav-icon"><i class="fas fa-hourglass-half"></i></span>
@@ -56,7 +56,7 @@
             </li>
             @endAuthority
 
-            @Authority(36)
+            @Authority(65)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'milestones') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'milestones']) }}">
                     <span class="nav-icon"><i class="fas fa-flag"></i></span>
@@ -65,7 +65,7 @@
             </li>
             @endAuthority
 
-            @Authority(37)
+            @Authority(66)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'files') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'files']) }}">
                     <span class="nav-icon"><i class="fas fa-folder-open"></i></span>
@@ -74,7 +74,7 @@
             </li>
             @endAuthority
 
-            @Authority(38)
+            @Authority(67)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'comments') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'comments']) }}">
                     <span class="nav-icon"><i class="fas fa-comments"></i></span>
@@ -83,7 +83,7 @@
             </li>
             @endAuthority
 
-            @Authority(39)
+            @Authority(68)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'tickets') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'tickets']) }}">
                     <span class="nav-icon"><i class="far fa-life-ring"></i></span>
@@ -92,7 +92,7 @@
             </li>
             @endAuthority
 
-            @Authority(40)
+            @Authority(69)
             <li class="nav-item">
                 <a class="nav-link @if($tab == 'notes') active @endif" href="{{ route('project.project.show', ['project' => $project, 'tab' => 'notes']) }}">
                     <span class="nav-icon"><i class="fas fa-sticky-note"></i></span>

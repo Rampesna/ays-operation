@@ -10,6 +10,7 @@
 
     <div class="row">
 
+        @Authority(98)
         <div class="col-xl-4">
             <a href="#" data-toggle="modal" data-target="#CreateEmployeeReportModal" class="card card-custom card-stretch gutter-b">
                 <div class="card-body">
@@ -27,7 +28,9 @@
                 </div>
             </a>
         </div>
+        @endAuthority
 
+        @Authority(100)
         <div class="col-xl-4">
             <a href="#" data-toggle="modal" data-target="#CreateFinanceReportModal" class="card card-custom card-stretch gutter-b">
                 <div class="card-body">
@@ -45,7 +48,9 @@
                 </div>
             </a>
         </div>
+        @endAuthority
 
+        @Authority(99)
         <div class="col-xl-4">
             <a href="#" data-toggle="modal" data-target="#CreateManagerialReportModal" class="card card-custom card-stretch gutter-b">
                 <div class="card-body">
@@ -63,6 +68,7 @@
                 </div>
             </a>
         </div>
+        @endAuthority
 
     </div>
 

@@ -33,7 +33,7 @@
 
 </head>
 
-@Authority(19)
+@Authority(154)
 <div class="QuickActions isHidden cursor-pointer" data-toggle="modal" data-target="#ManagementModal">
     <img class="QuickActions-button" src="{{ asset('assets/media/logos/quick-menu.png') }}" />
 </div>
