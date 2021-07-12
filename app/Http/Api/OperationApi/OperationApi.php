@@ -32,8 +32,8 @@ class OperationApi extends ApiBase
             'Content-Type: application/json'
         ];
         $params = [
-            'Email' => env('OPERATION_API_USER'),
-            'Password' => env('OPERATION_API_PASSWORD')
+            'Email' => 'nurullah.alisik',
+            'Password' => '123'
         ];
         return $this->callApi($this->baseUrl . $endpoint, 'post', $headers, $params)['response']['accessToken'];
     }

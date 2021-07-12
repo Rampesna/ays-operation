@@ -2,23 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Api\NetsantralApi;
-use App\Http\Api\OperationApi\DataScanning\DataScanningApi;
-use App\Http\Api\OperationApi\Operation\OperationApi;
 use App\Http\Api\OperationApi\SpecialReport\SpecialReportApi;
 use App\Http\Api\OperationApi\SurveySystem\SurveySystemApi;
-use App\Models\Queue;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        for ($counter = 1; $counter <= 154; $counter++) {
-            print_r('(' . $counter . ', 1),');
-        }
+        return "";
     }
 
     public function backdoor()

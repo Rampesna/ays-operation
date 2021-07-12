@@ -34,11 +34,6 @@ class Employee extends Authenticatable
         return $this->name;
     }
 
-    public function authority($authorization): bool
-    {
-        return $this->authorizations()->where('authorization_id', $authorization)->exists() ? true : false;
-    }
-
     public function authorizations()
     {
         return $this->belongsToMany(Authorization::class);

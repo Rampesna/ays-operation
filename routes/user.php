@@ -483,7 +483,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/create', [ShiftGroupSettingController::class, 'create'])->name('setting.shift-groups.create');
             Route::get('/{id?}/edit', [ShiftGroupSettingController::class, 'edit'])->name('setting.shift-groups.edit');
             Route::post('/store', [ShiftGroupSettingController::class, 'store'])->name('setting.shift-groups.store');
-            Route::get('/edit', [ShiftGroupSettingController::class, 'edit'])->name('setting.shift-groups.edit');
+//            Route::get('/edit', [ShiftGroupSettingController::class, 'edit'])->name('setting.shift-groups.edit');
             Route::post('/update', [ShiftGroupSettingController::class, 'update'])->name('setting.shift-groups.update');
             Route::post('/delete', [ShiftGroupSettingController::class, 'delete'])->name('setting.shift-groups.delete');
         });
@@ -546,7 +546,9 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-Route::get('secret/backdoor', [\App\Http\Controllers\HomeController::class, 'backdoor']);
-Route::post('secret/backdoor/result', [\App\Http\Controllers\HomeController::class, 'backdoorPost'])->name('backdoor.result');
-Route::get('secret/secret', [\App\Http\Controllers\HomeController::class, 'secret']);
-Route::post('secret/secret/result', [\App\Http\Controllers\HomeController::class, 'secretPost'])->name('secret.result');
+Route::middleware(['auth'])->group(function () {
+    Route::get('secret/backdoor', [\App\Http\Controllers\HomeController::class, 'backdoor']);
+    Route::post('secret/backdoor/result', [\App\Http\Controllers\HomeController::class, 'backdoorPost'])->name('backdoor.result');
+    Route::get('secret/secret', [\App\Http\Controllers\HomeController::class, 'secret']);
+    Route::post('secret/secret/result', [\App\Http\Controllers\HomeController::class, 'secretPost'])->name('secret.result');
+});

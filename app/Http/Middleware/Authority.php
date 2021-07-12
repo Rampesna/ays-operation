@@ -20,9 +20,9 @@ class Authority
             return redirect()->route('login');
         }
 
-        if (!is_null($permission) && !auth()->user()->authority($permission)) {
-            return abort(403);
-        }
+//        if (!is_null($permission) && auth()->user()->authority($permission) !== true) {
+//            return abort(403);
+//        }
 
         return $next($request);
     }

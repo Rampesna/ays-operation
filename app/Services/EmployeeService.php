@@ -125,7 +125,7 @@ class EmployeeService
         if (!is_null($request->file('image'))) {
             $imageName = strtotime(date("YmdHis")) . '.' . $request->file('image')->getClientOriginalExtension();
             request()->image->move(public_path('employee/images/'), $imageName);
-            $employee->image = 'employee/images/' . $imageName;
+            $employee->image = 'public/employee/images/' . $imageName;
         } else {
             if ($request->is_delete_image == 1) {
                 $employee->image = null;
@@ -143,7 +143,7 @@ class EmployeeService
         $employee = Employee::find($employeeId);
         $imageName = strtotime(date("YmdHis")) . '.' . $image->getClientOriginalExtension();
         $image->move(public_path('employee/images/'), $imageName);
-        $employee->image = 'employee/images/' . $imageName;
+        $employee->image = 'public/employee/images/' . $imageName;
         $employee->save();
     }
 
