@@ -29,8 +29,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::if('Authority', function ($permission) {
-//            return auth()->user()->authority($permission);
             return true;
+//            return auth()->user()->authority($permission);
+        });
+
+        Blade::if('EmployeeAuthority', function ($authorization) {
+            return true;
+//            return auth()->user()->authority($authorization);
         });
 
         View::composer('*', AuthenticatedComposer::class);
