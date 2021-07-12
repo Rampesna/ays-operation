@@ -14,7 +14,7 @@
             <div class="card-body">
                 <a data-toggle="modal" data-target="#LeaveEmployeeModal" class="float-right cursor-pointer">Personeli İşten Çıkar
                     <span class="svg-icon svg-icon-primary svg-icon-2x">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                                 <rect x="0" y="0" width="24" height="24"/>
                                 <rect fill="#000000" opacity="0.3" transform="translate(9.000000, 12.000000) rotate(-270.000000) translate(-9.000000, -12.000000) " x="8" y="6" width="2" height="12" rx="1"/>
@@ -80,6 +80,7 @@
             </div>
         </div>
     </div>
+    <input type="file" id="select_profile_image" style="display: none">
     @else
         <div class="row mt-15">
             <div class="col-xl-12">

@@ -278,6 +278,8 @@ Route::namespace('App\\Http\\Controllers\\Ajax')->group(function () {
         Route::get('getTitlesByDepartment', 'IKController@getTitlesByDepartment')->name('ajax.ik.getTitlesByDepartment');
         Route::get('getDepartmentsByBranch', 'IKController@getDepartmentsByBranch')->name('ajax.ik.getDepartmentsByBranch');
         Route::get('getBranchesByCompany', 'IKController@getBranchesByCompany')->name('ajax.ik.getBranchesByCompany');
+        Route::post('updateImage', 'EmployeeController@updateImage')->name('ajax.ik.employee.updateImage');
+        Route::post('deleteImage', 'EmployeeController@deleteImage')->name('ajax.ik.employee.deleteImage');
 
         Route::prefix('application')->group(function () {
 

@@ -137,4 +137,20 @@ class EmployeeService
 
         return $employee;
     }
+
+    public function updateImage($employeeId, $image)
+    {
+        $employee = Employee::find($employeeId);
+        $imageName = strtotime(date("YmdHis")) . '.' . $image->getClientOriginalExtension();
+        $image->move(public_path('employee/images/'), $imageName);
+        $employee->image = 'employee/images/' . $imageName;
+        $employee->save();
+    }
+
+    public function deleteImage($employeeId)
+    {
+        $employee = Employee::find($employeeId);
+        $employee->image = null;
+        $employee->save();
+    }
 }

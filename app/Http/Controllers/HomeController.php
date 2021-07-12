@@ -16,25 +16,9 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        set_time_limit(86400);
-        $jobList = [];
-        $dataList = (array)json_decode(file_get_contents(public_path('n11.json')), true);
-        for ($i = 0; $i < count($dataList); $i++) {
-            $jobList[] = [
-                'grupKodu' => 200,
-                'vknTckn' => $dataList[$i]['vkn'],
-                'unvan' => $dataList[$i]['name'],
-                'sehir' => 'YOK',
-                'ilce' => 'YOK',
-                'islemAdi' => 'n11 Data Tarama',
-                'Oncelik' => 5
-            ];
+        for ($counter = 1; $counter <= 154; $counter++) {
+            print_r('(' . $counter . ', 1),');
         }
-
-        $api = new DataScanningApi;
-        $response = $api->SetDataScanning($jobList);
-
-        return $response->body();
     }
 
     public function backdoor()
